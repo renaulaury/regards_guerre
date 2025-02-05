@@ -75,4 +75,9 @@ class Room
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $this->titleRoom;
+    }
 }

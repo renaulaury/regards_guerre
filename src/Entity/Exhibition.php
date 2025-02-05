@@ -307,4 +307,9 @@ class Exhibition
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $this->titleExhibit;
+    }
 }

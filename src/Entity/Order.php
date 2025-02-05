@@ -107,4 +107,9 @@ class Order
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $this->orderStatus;
+    }
 }

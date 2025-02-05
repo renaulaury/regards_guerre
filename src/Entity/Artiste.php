@@ -184,6 +184,6 @@ class Artiste
 
     public function __toString()
     {
-        $this->artistName. ' ' .$this->artistFirstname;
+        $this->artistFirstname. ' ' .$this->artistName;
     }
 }
