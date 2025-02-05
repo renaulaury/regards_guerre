@@ -1,0 +1,83 @@
+/* Navbar */
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2% 5%;
+}
+
+.logo {
+    width: 20%;
+}
+
+#leftBlock {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile p {
+    padding: 6% 0;
+    
+}
+
+#rightBlock ol {
+    display: none;
+    list-style: none;
+}
+
+#rightBlock {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+#boldLine {
+    margin-top: 3%;
+    background-color: var(--line);
+    height: 1em;
+    width: 100%;
+}
+
+#rightBlock ol.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 15%;
+    top: 2%;
+    /* border: 1px solid var(--color-bande); */
+    border-radius: 10px;
+    background-color: var(--backgroundColor);
+    width: auto;
+    height: auto;
+    z-index: 10;
+    text-align: left;
+    padding: 1% 3%;
+}
+
+/* Burger */
+.burgerButton {
+    padding-right: 10%;
+    cursor: pointer;
+}
+
+.burgerButton .line {
+    width: 30px;
+    height: 3px;
+    margin: 20%;
+    background-color: var(--line);
+    transition: all 0.3s ease;
+}
+
+.burgerButton.open .line:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+.burgerButton.open .line:nth-child(2) {
+    opacity: 0;
+}
+.burgerButton.open .line:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+

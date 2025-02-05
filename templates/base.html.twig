@@ -14,13 +14,15 @@
     </head>
 
     <body>        
-            {# {% if app.user %} #}
+        <header>
             <nav id="navbar">
                 <div id="leftBlock">
-                    <img src="/images/logo" alt="Logo de l'association Regards de Guerre">
-                    <div>
+                    <img class="logo" src="/images/logo.webp" alt="Logo de l'association Regards de Guerre">
+                    <div class="profile">
                         <p>Bienvenue <a href="#">toi !</a></p>
-                        <p><a href="#">Se déconnecter</a></p>
+                        {# {% if app.user %} #}
+                            <p><a href="#">Se déconnecter</a></p>
+                        {# {% endif %} #}
                     </div>
                 </div> 
 
@@ -32,14 +34,19 @@
                         <li><a href="#">Panier</a></li>
                     </ol>
 
-                    <div class="burger_button">
+                    <div class="burgerButton">
                         <div class="line"></div>
                         <div class="line"></div>
                         <div class="line"></div>
                     </div>
                 </div>
             </nav>
-        {# {% endif %} #}
+
+            <div id="boldLine"></div>
+        </header>
+
+            
+        
         
         {% block body %}{% endblock %}
     </body>

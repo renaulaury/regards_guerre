@@ -6,6 +6,10 @@
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
-import './styles/burgerMedia.css';
+import './styles/navBurger.css';
+// import './styles/media.css';
+
+
+import './js/burger.js'; 
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
