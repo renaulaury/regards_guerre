@@ -181,4 +181,9 @@ class Artiste
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $this->artistName. ' ' .$this->artistFirstname;
+    }
 }

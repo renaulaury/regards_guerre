@@ -23,6 +23,9 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?Exhibition $exhibition = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Comment
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getExhibition(): ?Exhibition
+    {
+        return $this->exhibition;
+    }
+
+    public function setExhibition(?Exhibition $exhibition): static
+    {
+        $this->exhibition = $exhibition;
 
         return $this;
     }

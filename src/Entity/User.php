@@ -51,10 +51,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
     private Collection $orders;
 
+    /**
+     * @var Collection<int, Exhibition>
+     */
+    #[ORM\OneToMany(targetEntity: Exhibition::class, mappedBy: 'user')]
+    private Collection $exhibitions;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->exhibitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,6 +217,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Exhibition>
+     */
+    public function getExhibitions(): Collection
+    {
+        return $this->exhibitions;
+    }
+
+    public function addExhibition(Exhibition $exhibition): static
+    {
+        if (!$this->exhibitions->contains($exhibition)) {
+            $this->exhibitions->add($exhibition);
+            $exhibition->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExhibition(Exhibition $exhibition): static
+    {
+        if ($this->exhibitions->removeElement($exhibition)) {
+            // set the owning side to null (unless already changed)
+            if ($exhibition->getUser() === $this) {
+                $exhibition->setUser(null);
             }
         }
 
