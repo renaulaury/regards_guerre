@@ -12,11 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
     #[Route('/home', name: 'home')]
-    public function index(Exhibition $exhibit): Response
+    public function index(ExhibitionRepository $exhibitRepo): Response
     {
 
+        $exhibitions = $exhibitRepo->findNextExhibition();
+
         return $this->render('home.html.twig', [
-            'exhibit' => $exhibit,
+            'exhibitions' => $exhibitions,
         ]);
     }
 }

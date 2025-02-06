@@ -116,6 +116,12 @@ class Exhibition
         return $this;
     }
 
+    public function getDateWarBeginFr()
+    {
+        return $this->dateWarBegin->format('d-m-y');
+         
+    }
+
     public function getDateWarEnd(): ?\DateTimeInterface
     {
         return $this->dateWarEnd;
@@ -128,6 +134,12 @@ class Exhibition
         return $this;
     }
 
+    public function getDateWarEndFr()
+    {
+        return $this->dateWarEnd->format('d-m-y');
+         
+    }
+
     public function getDateExhibit(): ?\DateTimeInterface
     {
         return $this->dateExhibit;
@@ -138,6 +150,12 @@ class Exhibition
         $this->dateExhibit = $dateExhibit;
 
         return $this;
+    }
+
+    public function getDateExhibitFr()
+    {
+        return $this->dateExhibit->format('d-m-y');
+         
     }
 
     public function getHourBegin(): ?\DateTimeInterface
