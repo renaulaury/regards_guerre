@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `artiste` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.artiste : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.artiste : ~4 rows (environ)
 REPLACE INTO `artiste` (`id`, `artist_name`, `artist_firstname`, `artist_birth_date`, `artist_death_date`) VALUES
 	(1, 'Garrigue', 'Anna', '1931-03-14', '1966-01-06'),
 	(2, 'Moribon', 'Jean', '1925-09-13', '2018-11-03'),
@@ -68,7 +68,7 @@ REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution
 CREATE TABLE IF NOT EXISTS `exhibition` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
-  `title_exhibit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_exhibit` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `main_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_war_begin` date NOT NULL,
   `date_war_end` date NOT NULL,
@@ -79,14 +79,14 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
   PRIMARY KEY (`id`),
   KEY `IDX_B8353389A76ED395` (`user_id`),
   CONSTRAINT `FK_B8353389A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.exhibition : ~4 rows (environ)
 REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`) VALUES
 	(1, 2, 'Les camps d\'Algérie', 'public/events/20250509_algerie/00_main_image.webp', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.'),
-	(2, NULL, 'L\'invasion russe de l\'Ukraine', 'f', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.'),
-	(3, NULL, 'Les femmes palestiniennes et leur engagement', 'f', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.'),
-	(4, NULL, 'L\'incident de Kyujo', 'f', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.');
+	(2, 2, 'L\'invasion russe de l\'Ukraine', 'f', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.'),
+	(3, 2, 'Les femmes palestiniennes et leur engagement', 'f', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.'),
+	(4, 2, 'L\'incident de Kyujo', 'f', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.');
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.room : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.room : ~5 rows (environ)
 REPLACE INTO `room` (`id`, `title_room`) VALUES
 	(1, 'Nicolas'),
 	(2, 'Joséphine'),
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `show` (
   CONSTRAINT `FK_320ED90154177093` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.show : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.show : ~4 rows (environ)
 REPLACE INTO `show` (`id`, `room_id`, `artiste_id`, `exhibition_id`, `artist_photo`, `artist_job`, `artist_bio`, `artist_text_art`) VALUES
 	(1, 1, 1, 1, 'public/events/20250509_algerie/01_artiste1.webp', 'poétesse', 'Née en Algérie, Anna Garrigue était une militante et poétesse engagée dans la lutte pour l’indépendance de l’Algérie. Emprisonnée pendant la guerre, elle a écrit des poèmes marqués par la douleur de l\'exil et le combat pour la liberté.', '\nLe travail poétique d\'Anna Garrigue est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.'),
 	(2, 4, 2, 1, 'public/events/20250509_algerie/02_artiste2.webp', 'photographe', 'Jean Moribon était un photographe suisse humaniste, reconnu pour ses reportages poignants sur les conflits et les crises sociales, notamment la guerre d\'Algérie.', '\nSon travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.'),
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.ticket : ~2 rows (environ)
 REPLACE INTO `ticket` (`id`, `title_ticket`) VALUES
 	(1, 'Enfant'),
 	(2, 'Adulte');
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `ticket_pricing` (
   CONSTRAINT `FK_E93DF561700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket_pricing : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.ticket_pricing : ~2 rows (environ)
 REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_price`) VALUES
 	(1, 2, 1, 10.00),
 	(2, 1, 1, 8.00);
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.user : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.user : ~2 rows (environ)
 REPLACE INTO `user` (`id`, `user_email`, `password`, `user_nickname`, `role`) VALUES
 	(1, 'root@regardsguerre.fr', '1234', 'root', 'root'),
 	(2, 'l.dupont@regardsguerre.fr', '1234', 'ldupont', 'admin');
