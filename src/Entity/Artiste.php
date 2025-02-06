@@ -80,6 +80,12 @@ class Artiste
         return $this;
     }
 
+    public function getArtistBirthDateFr()
+    {
+        return $this->artistBirthDate->format('d-m-y');
+         
+    }
+
     public function getArtistDeathDate(): ?\DateTimeInterface
     {
         return $this->artistDeathDate;
@@ -90,6 +96,12 @@ class Artiste
         $this->artistDeathDate = $artistDeathDate;
 
         return $this;
+    }
+
+    public function getArtistDeathDateFr()
+    {
+        return $this->artistDeathDate->format('d-m-y');
+         
     }
 
     /**

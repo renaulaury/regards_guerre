@@ -55,6 +55,12 @@ class Comment
         return $this;
     }
 
+    public function getDateCommentCreationFr()
+    {
+        return $this->dateCommentCreation->format('d-m-y');
+         
+    }
+
     public function getUser(): ?User
     {
         return $this->user;

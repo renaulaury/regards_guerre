@@ -54,6 +54,12 @@ class Order
         return $this;
     }
 
+    public function getOrderDateCreationFr()
+    {
+        return $this->orderDateCreation->format('d-m-y');
+         
+    }
+
     public function getOrderStatus(): ?string
     {
         return $this->orderStatus;

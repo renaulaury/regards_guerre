@@ -7,7 +7,11 @@
 {% block body %}  
 
 <section>     
-{{ exhibition.titleExhibit }}
+    {% for exhibition in exhibitions %}
+    <h2>{{ exhibition.titleExhibit }}</h2>
+    <p>{{ exhibition.dateExhibit|date('d/m/Y') }}</p>
+    {% endfor %}
+
     <p>Salut ceci est le super accueil de mon site !</p>
 </section> 
 
