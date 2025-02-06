@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ShowRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ShowRepository::class)]
@@ -22,6 +23,18 @@ class Show
 
     #[ORM\ManyToOne(inversedBy: 'shows')]
     private ?Exhibition $exhibition = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $artistPhoto = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $artistJob = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $artistBio = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $artistTextArt = null;
 
     public function getId(): ?int
     {
@@ -60,6 +73,54 @@ class Show
     public function setExhibition(?Exhibition $exhibition): static
     {
         $this->exhibition = $exhibition;
+
+        return $this;
+    }
+
+    public function getArtistPhoto(): ?string
+    {
+        return $this->artistPhoto;
+    }
+
+    public function setArtistPhoto(?string $artistPhoto): static
+    {
+        $this->artistPhoto = $artistPhoto;
+
+        return $this;
+    }
+
+    public function getArtistJob(): ?string
+    {
+        return $this->artistJob;
+    }
+
+    public function setArtistJob(string $artistJob): static
+    {
+        $this->artistJob = $artistJob;
+
+        return $this;
+    }
+
+    public function getArtistBio(): ?string
+    {
+        return $this->artistBio;
+    }
+
+    public function setArtistBio(string $artistBio): static
+    {
+        $this->artistBio = $artistBio;
+
+        return $this;
+    }
+
+    public function getArtistTextArt(): ?string
+    {
+        return $this->artistTextArt;
+    }
+
+    public function setArtistTextArt(string $artistTextArt): static
+    {
+        $this->artistTextArt = $artistTextArt;
 
         return $this;
     }

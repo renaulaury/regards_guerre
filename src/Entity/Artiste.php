@@ -26,19 +26,7 @@ class Artiste
     private ?\DateTimeInterface $artistBirthDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $artistDeathDate = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $artistPhoto = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $artistJob = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $artistBio = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $artistTextArt = null;
+    private ?\DateTimeInterface $artistDeathDate = null;    
 
     /**
      * @var Collection<int, Show>
@@ -100,54 +88,6 @@ class Artiste
     public function setArtistDeathDate(\DateTimeInterface $artistDeathDate): static
     {
         $this->artistDeathDate = $artistDeathDate;
-
-        return $this;
-    }
-
-    public function getArtistPhoto(): ?string
-    {
-        return $this->artistPhoto;
-    }
-
-    public function setArtistPhoto(string $artistPhoto): static
-    {
-        $this->artistPhoto = $artistPhoto;
-
-        return $this;
-    }
-
-    public function getArtistJob(): ?string
-    {
-        return $this->artistJob;
-    }
-
-    public function setArtistJob(string $artistJob): static
-    {
-        $this->artistJob = $artistJob;
-
-        return $this;
-    }
-
-    public function getArtistBio(): ?string
-    {
-        return $this->artistBio;
-    }
-
-    public function setArtistBio(string $artistBio): static
-    {
-        $this->artistBio = $artistBio;
-
-        return $this;
-    }
-
-    public function getArtistTextArt(): ?string
-    {
-        return $this->artistTextArt;
-    }
-
-    public function setArtistTextArt(string $artistTextArt): static
-    {
-        $this->artistTextArt = $artistTextArt;
 
         return $this;
     }
