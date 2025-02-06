@@ -15,13 +15,17 @@
     padding: 0;
     box-sizing: border-box;
     background-color: var(--background);
-    color: var(--ftColor);
-    
+    color: var(--ftColor);      
+}
+
+header {
+    font-size: 1em;
 }
 
 body {
     display: flex;
     flex-direction: column;    
+    font-size: 2em;  
 }
 
 a {
