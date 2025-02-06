@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use App\Entity\Exhibition;
+use App\Repository\ExhibitionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class HomeController extends AbstractController
 {
     #[Route('/home', name: 'home')]
-    public function index(): Response
+    public function index(Exhibition $exhibit): Response
     {
+
         return $this->render('home.html.twig', [
-            'controller_name' => 'HomeController',
+            'exhibit' => $exhibit,
         ]);
     }
 }

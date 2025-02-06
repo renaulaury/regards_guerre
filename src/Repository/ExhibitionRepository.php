@@ -16,6 +16,16 @@ class ExhibitionRepository extends ServiceEntityRepository
         parent::__construct($registry, Exhibition::class);
     }
 
+    public function findLastExhibition() {
+        $entityManager = $this->getEntityManager();
+        $sub = $entityManager->createQueryBuilder();
+
+        //queryBuilder : fonction de symfony pour créer une requete
+        $queryBuilder = $sub;
+
+        //Sélectionne les 3 dernières expositions
+    }
+
     //    /**
     //     * @return Exhibition[] Returns an array of Exhibition objects
     //     */
