@@ -6,13 +6,40 @@
 
 {% block body %}  
 
-<section>     
+<section id="carrousel">     
     {% for exhibition in exhibitions %}
-    <h2>{{ exhibition.titleExhibit }}</h2>
-    <p>{{ exhibition.dateExhibit|date('d/m/Y') }}</p>
+        <img src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+        <h2>{{ exhibition.titleExhibit }} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>        
+        <p>{{ exhibition.dateExhibit|date('d/m/Y') }}</p>
+        <p>{{ exhibition.descriptionExhibit }}</p>
     {% endfor %}
 
-    <p>Salut ceci est le super accueil de mon site !</p>
+    <div>
+        Explorez les conflits d'hier et d'aujourd'hui grâce à nos expositions éphémères. Plongez au cœur des guerres qui ont marqué notre histoire et façonné le monde. Chaque exposition offre une nouvelle perspective pour comprendre les enjeux d'ici et d'ailleurs.
+    </div>
+
+    <h2>Qui sommes nous ?</h2>
+
+    <div>
+        <p>
+            Nous sommes une association passionnée par l’histoire, l’art et la transmission de la mémoire collective. À travers notre espace d’exposition, nous cherchons à créer un lieu où les visiteurs peuvent explorer, comprendre et ressentir les récits marquants de la guerre et de la paix.
+        </p>
+
+        <p>
+            Notre mission est de mettre en lumière des œuvres, des artistes et des témoignages qui célèbrent la mémoire tout en invitant à la réflexion. Que ce soit à travers des expositions, des événements culturels ou des collaborations artistiques, nous souhaitons offrir une expérience enrichissante qui touche chaque visiteur.
+        </p>
+
+        <p>
+            En soutenant les artistes, en partageant des histoires et en encourageant le dialogue, nous espérons contribuer à préserver et à transmettre un héritage universel, tourné vers l’humanité et la compréhension. Votre visite fait partie intégrante de cette démarche, et nous sommes honorés de vous accueillir dans ce lieu de partage et d’émotion.
+        </p>
+    </div>
+
+    <h2>Agenda Culturel</h2>
+
+    
+
+
+
 </section> 
 
 {% endblock %}

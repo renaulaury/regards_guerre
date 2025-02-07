@@ -37,5 +37,10 @@ section {
     padding: 5%;
 }
 
+/* Carrousel */
+
+#carrousel img {
+    width: 500px;
+}
 
 

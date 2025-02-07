@@ -67,6 +67,9 @@ class Exhibition
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'exhibition')]
     private Collection $comments;
 
+    #[ORM\Column(length: 255)]
+    private ?string $mainImageAlt = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -118,7 +121,7 @@ class Exhibition
 
     public function getDateWarBeginFr()
     {
-        return $this->dateWarBegin->format('d-m-y');
+        return $this->dateWarBegin->format('Y');
          
     }
 
@@ -136,7 +139,7 @@ class Exhibition
 
     public function getDateWarEndFr()
     {
-        return $this->dateWarEnd->format('d-m-y');
+        return $this->dateWarEnd->format('Y');
          
     }
 
@@ -329,5 +332,17 @@ class Exhibition
     public function __toString()
     {
         $this->titleExhibit;
+    }
+
+    public function getMainImageAlt(): ?string
+    {
+        return $this->mainImageAlt;
+    }
+
+    public function setMainImageAlt(string $mainImageAlt): static
+    {
+        $this->mainImageAlt = $mainImageAlt;
+
+        return $this;
     }
 }

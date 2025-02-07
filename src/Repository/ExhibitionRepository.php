@@ -28,7 +28,7 @@ class ExhibitionRepository extends ServiceEntityRepository
             ->from('App\Entity\Exhibition', 'e')
             ->where('e.dateExhibit > :now') //now() ne fonctionne pas seul, il faut setParameter
             ->setParameter('now', new \DateTime()) 
-            ->orderBy('e.date_exhibit', 'DESC')
+            ->orderBy('e.dateExhibit', 'DESC')
             ->setMaxResults(3);  //Limit en sql
 
         //Renvoie du résultat
