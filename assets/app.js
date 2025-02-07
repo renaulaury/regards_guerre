@@ -8,6 +8,7 @@
 import './styles/app.css';
 import './styles/navBurgerFooter.css';
 import './styles/home.css';
+import './styles/exhibition.css';
 // import './styles/media.css';
 
 

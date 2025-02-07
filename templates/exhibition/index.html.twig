@@ -14,7 +14,7 @@
 
     </div>
 
-    <img src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+    <img class="imageExpo" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
 
     <p>{{ exhibition.descriptionExhibit }}</p>
 
@@ -35,7 +35,9 @@
     </div>
 
     <div>
-        
+        <p>
+            {{ artiste.artistName }} {{ artiste.artistFirstname }}
+        </p>
     </div>
 </section>
 
