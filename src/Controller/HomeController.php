@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 
-use App\Entity\Exhibition;
 use App\Repository\ExhibitionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
