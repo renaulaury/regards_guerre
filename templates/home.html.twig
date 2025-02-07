@@ -6,14 +6,19 @@
 
 {% block body %}  
 
-<section id="carrousel">     
+<section>
     {% for exhibition in exhibitions %}
-        <img class="carrouselImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
-        <h2>{{ exhibition.titleExhibit }} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>        
-        <p>{{ exhibition.dateExhibit|date('d/m/Y') }}</p>
-        <p>{{ exhibition.descriptionExhibit }}</p>
+        <div>
+            <a href="{{ path('exhibition', {'exhibition':exhibition.id}) }}">
+                <img class="carrouselImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+                <h2>{{ exhibition.titleExhibit }} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>        
+                <p>{{ exhibition.dateExhibit|date('d/m/Y') }}</p>
+                <p>{{ exhibition.descriptionExhibit }}</p>
+            </a>
+        </div>
     {% endfor %}
-
+    </div>
+    
     <div>
         Explorez les conflits d'hier et d'aujourd'hui grâce à nos expositions éphémères. Plongez au cœur des guerres qui ont marqué notre histoire et façonné le monde. Chaque exposition offre une nouvelle perspective pour comprendre les enjeux d'ici et d'ailleurs.
     </div>
@@ -44,7 +49,7 @@
             <p>{{ agendas.titleExhibit }}</p>
             <p>{{ agendas.hookExhibit }}</p>
 
-            <a href="#">Fiche détaillée</a>
+            <a href="#"> > Fiche détaillée</a>
         {% endfor %}
     </section>
     
@@ -130,11 +135,6 @@
                 <img class="iconMetro" src="/images/accueil/logos_metro/metro3.png" alt="Icone du metro 3">
             </p>    
         </div>
-
-
-
-      
-
     </section>
 
 </section> 

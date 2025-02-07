@@ -3,5 +3,41 @@
 {% block title %}Hello ExhibitionController!{% endblock %}
 
 {% block body %}
+<h1>Exposition</h1>
+
+<section> 
+    <h2>{{ exhibition.titleExhibit}} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>
+
+    <div>
+        <p>{{ exhibition.dateExhibitFr }}</p>
+        <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
+
+    </div>
+
+    <img src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+
+    <p>{{ exhibition.descriptionExhibit }}</p>
+
+    <p>Petit bouton qui va te faire acheter un ticket :) </p>
+</section>
+
+<section>
+    <h2>Galerie des artistes</h2>
+
+    <div>
+        <p> 
+            Regards de Guerre rassemble des artistes aux horizons variés, offrant, à travers un regard neuf, une exploration des conflits d'ici et d'ailleurs. 
+        </p>
+
+        <p>
+            Chaque salle vous immerge dans leur univers unique, proposant une perspective inédite sur ces événements marquants.
+        </p>
+    </div>
+
+    <div>
+        
+    </div>
+</section>
+
 
 {% endblock %}

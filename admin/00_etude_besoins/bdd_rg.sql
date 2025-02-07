@@ -22,8 +22,8 @@ USE `regardsguerre`;
 -- Listage de la structure de table regardsguerre. artiste
 CREATE TABLE IF NOT EXISTS `artiste` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `artist_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `artist_firstname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `artist_birth_date` date NOT NULL,
   `artist_death_date` date NOT NULL,
   PRIMARY KEY (`id`)
@@ -40,7 +40,7 @@ REPLACE INTO `artiste` (`id`, `artist_name`, `artist_firstname`, `artist_birth_d
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
-  `comment_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_comment_creation` datetime NOT NULL,
   `exhibition_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -54,13 +54,13 @@ CREATE TABLE IF NOT EXISTS `comment` (
 
 -- Listage de la structure de table regardsguerre. doctrine_migration_versions
 CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `version` varchar(191) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table regardsguerre.doctrine_migration_versions : ~1 rows (environ)
+-- Listage des données de la table regardsguerre.doctrine_migration_versions : ~0 rows (environ)
 REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20250205123741', '2025-02-06 07:54:31', 557);
 
@@ -68,32 +68,35 @@ REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution
 CREATE TABLE IF NOT EXISTS `exhibition` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
-  `title_exhibit` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `main_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `main_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `main_image_alt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_exhibit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_war_begin` date NOT NULL,
   `date_war_end` date NOT NULL,
   `date_exhibit` date NOT NULL,
   `hour_begin` time NOT NULL,
   `hour_end` time NOT NULL,
-  `description_exhibit` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description_exhibit` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hook_exhibit` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle_exhibit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_B8353389A76ED395` (`user_id`),
   CONSTRAINT `FK_B8353389A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.exhibition : ~4 rows (environ)
-REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`) VALUES
-	(1, 2, 'Les camps d\'Algérie', 'public/events/20250509_algerie/00_main_image.webp', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.'),
-	(2, 2, 'L\'invasion russe de l\'Ukraine', 'f', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.'),
-	(3, 2, 'Les femmes palestiniennes et leur engagement', 'f', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.'),
-	(4, 2, 'L\'incident de Kyujo', 'f', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.');
+REPLACE INTO `exhibition` (`id`, `user_id`, `main_image`, `main_image_alt`, `title_exhibit`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`, `hook_exhibit`, `subtitle_exhibit`) VALUES
+	(1, 2, 'images/events/20250509_algerie/00_main_image.webp', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', 'Les camps d\'Algérie', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'aa', 'aa'),
+	(2, 2, 'images/events/20250603_guerre_ukraine/00_main_image.webp', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'L\'invasion russe de l\'Ukraine', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.', 'aa', 'aa'),
+	(3, 2, 'images/events/20250902_femmes_palestine/00_main_image.webp', 'Troupes de femmes militaires palestiniennes', 'Les femmes palestiniennes et leur engagement', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.', 'aa', 'aa'),
+	(4, 2, 'images/events/20250509_algerie/00_main_image.webp', 'aaa', 'L\'incident de Kyujo', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.', 'aa', 'aa');
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue_name` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `available_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
@@ -110,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
   `order_date_creation` date NOT NULL,
-  `order_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
   CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
@@ -140,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
 -- Listage de la structure de table regardsguerre. room
 CREATE TABLE IF NOT EXISTS `room` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title_room` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_room` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -158,10 +161,10 @@ CREATE TABLE IF NOT EXISTS `show` (
   `room_id` int DEFAULT NULL,
   `artiste_id` int DEFAULT NULL,
   `exhibition_id` int DEFAULT NULL,
-  `artist_photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `artist_job` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `artist_bio` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `artist_text_art` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `artist_job` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_bio` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_text_art` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_320ED90154177093` (`room_id`),
   KEY `IDX_320ED90121D25844` (`artiste_id`),
@@ -181,11 +184,11 @@ REPLACE INTO `show` (`id`, `room_id`, `artiste_id`, `exhibition_id`, `artist_pho
 -- Listage de la structure de table regardsguerre. ticket
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title_ticket` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_ticket` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket : ~2 rows (environ)
+-- Listage des données de la table regardsguerre.ticket : ~0 rows (environ)
 REPLACE INTO `ticket` (`id`, `title_ticket`) VALUES
 	(1, 'Enfant'),
 	(2, 'Adulte');
@@ -203,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `ticket_pricing` (
   CONSTRAINT `FK_E93DF561700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket_pricing : ~2 rows (environ)
+-- Listage des données de la table regardsguerre.ticket_pricing : ~0 rows (environ)
 REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_price`) VALUES
 	(1, 2, 1, 10.00),
 	(2, 1, 1, 8.00);
@@ -211,18 +214,19 @@ REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_pri
 -- Listage de la structure de table regardsguerre. user
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_nickname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `roles` json NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.user : ~2 rows (environ)
-REPLACE INTO `user` (`id`, `user_email`, `password`, `user_nickname`, `role`) VALUES
-	(1, 'root@regardsguerre.fr', '1234', 'root', 'root'),
-	(2, 'l.dupont@regardsguerre.fr', '1234', 'ldupont', 'admin');
+REPLACE INTO `user` (`id`, `user_email`, `password`, `user_nickname`, `role`, `roles`) VALUES
+	(1, 'root@regardsguerre.fr', '1234', 'root', 'root', 'null'),
+	(2, 'l.dupont@regardsguerre.fr', '1234', 'ldupont', 'admin', 'null');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

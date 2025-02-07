@@ -107,3 +107,8 @@
     top: 22px;
 }
 
+
+/* Footer */
+footer {
+    background-color: var(--footer);
+}
