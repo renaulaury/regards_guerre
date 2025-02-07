@@ -7,6 +7,7 @@
  */
 import './styles/app.css';
 import './styles/navBurger.css';
+import './styles/home.css';
 // import './styles/media.css';
 
 

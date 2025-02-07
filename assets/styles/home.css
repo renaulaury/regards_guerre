@@ -1,0 +1,17 @@
+/* Carrousel */
+
+.carrouselImg {
+    width: 500px;
+}
+
+/* Espace boutique */
+.welcomeShop {
+    width: 50%;
+    border-radius: 30px;
+}
+
+/* Accès */
+.iconMetro {
+    width: 5%;
+    height: auto;
+}

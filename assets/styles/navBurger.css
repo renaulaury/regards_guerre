@@ -11,15 +11,14 @@
 }
 
 #leftBlock {
-    width: 50%;
+    width: 80%;
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
 .profile p {
-    padding: 6% 0;
-    
+    padding: 6% 0;    
 }
 
 #rightBlock ol {
@@ -46,10 +45,10 @@
     flex-direction: column;
     position: absolute;
     right: 5%;
-    top: 5%;
+    top: 12%;
     /* border: 1px solid var(--backgroundColor);  */
     border-radius: 10px;
-    width: auto;
+    width: 30%;
     height: auto;
     z-index: 10;
     text-align: left;

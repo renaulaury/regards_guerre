@@ -15,10 +15,13 @@ final class HomeController extends AbstractController
     public function index(ExhibitionRepository $exhibitRepo): Response
     {
 
-        $exhibitions = $exhibitRepo->findNextExhibition();
+        $exhibitions = $exhibitRepo->findNextExhibition(); //3 dernières expos programmées
+        $agenda = $exhibitRepo->findAllNextExhibition(); //agenda des expos
 
         return $this->render('home.html.twig', [
             'exhibitions' => $exhibitions,
+            'agenda' => $agenda,
         ]);
     }
+
 }

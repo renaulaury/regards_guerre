@@ -20,9 +20,10 @@
                     <img class="logo" src="/images/logo.webp" alt="Logo de l'association Regards de Guerre">
                     <div class="profile">
                         <p>Bienvenue <a href="#">toi !</a></p>
-                        {# {% if app.user %} #}
+                        <p>S'inscrire / Se connecter</p>
+                        {% if app.user %}
                             <p><a href="#">Se déconnecter</a></p>
-                        {# {% endif %} #}
+                        {% endif %} 
                     </div>
                 </div> 
 
@@ -44,10 +45,31 @@
 
             <div id="boldLine"></div>
         </header>
-
-            
-        
+                   
         
         {% block body %}{% endblock %}
+
+        <footer>
+            <div>
+                <p>Soyez les premiers au courant des nouvelles expositions.</p>
+                <p>Ici, un super input pour mettre le mail.</p>
+                <p>Ici un super bouton pour s'abonner</p>
+            </div>
+
+            <div>
+                <p>Nous suivre :</p>
+                <p><a href="https://www.facebook.com" target="_blank" rel="noreferrer"><i class="fa-brands fa-facebook"></i></a></p>
+                <p><a href="https://www.instagram.com" target="_blank" rel="noreferrer"><i class="fa-brands fa-instagram"></i></a></p>
+
+                <p><a href="https://x.com" target="_blank" rel="noreferrer"><i class="fa-brands fa-square-x-twitter"></i></p>
+            </div>
+
+            <div>
+                <a href="mailto:regardsguerre@gmail.com?subject=Demande d'informations&body=Votre message ici">Nous contacter</a>
+                <a href="#">Mentions légales</a>
+            </div>
+
+            <p>Copyright 2025 Regards de Guerre</p>
+        </footer>
     </body>
 </html>

@@ -70,6 +70,12 @@ class Exhibition
     #[ORM\Column(length: 255)]
     private ?string $mainImageAlt = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $hookExhibit = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $subtitleExhibit = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -83,18 +89,6 @@ class Exhibition
         return $this->id;
     }
 
-    public function getTitleExhibit(): ?string
-    {
-        return $this->titleExhibit;
-    }
-
-    public function setTitleExhibit(string $titleExhibit): static
-    {
-        $this->titleExhibit = $titleExhibit;
-
-        return $this;
-    }
-
     public function getMainImage(): ?string
     {
         return $this->mainImage;
@@ -103,6 +97,30 @@ class Exhibition
     public function setMainImage(?string $mainImage): static
     {
         $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    public function getMainImageAlt(): ?string
+    {
+        return $this->mainImageAlt;
+    }
+
+    public function setMainImageAlt(string $mainImageAlt): static
+    {
+        $this->mainImageAlt = $mainImageAlt;
+
+        return $this;
+    }
+
+    public function getTitleExhibit(): ?string
+    {
+        return $this->titleExhibit;
+    }
+
+    public function setTitleExhibit(string $titleExhibit): static
+    {
+        $this->titleExhibit = $titleExhibit;
 
         return $this;
     }
@@ -157,8 +175,15 @@ class Exhibition
 
     public function getDateExhibitFr()
     {
-        return $this->dateExhibit->format('d-m-y');
-         
+        $date = $this->dateExhibit;
+
+        // Create a DateTimeFormatter for French locale
+        $dateFormat = new \IntlDateFormatter(
+                    'fr_FR', //Pays
+                    \IntlDateFormatter::LONG, //Format long
+                    \IntlDateFormatter::NONE); //Fuseau horaire ou heure
+
+        return $dateFormat->format($date);         
     }
 
     public function getHourBegin(): ?\DateTimeInterface
@@ -173,6 +198,11 @@ class Exhibition
         return $this;
     }
 
+    public function getHourBeginFr()
+    {
+        return $this->hourBegin->format('H\hi');
+    }
+
     public function getHourEnd(): ?\DateTimeInterface
     {
         return $this->hourEnd;
@@ -183,6 +213,11 @@ class Exhibition
         $this->hourEnd = $hourEnd;
 
         return $this;
+    }
+
+    public function getHourEndFr()
+    {
+        return $this->hourEnd->format('H\hi');
     }
 
     public function getDescriptionExhibit(): ?string
@@ -334,15 +369,32 @@ class Exhibition
         $this->titleExhibit;
     }
 
-    public function getMainImageAlt(): ?string
+    public function getHookExhibit(): ?string
     {
-        return $this->mainImageAlt;
+        return $this->hookExhibit;
     }
 
-    public function setMainImageAlt(string $mainImageAlt): static
+    public function setHookExhibit(?string $hookExhibit): static
     {
-        $this->mainImageAlt = $mainImageAlt;
+        $this->hookExhibit = $hookExhibit;
+
+        return $this;
+    }
+
+    public function getSubtitleExhibit(): ?string
+    {
+        return $this->subtitleExhibit;
+    }
+
+    public function setSubtitleExhibit(?string $subtitleExhibit): static
+    {
+        $this->subtitleExhibit = $subtitleExhibit;
 
         return $this;
     }
 }
+
+
+
+
+    
