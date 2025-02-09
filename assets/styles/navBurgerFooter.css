@@ -110,5 +110,6 @@
 
 /* Footer */
 footer {
+    padding: 5%;
     background-color: var(--footer);
 }
