@@ -36,6 +36,9 @@ class Show
     #[ORM\ManyToOne(inversedBy: 'shows')]
     private ?Artist $artist = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $artistPhotoAlt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,6 +76,18 @@ class Show
     public function setArtistPhoto(?string $artistPhoto): static
     {
         $this->artistPhoto = $artistPhoto;
+
+        return $this;
+    }
+
+    public function getArtistPhotoAlt(): ?string
+    {
+        return $this->artistPhotoAlt;
+    }
+
+    public function setArtistPhotoAlt(?string $artistPhotoAlt): static
+    {
+        $this->artistPhotoAlt = $artistPhotoAlt;
 
         return $this;
     }
@@ -124,4 +139,6 @@ class Show
 
         return $this;
     }
+
+   
 }

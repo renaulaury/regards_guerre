@@ -125,6 +125,31 @@ class Exhibition
         return $this;
     }
 
+    public function getSubtitleExhibit(): ?string
+    {
+        return $this->subtitleExhibit;
+    }
+
+    public function setSubtitleExhibit(?string $subtitleExhibit): static
+    {
+        $this->subtitleExhibit = $subtitleExhibit;
+
+        return $this;
+    }
+
+    public function getHookExhibit(): ?string
+    {
+        return $this->hookExhibit;
+    }
+
+    public function setHookExhibit(?string $hookExhibit): static
+    {
+        $this->hookExhibit = $hookExhibit;
+
+        return $this;
+    }
+    
+
     public function getDateWarBegin(): ?\DateTimeInterface
     {
         return $this->dateWarBegin;
@@ -369,29 +394,7 @@ class Exhibition
         $this->titleExhibit;
     }
 
-    public function getHookExhibit(): ?string
-    {
-        return $this->hookExhibit;
-    }
-
-    public function setHookExhibit(?string $hookExhibit): static
-    {
-        $this->hookExhibit = $hookExhibit;
-
-        return $this;
-    }
-
-    public function getSubtitleExhibit(): ?string
-    {
-        return $this->subtitleExhibit;
-    }
-
-    public function setSubtitleExhibit(?string $subtitleExhibit): static
-    {
-        $this->subtitleExhibit = $subtitleExhibit;
-
-        return $this;
-    }
+   
 }
 
 

@@ -1,4 +1,9 @@
-.imageExpo {
+.expoImg {
+    width: 80%;
+    border-radius: 10px;
+}
+
+.artistImg {
     width: 50%;
     border-radius: 10px;
 }

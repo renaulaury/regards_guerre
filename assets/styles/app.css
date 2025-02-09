@@ -16,6 +16,7 @@
     box-sizing: border-box;
     background-color: var(--background);
     color: var(--ftColor);      
+    text-align: justify;
 }
 
 header {

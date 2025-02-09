@@ -6,23 +6,18 @@
 <h1>Exposition</h1>
 
 <section> 
-    {# {{ dump(show) }} #}
-    {% for shows in show %}
-    {{ dump(show.shows) }}
-{% endfor %}
-
-    {# <h2>{{ showExhibit.exhibition.titleExhibit}}  #}
-        {# ({{ showExhibit.dateWarBeginFr }} - {{ showExhibit.dateWarEndFr }})</h2> #}
+    <h2>{{ exhibition.titleExhibit}}  
+        ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>
 
     <div>
-        {# <p>{{ exhibition.dateExhibitFr }}</p> #}
-        {# <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p> #}
+        <p>{{ exhibition.dateExhibitFr }}</p>
+        <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
 
     </div>
 
-    {# <img class="imageExpo" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}"> #}
+    <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
 
-    {# <p>{{ exhibition.descriptionExhibit }}</p> #}
+    <p>{{ exhibition.descriptionExhibit }}</p>
 
     <p>Petit bouton qui va te faire acheter un ticket :) </p>
 </section>
@@ -41,11 +36,22 @@
     </div>
 
     <div>
-        <p>
-            {# {{ artist.artistFirstname }} {{ artist.artistName }} -  #}
-        </p>
 
-        {# <p>( {{artist.artistBirthDateFr }} - {{artist.artistDeathDateFr }} )</p> #}
+        {% for show in exhibition.shows %}        
+            <p>
+                {{ show.artist.artistFirstname }} {{ show.artist.artistName }} - 
+                {{ show.artistJob }}
+            </p>
+
+            <p>( {{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }} )</p>
+
+            <img class="artistImg" src="{{ show.artistPhoto}}" alt="{{ show.artistPhotoAlt}}">
+
+            <p>{{ show.artistBio }} </p>
+            <p>{{ show.artistTextArt }} </p>
+            <p>Exposition : Salle {{ show.room.titleRoom }}</p>
+
+        {% endfor %}
 
         
     </div>

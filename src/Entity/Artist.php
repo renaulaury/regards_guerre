@@ -82,7 +82,15 @@ class Artist
 
     public function getArtistBirthDateFr()
     {
-        return $this->artistBirthDate->format('d-m-y');
+        $date = $this->artistBirthDate;
+
+        // Create a DateTimeFormatter for French locale
+        $dateFormat = new \IntlDateFormatter(
+                    'fr_FR', //Pays
+                    \IntlDateFormatter::LONG, //Format long
+                    \IntlDateFormatter::NONE); //Fuseau horaire ou heure
+
+        return $dateFormat->format($date);  
          
     }
 
@@ -100,7 +108,15 @@ class Artist
 
     public function getArtistDeathDateFr()
     {
-        return $this->artistDeathDate->format('d-m-y');         
+        $date = $this->artistDeathDate;
+
+        // Create a DateTimeFormatter for French locale
+        $dateFormat = new \IntlDateFormatter(
+                    'fr_FR', //Pays
+                    \IntlDateFormatter::LONG, //Format long
+                    \IntlDateFormatter::NONE); //Fuseau horaire ou heure
+
+        return $dateFormat->format($date);         
     }   
 
     /**
@@ -137,4 +153,6 @@ class Artist
     {
         $this->artistFirstname. ' ' .$this->artistName;
     }
+
+  
 }
