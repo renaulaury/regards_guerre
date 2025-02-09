@@ -19,9 +19,6 @@ class Show
     private ?Room $room = null;
 
     #[ORM\ManyToOne(inversedBy: 'shows')]
-    private ?Artiste $artiste = null;
-
-    #[ORM\ManyToOne(inversedBy: 'shows')]
     private ?Exhibition $exhibition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -36,6 +33,9 @@ class Show
     #[ORM\Column(type: Types::TEXT)]
     private ?string $artistTextArt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'shows')]
+    private ?Artist $artist = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -49,18 +49,6 @@ class Show
     public function setRoom(?Room $room): static
     {
         $this->room = $room;
-
-        return $this;
-    }
-
-    public function getArtiste(): ?Artiste
-    {
-        return $this->artiste;
-    }
-
-    public function setArtiste(?Artiste $artiste): static
-    {
-        $this->artiste = $artiste;
 
         return $this;
     }
@@ -121,6 +109,18 @@ class Show
     public function setArtistTextArt(string $artistTextArt): static
     {
         $this->artistTextArt = $artistTextArt;
+
+        return $this;
+    }
+
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(?Artist $artist): static
+    {
+        $this->artist = $artist;
 
         return $this;
     }

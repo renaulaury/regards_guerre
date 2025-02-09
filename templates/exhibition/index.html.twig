@@ -6,17 +6,19 @@
 <h1>Exposition</h1>
 
 <section> 
-    <h2>{{ exhibition.titleExhibit}} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>
+    {{ dump(showExhibit[0].exhibition.titleExhibit) }}
+    {# <h2>{{ showExhibit.exhibition.titleExhibit}}  #}
+        {# ({{ showExhibit.dateWarBeginFr }} - {{ showExhibit.dateWarEndFr }})</h2> #}
 
     <div>
-        <p>{{ exhibition.dateExhibitFr }}</p>
-        <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
+        {# <p>{{ exhibition.dateExhibitFr }}</p> #}
+        {# <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p> #}
 
     </div>
 
-    <img class="imageExpo" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+    {# <img class="imageExpo" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}"> #}
 
-    <p>{{ exhibition.descriptionExhibit }}</p>
+    {# <p>{{ exhibition.descriptionExhibit }}</p> #}
 
     <p>Petit bouton qui va te faire acheter un ticket :) </p>
 </section>
@@ -36,8 +38,12 @@
 
     <div>
         <p>
-            {{ artiste.artistName }} {{ artiste.artistFirstname }}
+            {# {{ artist.artistFirstname }} {{ artist.artistName }} -  #}
         </p>
+
+        {# <p>( {{artist.artistBirthDateFr }} - {{artist.artistDeathDateFr }} )</p> #}
+
+        
     </div>
 </section>
 

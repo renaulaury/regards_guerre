@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Show;
-use App\Entity\Artiste;
-use App\Entity\Exhibition;
+use App\Repository\ExhibitionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,12 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class ExhibitionController extends AbstractController
 {
     #[Route('/exhibition/{id}', name: 'exhibition')]
-    public function index(Exhibition $exhibition, Show $show, Artiste $artiste): Response
+    public function index(ExhibitionRepository $exhibitRepo, Show $show): Response
     {
+        
+        $showExhibit = $exhibitRepo->findAllInfosExhibition();
+        $title = $show->getExhibition();
+
         return $this->render('/exhibition/index.html.twig', [
-            'exhibition' => $exhibition,
-            'show' => $show,
-            'artiste' => $artiste,
+            'showExhibit' => $showExhibit, 
+            'title' => $title,           
         ]);
     }
 }

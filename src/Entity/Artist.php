@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ArtisteRepository;
+use App\Repository\ArtistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ArtisteRepository::class)]
-class Artiste
+#[ORM\Entity(repositoryClass: ArtistRepository::class)]
+class Artist
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,13 +25,13 @@ class Artiste
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $artistBirthDate = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $artistDeathDate = null;    
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $artistDeathDate = null;
 
     /**
      * @var Collection<int, Show>
      */
-    #[ORM\OneToMany(targetEntity: Show::class, mappedBy: 'artiste')]
+    #[ORM\OneToMany(targetEntity: Show::class, mappedBy: 'artist')]
     private Collection $shows;
 
     public function __construct()
@@ -91,7 +91,7 @@ class Artiste
         return $this->artistDeathDate;
     }
 
-    public function setArtistDeathDate(\DateTimeInterface $artistDeathDate): static
+    public function setArtistDeathDate(?\DateTimeInterface $artistDeathDate): static
     {
         $this->artistDeathDate = $artistDeathDate;
 
@@ -100,9 +100,8 @@ class Artiste
 
     public function getArtistDeathDateFr()
     {
-        return $this->artistDeathDate->format('d-m-y');
-         
-    }
+        return $this->artistDeathDate->format('d-m-y');         
+    }   
 
     /**
      * @return Collection<int, Show>
@@ -116,7 +115,7 @@ class Artiste
     {
         if (!$this->shows->contains($show)) {
             $this->shows->add($show);
-            $show->setArtiste($this);
+            $show->setArtist($this);
         }
 
         return $this;
@@ -126,8 +125,8 @@ class Artiste
     {
         if ($this->shows->removeElement($show)) {
             // set the owning side to null (unless already changed)
-            if ($show->getArtiste() === $this) {
-                $show->setArtiste(null);
+            if ($show->getArtist() === $this) {
+                $show->setArtist(null);
             }
         }
 

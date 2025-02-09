@@ -57,4 +57,22 @@ class ExhibitionRepository extends ServiceEntityRepository
         // getResult() exécute la requête et retourne les résultats sous forme d'un tableau d'entités
         return $queryBuilder->getQuery()->getResult(); 
     }
+
+    public function findAllInfosExhibition() {
+         // Récupération de l'EntityManager pour interagir avec la base de données
+         $entityManager = $this->getEntityManager();
+         // Création du QueryBuilder (spécifique Symfony) pour construire la requête DQL
+         $queryBuilder = $entityManager->createQueryBuilder();
+
+         $queryBuilder->select('s', 'e', 'a', 'r')
+         ->from('App\Entity\Show', 's')
+         ->innerJoin('s.exhibition', 'e') 
+         ->innerJoin('s.artist', 'a')     
+         ->innerJoin('s.room', 'r');       
+
+        //Renvoie du résultat
+        // getQuery() retourne l'objet Query Doctrine qui permet d'exécuter la requête construite
+        // getResult() exécute la requête et retourne les résultats sous forme d'un tableau d'entités
+        return $queryBuilder->getQuery()->getResult(); 
+    }
 }
