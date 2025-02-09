@@ -6,7 +6,11 @@
 <h1>Exposition</h1>
 
 <section> 
-    {{ dump(show) }}
+    {# {{ dump(show) }} #}
+    {% for shows in show %}
+    {{ dump(show.shows) }}
+{% endfor %}
+
     {# <h2>{{ showExhibit.exhibition.titleExhibit}}  #}
         {# ({{ showExhibit.dateWarBeginFr }} - {{ showExhibit.dateWarEndFr }})</h2> #}
 
