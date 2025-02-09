@@ -11,15 +11,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class ExhibitionController extends AbstractController
 {
     #[Route('/exhibition/{id}', name: 'exhibition')]
-    public function index(ExhibitionRepository $exhibitRepo, Show $show): Response
+    public function index(ExhibitionRepository $exhibitRepo): Response
     {
         
         $showExhibit = $exhibitRepo->findAllInfosExhibition();
-        $title = $show->getExhibition();
+       
 
         return $this->render('/exhibition/index.html.twig', [
-            'showExhibit' => $showExhibit, 
-            'title' => $title,           
+            'showExhibit' => $showExhibit,          
         ]);
     }
 }
+
+
+
+// $title = $show->getExhibition();, Show $show   'title' => $title,  
