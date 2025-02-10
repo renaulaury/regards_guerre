@@ -3,5 +3,21 @@
 {% block title %}Hello TicketController!{% endblock %}
 
 {% block body %}
+<h1>Tickets</h1>
+
+<h2>Expositions</h2>
+    {{ dump(priceByExhibit) }}
+
+    {% for exhibition in priceByExhibit %}
+        {# {{ exhibition.dateExhibit }} #}
+        {{ exhibition.titleExhibit }}
+        {# {{ exhibition.dateExhibit }} #}
+        
+    {% endfor %}
+
+    {% for priceByExhibits in priceByExhibit %}
+        {{ priceByExhibits.titleTicket}}
+    {% endfor %}
 
 {% endblock %}
+

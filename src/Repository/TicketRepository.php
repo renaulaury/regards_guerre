@@ -16,6 +16,24 @@ class TicketRepository extends ServiceEntityRepository
         parent::__construct($registry, Ticket::class);
     }
 
+    public function findAllTicketsByExhibition() {
+        // Récupération de l'EntityManager pour interagir avec la base de données
+        $entityManager = $this->getEntityManager();
+        // Création du QueryBuilder (spécifique Symfony) pour construire la requête DQL
+        $queryBuilder = $entityManager->createQueryBuilder();
+
+        $queryBuilder->select('e.titleExhibit', 'e.dateExhibit AS dateExhibitFr', 't.titleTicket', 'tp.standardPrice')
+           ->from('App\Entity\ticketPricing', 'tp')
+           ->innerJoin('tp.exhibition', 'e')
+           ->innerJoin('tp.ticket', 't');
+
+         //Renvoie du résultat
+       // getQuery() retourne l'objet Query Doctrine qui permet d'exécuter la requête construite
+       // getResult() exécute la requête et retourne les résultats sous forme d'un tableau d'entités
+       return $queryBuilder->getQuery()->getResult();
+   }
+
+
     //    /**
     //     * @return Ticket[] Returns an array of Ticket objects
     //     */
