@@ -13,7 +13,7 @@
             <a href="{{ path('exhibition', {'id':exhibition.id}) }}">
                 <img class="carrouselImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
                 <h2>{{ exhibition.titleExhibit }} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>        
-                <p>{{ exhibition.dateExhibit|date('d/m/Y') }}</p>
+                <p>{{ exhibition.dateExhibitFr }}</p>
                 <p>{{ exhibition.descriptionExhibit }}</p>
             </a>
         </div>
