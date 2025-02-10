@@ -16,7 +16,6 @@ final class ExhibitionController extends AbstractController
     public function index(Exhibition $exhibition, Artist $artist, Room $room, Show $shows): Response
     {
         
-        // $showExhibit = $exhibitRepo->findAllInfosExhibition();
 
         return $this->render('/exhibition/index.html.twig', [
             'exhibition' => $exhibition,  

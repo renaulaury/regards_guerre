@@ -22,7 +22,7 @@ class TicketRepository extends ServiceEntityRepository
         // Création du QueryBuilder (spécifique Symfony) pour construire la requête DQL
         $queryBuilder = $entityManager->createQueryBuilder();
 
-        $queryBuilder->select('e.titleExhibit', 'e.dateExhibit', 't.titleTicket', 't.imageTicket', 't.imageTicketAlt', 'tp.standardPrice')
+        $queryBuilder->select('DISTINCT e.id, e.titleExhibit', 'e.dateExhibit', 't.titleTicket', 't.imageTicket', 't.imageTicketAlt', 'tp.standardPrice')
            ->from('App\Entity\ticketPricing', 'tp')
            ->innerJoin('tp.exhibition', 'e')
            ->innerJoin('tp.ticket', 't');
@@ -34,28 +34,5 @@ class TicketRepository extends ServiceEntityRepository
    }
 
 
-    //    /**
-    //     * @return Ticket[] Returns an array of Ticket objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Ticket
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+   
 }

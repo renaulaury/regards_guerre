@@ -22,8 +22,8 @@ USE `regardsguerre`;
 -- Listage de la structure de table regardsguerre. artist
 CREATE TABLE IF NOT EXISTS `artist` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `artist_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `artist_firstname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `artist_birth_date` date NOT NULL,
   `artist_death_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
 -- Listage des données de la table regardsguerre.exhibition : ~4 rows (environ)
 REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `main_image_alt`, `subtitle_exhibit`, `hook_exhibit`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`) VALUES
 	(1, 2, 'Les camps d\'Algérie', '/images/events/20250509_algerie/00_main_image.webp', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', 'aa', 'aa', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.'),
-	(2, 2, 'L\'invasion russe de l\'Ukraine', '/images/events/20250603_guerre_ukraine/00_main_image.webp', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'aa', 'aa', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.'),
+	(2, 2, 'L\'Ukraine en résistance', '/images/events/20250603_guerre_ukraine/00_main_image.webp', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'Un An d\'Invasion Russe', 'aa', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.'),
 	(3, 2, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902_femmes_palestine/00_main_image.webp', 'Troupes de femmes militaires palestiniennes', 'aa', 'aa', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.'),
 	(4, 2, 'L\'incident de Kyujo', '/images/events/20250509_algerie/00_main_image.webp', 'aaa', 'aa', 'aa', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.');
 
@@ -186,13 +186,15 @@ REPLACE INTO `show` (`id`, `room_id`, `artist_id`, `exhibition_id`, `artist_phot
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title_ticket` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_ticket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image_ticket_alt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.ticket : ~2 rows (environ)
-REPLACE INTO `ticket` (`id`, `title_ticket`) VALUES
-	(1, 'Enfant'),
-	(2, 'Adulte');
+REPLACE INTO `ticket` (`id`, `title_ticket`, `image_ticket`, `image_ticket_alt`) VALUES
+	(1, 'Ticket enfant dématérialisé', '/images/tickets/ticket_enfant.webp', 'Image du ticket enfant'),
+	(2, 'Ticket adulte dématérialisé ', '/images/tickets/ticket_enfant.webp', 'Image du ticket adulte');
 
 -- Listage de la structure de table regardsguerre. ticket_pricing
 CREATE TABLE IF NOT EXISTS `ticket_pricing` (
@@ -205,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `ticket_pricing` (
   KEY `IDX_E93DF5612A7D4494` (`exhibition_id`),
   CONSTRAINT `FK_E93DF5612A7D4494` FOREIGN KEY (`exhibition_id`) REFERENCES `exhibition` (`id`),
   CONSTRAINT `FK_E93DF561700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.ticket_pricing : ~2 rows (environ)
 REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_price`) VALUES

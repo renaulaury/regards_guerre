@@ -6,23 +6,28 @@
 <h1>Tickets</h1>
 
 <h2>Expositions</h2>
-    {{ dump(priceByExhibit) }}
+{{ dump(priceByExhibit) }}
 
-    
-
-    {% for exhibition in priceByExhibit %}
-        {# {{ exhibition.dateExhibit }} #}
-        {{ exhibition.titleExhibit }}
-        {# {{ exhibition.dateExhibit }} #}
-        
+<select id="exhibitionSelect" onchange="toggleExhibitionDetails()">
+    {% for exhibition in exhibitions %}               
+    <option value="{{ exhibition.id }}">{{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}</option>
     {% endfor %}
+</select>
+
+{% for exhibition in exhibitions %}
+    <div id="exhibitionDetails-{{ exhibition.id }}" style="display: none;">
+        {% for priceByExhibits in priceByExhibit %}
+            {% if priceByExhibits.id == exhibition.id %}
+                <p>{{ priceByExhibits.titleTicket }}</p>
+                <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
+                <p>{{ priceByExhibits.standardPrice }} €</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endfor %}
 
 
-    {% for priceByExhibits in priceByExhibit %}
-        <p>{{ priceByExhibits.titleTicket}} </p>
-        <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt}}">
-        <p>{{ priceByExhibits.standardPrice }} €</p>
-    {% endfor %}
+
 
 {% endblock %}
 
