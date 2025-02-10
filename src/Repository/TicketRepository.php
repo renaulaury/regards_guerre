@@ -22,7 +22,7 @@ class TicketRepository extends ServiceEntityRepository
         // Création du QueryBuilder (spécifique Symfony) pour construire la requête DQL
         $queryBuilder = $entityManager->createQueryBuilder();
 
-        $queryBuilder->select('e.titleExhibit', 'e.dateExhibit AS dateExhibitFr', 't.titleTicket', 'tp.standardPrice')
+        $queryBuilder->select('e.titleExhibit', 'e.dateExhibit', 't.titleTicket', 't.imageTicket', 't.imageTicketAlt', 'tp.standardPrice')
            ->from('App\Entity\ticketPricing', 'tp')
            ->innerJoin('tp.exhibition', 'e')
            ->innerJoin('tp.ticket', 't');

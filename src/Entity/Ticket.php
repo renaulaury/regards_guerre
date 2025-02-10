@@ -30,6 +30,12 @@ class Ticket
     #[ORM\OneToMany(targetEntity: TicketPricing::class, mappedBy: 'ticket')]
     private Collection $ticketPricings;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageTicket = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageTicketAlt = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -49,6 +55,30 @@ class Ticket
     public function setTitleTicket(string $titleTicket): static
     {
         $this->titleTicket = $titleTicket;
+
+        return $this;
+    }
+
+    public function getImageTicket(): ?string
+    {
+        return $this->imageTicket;
+    }
+
+    public function setImageTicket(?string $imageTicket): static
+    {
+        $this->imageTicket = $imageTicket;
+
+        return $this;
+    }
+
+    public function getImageTicketAlt(): ?string
+    {
+        return $this->imageTicketAlt;
+    }
+
+    public function setImageTicketAlt(?string $imageTicketAlt): static
+    {
+        $this->imageTicketAlt = $imageTicketAlt;
 
         return $this;
     }
@@ -117,4 +147,6 @@ class Ticket
     {
         $this->titleTicket;
     }
+
+   
 }

@@ -8,6 +8,8 @@
 <h2>Expositions</h2>
     {{ dump(priceByExhibit) }}
 
+    
+
     {% for exhibition in priceByExhibit %}
         {# {{ exhibition.dateExhibit }} #}
         {{ exhibition.titleExhibit }}
@@ -15,8 +17,11 @@
         
     {% endfor %}
 
+
     {% for priceByExhibits in priceByExhibit %}
-        {{ priceByExhibits.titleTicket}}
+        <p>{{ priceByExhibits.titleTicket}} </p>
+        <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt}}">
+        <p>{{ priceByExhibits.standardPrice }} €</p>
     {% endfor %}
 
 {% endblock %}
