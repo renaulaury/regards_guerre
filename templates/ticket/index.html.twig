@@ -17,19 +17,35 @@
     {% for exhibition in exhibitions %}               
     <option value="{{ exhibition.id }}">{{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}</option>
     {% endfor %}
-</select>
+</select> 
 
 {% for exhibition in exhibitions %}
     <div id="exhibitionDetails-{{ exhibition.id }}" style="display: none;">
+
         {% for priceByExhibits in priceByExhibit %}
-            {% if priceByExhibits.id == exhibition.id %}
-                <p>{{ priceByExhibits.titleTicket }}</p>
-                <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
-                <p>{{ priceByExhibits.standardPrice }} €</p>
+            {% if priceByExhibits.id == exhibition.id %} 
+
+           
+            <p>{{ priceByExhibits.titleTicket }}</p>
+            <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
+
+            <form method="POST" action="{{ path('addTicketToBasket', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}"> 
+
+                <button type="submit" class="addDelTicket">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </form>
+
+            <p>{{ priceByExhibits.standardPrice }} €</p>
+
+            <button type="submit" class="addDelTicket">
+                <i class="fa-solid fa-minus"></i>
+            </button>
             {% endif %}
         {% endfor %}
     </div>
 {% endfor %}
+
 
 
 
