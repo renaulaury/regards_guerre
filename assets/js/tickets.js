@@ -14,7 +14,7 @@ function toggleExhibitionDetails() {
         }
     }
 
-}
+} 
 
 // function toggleBanOptions() {
 //     let option = document.getElementById('options').value;
