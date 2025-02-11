@@ -1,46 +1,36 @@
-// Définir la fonction de manière globale
-function toggleExhibitionDetails() {
-    let option = document.getElementById('exhibitionSelect').value;
+//Attente que le DOM soit chargé avt affichage de la fonction
+document.addEventListener("DOMContentLoaded", function () {
 
-    // Masquer toutes les options de détails des expositions
-    document.querySelectorAll('[id^="exhibitionDetails-"]').forEach(div => {
-        div.style.display = 'none';
-    });
+    // Fonction pour afficher les détails de l'exposition
+    function toggleExhibitionDetails() {
+        let option = document.getElementById('exhibitionSelect').value;
 
-    // Afficher les détails correspondants
-    if (option) {
-        let selectedExhibition = document.getElementById(`exhibitionDetails-${option}`);
-        if (selectedExhibition) {
-            selectedExhibition.style.display = 'block';
+        // Masquer toutes les options de détails des expositions
+        document.querySelectorAll('[id^="exhibitionDetails-"]'). // ^ -> commence par / [] -> sélectionne l'id dynamique
+        forEach(div => { // Parcours les expos afin de les masquer
+            div.style.display = 'none';
+        });
+
+        // Afficher les détails correspondants
+        if (option) {
+            let selectedExhibition = document.getElementById(`exhibitionDetails-${option}`); //Sélectionne l'id de l'expo 
+            if (selectedExhibition) { // pour afficher les détails correspondants
+                selectedExhibition.style.display = 'block';
+            }
         }
     }
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Attacher l'événement onchange après le chargement du DOM
+    // Sélectionne le menu déroulant
     let selectElement = document.getElementById('exhibitionSelect');
-    if (selectElement) {
+    if (selectElement) { //A chaque changement d'expo on 'change' le détail de l'expo
         selectElement.addEventListener('change', toggleExhibitionDetails);
     }
+
+    // Appeler la fonction au chargement pour afficher la première exposition par défaut
+    toggleExhibitionDetails();
 });
 
 
-
-
-// function toggleBanOptions() {
-//     let option = document.getElementById('options').value;
-
-//     // Masquer toutes les options de bannissement
-//     document.getElementById('banTempDiv').style.display = 'none';
-//     document.getElementById('banDefDiv').style.display = 'none';
-
-//     // Afficher les options correspondantes
-//     if (option == 'Banni Temporairement') {
-//         document.getElementById('banTempDiv').style.display = 'block';
-//     } else if (option == 'Banni Définitivement') {
-//         document.getElementById('banDefDiv').style.display = 'block';
-//     }
-// } 
 
 
 

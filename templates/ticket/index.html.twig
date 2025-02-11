@@ -13,7 +13,7 @@
 <h2>Expositions</h2>
 {# {{ dump(priceByExhibit) }} #}
 
-<select id="exhibitionSelect" onchange="toggleExhibitionDetails()">
+<select id="exhibitionSelect">
     {% for exhibition in exhibitions %}               
     <option value="{{ exhibition.id }}">{{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}</option>
     {% endfor %}
