@@ -2,11 +2,16 @@
 
 {% block title %}Hello TicketController!{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }} {# appelle le bloc js de la base twig #}
+    <script src="{{ asset('js/tickets.js') }}"></script>  
+{% endblock %}
+
 {% block body %}
 <h1>Tickets</h1>
 
 <h2>Expositions</h2>
-{{ dump(priceByExhibit) }}
+{# {{ dump(priceByExhibit) }} #}
 
 <select id="exhibitionSelect" onchange="toggleExhibitionDetails()">
     {% for exhibition in exhibitions %}               

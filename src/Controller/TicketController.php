@@ -2,9 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Ticket;
-use App\Entity\Exhibition;
-use App\Entity\TicketPricing;
 use App\Repository\ExhibitionRepository;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\Response;
