@@ -2,17 +2,16 @@
 
 namespace App\Service;
 
+use Symfony\Component\HttpFoundation\RequestStack;
 
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Entity\Ticket;
 
 class BasketService 
 {
   private $session; //privée car uniquement nécessaire ici
 
-  public function __construct(SessionInterface $session)
+  public function __construct(RequestStack $requestStack)
   {
-    $this->session = $session;
+    $this->session = $requestStack->getSession();
   }
 
  
@@ -20,13 +19,19 @@ class BasketService
    public function basketCount(): int
    {
          
-       // Récupérer le panier depuis la session
-       $basket = $this->session->get('basket', []);
-   
-       // Compter le nombre total d'articles dans le panier
-       $totalBasket = array_sum($basket); // Additionne toutes les quantités
-   
-       return $totalBasket;
+       // Vérifier si la session est disponible
+      //  if ($this->session->isStarted()) {
+
+        // Récupérer le panier depuis la session
+        $basket = $this->session->get('basket', []);
+
+        // Compter le nombre total d'articles dans le panier
+        $totalBasket = array_sum($basket); // Additionne toutes les quantités
+
+        return $totalBasket;
+    // }
+
+    return 0; // Retourner 0 si la session n'est pas disponible
    }
 
 }

@@ -32,7 +32,14 @@
                         <li><a href="{{ path('home') }}">Accueil</a></li>
                         <li><a href="#">Blog</a></li>
                         <li><a href="{{ path('ticket') }}">Tickets</a></li>
-                        <li><a href="{{ path('order') }}">Panier {{ basketCount }}</a></li>
+                        <li>
+                            <a href="{{ path('order') }}">Panier 
+                                {# Affiche le compteur seulement s'il y a un produit #}
+                                {# {% if productCounter > 0 %}
+                                    ({{ productCounter }})
+                                {% endif %} #}
+                            </a>
+                        </li>
                     </ol>
 
                     <div class="burgerButton">

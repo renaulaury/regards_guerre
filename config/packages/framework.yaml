@@ -3,7 +3,12 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    # session: true < ligne d origine
+
+    session:
+        enabled: true
+        handler_id: null  # Utilisation du gestionnaire de session par défaut (enregistrements en fichiers)
+        save_path: '%kernel.cache_dir%/sessions'  # Emplacement des fichiers de session (si stockage par défaut)
 
     #esi: true
     #fragments: true
