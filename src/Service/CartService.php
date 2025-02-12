@@ -3,7 +3,7 @@
 namespace App\Service;
 
 
-use App\Entity\Product;
+use App\Entity\Ticket;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
@@ -36,27 +36,29 @@ class CartService
     return 0; // Retourner 0 si la session n'est pas disponible
   }
 
-  public function addCart(Product $product, int $qty = 1) 
+  public function addCart(Ticket $ticket = null, Goodies $goodies = null, int $qty = 1) 
   {  
     // Récupérer le panier depuis la session
     $cart = $this->session->get('cart', []);
 
-    // Ajouter le produit au panier 
-    if (isset($cart[$product->getId()])) {
-        $cart[$product->getId()] ['qty'] += $qty;
-    } else {
-        // Sinon, on l'ajoute au panier
-        $cart[$product->getId()] = [
-          'cart' => $product,
-          'qty' => $qty
-      ];
-    }
+    // Ajouter le ticket au panier 
+    if ($ticket) {
+      $ticketId = $ticket->getId();
+      if (isset($cart[$ticket->getId()])) {
+          $cart[$ticket->getId()] ['qty'] += $qty;
+      } else {
+          // Sinon, on l'ajoute au panier
+          $cart[$ticket->getId()] = [
+            'cart' => $ticket,
+            'qty' => $qty
+        ];
+      }
 
     // Sauvegarder à nouveau dans la session
     $this->session->set('cart', $cart);
   }
 }
-
+}
 
 // Ajouter un produit au panier
 // public function ajouterProduit(Produit $produit, int $quantite = 1)

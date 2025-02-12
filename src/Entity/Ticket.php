@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Entity;
-
-use App\Repository\TicketRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TicketRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -35,20 +34,20 @@ class Ticket
      * @var Collection<int, TicketPricing>
      */
     #[ORM\OneToMany(targetEntity: TicketPricing::class, mappedBy: 'ticket')]
-    private Collection $productPricings;
+    private Collection $ticketPricings;
 
     /**
      * @var Collection<int, OrderDetail>
      */
     #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'ticket')]
-    private Collection $orderDetails;
+    private Collection $orderDetail;
 
 
     public function __construct()
     {
         $this->types = new ArrayCollection();
-        $this->productPricings = new ArrayCollection();
-        $this->orderDetails = new ArrayCollection();
+        $this->ticketPricings = new ArrayCollection();
+        $this->orderDetail = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -120,8 +119,7 @@ class Ticket
         }
 
         return $this;
-    }
-   
+    }   
 
     
     /**
@@ -129,25 +127,25 @@ class Ticket
      */
     public function getTicketPricings(): Collection
     {
-        return $this->productPricings;
+        return $this->ticketPricings;
     }
 
-    public function addTicketPricing(TicketPricing $productPricing): static
+    public function addTicketPricing(TicketPricing $ticketPricing): static
     {
-        if (!$this->productPricings->contains($productPricing)) {
-            $this->productPricings->add($productPricing);
-            $productPricing->setTicket($this);
+        if (!$this->ticketPricings->contains($ticketPricing)) {
+            $this->ticketPricings->add($ticketPricing);
+            $ticketPricing->setTicket($this);
         }
 
         return $this;
     }
 
-    public function removeTicketPricing(TicketPricing $productPricing): static
+    public function removeTicketPricing(TicketPricing $ticketPricing): static
     {
-        if ($this->productPricings->removeElement($productPricing)) {
+        if ($this->ticketPricings->removeElement($ticketPricing)) {
             // set the owning side to null (unless already changed)
-            if ($productPricing->getTicket() === $this) {
-                $productPricing->setTicket(null);
+            if ($ticketPricing->getTicket() === $this) {
+                $ticketPricing->setTicket(null);
             }
         }
 
@@ -157,15 +155,15 @@ class Ticket
     /**
      * @return Collection<int, OrderDetail>
      */
-    public function getOrderDetails(): Collection
+    public function getOrderDetail(): Collection
     {
-        return $this->orderDetails;
+        return $this->orderDetail;
     }
 
     public function addOrderDetail(OrderDetail $orderDetail): static
     {
-        if (!$this->orderDetails->contains($orderDetail)) {
-            $this->orderDetails->add($orderDetail);
+        if (!$this->orderDetail->contains($orderDetail)) {
+            $this->orderDetail->add($orderDetail);
             $orderDetail->setTicket($this);
         }
 
@@ -174,7 +172,7 @@ class Ticket
 
     public function removeOrderDetail(OrderDetail $orderDetail): static
     {
-        if ($this->orderDetails->removeElement($orderDetail)) {
+        if ($this->orderDetail->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
             if ($orderDetail->getTicket() === $this) {
                 $orderDetail->setTicket(null);

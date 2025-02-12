@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 
-use App\Entity\Product;
+use App\Entity\Ticket;
 use App\Entity\Exhibition;
 use App\Service\CartService;
-use App\Repository\ProductRepository;
+use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -16,20 +16,20 @@ class CartController extends AbstractController
 {
    
     //Function to me / Ajoute des produits au panier
-    #[Route('/product/{exhibition}/addProductToCart/{product}', name: 'addProductToCart')]
-    public function addProductToCart(RequestStack $requestStack, ProductRepository $productRepo, Exhibition $exhibition, Product $product): Response
+    #[Route('/ticket/{exhibition}/addTicketToCart/{ticket}', name: 'addTicketToCart')]
+    public function addTicketToCart(RequestStack $requestStack, TicketRepository $ticketRepo, Exhibition $exhibition, Ticket $ticket): Response
     {
         //Récupére la session
         $session = $requestStack->getSession();
         
         //Ajout au panier grace au service
-        $product = $productRepo->addCart();
+        $ticket = $ticketRepo->addCart();
 
         
 
-        return $this->redirectToRoute('product', [
+        return $this->redirectToRoute('ticket', [
             'exhibition' => $exhibition->getId(),   
-            'product' => $product->getId(),            
+            'ticket' => $ticket->getId(),            
         ]);
     }
 }

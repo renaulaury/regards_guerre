@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductPricing;
+use App\Entity\TicketPricing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductPricing>
+ * @extends ServiceEntityRepository<TicketPricing>
  */
-class ProductPricingRepository extends ServiceEntityRepository
+class TicketPricingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductPricing::class);
+        parent::__construct($registry, TicketPricing::class);
     }
 
     //    /**
-    //     * @return ProductPricing[] Returns an array of ProductPricing objects
+    //     * @return TicketPricing[] Returns an array of TicketPricing objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ProductPricingRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ProductPricing
+    //    public function findOneBySomeField($value): ?TicketPricing
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

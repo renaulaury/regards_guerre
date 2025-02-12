@@ -18,7 +18,7 @@ class Type
 
     #[ORM\ManyToOne(inversedBy: 'types')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
+    private ?Ticket $ticket = null;
 
     public function getId(): ?int
     {
@@ -37,14 +37,14 @@ class Type
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getTicket(): ?Ticket
     {
-        return $this->product;
+        return $this->ticket;
     }
 
-    public function setProduct(?Product $product): static
+    public function setTicket(?Ticket $ticket): static
     {
-        $this->product = $product;
+        $this->ticket = $ticket;
 
         return $this;
     }

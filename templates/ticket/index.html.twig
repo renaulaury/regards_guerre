@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Hello TicketController!{% endblock %}
 
 {% block javascripts %}
     {{ parent() }} {# appelle le bloc js de la base twig #}
@@ -26,12 +26,12 @@
             {% if priceByExhibits.id == exhibition.id %} 
 
            <div>
-                <p>{{ priceByExhibits.titleProduct }}</p>
+                <p>{{ priceByExhibits.titleTicket }}</p>
                 <p>{{ priceByExhibits.standardPrice }} €</p>
             </div>
-            <img class="ticketImg" src="{{ priceByExhibits.imageProduct }}" alt="{{ priceByExhibits.imageProductAlt }}">
+            <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
-            <form method="POST" action="{{ path('addProductToCart', {'exhibition': exhibition.id, 'product' : priceByExhibits.productId}) }}"> 
+            <form method="POST" action="{{ path('addTicketToCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}"> 
 
                 <button type="submit" class="addDelTicket">
                     <i class="fa-solid fa-plus"></i>

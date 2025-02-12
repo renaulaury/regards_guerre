@@ -31,11 +31,11 @@ class Order
      * @var Collection<int, OrderDetail>
      */
     #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'order_')]
-    private Collection $orderDetails;
+    private Collection $orderDetail;
 
     public function __construct()
     {
-        $this->orderDetails = new ArrayCollection();
+        $this->orderDetail = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,13 +89,13 @@ class Order
      */
     public function getOrderDetails(): Collection
     {
-        return $this->orderDetails;
+        return $this->orderDetail;
     }
 
     public function addOrderDetail(OrderDetail $orderDetail): static
     {
-        if (!$this->orderDetails->contains($orderDetail)) {
-            $this->orderDetails->add($orderDetail);
+        if (!$this->orderDetail->contains($orderDetail)) {
+            $this->orderDetail->add($orderDetail);
             $orderDetail->setOrder($this);
         }
 
@@ -104,7 +104,7 @@ class Order
 
     public function removeOrderDetail(OrderDetail $orderDetail): static
     {
-        if ($this->orderDetails->removeElement($orderDetail)) {
+        if ($this->orderDetail->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
             if ($orderDetail->getOrder() === $this) {
                 $orderDetail->setOrder(null);

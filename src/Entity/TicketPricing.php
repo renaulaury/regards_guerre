@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductPricingRepository;
+use App\Repository\TicketPricingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductPricingRepository::class)]
-class ProductPricing
+#[ORM\Entity(repositoryClass: TicketPricingRepository::class)]
+class TicketPricing
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,11 +17,11 @@ class ProductPricing
     #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2)]
     private ?string $standardPrice = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productPricings')]
+    #[ORM\ManyToOne(inversedBy: 'ticketPricings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
+    private ?Ticket $ticket = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productPricings')]
+    #[ORM\ManyToOne(inversedBy: 'ticketPricings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Exhibition $exhibition = null;
 
@@ -42,14 +42,14 @@ class ProductPricing
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getTicket(): ?Ticket
     {
-        return $this->product;
+        return $this->ticket;
     }
 
-    public function setProduct(?Product $product): static
+    public function setTicket(?Ticket $ticket): static
     {
-        $this->product = $product;
+        $this->ticket = $ticket;
 
         return $this;
     }
