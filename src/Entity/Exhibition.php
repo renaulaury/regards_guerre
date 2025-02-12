@@ -76,6 +76,12 @@ class Exhibition
     #[ORM\OneToMany(targetEntity: ProductPricing::class, mappedBy: 'exhibition')]
     private Collection $productPricings;
 
+    #[ORM\Column]
+    private ?int $stockMax = null;
+
+    #[ORM\Column]
+    private ?int $stockAlert = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -391,6 +397,30 @@ class Exhibition
                 $productPricing->setExhibition(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStockMax(): ?int
+    {
+        return $this->stockMax;
+    }
+
+    public function setStockMax(int $stockMax): static
+    {
+        $this->stockMax = $stockMax;
+
+        return $this;
+    }
+
+    public function getStockAlert(): ?int
+    {
+        return $this->stockAlert;
+    }
+
+    public function setStockAlert(int $stockAlert): static
+    {
+        $this->stockAlert = $stockAlert;
 
         return $this;
     }

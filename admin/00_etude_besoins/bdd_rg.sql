@@ -79,17 +79,19 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
   `main_image_alt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hook_exhibit` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `subtitle_exhibit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stock_max` int NOT NULL,
+  `stock_alert` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_B8353389A76ED395` (`user_id`),
   CONSTRAINT `FK_B8353389A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.exhibition : ~4 rows (environ)
-REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`, `main_image_alt`, `hook_exhibit`, `subtitle_exhibit`) VALUES
-	(1, 2, 'Les camps d\'Algérie', '/images/events/20250509_algerie/00_main_image.webp', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', 'aa', 'aa'),
-	(2, 2, 'L\'Ukraine en résistance', '/images/events/20250603_guerre_ukraine/00_main_image.webp', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'aa', 'Un An d\'Invasion Russe'),
-	(3, 2, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902_femmes_palestine/00_main_image.webp', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.', 'Troupes de femmes militaires palestiniennes', 'aa', 'aa'),
-	(4, 2, 'L\'incident de Kyujo', '/images/events/20250509_algerie/00_main_image.webp', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.', 'aaa', 'aa', 'aa');
+REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`, `main_image_alt`, `hook_exhibit`, `subtitle_exhibit`, `stock_max`, `stock_alert`) VALUES
+	(1, 2, 'Les camps d\'Algérie', '/images/events/20250509_algerie/00_main_image.webp', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', 'aa', 'aa', 150, 10),
+	(2, 2, 'L\'Ukraine en résistance', '/images/events/20250603_guerre_ukraine/00_main_image.webp', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'aa', 'Un An d\'Invasion Russe', 150, 10),
+	(3, 2, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902_femmes_palestine/00_main_image.webp', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.', 'Troupes de femmes militaires palestiniennes', 'aa', 'aa', 150, 10),
+	(4, 2, 'L\'incident de Kyujo', '/images/events/20250509_algerie/00_main_image.webp', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.', 'aaa', 'aa', 'aa', 150, 10);
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -147,12 +149,13 @@ CREATE TABLE IF NOT EXISTS `product` (
   `image_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_product_alt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.product : ~0 rows (environ)
 REPLACE INTO `product` (`id`, `title_product`, `image_product`, `image_product_alt`) VALUES
 	(1, 'Ticket enfant dématérialisé', '/images/tickets/ticket_enfant.webp', 'Image du ticket enfant'),
-	(2, 'Ticket adulte dématérialisé ', '/images/tickets/ticket_enfant.webp', 'Image du ticket adulte');
+	(2, 'Ticket adulte dématérialisé ', '/images/tickets/ticket_enfant.webp', 'Image du ticket adulte'),
+	(5, 'Ticket enfant - 6 ans', '/images/tickets/ticket_enfant.webp', 'Image du ticket enfant -6ans');
 
 -- Listage de la structure de table regardsguerre. product_pricing
 CREATE TABLE IF NOT EXISTS `product_pricing` (

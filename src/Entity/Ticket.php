@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
+use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
-class Product
+#[ORM\Entity(repositoryClass: TicketRepository::class)]
+class Ticket
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,32 +16,33 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $titleProduct = null;
+    private ?string $titleTicket = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imageProduct = null;
+    private ?string $imageTicket = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imageProductAlt = null;
+    private ?string $imageTicketAlt = null;
 
     /**
      * @var Collection<int, Type>
      */
-    #[ORM\OneToMany(targetEntity: Type::class, mappedBy: 'product')]
+    #[ORM\OneToMany(targetEntity: Type::class, mappedBy: 'ticket')]
     private Collection $types;
 
    
     /**
-     * @var Collection<int, ProductPricing>
+     * @var Collection<int, TicketPricing>
      */
-    #[ORM\OneToMany(targetEntity: ProductPricing::class, mappedBy: 'product')]
+    #[ORM\OneToMany(targetEntity: TicketPricing::class, mappedBy: 'ticket')]
     private Collection $productPricings;
 
     /**
      * @var Collection<int, OrderDetail>
      */
-    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'product')]
+    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'ticket')]
     private Collection $orderDetails;
+
 
     public function __construct()
     {
@@ -55,38 +56,38 @@ class Product
         return $this->id;
     }
 
-    public function getTitleProduct(): ?string
+    public function getTitleTicket(): ?string
     {
-        return $this->titleProduct;
+        return $this->titleTicket;
     }
 
-    public function setTitleProduct(string $titleProduct): static
+    public function setTitleTicket(string $titleTicket): static
     {
-        $this->titleProduct = $titleProduct;
+        $this->titleTicket = $titleTicket;
 
         return $this;
     }
 
-    public function getImageProduct(): ?string
+    public function getImageTicket(): ?string
     {
-        return $this->imageProduct;
+        return $this->imageTicket;
     }
 
-    public function setImageProduct(string $imageProduct): static
+    public function setImageTicket(string $imageTicket): static
     {
-        $this->imageProduct = $imageProduct;
+        $this->imageTicket = $imageTicket;
 
         return $this;
     }
 
-    public function getImageProductAlt(): ?string
+    public function getImageTicketAlt(): ?string
     {
-        return $this->imageProductAlt;
+        return $this->imageTicketAlt;
     }
 
-    public function setImageProductAlt(string $imageProductAlt): static
+    public function setImageTicketAlt(string $imageTicketAlt): static
     {
-        $this->imageProductAlt = $imageProductAlt;
+        $this->imageTicketAlt = $imageTicketAlt;
 
         return $this;
     }
@@ -103,7 +104,7 @@ class Product
     {
         if (!$this->types->contains($type)) {
             $this->types->add($type);
-            $type->setProduct($this);
+            $type->setTicket($this);
         }
 
         return $this;
@@ -113,8 +114,8 @@ class Product
     {
         if ($this->types->removeElement($type)) {
             // set the owning side to null (unless already changed)
-            if ($type->getProduct() === $this) {
-                $type->setProduct(null);
+            if ($type->getTicket() === $this) {
+                $type->setTicket(null);
             }
         }
 
@@ -124,29 +125,29 @@ class Product
 
     
     /**
-     * @return Collection<int, ProductPricing>
+     * @return Collection<int, TicketPricing>
      */
-    public function getProductPricings(): Collection
+    public function getTicketPricings(): Collection
     {
         return $this->productPricings;
     }
 
-    public function addProductPricing(ProductPricing $productPricing): static
+    public function addTicketPricing(TicketPricing $productPricing): static
     {
         if (!$this->productPricings->contains($productPricing)) {
             $this->productPricings->add($productPricing);
-            $productPricing->setProduct($this);
+            $productPricing->setTicket($this);
         }
 
         return $this;
     }
 
-    public function removeProductPricing(ProductPricing $productPricing): static
+    public function removeTicketPricing(TicketPricing $productPricing): static
     {
         if ($this->productPricings->removeElement($productPricing)) {
             // set the owning side to null (unless already changed)
-            if ($productPricing->getProduct() === $this) {
-                $productPricing->setProduct(null);
+            if ($productPricing->getTicket() === $this) {
+                $productPricing->setTicket(null);
             }
         }
 
@@ -165,7 +166,7 @@ class Product
     {
         if (!$this->orderDetails->contains($orderDetail)) {
             $this->orderDetails->add($orderDetail);
-            $orderDetail->setProduct($this);
+            $orderDetail->setTicket($this);
         }
 
         return $this;
@@ -175,17 +176,17 @@ class Product
     {
         if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
-            if ($orderDetail->getProduct() === $this) {
-                $orderDetail->setProduct(null);
+            if ($orderDetail->getTicket() === $this) {
+                $orderDetail->setTicket(null);
             }
         }
 
         return $this;
     }
-
-    public function __toString()
+    
+        public function __toString()
     {
-        $this->titleProduct;
+        $this->titleTicket;
     }
 
 }
