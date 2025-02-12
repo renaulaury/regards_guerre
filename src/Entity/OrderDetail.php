@@ -27,9 +27,10 @@ class OrderDetail
     private ?Exhibition $exhibition = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderDetails')]
-    private ?Ticket $ticket = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
 
-    public function getId(): ?int
+   public function getId(): ?int
     {
         return $this->id;
     }
@@ -82,15 +83,17 @@ class OrderDetail
         return $this;
     }
 
-    public function getTicket(): ?Ticket
+    public function getProduct(): ?Product
     {
-        return $this->ticket;
+        return $this->product;
     }
 
-    public function setTicket(?Ticket $ticket): static
+    public function setProduct(?Product $product): static
     {
-        $this->ticket = $ticket;
+        $this->product = $product;
 
         return $this;
     }
+
+    
 }

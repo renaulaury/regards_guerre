@@ -9,11 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController
 {
-    #[Route('/order', name: 'order')]
+    //Affiche les produits du panier
+    #[Route('/order/cart', name: 'order')]
     public function index(): Response
     {
-        return $this->render('order/index.html.twig', [
-            'controller_name' => 'OrderController',
+
+
+        return $this->render('order/cart.html.twig', [
         ]);
     }
 

@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\TicketPricing;
+use App\Entity\ProductPricing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TicketPricing>
+ * @extends ServiceEntityRepository<ProductPricing>
  */
-class TicketPricingRepository extends ServiceEntityRepository
+class ProductPricingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TicketPricing::class);
+        parent::__construct($registry, ProductPricing::class);
     }
 
     //    /**
-    //     * @return TicketPricing[] Returns an array of TicketPricing objects
+    //     * @return ProductPricing[] Returns an array of ProductPricing objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
+    //            ->orderBy('p.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?TicketPricing
+    //    public function findOneBySomeField($value): ?ProductPricing
     //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

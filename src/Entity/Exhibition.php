@@ -47,12 +47,6 @@ class Exhibition
     private Collection $orderDetails;
 
     /**
-     * @var Collection<int, TicketPricing>
-     */
-    #[ORM\OneToMany(targetEntity: TicketPricing::class, mappedBy: 'exhibition')]
-    private Collection $ticketPricings;
-
-    /**
      * @var Collection<int, Show>
      */
     #[ORM\OneToMany(targetEntity: Show::class, mappedBy: 'exhibition')]
@@ -76,12 +70,18 @@ class Exhibition
     #[ORM\Column(length: 255)]
     private ?string $subtitleExhibit = null;
 
+    /**
+     * @var Collection<int, ProductPricing>
+     */
+    #[ORM\OneToMany(targetEntity: ProductPricing::class, mappedBy: 'exhibition')]
+    private Collection $productPricings;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
-        $this->ticketPricings = new ArrayCollection();
         $this->shows = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->productPricings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,36 +287,7 @@ class Exhibition
         return $this;
     }
 
-    /**
-     * @return Collection<int, TicketPricing>
-     */
-    public function getTicketPricings(): Collection
-    {
-        return $this->ticketPricings;
-    }
-
-    public function addTicketPricing(TicketPricing $ticketPricing): static
-    {
-        if (!$this->ticketPricings->contains($ticketPricing)) {
-            $this->ticketPricings->add($ticketPricing);
-            $ticketPricing->setExhibition($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicketPricing(TicketPricing $ticketPricing): static
-    {
-        if ($this->ticketPricings->removeElement($ticketPricing)) {
-            // set the owning side to null (unless already changed)
-            if ($ticketPricing->getExhibition() === $this) {
-                $ticketPricing->setExhibition(null);
-            }
-        }
-
-        return $this;
-    }
-
+   
     /**
      * @return Collection<int, Show>
      */
@@ -394,7 +365,36 @@ class Exhibition
         $this->titleExhibit;
     }
 
-   
+    /**
+     * @return Collection<int, ProductPricing>
+     */
+    public function getProductPricings(): Collection
+    {
+        return $this->productPricings;
+    }
+
+    public function addProductPricing(ProductPricing $productPricing): static
+    {
+        if (!$this->productPricings->contains($productPricing)) {
+            $this->productPricings->add($productPricing);
+            $productPricing->setExhibition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductPricing(ProductPricing $productPricing): static
+    {
+        if ($this->productPricings->removeElement($productPricing)) {
+            // set the owning side to null (unless already changed)
+            if ($productPricing->getExhibition() === $this) {
+                $productPricing->setExhibition(null);
+            }
+        }
+
+        return $this;
+    }
+ 
 }
 
 

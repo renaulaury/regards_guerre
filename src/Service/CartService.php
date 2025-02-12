@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
+
+use App\Entity\Product;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
-class BasketService 
+class CartService 
 {
   private $session; //privée car uniquement nécessaire ici
 
@@ -16,25 +18,45 @@ class BasketService
 
  
      //Compteur de produit dans le panier
-   public function basketCount(): int
+   public function cartCount(): int
    {
          
        // Vérifier si la session est disponible
-      //  if ($this->session->isStarted()) {
+       if ($this->session->isStarted()) {
 
         // Récupérer le panier depuis la session
-        $basket = $this->session->get('basket', []);
+        $cart = $this->session->get('cart', []);
 
         // Compter le nombre total d'articles dans le panier
-        $totalBasket = array_sum($basket); // Additionne toutes les quantités
+        $totalCart = array_sum($cart); // Additionne toutes les quantités
 
-        return $totalBasket;
-    // }
+        return $totalCart;
+    }
 
     return 0; // Retourner 0 si la session n'est pas disponible
-   }
+  }
 
+  public function addCart(Product $product, int $qty = 1) 
+  {  
+    // Récupérer le panier depuis la session
+    $cart = $this->session->get('cart', []);
+
+    // Ajouter le produit au panier 
+    if (isset($cart[$product->getId()])) {
+        $cart[$product->getId()] ['qty'] += $qty;
+    } else {
+        // Sinon, on l'ajoute au panier
+        $cart[$product->getId()] = [
+          'cart' => $product,
+          'qty' => $qty
+      ];
+    }
+
+    // Sauvegarder à nouveau dans la session
+    $this->session->set('cart', $cart);
+  }
 }
+
 
 // Ajouter un produit au panier
 // public function ajouterProduit(Produit $produit, int $quantite = 1)

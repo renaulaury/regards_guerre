@@ -2,49 +2,36 @@
 
 namespace App\Controller;
 
-use App\Entity\Ticket;
+
+use App\Entity\Product;
 use App\Entity\Exhibition;
-use App\Service\BasketService;
-use Symfony\Component\HttpFoundation\Request;
+use App\Service\CartService;
+use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class BasketController extends AbstractController
+class CartController extends AbstractController
 {
-    private $basketService; //privée car uniquement nécessaire ici
-
-    public function __construct(BasketService $basketService)
+   
+    //Function to me / Ajoute des produits au panier
+    #[Route('/product/{exhibition}/addProductToCart/{product}', name: 'addProductToCart')]
+    public function addProductToCart(RequestStack $requestStack, ProductRepository $productRepo, Exhibition $exhibition, Product $product): Response
     {
-        $this->basketService = $basketService;
+        //Récupére la session
+        $session = $requestStack->getSession();
+        
+        //Ajout au panier grace au service
+        $product = $productRepo->addCart();
+
+        
+
+        return $this->redirectToRoute('product', [
+            'exhibition' => $exhibition->getId(),   
+            'product' => $product->getId(),            
+        ]);
     }
-
-    //Function to me
-    // #[Route('/ticket/{exhibition}/addTicketToBasket/{ticket}', name: 'addTicketToBasket')]
-    // public function addTicketToBasket(Request $request, Exhibition $exhibition, Ticket $ticket): Response
-    // {
-
-    //     //Récupére la session
-    //     $session = $request->getSession();
-
-    //     // Récupérer le panier depuis la session
-    //     $basket = $session->get('basket', []);
-
-    //     // Ajouter le ticket au panier ou augmenter la quantité
-    //     if (isset($basket[$ticket->getId()])) {
-    //         $basket[$ticket->getId()]++;
-    //     } else {
-    //         $basket[$ticket->getId()] = 1;
-    //     }
-
-    //     // Sauvegarder à nouveau dans la session
-    //     $session->set('basket', $basket);
-
-    //     return $this->redirectToRoute('ticket', [
-    //         'exhibition' => $exhibition->getId(),   
-    //         'ticket' => $ticket->getId(),            
-    //     ]);
-    // }
 }
     // #[Route('/ajouter-au-panier/{id}', name: 'ajouter_panier')]
     // public function ajouterProduit(int $id): Response
