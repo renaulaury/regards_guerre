@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `show` (
   CONSTRAINT `FK_320ED901B7970CF8` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.show : ~4 rows (environ)
+-- Listage des données de la table regardsguerre.show : ~0 rows (environ)
 REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_photo`, `artist_job`, `artist_bio`, `artist_text_art`, `artist_photo_alt`) VALUES
 	(1, 1, 1, 3, '/images/events/20250509_algerie/01_artiste1.webp', 'poétesse', 'Née en Algérie, Anna Garrigue était une militante et poétesse engagée dans la lutte pour l’indépendance de l’Algérie. Emprisonnée pendant la guerre, elle a écrit des poèmes marqués par la douleur de l\'exil et le combat pour la liberté.', '\nLe travail poétique d\'Anna Garrigue est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.', 'photo'),
 	(2, 4, 1, 5, '/images/events/20250509_algerie/02_artiste2.webp', 'photographe', 'Jean Moribon était un photographe suisse humaniste, reconnu pour ses reportages poignants sur les conflits et les crises sociales, notamment la guerre d\'Algérie.', '\nSon travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.', 'photo'),
@@ -195,9 +195,9 @@ CREATE TABLE IF NOT EXISTS `ticket` (
 
 -- Listage des données de la table regardsguerre.ticket : ~3 rows (environ)
 REPLACE INTO `ticket` (`id`, `title_ticket`, `image_ticket`, `image_ticket_alt`) VALUES
-	(1, 'Ticket adulte dématérialisé', '/images/tickets/ticket_adult.webp', 'Image du ticket adulte'),
-	(2, 'Ticket enfant dématérialisé', '/images/tickets/ticket_adult.webp', 'Image du ticket enfant'),
-	(3, 'Ticket enfant -6ans dématérialisé', '/images/tickets/', 'Image du ticket jeune enfant');
+	(1, 'Adulte dématérialisé', '/images/tickets/ticket_adult.webp', 'Image du ticket adulte'),
+	(2, 'Enfant dématérialisé', '/images/tickets/ticket_adult.webp', 'Image du ticket enfant'),
+	(3, 'Enfant -6ans dématérialisé', '/images/tickets/', 'Image du ticket jeune enfant');
 
 -- Listage de la structure de table regardsguerre. ticket_pricing
 CREATE TABLE IF NOT EXISTS `ticket_pricing` (
@@ -228,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `type` (
   CONSTRAINT `FK_8CDE5729700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.type : ~2 rows (environ)
+-- Listage des données de la table regardsguerre.type : ~0 rows (environ)
 REPLACE INTO `type` (`id`, `ticket_id`, `title_type`) VALUES
 	(1, 2, 'Ticket'),
 	(2, 1, 'Ticket');
