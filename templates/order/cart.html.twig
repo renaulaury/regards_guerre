@@ -16,7 +16,8 @@
         <p class="thUsers">Ticket</p>
         <p class="thUsers">Quantité</p>
         <p class="thUsers">Prix Unitaire</p>
-        {# <p class="thUsers">Total</p> #}
+        <p class="thUsers">Total</p>
+        <p></p>
         
         
         {% for product in cart %} 
@@ -24,13 +25,13 @@
             <p>{{ product.ticket }}</p>
             <p>{{ product.qty }}</p>
             <p>{{ product.price }}</p> 
-            
-            {# <p>{{ product.price * product.qty }}€</p> #}
-            <p>
-                {# <a href="{{ path('cart_remove', {'id': id}) }}"> Supprimer</a> #}
-            </p>
-            
+            <p>total</p>{# <p>{{ product.price * product.qty }}€</p> #}    
+
+            {{ dump(product) }}
+            {# <p><a href="{{ path('removeProduct', {'id': product.id}) }}"> <i class="fa-solid fa-trash-can"></i></a> #}
+            </p>     
         {% endfor %}
+        
        
 
     {# <p>Total : {{ total }}€</p> #}

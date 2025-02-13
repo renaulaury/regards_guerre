@@ -1,4 +1,18 @@
+# D'origine dans symfony
 when@dev:
     _errors:
         resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
         prefix: /_error
+
+
+# Rajouté : 
+# framework:
+#     session:
+#         enabled: true  # Assurez-vous que la gestion de session est activée
+#         handler_id: null  # Utilisez null pour utiliser le gestionnaire par défaut ou définissez-le selon vos besoins
+#         storage_id: session.storage.native  # Définit le type de stockage de session, ici par défaut en mémoire
+
+#     # Gestion des erreurs (si nécessaire)
+#     _errors:
+#         resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
+#         prefix: /_error

@@ -48,7 +48,7 @@
 
             <p>1</p>
             
-            <form method="POST" action="{{ path('removeTicketToCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}">
+            <form method="POST" action="{{ path('removeTicketFromCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}">
 
                 <button type="submit" class="addDelTicket">
                 <i class="fa-solid fa-minus"></i>

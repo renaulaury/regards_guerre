@@ -46,8 +46,8 @@ class CartController extends AbstractController
     }
 
     /************* Retire un ticket au panier ***************/
-    #[Route('/ticket/{exhibition}/removeTicketToCart/{ticket}', name: 'removeTicketToCart')]
-    public function removeTicketToCart(CartService $cartService, Exhibition $exhibition, Ticket $ticket): Response
+    #[Route('/ticket/{exhibition}/removeTicketFromCart/{ticket}', name: 'removeTicketFromCart')]
+    public function removeTicketFromCart(CartService $cartService, Exhibition $exhibition, Ticket $ticket): Response
     {
         // Ajout au panier via le service
         $cartService->removeCart($ticket);
@@ -59,15 +59,16 @@ class CartController extends AbstractController
     }
 
     /************* Vide le panier ***************/
+
+    /* Confirmation de suppression du panier */
     #[Route('/order/deleteCartConfirm', name: 'deleteCartConfirm')]
     public function deleteCartConfirm(): Response
-    {
-
+    {    
         return $this->render('order/deleteCartConfirm.html.twig', [
     ]);
     }
 
-
+    /* Vider le panier définitivement */
     #[Route('/order/cart/delete', name: 'deleteCart')]
     public function deleteCart(CartService $cartService): Response
     {
@@ -75,6 +76,18 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('cart'); // Redirige vers la page du panier
     }
+
+    /********************** Retirer un article du panier *****************/
+    #[Route('/order/cart/remove/{id}', name: 'productRemove')]
+    public function removeProductToCart(CartService $cartService, int $id): Response
+    {
+        $cartService->removeProduct($id); // Appelle la fonction pour supprimer l'élément
+
+        return $this->redirectToRoute('cart'); 
+    }
+
+
+
 
 
     
