@@ -6,5 +6,36 @@
 
 <h1>Panier</h1>
 
-<h4>Petit panier sympathique :)</h4>
+<section class="summaryCart">
+
+    {% if cart is empty %} 
+    <p>Votre panier est vide.</p>
+    
+    {% else %}    
+        <p class="thUsers">Exposition</p>
+        <p class="thUsers">Ticket</p>
+        <p class="thUsers">Quantité</p>
+        <p class="thUsers">Prix Unitaire</p>
+        {# <p class="thUsers">Total</p> #}
+        
+        
+        {% for product in cart %} 
+            <p>{{ product.exhibition }}</p> 
+            <p>{{ product.ticket }}</p>
+            <p>{{ product.qty }}</p>
+            <p>{{ product.price }}</p> 
+            
+            {# <p>{{ product.price * product.qty }}€</p> #}
+            <p>
+                {# <a href="{{ path('cart_remove', {'id': id}) }}"> Supprimer</a> #}
+            </p>
+            
+        {% endfor %}
+       
+
+    {# <p>Total : {{ total }}€</p> #}
+
+    <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
+    {% endif %}
+</section>
 {% endblock %}

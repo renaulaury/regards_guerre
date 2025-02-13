@@ -78,6 +78,6 @@ class Room
 
     public function __toString()
     {
-        $this->titleRoom;
+        return $this->titleRoom;
     }
 }

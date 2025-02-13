@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+
+<h1>Panier</h1>
+
+<section>
+
+    <p>Etes vous sur de vouloir supprimer votre panier ?</p>
+
+    <a href="{{ path('deleteCart') }}" >Oui</a>
+    <a href="{{ path('cart') }}" >Non</a>
+</section>
+{% endblock %}

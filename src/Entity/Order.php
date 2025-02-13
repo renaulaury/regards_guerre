@@ -116,7 +116,7 @@ class Order
 
     public function __toString()
     {
-        $this->orderStatus;
+        return $this->orderStatus;
     }
 
     

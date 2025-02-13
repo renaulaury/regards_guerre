@@ -26,7 +26,15 @@
             {% if priceByExhibits.id == exhibition.id %} 
 
            <div>
-                <p>{{ priceByExhibits.titleTicket }}</p>
+                <p>Ticket {{ priceByExhibits.titleTicket }} 
+                    {# Verification si le ticket est dans le panier  #}
+                    {% if cart[priceByExhibits.ticketId] is defined %}
+                        <span>({{ cart[priceByExhibits.ticketId].qty }})</span>
+                    {% else %}
+                        <span></span>
+                    {% endif %}
+                </p>
+
                 <p>{{ priceByExhibits.standardPrice }} €</p>
             </div>
             <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
@@ -38,12 +46,14 @@
                 </button>
             </form>
 
-            <p>ti chiffre qui doit évoluer ou pas</p>
+            <p>1</p>
             
+            <form method="POST" action="{{ path('removeTicketToCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}">
 
-            <button type="submit" class="addDelTicket">
+                <button type="submit" class="addDelTicket">
                 <i class="fa-solid fa-minus"></i>
-            </button>
+                </button>
+            </form>
             {% endif %}
         {% endfor %}
     </div>

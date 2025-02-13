@@ -68,7 +68,7 @@ class TicketPricing
     
     public function __toString()
     {
-        $this->standardPrice;
+        return $this->standardPrice;
     }
 
 }

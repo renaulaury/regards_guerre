@@ -10,6 +10,7 @@ import './styles/navBurgerFooter.css';
 import './styles/home.css';
 import './styles/exhibition.css';
 import './styles/ticket.css';
+import './styles/cart.css';
 // import './styles/media.css';
 
 

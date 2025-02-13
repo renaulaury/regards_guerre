@@ -182,9 +182,9 @@ class Ticket
         return $this;
     }
     
-        public function __toString()
+    public function __toString()
     {
-        $this->titleTicket;
+        return $this->titleTicket;
     }
 
 }
