@@ -6,7 +6,6 @@ use App\Entity\Ticket;
 use App\Entity\Exhibition;
 use App\Service\CartService;
 use App\Repository\TicketRepository;
-use App\Repository\TicketPricingRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,29 +33,28 @@ class CartController extends AbstractController
     }
 
     /************* Ajoute un ticket au panier  ***************/
-    #[Route('/ticket/{exhibition}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
-    public function addTicketToCart(CartService $cartService, Exhibition $exhibition, TicketRepository $ticketRepo, int $ticketId, string $origin): Response
-    {
-        // Ajout au panier via le service
-        $ticket = $ticketRepo->findPriceByTicket($ticketId);
+    #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
+public function addTicketToCart(CartService $cartService, TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
+{
+    // Récupération du ticket via le repository
+    $ticket = $ticketRepo->find($ticketId);
 
-        $cartService->addCart($ticket);
 
-        if ($origin === 'ticket') { // Si l'origine est 'ticket', rediriger vers la page de ventes des tickets
-            return $this->redirectToRoute('ticket', [
-                'exhibition' => $exhibition->getId()
-            ]);
-        }
+    // Ajout du ticket au panier via le service
+    $cartService->addCart($ticket);
 
-        if ($origin === 'cart') { // Si l'origine est 'cart', rediriger vers le panier
-            return $this->redirectToRoute('cart', [
-                'exhibition' => $exhibition->getId()
-            ]);
-        }
+    // Redirection en fonction de l'origine
+    if ($origin === 'ticket') {
+        return $this->redirectToRoute('ticket', ['exhibition' => $exhibitionId]);
+    }
+
+    if ($origin === 'cart') {
+        return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
+    }
     }
 
 /************* Soustrait un produit au panier ***************/
-    #[Route('/ticket/{exhibition}/removeTicketFromCart/{ticket}/{origin}', name: 'removeTicketFromCart')]
+    #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticket}/{origin}', name: 'removeTicketFromCart')]
     public function removeTicketFromCart(CartService $cartService, Exhibition $exhibition, Ticket $ticket, string $origin): Response
     {
         // Soustraction au panier via le service

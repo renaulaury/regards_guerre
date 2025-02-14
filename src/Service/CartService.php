@@ -5,18 +5,20 @@ namespace App\Service;
 
 use App\Entity\Ticket;
 use App\Repository\OrderRepository;
+use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class CartService 
 {
   private $session; //privée car uniquement nécessaire ici
-  private $orderRepository;
+  private TicketRepository $ticketRepository;
 
-  public function __construct(RequestStack $requestStack, OrderRepository $orderRepo)
+  public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo)
   {
     $this->session = $requestStack->getSession();
-    $this->orderRepository = $orderRepo;
+    
+    $this->ticketRepository = $ticketRepo;
   }
 
   public function getCart(): array
@@ -31,29 +33,84 @@ class CartService
 
 
     /************* Ajouter un produit au panier ****************/
-  
+
     public function addCart(Ticket $ticket = null, int $qty = 1)
-    {
-        // Récupérer le panier depuis la session
-        $cart = $this->getCart();
+{
+    // Récupérer le panier depuis la session
+    $cart = $this->getCart();
 
-        if ($ticket) {
-            $ticketId = $ticket->getId();
-            
+    if ($ticket) {
+        // Récupérer les informations via le repository
+        $ticketId = $ticket->getId();
+        $ticketDetails = $this->ticketRepository->findTicketDetails($ticketId);
 
-            // Si le ticket est déjà dans le panier, on augmente la quantité, sinon on l'ajoute
+        // Vérifier si on a bien récupéré les informations nécessaires
+        if ($ticketDetails) {
+            $exhibition = $ticketDetails['exhibition'];
+            $exhibitionId = $ticketDetails['exhibitionId'];
+            $price = $ticketDetails['price'];
+
+            // Si le ticket est déjà dans le panier, on met à jour la quantité
             if (isset($cart[$ticketId])) {
                 $cart[$ticketId]['qty'] += $qty;
             } else {
+                // Sinon, on ajoute le ticket au panier avec ses informations
                 $cart[$ticketId] = [
                     'ticket' => $ticket,
+                    'exhibition' => $exhibition,
+                    'exhibitionId' => $exhibitionId,
                     'qty' => $qty,
+                    'price' => $price,
                 ];
             }
-        }       
-            // Enregistrement des changements dans la session
-            $this->session->set('cart', $cart);
+        }
     }
+
+    // Sauvegarde du panier dans la session
+    $this->session->set('cart', $cart);
+}
+
+
+  
+//     public function addCart(Ticket $ticket = null, int $qty = 1)
+// {
+//     $cart = $this->getCart();
+
+//     if ($ticket) {
+//         $ticketId = $ticket->getId();
+
+//         // Appel au repository pour récupérer les infos du ticket
+//         $ticketDetails = $this->orderRepository->showInfosCart();
+
+//         // Recherche des informations du ticket spécifique
+//         $ticketInfo = null;
+//         foreach ($ticketDetails as $detail) {
+//             if ($detail['id'] === $ticketId) {
+//                 $ticketInfo = $detail;
+//                 break;
+//             }
+//         }
+
+//         if ($ticketInfo) {
+//             $exhibition = $ticketInfo['titleExhibit'];
+//             $price = $ticketInfo['standardPrice'];
+
+//             if (isset($cart[$ticketId])) {
+//                 $cart[$ticketId]['qty'] += $qty;
+//             } else {
+//                 $cart[$ticketId] = [
+//                     'ticket' => $ticket,
+//                     'exhibition' => $exhibition,
+//                     'qty' => $qty,
+//                     'price' => $price,
+//                 ];
+//             }
+//         }
+//     }
+
+//     $this->session->set('cart', $cart);
+// }
+
 
  
 // if ($ticket) {

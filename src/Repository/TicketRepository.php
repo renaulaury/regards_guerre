@@ -34,24 +34,35 @@ class TicketRepository extends ServiceEntityRepository
        return $queryBuilder->getQuery()->getResult();
    }
 
-   public function findPriceByTicket($ticketId) {
+//    public function findTicketWithPrice($ticketId) {
 
-    // return $this->createQueryBuilder('t')
-    // ->leftJoin('t.ticketPricings', 'tp')
-    // ->leftJoin('tp.exhibition', 'e')
-    // ->addSelect('tp', 'e')
-    // ->where('t.id = :ticketId')
-    // ->setParameter('ticketId', $ticketId)
-    // ->getQuery()
-    // ->getOneOrNullResult();
-    $qb = $this->createQueryBuilder('t')
-        ->leftJoin('t.ticketPricings', 'tp') // Jointure avec TicketPricing
-        ->addSelect('tp') // Sélectionner également les entités Exhibition et TicketPricing
-        ->where('t.id = :ticketId') // Condition pour filtrer par l'ID du Ticket
-        ->setParameter('ticketId', $ticketId);
+//     // return $this->createQueryBuilder('t')
+//     // ->leftJoin('t.ticketPricings', 'tp')
+//     // ->leftJoin('tp.exhibition', 'e')
+//     // ->addSelect('tp', 'e')
+//     // ->where('t.id = :ticketId')
+//     // ->setParameter('ticketId', $ticketId)
+//     // ->getQuery()
+//     // ->getOneOrNullResult();
+//     $qb = $this->createQueryBuilder('t')
+//         ->leftJoin('t.ticketPricings', 'tp') // Jointure avec TicketPricing
+//         ->addSelect('tp') // Sélectionner également les entités Exhibition et TicketPricing
+//         ->where('t.id = :ticketId') // Condition pour filtrer par l'ID du Ticket
+//         ->setParameter('ticketId', $ticketId);
 
-        return $qb->getQuery()->getOneOrNullResult();
-}  
+//         return $qb->getQuery()->getOneOrNullResult();
+// }  
+public function findTicketDetails(int $ticketId): ?array
+{
+    return $this->createQueryBuilder('t')
+        ->select('e.titleExhibit AS exhibition, e.id AS exhibitionId, tp.standardPrice AS price')
+        ->join('t.ticketPricings', 'tp')
+        ->join('tp.exhibition', 'e')
+        ->where('t.id = :ticketId')
+        ->setParameter('ticketId', $ticketId)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 
    
 }

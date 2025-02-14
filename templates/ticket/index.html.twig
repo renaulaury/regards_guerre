@@ -41,7 +41,7 @@
 
             {# {{ dump(cart) }} #}
             {# {% if qty > 1 %} #}
-                <a href="{{ path('removeTicketFromCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticket' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                     <i class="fa-solid fa-minus"></i>
                 </a>
                 <p>1</p>
@@ -50,7 +50,7 @@
 
             
             
-            <a href="{{ path('addTicketToCart', {'exhibition': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                 <i class="fa-solid fa-plus"></i>
             </a>
             
