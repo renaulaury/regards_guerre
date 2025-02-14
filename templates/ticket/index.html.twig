@@ -39,21 +39,16 @@
             </div>
             <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
-            <form method="POST" action="{{ path('addTicketToCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}"> 
-
-                <button type="submit" class="addDelTicket">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            </form>
+            <a href="{{ path('addTicketToCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+                
 
             <p>1</p>
             
-            <form method="POST" action="{{ path('removeTicketFromCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId}) }}">
-
-                <button type="submit" class="addDelTicket">
+            <a href="{{ path('removeTicketFromCart', {'exhibition': exhibition.id, 'ticket' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                 <i class="fa-solid fa-minus"></i>
-                </button>
-            </form>
+            </a>
             {% endif %}
         {% endfor %}
     </div>

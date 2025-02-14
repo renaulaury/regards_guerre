@@ -4,7 +4,6 @@ namespace App\Service;
 
 
 use App\Entity\Ticket;
-use App\Entity\TicketPricing;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
@@ -42,6 +41,8 @@ class CartService
         // Récupération de l'exposition associée
         $exhibition = $ticket->getTicketPricings()->first()->getExhibition()->getTitleExhibit();
 
+        $exhibitionId = $ticket->getTicketPricings()->first()->getExhibition()->getId();
+
         // Récupérer le prix standard
         $price = $ticket->getTicketPricings()->first()->getStandardPrice();
 
@@ -55,6 +56,7 @@ class CartService
                 $cart[$ticketId] = [
                     'ticket' => $ticket,
                     'exhibition' => $exhibition,
+                    'exhibitionId' => $exhibitionId,
                     'qty' => $qty,
                     'price' => $price,
                 ];

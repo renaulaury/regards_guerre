@@ -14,7 +14,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: var(--background);
     color: var(--ftColor);      
     text-align: justify;
 }
@@ -27,6 +26,7 @@ body {
     display: flex;
     flex-direction: column;    
     font-size: 2em;  
+    background-color: var(--background);
 }
 
 a {

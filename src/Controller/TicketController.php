@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 
+use App\Entity\Ticket;
+use App\Entity\Exhibition;
 use App\Service\CartService;
 use App\Repository\TicketRepository;
 use App\Repository\ExhibitionRepository;
@@ -30,6 +32,8 @@ final class TicketController extends AbstractController
             'cart' => $cart,          
         ]);
 }
+
+
 
     
 }
