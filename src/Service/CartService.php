@@ -4,16 +4,19 @@ namespace App\Service;
 
 
 use App\Entity\Ticket;
+use App\Repository\OrderRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class CartService 
 {
   private $session; //privée car uniquement nécessaire ici
+  private $orderRepository;
 
-  public function __construct(RequestStack $requestStack)
+  public function __construct(RequestStack $requestStack, OrderRepository $orderRepo)
   {
-    $this->session = $requestStack->getCurrentRequest()->getSession();
+    $this->session = $requestStack->getSession();
+    $this->orderRepository = $orderRepo;
   }
 
   public function getCart(): array
@@ -21,58 +24,39 @@ class CartService
     return $this->session->get('cart', []);
   }
 
-  public function setCart(): array
+  public function setCart(array $cart): void
   {
-    return $this->session->get('cart', []);
+    $this->session->get('cart', $cart);
   }
 
 
     /************* Ajouter un produit au panier ****************/
   
     public function addCart(Ticket $ticket = null, int $qty = 1)
-{
-    // Récupérer le panier depuis la session
-    $cart = $this->getCart();
+    {
+        // Récupérer le panier depuis la session
+        $cart = $this->getCart();
 
-    if ($ticket) {
-        // Récupérer les informations via le repository
-        $ticketId = $ticket->getId();
-        
-        // Récupération de l'exposition associée
-        $exhibition = $ticket->getTicketPricings()->first()->getExhibition()->getTitleExhibit();
+        if ($ticket) {
+            $ticketId = $ticket->getId();
+            
 
-        $exhibitionId = $ticket->getTicketPricings()->first()->getExhibition()->getId();
-
-        // Récupérer le prix standard
-        $price = $ticket->getTicketPricings()->first()->getStandardPrice();
-
-        // Si l'exposition et le prix sont disponibles, ajoutez-les au panier
-        if ($exhibition && $price) {
-            // Si le ticket est déjà dans le panier, on met à jour la quantité
+            // Si le ticket est déjà dans le panier, on augmente la quantité, sinon on l'ajoute
             if (isset($cart[$ticketId])) {
                 $cart[$ticketId]['qty'] += $qty;
             } else {
-                // Sinon, on ajoute le ticket au panier avec ses informations
                 $cart[$ticketId] = [
                     'ticket' => $ticket,
-                    'exhibition' => $exhibition,
-                    'exhibitionId' => $exhibitionId,
                     'qty' => $qty,
-                    'price' => $price,
                 ];
             }
-        }
+        }       
+            // Enregistrement des changements dans la session
+            $this->session->set('cart', $cart);
     }
-    
-    // Stocker le panier dans la session
-    $this->session->set('cart', $cart);
-  }
 
-
-
-
-
-    // if ($ticket) {
+ 
+// if ($ticket) {
     //   $ticketId = $ticket->getId();
     //   $ticketPricings = $ticket->getTicketPricings();
 
@@ -90,6 +74,8 @@ class CartService
     //Ici le même code adapter pour l'ajout de goodies au panier plus tard
     
  
+
+
  /************* Soustraire un produit ****************/
   
  public function removeCart(Ticket $ticket, int $qty = 1)
@@ -115,7 +101,6 @@ class CartService
      // Sauvegarde dans la session
      $this->session->set('cart', $cart);
  }
- 
 
 
    /************* Supprime le panier complet ****************/
@@ -138,6 +123,8 @@ class CartService
         $this->session->set('cart', $cart); // Met à jour la session
   }
 
+  
+
   //    /************* Compteur de produit dans le panier ****************/
   public function cartCount(): int
   {
@@ -152,20 +139,6 @@ class CartService
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /************************************************************************* */
 
 
 

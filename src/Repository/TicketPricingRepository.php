@@ -16,28 +16,15 @@ class TicketPricingRepository extends ServiceEntityRepository
         parent::__construct($registry, TicketPricing::class);
     }
 
-    //    /**
-    //     * @return TicketPricing[] Returns an array of TicketPricing objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    // public function findPriceByTicket($ticketId) {
 
-    //    public function findOneBySomeField($value): ?TicketPricing
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    //     return $this->createQueryBuilder('tp')
+    //     ->innerJoin('tp.ticket', 't')
+    //     ->innerJoin('tp.exhibition', 'e')
+    //     ->addSelect('t', 'e')
+    //     ->where('t.id = :ticketId')
+    //     ->setParameter('ticketId', $ticketId)
+    //     ->getQuery()
+    //     ->getOneOrNullResult();
+    // }   
 }

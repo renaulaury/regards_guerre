@@ -24,7 +24,7 @@ class TicketRepository extends ServiceEntityRepository
         $queryBuilder = $entityManager->createQueryBuilder();
 
         $queryBuilder->select('DISTINCT e.id, e.titleExhibit', 'e.dateExhibit', 't.id AS ticketId', 't.titleTicket', 't.imageTicket', 't.imageTicketAlt', 'tp.standardPrice')
-           ->from('App\Entity\ticketPricing', 'tp')
+           ->from('App\Entity\TicketPricing', 'tp')
            ->innerJoin('tp.exhibition', 'e')
            ->innerJoin('tp.ticket', 't');
 
@@ -34,5 +34,27 @@ class TicketRepository extends ServiceEntityRepository
        return $queryBuilder->getQuery()->getResult();
    }
 
+   public function findPriceByTicket($ticketId) {
+
+    // return $this->createQueryBuilder('t')
+    // ->leftJoin('t.ticketPricings', 'tp')
+    // ->leftJoin('tp.exhibition', 'e')
+    // ->addSelect('tp', 'e')
+    // ->where('t.id = :ticketId')
+    // ->setParameter('ticketId', $ticketId)
+    // ->getQuery()
+    // ->getOneOrNullResult();
+    $qb = $this->createQueryBuilder('t')
+        ->leftJoin('t.ticketPricings', 'tp') // Jointure avec TicketPricing
+        ->addSelect('tp') // Sélectionner également les entités Exhibition et TicketPricing
+        ->where('t.id = :ticketId') // Condition pour filtrer par l'ID du Ticket
+        ->setParameter('ticketId', $ticketId);
+
+        return $qb->getQuery()->getOneOrNullResult();
+}  
+
    
 }
+
+   
+

@@ -5,6 +5,7 @@
 {% block body %}
 
 <h1>Panier</h1>
+{{ dump(cart.1.ticket.ticketPricings.0.exhibition.titleExhibit)}}
 
 <section class="summaryCart">
 
@@ -19,25 +20,29 @@
         <p class="thUsers">Total</p>
         <p></p>
         
-        
         {% for product in cart %} 
-            <p>{{ product.exhibition }}</p> 
-            <p>{{ product.ticket }}</p>
-            <a href="{{ path('addTicketToCart', {'exhibition': product.exhibitionId, 'ticket' : product.ticket.id, 'origin': 'cart'}) }}">
-                <i class="fa-solid fa-plus"></i>
-            </a>
+            {# <p>{{ product.exhibition.title }}</p>  #}
+            <p>{{ product.ticket }}</p>            
 
-            <p>{{ product.qty }}</p>
-            
-            <a href="{{ path('removeTicketFromCart', {'exhibition': product.exhibitionId, 'ticket' : product.ticket.id, 'origin': 'cart'}) }}">
+            <p>
+            {# <a href="{{ path('removeTicketFromCart', {'exhibition': product.exhibition.id, 'ticket' : product.ticket.id, 'origin': 'cart'}) }}">
                 <i class="fa-solid fa-minus"></i>
-            </a>
+            </a> #}
 
-            <p>{{ product.price }}</p> 
+            {{ product.qty }}      
+
+            {# <a href="{{ path('addTicketToCart', {'exhibition': product.exhibition.id, 'ticketId' : product.ticket.id, 'origin': 'cart'}) }}">
+                <i class="fa-solid fa-plus"></i>
+            </a> #}
+            </p>
+
+            {# <p>{{ product.price }}</p>  #}
             <p>total</p>{# <p>{{ product.price * product.qty }}€</p> #}    
 
-            {# {{ dump(product) }} #}
-            {# <p><a href="{{ path('removeProduct', {'id': product.ticketId}) }}"> <i class="fa-solid fa-trash-can"></i></a> #}
+            
+            <p><a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
+                <i class="fa-solid fa-trash-can"></i>
+                </a>
             </p>     
         {% endfor %}
         
