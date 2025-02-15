@@ -63,6 +63,10 @@ class CartService
                     'price' => $price,
                 ];
             }
+            // Ajouter le total de la ligne
+            // Total de la ligne = prix du ticket en fonction de l'Id * la quantité en fonction de l'Id
+            $cart[$ticketId]['totalLine'] = $cart[$ticketId]['price'] * $cart[$ticketId]['qty'];
+        
         }
     }
 
@@ -166,8 +170,9 @@ class CartService
   /***************************** Calcul total du panier *******************/
   public function getTotal(): float
 {
-    $total = 0;
+    
     $cart = $this->getCart(); // Récupération du panier depuis la session
+    $total = 0;
 
     foreach ($cart as $product) {
         $total += $product['price'] * $product['qty'];
@@ -177,9 +182,10 @@ class CartService
 }
 
 
-  
 
-  //    /************* Compteur de produit dans le panier ****************/
+ 
+
+  /************* Compteur de produit dans le panier ****************/
   public function cartCount(): int
   {
       // Récupère le panier depuis la session
@@ -188,6 +194,9 @@ class CartService
       // Additionne toutes les quantités des produits dans le panier
       return array_sum(array_column($cart, 'qty'));
   }
+
+
+
 }
   
 

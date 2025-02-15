@@ -5,7 +5,6 @@
 {% block body %}
 
 <h1>Panier</h1>
-{# {{ dump(cart.1.ticket.ticketPricings.0.exhibition.titleExhibit)}} #}
 
 <section class="summaryCart">
 
@@ -22,7 +21,7 @@
         
         
         {% for product in cart %} 
-        {# {{ dump(product) }} #}
+        {# {{ dump(cart) }} #}
              <p>{{ product.exhibition }}</p> 
             <p>{{ product.ticket }}</p>            
 
@@ -39,8 +38,7 @@
             </p>
 
             <p>{{ product.price }}</p> 
-            <p></p>
-            <p>{{ product.price * product.qty }}€</p>     
+            <p>{{ product.totalLine }}</p> 
 
             
             <p><a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
@@ -51,7 +49,7 @@
         
        
 
-    <p>Total : {{ total }}€</p>
+    <p>Total panier : {{ total }}€</p>
 
     <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
     {% endif %}

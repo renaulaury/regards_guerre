@@ -38,23 +38,23 @@ class CartController extends AbstractController
 
     /************* Ajoute un ticket au panier  ***************/
     #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
-public function addTicketToCart(CartService $cartService, TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
-{
-    // Récupération du ticket via le repository
-    $ticket = $ticketRepo->find($ticketId);
+    public function addTicketToCart(CartService $cartService, TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
+    {
+        // Récupération du ticket via le repository
+        $ticket = $ticketRepo->find($ticketId);
 
 
-    // Ajout du ticket au panier via le service
-    $cartService->addCart($ticket);
+        // Ajout du ticket au panier via le service
+        $cartService->addCart($ticket);
 
-    // Redirection en fonction de l'origine
-    if ($origin === 'ticket') {
-        return $this->redirectToRoute('ticket', ['exhibition' => $exhibitionId]);
-    }
+        // Redirection en fonction de l'origine
+        if ($origin === 'ticket') {
+            return $this->redirectToRoute('ticket', ['exhibition' => $exhibitionId]);
+        }
 
-    if ($origin === 'cart') {
-        return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
-    }
+        if ($origin === 'cart') {
+            return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
+        }
     }
 
 /************* Soustrait un produit au panier ***************/
