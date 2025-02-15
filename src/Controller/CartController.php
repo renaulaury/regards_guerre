@@ -20,17 +20,21 @@ class CartController extends AbstractController
     $this->cartService = $cartService;
   }
 
-    /************* Affiche les produits du panier ***************/
-    #[Route('/order/cart', name: 'cart')]
-    public function showCart(CartService $cartService): Response
-    {
-       // Récupérer le panier depuis le service
-        $cart = $cartService->getCart();
-
-        return $this->render('order/cart.html.twig', [
-            'cart' => $cart,
-    ]);
-    }
+     /************* Affiche les produits du panier ***************/
+     #[Route('/order/cart', name: 'cart')]
+     public function showCart(CartService $cartService): Response
+     {
+        // Récupérer le panier depuis le service
+         $cart = $cartService->getCart();
+         $total = $cartService->getTotal();
+ 
+         
+         return $this->render('order/cart.html.twig', [
+             'cart' => $cart,
+             'total' => $total,
+         ]);
+     }
+ 
 
     /************* Ajoute un ticket au panier  ***************/
     #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]

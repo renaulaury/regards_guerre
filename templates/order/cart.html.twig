@@ -17,7 +17,7 @@
         <p class="thUsers">Ticket</p>
         <p class="thUsers">Quantité</p>
         <p class="thUsers">Prix Unitaire</p>
-        <p class="thUsers">Total</p>
+        <p class="thUsers">Total Ligne</p>
         <p></p>
         
         
@@ -39,8 +39,8 @@
             </p>
 
             <p>{{ product.price }}</p> 
-            <p>total</p>
-            {# <p>{{ product.price * product.qty }}€</p>      #}
+            <p></p>
+            <p>{{ product.price * product.qty }}€</p>     
 
             
             <p><a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
@@ -51,7 +51,7 @@
         
        
 
-    {# <p>Total : {{ total }}€</p> #}
+    <p>Total : {{ total }}€</p>
 
     <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
     {% endif %}

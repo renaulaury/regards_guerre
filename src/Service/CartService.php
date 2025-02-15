@@ -113,23 +113,6 @@ class CartService
 
 
  
-// if ($ticket) {
-    //   $ticketId = $ticket->getId();
-    //   $ticketPricings = $ticket->getTicketPricings();
-
-    //   if (isset($cart[$ticketId])) {
-    //       $cart[$ticketId]['qty'] += $qty;
-    //   } else {
-    //       // Sinon, on l'ajoute au panier
-    //       $cart[$ticketId] = [
-    //           'ticket' => $ticket,
-    //           'qty' => $qty,
-    //           'ticketPricings' => $ticketPricings,
-    //       ];
-    //   }
-    // }
-    //Ici le même code adapter pour l'ajout de goodies au panier plus tard
-    
  
 
 
@@ -179,6 +162,20 @@ class CartService
     
         $this->session->set('cart', $cart); // Met à jour la session
   }
+
+  /***************************** Calcul total du panier *******************/
+  public function getTotal(): float
+{
+    $total = 0;
+    $cart = $this->getCart(); // Récupération du panier depuis la session
+
+    foreach ($cart as $product) {
+        $total += $product['price'] * $product['qty'];
+    }
+
+    return $total;
+}
+
 
   
 
