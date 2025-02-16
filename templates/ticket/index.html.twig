@@ -39,21 +39,17 @@
             </div>
             <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
-            {# {{ dump(cart) }} #}
-            {# {% if qty > 1 %} #}
+            <p>
                 <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticket' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                     <i class="fa-solid fa-minus"></i>
                 </a>
-                <p>1</p>
-            {# {% endif %} #}
-            
 
-            
-            
-            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                <i class="fa-solid fa-plus"></i>
-            </a>
-            
+                <span>1</span>
+
+                <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            </p>
             {% endif %}
         {% endfor %}
     </div>

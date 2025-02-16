@@ -38,7 +38,7 @@
             </p>
 
             <p>{{ product.price }}</p> 
-            <p>{{ product.totalLine }}</p> 
+            <p>{{ product.totalLine }} €</p> 
 
             
             <p><a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
@@ -49,9 +49,11 @@
         
        
 
-    <p>Total panier : {{ total }}€</p>
+        <p>Total panier : {{ total }} €</p>
 
-    <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
+        <p>
+            <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
+        </p>    
     {% endif %}
 </section>
 {% endblock %}
