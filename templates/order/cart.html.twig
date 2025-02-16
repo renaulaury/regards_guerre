@@ -25,35 +25,27 @@
             <p>{{ product.ticket }}</p>            
 
             <p>
-                {% if product.qty > 1 %}
-                    <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibition, 'ticketId' : product.ticket, 'origin': 'cart'}) }}">
-                        <i class="fa-solid fa-minus"></i>
-                    </a> 
-                {% endif %}
+                <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibition, 'ticketId' : product.ticket, 'origin': 'cart'}) }}">
+                    <i class="fa-solid fa-minus"></i>
+                </a> 
 
-                    <a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </a>
+                {{ product.qty }}      
 
-                    {{ product.qty }}      
-
-                    <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibition, 'ticketId' : product.ticket, 'origin': 'cart'}) }}">
-                        <i class="fa-solid fa-plus"></i>
-                    </a>                 
+                <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibition, 'ticketId' : product.ticket, 'origin': 'cart'}) }}">
+                    <i class="fa-solid fa-plus"></i>
+                </a>                 
             </p>
 
             <p class="displayNone">{{ product.price }}</p> 
 
             <p>{{ product.totalLine }} €</p> 
 
-            {% if product.qty < 1 %}
-                <p><a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
-                    <i class="fa-solid fa-trash-can"></i>
-                    </a>
-                </p> 
-            {% else %}   
-                <p></p>
-            {% endif %}  
+           
+            <p>
+                <a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
+                <i class="fa-solid fa-trash-can"></i>
+                </a>
+            </p>   
         {% endfor %}   
 
         <p>Total panier : {{ total }} €</p>
