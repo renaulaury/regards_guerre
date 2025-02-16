@@ -35,8 +35,14 @@
                     {% endif %}
                 </p>
 
-                <p>{{ priceByExhibits.standardPrice }} €</p>
+                {% if priceByExhibits.standardPrice == 0%} 
+                    <p>Gratuit</p>
+                {% else %}
+                    <p>{{ priceByExhibits.standardPrice }} €</p>
+                {% endif %}
+                
             </div>
+
             <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
             <p>
