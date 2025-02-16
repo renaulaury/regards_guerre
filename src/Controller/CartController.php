@@ -58,28 +58,27 @@ class CartController extends AbstractController
     }
 
 /************* Soustrait un produit au panier ***************/
-    #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticket}/{origin}', name: 'removeTicketFromCart')]
-    public function removeTicketFromCart(CartService $cartService, Exhibition $exhibition, Ticket $ticket, string $origin): Response
+    #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticketId}/{origin}', name: 'removeTicketFromCart')]
+    public function removeTicketFromCart(CartService $cartService, TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
     {
+
+         // Récupération du ticket via le repository
+         $ticket = $ticketRepo->find($ticketId);
+
         // Soustraction au panier via le service
         $cartService->removeCart($ticket);
 
         if ($origin === 'ticket') { // Si l'origine est 'ticket', rediriger vers la page de ventes des tickets
             return $this->redirectToRoute('ticket', [
-                'exhibition' => $exhibition->getId()
+                'exhibition' => $exhibitionId
             ]);
         }
 
         if ($origin === 'cart') { // Si l'origine est 'cart', rediriger vers le panier
             return $this->redirectToRoute('cart', [
-                'exhibition' => $exhibition->getId()
+                'exhibition' => $exhibitionId
             ]);
         }
-
-        // Redirection vers la page de l'exposition avec les tickets
-        return $this->redirectToRoute('ticket', [
-            'exhibition' => $exhibition->getId()
-        ]);
     }
 
     

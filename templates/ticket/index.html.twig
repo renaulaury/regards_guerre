@@ -40,7 +40,7 @@
             <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
             <p>
-                <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticket' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                     <i class="fa-solid fa-minus"></i>
                 </a>
 
