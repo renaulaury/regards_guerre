@@ -19,10 +19,14 @@
                 <div id="leftBlock">
                     <img class="logo" src="/images/logo.webp" alt="Logo de l'association Regards de Guerre">
                     <div class="profile">
-                        <p>Bienvenue <a href="#">toi !</a></p>
-                        <p>S'inscrire / Se connecter</p>
                         {% if app.user %}
-                            <p><a href="#">Se déconnecter</a></p>
+                            <p>Bienvenue <a href="#">toi !</a></p>
+                            <p><a href="{{ path('logout') }}">Se déconnecter</a></p>
+                        {% else %}
+                            <p>                            
+                                <a href="{{ path('register') }}">S'inscrire</a> /
+                                <a href="{{ path('login') }}">Se connecter</a>
+                            </p>
                         {% endif %} 
                     </div>
                 </div> 
