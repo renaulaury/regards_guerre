@@ -376,13 +376,13 @@ class Exhibition
      */
     public function getProductPricings(): Collection
     {
-        return $this->productPricings;
+        return $this->ticketPricings;
     }
 
     public function addProductPricing(ticketPricing $ticketPricing): static
     {
-        if (!$this->productPricings->contains($ticketPricing)) {
-            $this->productPricings->add($ticketPricing);
+        if (!$this->ticketPricings->contains($ticketPricing)) {
+            $this->ticketPricings->add($ticketPricing);
             $ticketPricing->setExhibition($this);
         }
 
@@ -391,7 +391,7 @@ class Exhibition
 
     public function removeProductPricing(ticketPricing $ticketPricing): static
     {
-        if ($this->productPricings->removeElement($ticketPricing)) {
+        if ($this->ticketPricings->removeElement($ticketPricing)) {
             // set the owning side to null (unless already changed)
             if ($ticketPricing->getExhibition() === $this) {
                 $ticketPricing->setExhibition(null);
