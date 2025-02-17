@@ -10,12 +10,25 @@
     --footer: #FA8072;    
 }
 
+@font-face {
+    font-family: 'Parkinsans';
+    src: url('/fonts/Parkinsans-bold.woff') format('tff'),
+         url('/fonts/Parkinsans-ExtraBold.woff') format('tff'),
+         url('/fonts/Parkinsans-Light.woff') format('tff'),
+         url('/fonts/Parkinsans-Medium.woff') format('tff'),
+         url('/fonts/Parkinsans-Regular.woff') format('tff'),
+         url('/fonts/Parkinsans-SemiBold.woff') format('tff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     color: var(--ftColor);      
     text-align: justify;
+    font-family: 'Parkinsans', sans-serif;
 }
 
 header {
