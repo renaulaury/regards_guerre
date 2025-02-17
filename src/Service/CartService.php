@@ -57,6 +57,7 @@ class CartService
                 // Sinon, on ajoute le ticket au panier avec ses informations
                 $cart[$ticketId] = [
                     'ticket' => $ticket,
+                    'ticketId' => $ticketId,
                     'exhibition' => $exhibition,
                     'exhibitionId' => $exhibitionId,
                     'qty' => $qty,

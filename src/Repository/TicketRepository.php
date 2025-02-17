@@ -55,7 +55,7 @@ class TicketRepository extends ServiceEntityRepository
 public function findTicketDetails(int $ticketId): ?array
 {
     return $this->createQueryBuilder('t')
-        ->select('e.titleExhibit AS exhibition, e.id AS exhibitionId, tp.standardPrice AS price')
+        ->select('e.titleExhibit AS exhibition, e.id AS exhibitionId, t.id AS ticketId, tp.standardPrice AS price')
         ->join('t.ticketPricings', 'tp')
         ->join('tp.exhibition', 'e')
         ->where('t.id = :ticketId')

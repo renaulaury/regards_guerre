@@ -7,7 +7,7 @@
 <h1>Panier</h1>
 
 <section class="summaryCart">
-
+    
     {% if cart is empty %} 
     <p>Votre panier est vide.</p>
     
@@ -20,25 +20,34 @@
         <p></p>
         
         {% for product in cart %} 
-        {{ dump(cart) }}
+        
             <p>{{ product.exhibition }}</p> 
             <p>{{ product.ticket }}</p>            
 
             <p>
-                <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibition, 'ticketId' : product.ticket, 'origin': 'cart'}) }}">
+                <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
                     <i class="fa-solid fa-minus"></i>
                 </a> 
 
                 {{ product.qty }}      
 
-                {# <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibition, 'ticketId' : product.ticket, 'origin': 'cart'}) }}"> #}
+                <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
                     <i class="fa-solid fa-plus"></i>
                 </a>                 
             </p>
 
-            <p class="displayNone">{{ product.price }}</p> 
+            {% if product.price == 0 %}                 
+                <p class="displayNone">-</p>
+            {% else %}
+                <p class="displayNone">{{ product.price }}</p>  
+            {% endif %}
+            
 
-            <p>{{ product.totalLine }} €</p> 
+            {% if product.totalLine == 0 %}                 
+                <p>-</p>
+            {% else %}
+                <p>{{ product.totalLine }} €</p> 
+            {% endif %}
 
            
             <p>
