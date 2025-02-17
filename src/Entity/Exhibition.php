@@ -74,7 +74,7 @@ class Exhibition
      * @var Collection<int, TicketPricing>
      */
     #[ORM\OneToMany(targetEntity: TicketPricing::class, mappedBy: 'exhibition')]
-    private Collection $productPricings;
+    private Collection $ticketPricings;
 
     #[ORM\Column]
     private ?int $stockMax = null;
@@ -87,7 +87,7 @@ class Exhibition
         $this->orderDetail = new ArrayCollection();
         $this->shows = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->productPricings = new ArrayCollection();
+        $this->ticketPricings = new ArrayCollection();
     }
 
     public function getId(): ?int
