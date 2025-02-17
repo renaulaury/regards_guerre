@@ -3,30 +3,23 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
     <h1>Création de compte</h1>
 
-    {{ form_errors(registrationForm) }}
+    {{ form_errors(registrationForm) }}  {# Affiche les erreurs du formulaire #}
 
     {{ form_start(registrationForm) }}
 
-        {{ form_row(registrationForm.userNickname, {
-            label : 'Pseudo'
-        }) }}
-        {{ form_row(registrationForm.userEmail, {
-            label : 'Email'
-        }) }}
+        {{ form_row(registrationForm.userNickname) }}
 
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
+        {{ form_row(registrationForm.userEmail) }}
+
+        {{ form_row(registrationForm.password) }}
+        {# {{ form_row(registrationForm.passwordConfirm) }} #}
 
         <p>
             {{ form_widget(registrationForm.agreeTerms, { attr: { class: 'form-check-input' } }) }}
-            J'accepte que mes données personnelles soient collectées et traitées conformément à la politique de confidentialité.
+            J'accepte que mes données personnelles soient collectées et traitées conformément à <strong>la politique de confidentialité.</strong>
         </p>
             
         <button type="submit" class="btn submit">Créer mon compte</button>
@@ -34,3 +27,4 @@
     {{ form_end(registrationForm) }}
 
 {% endblock %}
+
