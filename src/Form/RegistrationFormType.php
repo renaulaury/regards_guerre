@@ -7,13 +7,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\EqualTo;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -34,41 +35,15 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-
-            ->add('password', PasswordType::class, [
-                //cela signifie que ce champ ne sera pas directement associé à une propriété de l'entité User
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([ // Si le champ est laissé vide, un message d'erreur sera affiché.
-                        'message' => 'Veuillez entrer un mot de passe.',
-                    ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',                     
-                        'max' => 4096,
-                    ]),
-                ],
-                'label' => 'Mot de passe'  
+            ->add('password', RepeatedType::class, [
+                'mapped' => false, //cela signifie que ce champ ne sera pas directement associé à une propriété de l'entité User
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe ne sont pas identiques.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
             ])
-        // Le champ de confirmation du mot de passe
-
-        
-        // Ajout du champ de confirmation du mot de passe -> ne fonctionne pas proposition de validateur personnalisé
-        // ->add('passwordConfirm', PasswordType::class, [
-        //     'mapped' => false,
-        //     'attr' => ['autocomplete' => 'new-password'],
-        //     'constraints' => [
-        //         new NotBlank([
-        //             'message' => 'Veuillez confirmer votre mot de passe.',
-        //         ]),
-        //         new EqualTo([
-        //             'value' => $builder->getData()->getPassword(),
-        //             'message' => 'Les mots de passe doivent être identiques.',
-        //         ]),
-        //     ],
-        //     'label' => 'Confirmer le mot de passe'
-        // ])
     ;
 }
 
