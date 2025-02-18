@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table regardsguerre.doctrine_migration_versions : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.doctrine_migration_versions : ~1 rows (environ)
 REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20250212135443', '2025-02-12 13:57:46', 962);
 
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `show` (
   CONSTRAINT `FK_320ED901B7970CF8` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.show : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.show : ~4 rows (environ)
 REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_photo`, `artist_job`, `artist_bio`, `artist_text_art`, `artist_photo_alt`) VALUES
 	(1, 1, 1, 3, '/images/events/20250509_algerie/01_artiste1.webp', 'poétesse', 'Née en Algérie, Anna Garrigue était une militante et poétesse engagée dans la lutte pour l’indépendance de l’Algérie. Emprisonnée pendant la guerre, elle a écrit des poèmes marqués par la douleur de l\'exil et le combat pour la liberté.', '\nLe travail poétique d\'Anna Garrigue est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.', 'photo'),
 	(2, 4, 1, 5, '/images/events/20250509_algerie/02_artiste2.webp', 'photographe', 'Jean Moribon était un photographe suisse humaniste, reconnu pour ses reportages poignants sur les conflits et les crises sociales, notamment la guerre d\'Algérie.', '\nSon travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.', 'photo'),
@@ -228,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `type` (
   CONSTRAINT `FK_8CDE5729700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.type : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.type : ~2 rows (environ)
 REPLACE INTO `type` (`id`, `ticket_id`, `title_type`) VALUES
 	(1, 2, 'Ticket'),
 	(2, 1, 'Ticket');
@@ -240,15 +240,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_verified` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.user : ~2 rows (environ)
-REPLACE INTO `user` (`id`, `user_email`, `user_nickname`, `password`, `roles`, `role`) VALUES
-	(1, 'root@regardsguerre.fr', 'root', '1234', 'null', 'root'),
-	(2, 'l.dupont@regardsguerre.fr', 'ldupont', '1234', 'null', 'admin');
+-- Listage des données de la table regardsguerre.user : ~3 rows (environ)
+REPLACE INTO `user` (`id`, `user_email`, `user_nickname`, `password`, `roles`, `is_verified`) VALUES
+	(1, 'root@regardsguerre.fr', 'root', '1234', 'null', 0),
+	(2, 'l.dupont@regardsguerre.fr', 'ldupont', '1234', 'null', 0),
+	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '[]', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
