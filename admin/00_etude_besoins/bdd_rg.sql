@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table regardsguerre.doctrine_migration_versions : ~1 rows (environ)
+-- Listage des données de la table regardsguerre.doctrine_migration_versions : ~0 rows (environ)
 REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20250212135443', '2025-02-12 13:57:46', 962);
 
@@ -88,10 +88,10 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
 
 -- Listage des données de la table regardsguerre.exhibition : ~4 rows (environ)
 REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`, `main_image_alt`, `hook_exhibit`, `subtitle_exhibit`, `stock_max`, `stock_alert`) VALUES
-	(1, 2, 'Les camps d\'Algérie', '/images/events/20250509_algerie/00_main_image.webp', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', 'aa', 'aa', 150, 10),
-	(2, 2, 'L\'Ukraine en résistance', '/images/events/20250603_guerre_ukraine/00_main_image.webp', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'aa', 'Un An d\'Invasion Russe', 150, 10),
-	(3, 2, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902_femmes_palestine/00_main_image.webp', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.', 'Troupes de femmes militaires palestiniennes', 'aa', 'aa', 150, 10),
-	(4, 2, 'L\'incident de Kyujo', '/images/events/20250509_algerie/00_main_image.webp', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.', 'aaa', 'aa', 'aa', 150, 10);
+	(1, 9, 'Les camps d\'Algérie', '/images/events/20250509_algerie/00_main_image.webp', '1954-11-01', '1962-03-19', '2025-05-09', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', 'aa', 'aa', 150, 10),
+	(2, 9, 'L\'Ukraine en résistance', '/images/events/20250603_guerre_ukraine/00_main_image.webp', '2022-02-24', '2025-02-06', '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', 'aa', 'Un An d\'Invasion Russe', 150, 10),
+	(3, 9, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902_femmes_palestine/00_main_image.webp', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.', 'Troupes de femmes militaires palestiniennes', 'aa', 'aa', 150, 10),
+	(4, 9, 'L\'incident de Kyujo', '/images/events/20250509_algerie/00_main_image.webp', '1945-08-14', '1945-08-15', '2025-01-12', '09:00:00', '16:00:00', 'Llorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.', 'aaa', 'aa', 'aa', 150, 10);
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -142,6 +142,27 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
 
 -- Listage des données de la table regardsguerre.order_detail : ~0 rows (environ)
 
+-- Listage de la structure de table regardsguerre. reset_password_request
+CREATE TABLE IF NOT EXISTS `reset_password_request` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `selector` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hashed_token` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `requested_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `expires_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_7CE748AA76ED395` (`user_id`),
+  CONSTRAINT `FK_7CE748AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table regardsguerre.reset_password_request : ~0 rows (environ)
+REPLACE INTO `reset_password_request` (`id`, `user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES
+	(1, 10, 'QbFqJL634mkYRu5N5BSH', 'JgPHg+/dhpCHobBVgqLEBRdETV6si1+si5DrxYuRIKE=', '2025-02-18 13:25:27', '2025-02-18 14:25:27'),
+	(2, 10, 'tcFYmit5cZ0WuDwxWbtK', 'rapMfxsuSpJO0+7w1U8OihVM6PBvMr4z9weHV+XNWRo=', '2025-02-18 14:38:35', '2025-02-18 15:38:35'),
+	(3, 9, 'A5MM9VEod3bonos7Dydk', 'WEpdXT4t625MEfwqlRp9fJJ3dhgJmEW6XBmbRK7LIUs=', '2025-02-18 15:05:07', '2025-02-18 16:05:07'),
+	(4, 14, 'RV8fyHvcR9Bx7RaK30a5', 'jRrLxifCnmw/W2p2uIS+n5HZqzzAbH/TL2xIrUbhHAE=', '2025-02-18 15:11:56', '2025-02-18 16:11:56'),
+	(5, 14, 'qVH1WfHbCNh4fkJMgVuA', 'xz9ZIVcdanvXKKJyFxIn/pdWGZsQbjQwTPg104iSjo4=', '2025-02-18 15:28:05', '2025-02-18 15:43:05');
+
 -- Listage de la structure de table regardsguerre. room
 CREATE TABLE IF NOT EXISTS `room` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -187,9 +208,9 @@ REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_phot
 -- Listage de la structure de table regardsguerre. ticket
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title_ticket` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image_ticket` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image_ticket_alt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_ticket` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_ticket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_ticket_alt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -228,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `type` (
   CONSTRAINT `FK_8CDE5729700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.type : ~2 rows (environ)
+-- Listage des données de la table regardsguerre.type : ~0 rows (environ)
 REPLACE INTO `type` (`id`, `ticket_id`, `title_type`) VALUES
 	(1, 2, 'Ticket'),
 	(2, 1, 'Ticket');
@@ -243,13 +264,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_verified` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.user : ~3 rows (environ)
+-- Listage des données de la table regardsguerre.user : ~0 rows (environ)
 REPLACE INTO `user` (`id`, `user_email`, `user_nickname`, `password`, `roles`, `is_verified`) VALUES
-	(1, 'root@regardsguerre.fr', 'root', '1234', 'null', 0),
-	(2, 'l.dupont@regardsguerre.fr', 'ldupont', '1234', 'null', 0),
-	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '[]', 0);
+	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '[]', 0),
+	(10, 'maxou@gmail.com', 'MaxLaMenace', '$2y$13$c1nfvLvHnzbaEiWvM6OtHOxqXrTtGMbF82yYovoANCdARfBxJqQuu', '[]', 0),
+	(13, 'root@regardsguerre.fr', 'root', '$2y$13$a.t3oijhFrjTWgAMMmZc2ugHRmCDpRiaRlJKKxsSSSBwRM/TncTr.', '[]', 0),
+	(14, 'l.dupont@regardsguerre.fr', 'lisou', '$2y$13$RGHliSL5g0GsdFcrBB0Hu./IyKDjdT5HqLT5g4P0BXvO9USODOi4y', '[]', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
