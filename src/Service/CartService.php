@@ -2,27 +2,23 @@
 
 namespace App\Service;
 
-
 use App\Entity\Ticket;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-
 class CartService 
 {
-  private $session; //privée car uniquement nécessaire ici
-  private TicketRepository $ticketRepository;
+  private TicketRepository $ticketRepository; //privée car uniquement nécessaire ici
 
   public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo)
-  {
-    $this->session = $requestStack->getSession();    
+  {  
     $this->ticketRepository = $ticketRepo;
-    // $this->requestStack = $requestStack;
+    $this->requestStack = $requestStack;
   }
 
   private function getSession()
   {
-    return $this->session;
+      return $this->requestStack->getCurrentRequest()->getSession();
   }
 
   public function getCart(): array
@@ -35,13 +31,12 @@ class CartService
   public function setCart(array $cart): void
   {
     $this->getSession()->set('cart', $cart);  
-  }   
-
+}
 
     /************* Ajouter un produit au panier ****************/
 
     public function addCart(Ticket $ticket = null, int $qty = 1)
-  {
+{
     // Récupérer le panier depuis la session
     $cart = $this->getCart();
 
@@ -79,10 +74,9 @@ class CartService
 
     // Sauvegarde du panier dans la session
     $this->getSession()->set('cart', $cart);
-  }
+}
  
  
-
 
  /************* Soustraire un produit ****************/
   
@@ -109,7 +103,6 @@ class CartService
      // Sauvegarde dans la session
      $this->getSession()->set('cart', $cart);
  }
-
 
    /************* Supprime le panier complet ****************/
     public function clearCart(): void
@@ -157,3 +150,4 @@ class CartService
   }
 
 }
+

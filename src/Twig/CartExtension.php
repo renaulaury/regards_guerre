@@ -7,19 +7,19 @@ use Twig\TwigFunction;
 
 class CartExtension extends AbstractExtension
 {
-    // private $cartService;
+    private $cartService;
 
-    // public function __construct(CartService $cartService)
-    // {
-    //     $this->cartService = $cartService;
-    // }
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
 
-    // public function getFunctions(): array
-    // {
-    //     return [
-    //         new TwigFunction('productCounter', [$this->cartService, 'cartCount']),
-    //     ];
-    // }
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('productCounter', [$this->cartService, 'cartCount']),
+        ];
+    }
 }
 
 
