@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CommentController extends AbstractController
 {
-    #[Route('/comment', name: 'app_comment')]
+    #[Route('/comment', name: 'omment')]
     public function index(): Response
     {
         return $this->render('comment/index.html.twig', [
