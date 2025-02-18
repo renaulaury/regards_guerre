@@ -4,7 +4,6 @@ namespace App\Service;
 
 
 use App\Entity\Ticket;
-use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,26 +15,33 @@ class CartService
 
   public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo)
   {
-    $this->session = $requestStack->getSession();
-    
+    $this->session = $requestStack->getSession();    
     $this->ticketRepository = $ticketRepo;
+    // $this->requestStack = $requestStack;
+  }
+
+  private function getSession()
+  {
+    return $this->session;
   }
 
   public function getCart(): array
   {
-    return $this->session->get('cart', []);
+    // return $this->session->get('cart', []);
+    return $this->getSession()->get('cart', []);
+
   }
 
   public function setCart(array $cart): void
   {
-    $this->session->get('cart', $cart);
-  }
+    $this->getSession()->set('cart', $cart);  
+  }   
 
 
     /************* Ajouter un produit au panier ****************/
 
     public function addCart(Ticket $ticket = null, int $qty = 1)
-{
+  {
     // Récupérer le panier depuis la session
     $cart = $this->getCart();
 
@@ -72,51 +78,8 @@ class CartService
     }
 
     // Sauvegarde du panier dans la session
-    $this->session->set('cart', $cart);
-}
-
-
-  
-//     public function addCart(Ticket $ticket = null, int $qty = 1)
-// {
-//     $cart = $this->getCart();
-
-//     if ($ticket) {
-//         $ticketId = $ticket->getId();
-
-//         // Appel au repository pour récupérer les infos du ticket
-//         $ticketDetails = $this->orderRepository->showInfosCart();
-
-//         // Recherche des informations du ticket spécifique
-//         $ticketInfo = null;
-//         foreach ($ticketDetails as $detail) {
-//             if ($detail['id'] === $ticketId) {
-//                 $ticketInfo = $detail;
-//                 break;
-//             }
-//         }
-
-//         if ($ticketInfo) {
-//             $exhibition = $ticketInfo['titleExhibit'];
-//             $price = $ticketInfo['standardPrice'];
-
-//             if (isset($cart[$ticketId])) {
-//                 $cart[$ticketId]['qty'] += $qty;
-//             } else {
-//                 $cart[$ticketId] = [
-//                     'ticket' => $ticket,
-//                     'exhibition' => $exhibition,
-//                     'qty' => $qty,
-//                     'price' => $price,
-//                 ];
-//             }
-//         }
-//     }
-
-//     $this->session->set('cart', $cart);
-// }
-
-
+    $this->getSession()->set('cart', $cart);
+  }
  
  
 
@@ -144,14 +107,14 @@ class CartService
      }
  
      // Sauvegarde dans la session
-     $this->session->set('cart', $cart);
+     $this->getSession()->set('cart', $cart);
  }
 
 
    /************* Supprime le panier complet ****************/
     public function clearCart(): void
     {
-        $this->session->remove('cart');
+        $this->getSession()->remove('cart');
     }
 
  
@@ -165,7 +128,7 @@ class CartService
             unset($cart[$id]); // Supprime l’élément du panier
         }
     
-        $this->session->set('cart', $cart); // Met à jour la session
+        $this->getSession()->set('cart', $cart); // Met à jour la session
   }
 
   /***************************** Calcul total du panier *******************/
@@ -181,9 +144,6 @@ class CartService
 
     return $total;
 }
-
-
-
  
 
   /************* Compteur de produit dans le panier ****************/
@@ -196,19 +156,4 @@ class CartService
       return array_sum(array_column($cart, 'qty'));
   }
 
-
-
 }
-  
-
-
-
-
-
-
-
-
-
-
-
-

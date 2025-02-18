@@ -18,7 +18,7 @@ final class TicketController extends AbstractController
     public function index(CartService $cartService, TicketRepository $ticketRepo, ExhibitionRepository $exhibitRepo): Response
     {
         // Récupérer le panier depuis la session
-        $cart = $cartService->getCart();    
+        $cart = $cartService->getCart();   
 
         //Récup de tous les produits par exposition 
         $priceByExhibit = $ticketRepo->findAllTicketsByExhibition();
