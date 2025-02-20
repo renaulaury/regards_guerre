@@ -29,6 +29,18 @@ class RegistrationController extends AbstractController
             /** @var string $password */
             $password = $form->get('password')->getData();
 
+            $regex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'; //1 maj - 1 chiffre - 1 caractère spécial/word - 12 min
+
+            if (!preg_match($regex, $password)) {
+                // Ajouter un message d'erreur si le mot de passe ne correspond pas à la regex
+                $this->addFlash('error', 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.');
+
+                // Re-render le formulaire avec un message d'erreur
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form,
+                ]);
+            }
+
             // Empreinte numérique du mot de passe security.yaml : 
             // Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto' (auto = default)
             $user->setPassword($userPasswordHasher->hashPassword($user, $password));
