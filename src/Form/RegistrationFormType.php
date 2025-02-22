@@ -38,8 +38,8 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe ne sont pas identiques.',
                 'options' => ['attr' => ['class' => '']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Répétez le mot de passe'],
             ])
     ;
 }
