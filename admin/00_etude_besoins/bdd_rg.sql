@@ -261,18 +261,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `is_verified` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.user : ~5 rows (environ)
-REPLACE INTO `user` (`id`, `user_email`, `user_nickname`, `password`, `roles`, `is_verified`) VALUES
-	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '["ROLE_USER"]', 0),
-	(10, 'maxou@gmail.com', 'MaxLaMenace', '$2y$13$c1nfvLvHnzbaEiWvM6OtHOxqXrTtGMbF82yYovoANCdARfBxJqQuu', '["ROLE_USER"]', 0),
-	(13, 'root@regardsguerre.fr', 'root', '$2y$13$a.t3oijhFrjTWgAMMmZc2ugHRmCDpRiaRlJKKxsSSSBwRM/TncTr.', '["ROLE_USER"]', 0),
-	(14, 'l.dupont@regardsguerre.fr', 'lisou', '$2y$13$RGHliSL5g0GsdFcrBB0Hu./IyKDjdT5HqLT5g4P0BXvO9USODOi4y', '["ROLE_USER"]', 0),
-	(15, 'micka@gmail.com', 'micka', '$2y$13$X067Ml8..4j5C67GpO.Z/u/6IL4a/6NXLmzqPD0AFmY6eFqa0Igdi', '["ROLE_USER"]', 0);
+REPLACE INTO `user` (`id`, `user_email`, `user_nickname`, `password`, `roles`) VALUES
+	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '["ROLE_USER"]'),
+	(10, 'maxou@gmail.com', 'MaxLaMenace', '$2y$13$c1nfvLvHnzbaEiWvM6OtHOxqXrTtGMbF82yYovoANCdARfBxJqQuu', '["ROLE_USER"]'),
+	(13, 'root@regardsguerre.fr', 'root', '$2y$13$a.t3oijhFrjTWgAMMmZc2ugHRmCDpRiaRlJKKxsSSSBwRM/TncTr.', '["ROLE_ROOT"]'),
+	(14, 'l.dupont@regardsguerre.fr', 'lisou', '$2y$13$RGHliSL5g0GsdFcrBB0Hu./IyKDjdT5HqLT5g4P0BXvO9USODOi4y', '["ROLE_USER"]'),
+	(15, 'micka@gmail.com', 'micka', '$2y$13$X067Ml8..4j5C67GpO.Z/u/6IL4a/6NXLmzqPD0AFmY6eFqa0Igdi', '["ROLE_USER"]');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

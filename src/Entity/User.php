@@ -56,9 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Exhibition::class, mappedBy: 'user')]
     private Collection $exhibitions;
 
-    #[ORM\Column]
-    private bool $isVerified = false;
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
