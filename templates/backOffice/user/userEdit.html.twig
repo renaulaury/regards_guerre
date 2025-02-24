@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BackOfficeController!{% endblock %}
+
+{% block body %}
+
+<h1>Back-Office</h1>
+
+<section>
+    <h2>Formulaire de création / modification d'utilisateur</h2>
+    
+    {# Affichage du formulaire #}
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        
+        <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+</section>
+
+{% endblock %}
