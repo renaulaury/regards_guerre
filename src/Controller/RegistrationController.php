@@ -45,6 +45,9 @@ class RegistrationController extends AbstractController
             // Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto' (auto = default)
             $user->setPassword($userPasswordHasher->hashPassword($user, $password));
 
+            // Attribuer le rôle par défaut
+            $user->setRoles(['ROLE_USER']);
+
             $entityManager->persist($user);
             $entityManager->flush();
 

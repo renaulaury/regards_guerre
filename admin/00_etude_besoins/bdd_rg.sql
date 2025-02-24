@@ -146,8 +146,8 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
 CREATE TABLE IF NOT EXISTS `reset_password_request` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `selector` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hashed_token` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `selector` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hashed_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `requested_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `expires_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`),
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `reset_password_request` (
   CONSTRAINT `FK_7CE748AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.reset_password_request : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.reset_password_request : ~5 rows (environ)
 REPLACE INTO `reset_password_request` (`id`, `user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES
 	(1, 10, 'QbFqJL634mkYRu5N5BSH', 'JgPHg+/dhpCHobBVgqLEBRdETV6si1+si5DrxYuRIKE=', '2025-02-18 13:25:27', '2025-02-18 14:25:27'),
 	(2, 10, 'tcFYmit5cZ0WuDwxWbtK', 'rapMfxsuSpJO0+7w1U8OihVM6PBvMr4z9weHV+XNWRo=', '2025-02-18 14:38:35', '2025-02-18 15:38:35'),
@@ -249,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `type` (
   CONSTRAINT `FK_8CDE5729700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.type : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.type : ~2 rows (environ)
 REPLACE INTO `type` (`id`, `ticket_id`, `title_type`) VALUES
 	(1, 2, 'Ticket'),
 	(2, 1, 'Ticket');
@@ -264,14 +264,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_verified` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.user : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.user : ~5 rows (environ)
 REPLACE INTO `user` (`id`, `user_email`, `user_nickname`, `password`, `roles`, `is_verified`) VALUES
-	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '[]', 0),
-	(10, 'maxou@gmail.com', 'MaxLaMenace', '$2y$13$c1nfvLvHnzbaEiWvM6OtHOxqXrTtGMbF82yYovoANCdARfBxJqQuu', '[]', 0),
-	(13, 'root@regardsguerre.fr', 'root', '$2y$13$a.t3oijhFrjTWgAMMmZc2ugHRmCDpRiaRlJKKxsSSSBwRM/TncTr.', '[]', 0),
-	(14, 'l.dupont@regardsguerre.fr', 'lisou', '$2y$13$RGHliSL5g0GsdFcrBB0Hu./IyKDjdT5HqLT5g4P0BXvO9USODOi4y', '[]', 0);
+	(9, 'lily@gmail.com', 'lily', '$2y$13$ZliTuANAqEZkr/d3Cvwxa.fI3tTISOZn7xEFYbB5gHKtY3xbH5Hvu', '["ROLE_USER"]', 0),
+	(10, 'maxou@gmail.com', 'MaxLaMenace', '$2y$13$c1nfvLvHnzbaEiWvM6OtHOxqXrTtGMbF82yYovoANCdARfBxJqQuu', '["ROLE_USER"]', 0),
+	(13, 'root@regardsguerre.fr', 'root', '$2y$13$a.t3oijhFrjTWgAMMmZc2ugHRmCDpRiaRlJKKxsSSSBwRM/TncTr.', '["ROLE_USER"]', 0),
+	(14, 'l.dupont@regardsguerre.fr', 'lisou', '$2y$13$RGHliSL5g0GsdFcrBB0Hu./IyKDjdT5HqLT5g4P0BXvO9USODOi4y', '["ROLE_USER"]', 0),
+	(15, 'micka@gmail.com', 'micka', '$2y$13$X067Ml8..4j5C67GpO.Z/u/6IL4a/6NXLmzqPD0AFmY6eFqa0Igdi', '["ROLE_USER"]', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
