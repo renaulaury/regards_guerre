@@ -35,7 +35,13 @@
                     
                     <ol>
                         <li><a href="{{ path('home') }}">Accueil</a></li>
-                        <li><a href="{{ path('backOffice') }}">Back-Office</a></li>
+
+                        {# Apparait que si root ou admin #}
+                        {% if app.user %}
+                            {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
+                                <li><a href="{{ path('back_office') }}">Back-Office</a></li>
+                            {% endif %}
+                        {% endif %}
                         <li><a href="#">Blog</a></li>
                         <li><a href="{{ path('ticket') }}">Tickets</a></li>
                         <li>

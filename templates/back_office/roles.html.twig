@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BackOfficeController!{% endblock %}
+
+{% block body %}
+
+<h1>Back-Office</h1>
+
+<section class="list">
+    <div>
+        <p class="thUsers">Pseudo</p>
+        <p class="thUsers">Email</p>
+        <p class="thUsers">Rôle</p>
+        <p></p>
+    </div>
+
+    {% if 'ROLE_ROOT' in app.user.roles %}
+        {# Affiche tous les membres sauf ceux avec le rôle ROLE_ROOT #}
+        {% for member in members %}
+            {% if 'ROLE_ROOT' not in member.roles %} {# Root non affiché #}
+                <div>
+                    <p>{{ member.userNickname }}</p>
+                    <p>{{ member.userEmail }}</p>
+                    <p>
+                        {% if 'ROLE_ADMIN' in member.roles %}
+                            <p>Administrateur</p>
+                        {% elseif 'ROLE_USER' in member.roles %}
+                            <p>Utilisateur</p>
+                        {% endif %}
+                    </p>
+                    <p>
+                        <i class="fa-solid fa-pencil"></i>
+                        <i class="fa-solid fa-trash-can"></i>
+                    </p>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    {% elseif 'ROLE_ADMIN' in app.user.roles %}
+        {% for user in users %}
+            {% if 'ROLE_ROOT' not in user.roles %}
+                <div>
+                    <p>{{ user.userNickname }}</p>
+                    <p>{{ user.userEmail }}</p>
+                    <p>
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <p>Administrateur</p>
+                        {% elseif 'ROLE_USER' in user.roles %}
+                            <p>Utilisateur</p>
+                            {% endif %}
+                    </p>
+                    <p>
+                            <i class="fa-solid fa-pencil"></i>
+                            <i class="fa-solid fa-trash-can"></i>
+                        {% endif %}
+                        
+                    </p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</section>
+
+{% endblock %}
