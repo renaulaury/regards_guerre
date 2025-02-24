@@ -7,15 +7,18 @@
 <h1>Back-Office</h1>
 
 <section>
-    <h2>Formulaire de création / modification d'utilisateur</h2>
+    <h2>Modification de l'utilisateur</h2>
     
     {# Affichage du formulaire #}
-    {{ form_start(form) }}
-        {{ form_row(form.username) }}
-        {{ form_row(form.email) }}
-        
-        <button type="submit">Enregistrer</button>
-    {{ form_end(form) }}
+     {{ form_start(form) }}
+       {{ form_row(form.userNickname) }}
+        <button type="submit" name="submitNickname">Valider</button>
+
+        {{ form_row(form.roles) }}  
+        <button type="submit" name="submitRoles">Valider</button>
+    {{ form_end(form) }}  
+
+   
 </section>
 
 {% endblock %}

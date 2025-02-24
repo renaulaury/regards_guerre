@@ -4,6 +4,8 @@ namespace App\Controller\BackOffice;
 
 
 use App\Entity\User;
+use App\Form\UserBOType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,14 +32,28 @@ final class UserBOController extends AbstractController
     }
 
     /************** Modifier le profil d'un user  *********************/
-    #[Route('/backOffice/userEdit{id}', name: 'userEdit')]
-    public function editUser(Request $request, User $user): Response
+    #[Route('/backOffice/user/userEdit/{id}', name: 'userEdit')]
+    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        
-        
+        $form = $this->createForm(UserBOType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($request->request->get('submitNickname')) {
+                $user->setUserNickname($form->get('userNickname')->getData());
+            }
+
+            if ($request->request->get('submitRoles')) {
+                $user->setRoles($form->get('roles')->getData());
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('userList');
+        }
 
         return $this->render('backOffice/user/userEdit.html.twig', [
-           
+            'form' => $form->createView(),
         ]);
     }
 
