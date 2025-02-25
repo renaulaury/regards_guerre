@@ -102,7 +102,7 @@ final class UserBOController extends AbstractController
     }
 
 /******************** Confirmation suppression d'un user ***********************/
-    #[Route('/backOffice/user/userDeleteBO/{id}', name: 'userDeleteBO')]
+    #[Route('/backOffice/user/userConfirmDeleteBO/{id}', name: 'userConfirmDeleteBO')]
     public function userConfirmDeleteBO(User $user, EntityManagerInterface $entityManager): Response
     {    
         // Anonymisation du profil en utilisant le numéro d'id
@@ -113,7 +113,7 @@ final class UserBOController extends AbstractController
         $user->setUserNickname($anonymizedNickname);
 
         // Vous pouvez aussi vider d'autres champs personnels si nécessaire
-        $user->setRoles([]);
+        $user->setRoles(['ROLE_DELETE']);
         $user->setPassword('');
         $user->setReasonNickname(null);
 
