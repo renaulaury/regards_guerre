@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER_EMAIL', fields: ['userEmail'])]
-#[UniqueEntity(fields: ['userEmail'], message: 'Il y a déjà un compte avec cet email.')]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER_NICKNAME', fields: ['userNickname'])]
+#[UniqueEntity(fields: ['userEmail', 'userNickname'], message: 'Ce pseudo ou cet email est déjà pris.')]
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -255,5 +257,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ReasonNickname = $ReasonNickname;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        $this->userNickname;
     }
 }

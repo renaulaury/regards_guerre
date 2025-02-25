@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BackOfficeController!{% endblock %}
+
+{% block body %}
+
+<h1>Back-Office</h1>
+
+<section>
+    <h2>Etes vous sûr(e) de vouloir supprimer {{ user.userNickname }} ?</h2>
+    
+    <form method="post" action="{{ path('userConfirmDeleteBO', {id: user.id}) }}">
+        <button type="submit" name="submitConfirmDeleteUser">Supprimer</button>
+    </form>
+
+</section>
+
+{% endblock %}

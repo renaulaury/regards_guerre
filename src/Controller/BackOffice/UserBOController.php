@@ -17,14 +17,14 @@ final class UserBOController extends AbstractController
    
 
     /******************** Affiche les membres ***********************/
-    #[Route('/backOffice/userList', name: 'userList')]
+    #[Route('/backOffice/userListBO', name: 'userList')]
     public function rolesBackOffice(UserBORepository $userBORepo): Response
     {
         $user = $this->getUser(); //User co
         $members = $userBORepo->findMembersByEmail(); //Membres de l'assoc
         $users = $userBORepo->findUsersByRole(); //Classement users par roles
         
-        return $this->render('backOffice/user/userList.html.twig', [
+        return $this->render('backOffice/user/userListBO.html.twig', [
             'user' => $user,
             'members' => $members,            
             'users' => $users,
@@ -32,8 +32,8 @@ final class UserBOController extends AbstractController
     }
 
 /************** Modifier le profil d'un user  *********************/
-    #[Route('/backOffice/user/userEdit/{id}', name: 'userEdit')]
-    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/user/userEditBO/{id}', name: 'userEditBO')]
+    public function editUserBO(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         // Vérification des rôles de l'utilisateur connecté
         $root = $this->isGranted('ROLE_ROOT');
@@ -80,10 +80,10 @@ final class UserBOController extends AbstractController
             $entityManager->persist($user);//Marquage de l'entité pour qu'elle soit sauvegardée
             $entityManager->flush(); //Exécute les opérations de maj
 
-            return $this->redirectToRoute('userList');
+            return $this->redirectToRoute('userListBO');
         }
 
-        return $this->render('backOffice/user/userEdit.html.twig', [
+        return $this->render('backOffice/user/userEditBO.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
             'root' => $root,
@@ -91,7 +91,38 @@ final class UserBOController extends AbstractController
         ]);
     }
 
+/******************** Suppression d'un user ***********************/
+    #[Route('/backOffice/user/userDeleteBO/{id}', name: 'userDeleteBO')]
+    public function userDeleteBO(User $user): Response
+    {
+        
+        return $this->render('backOffice/user/userDeleteBO.html.twig', [
+            'user' => $user,
+        ]);
+    }
 
+/******************** Confirmation suppression d'un user ***********************/
+    #[Route('/backOffice/user/userDeleteBO/{id}', name: 'userDeleteBO')]
+    public function userConfirmDeleteBO(User $user, EntityManagerInterface $entityManager): Response
+    {    
+        // Anonymisation du profil en utilisant le numéro d'id
+        $anonymizedEmail = 'utilisateur' . $user->getId() . '@supprime.fr';
+        $anonymizedNickname = 'Utilisateur' . $user->getId();
+
+        $user->setUserEmail($anonymizedEmail);
+        $user->setUserNickname($anonymizedNickname);
+
+        // Vous pouvez aussi vider d'autres champs personnels si nécessaire
+        $user->setRoles([]);
+        $user->setPassword('');
+        $user->setReasonNickname(null);
+
+        // Enregistrement des modifications
+        $entityManager->flush();
+
+        // Redirection après suppression
+        return $this->redirectToRoute('userList');
+    }
 
 
 }

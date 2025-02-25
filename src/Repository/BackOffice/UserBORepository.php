@@ -54,6 +54,6 @@ class UserBORepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult(); 
     }
 
-    /************** Modifier le profil d'un user  *********************/
+   
 
 }
