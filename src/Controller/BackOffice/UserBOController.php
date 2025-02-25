@@ -45,16 +45,9 @@ final class UserBOController extends AbstractController
             'admin' => $admin,
         ]);
 
-        // Créer un tableau avec les données vides pour le formulaire
-        $emptyUser = new User();
-        $emptyUser->setUserNickname('');  
-        $emptyUser->setReasonNickname(''); 
-
-         // Création du formulaire avec les données vides
-        $form = $this->createForm(UserBOType::class, $user, [
-            'root' => $root,
-            'admin' => $admin,
-        ]);
+         // Vider les champs du formulaire avant de les afficher
+        $form->get('userNickname')->setData('');  
+        $form->get('reasonNickname')->setData(''); 
 
         // Traite la requête HTTP et hydrate le formulaire avec les données soumises
         $form->handleRequest($request);

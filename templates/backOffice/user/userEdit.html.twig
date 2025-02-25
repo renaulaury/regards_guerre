@@ -9,6 +9,8 @@
 <section>
     <h2>Modification de l'utilisateur</h2>
     
+    <p>Pseudo actuel: {{ user.userNickname }}</p>
+    
     {# Affichage du formulaire #}
     <form method="post" action="{{ path('userEdit', {id: user.id}) }}">
         {{ form_start(form) }}
