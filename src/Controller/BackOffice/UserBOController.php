@@ -31,30 +31,74 @@ final class UserBOController extends AbstractController
         ]);
     }
 
-    /************** Modifier le profil d'un user  *********************/
+/************** Modifier le profil d'un user  *********************/
     #[Route('/backOffice/user/userEdit/{id}', name: 'userEdit')]
     public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UserBOType::class, $user);
+        // Vérification des rôles de l'utilisateur connecté
+        $root = $this->isGranted('ROLE_ROOT');
+        $admin = $this->isGranted('ROLE_ADMIN');
+
+        // Création du formulaire avec les options pour conditionner les champs affichés
+        $form = $this->createForm(UserBOType::class, $user, [
+            'root' => $root,
+            'admin' => $admin,
+        ]);
+
+        // Créer un tableau avec les données vides pour le formulaire
+        $emptyUser = new User();
+        $emptyUser->setUserNickname('');  
+        $emptyUser->setReasonNickname(''); 
+
+         // Création du formulaire avec les données vides
+        $form = $this->createForm(UserBOType::class, $user, [
+            'root' => $root,
+            'admin' => $admin,
+        ]);
+
+        // Traite la requête HTTP et hydrate le formulaire avec les données soumises
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($request->request->get('submitNickname')) {
-                $user->setUserNickname($form->get('userNickname')->getData());
+            
+            // Admin -> Gestion du changement de pseudo 
+            if ($admin && $request->request->get('submitNickname')) {
+
+                $newNickname = $form->get('userNickname')->getData();
+
+                // Vérif différence des 2 pseudos
+                if ($user->getUserNickname() !== $newNickname) {
+                    // Stockage de la raison du changement 
+                    $reasonNickname = $form->get('reasonNickname')->getData();
+
+                    // Mettre à jour le pseudo
+                    $user->setUserNickname($newNickname);
+                    // Stockage de la raison du changement en bdd
+                    $user->setReasonNickname($reasonNickname);
+                } 
             }
 
-            if ($request->request->get('submitRoles')) {
-                $user->setRoles($form->get('roles')->getData());
+            // Root -> Gestion du changement de rôle 
+            if ($root && $request->request->get('submitRoles')) {
+                $user->setRoles([$form->get('roles')->getData()]);
             }
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            
+            $entityManager->persist($user);//Marquage de l'entité pour qu'elle soit sauvegardée
+            $entityManager->flush(); //Exécute les opérations de maj
+
             return $this->redirectToRoute('userList');
         }
 
         return $this->render('backOffice/user/userEdit.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
+            'root' => $root,
+            'admin' => $admin,
         ]);
     }
+
+
+
 
 }

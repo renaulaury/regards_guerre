@@ -10,13 +10,23 @@
     <h2>Modification de l'utilisateur</h2>
     
     {# Affichage du formulaire #}
-     {{ form_start(form) }}
-       {{ form_row(form.userNickname) }}
-        <button type="submit" name="submitNickname">Valider</button>
-
-        {{ form_row(form.roles) }}  
-        <button type="submit" name="submitRoles">Valider</button>
-    {{ form_end(form) }}  
+    <form method="post" action="{{ path('userEdit', {id: user.id}) }}">
+        {{ form_start(form) }}
+    
+        {% if root %}
+            {{ form_row(form.roles) }}
+            <button type="submit" name="submitRoles">Modifier le rôle</button>
+        {% endif %}
+    
+        {% if admin %}
+            {{ form_row(form.userNickname) }}
+            {{ form_row(form.reasonNickname) }}
+            <button type="submit" name="submitNickname">Modifier le pseudo</button>
+        {% endif %}
+    
+        {{ form_end(form) }}  
+    </form>
+    
 
    
 </section>
