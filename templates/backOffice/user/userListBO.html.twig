@@ -22,7 +22,7 @@
                 
                     <p>{{ member.userNickname }}</p>
                     <p>{{ member.userEmail }}</p>
-                    {# {{ dump(member)}} #}
+                    
                         {% if 'ROLE_ADMIN' in member.roles %}
                             <p>Administrateur</p>
                         {% elseif 'ROLE_USER' in member.roles %}

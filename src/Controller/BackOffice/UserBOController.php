@@ -17,7 +17,7 @@ final class UserBOController extends AbstractController
    
 
     /******************** Affiche les membres ***********************/
-    #[Route('/backOffice/userListBO', name: 'userList')]
+    #[Route('/backOffice/userListBO', name: 'userListBO')]
     public function rolesBackOffice(UserBORepository $userBORepo): Response
     {
         $user = $this->getUser(); //User co
@@ -45,17 +45,18 @@ final class UserBOController extends AbstractController
             'admin' => $admin,
         ]);
 
-         // Vider les champs du formulaire avant de les afficher
-        $form->get('userNickname')->setData('');  
-        $form->get('reasonNickname')->setData(''); 
-
         // Traite la requête HTTP et hydrate le formulaire avec les données soumises
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
             
             // Admin -> Gestion du changement de pseudo 
             if ($admin && $request->request->get('submitNickname')) {
+
+                 // Vider les champs du formulaire avant de les afficher
+                $form->get('userNickname')->setData('');  
+                $form->get('reasonNickname')->setData(''); 
 
                 $newNickname = $form->get('userNickname')->getData();
 
