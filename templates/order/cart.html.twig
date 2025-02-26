@@ -19,6 +19,8 @@
         <p class="thUsers">Montant</p>
         <p></p>
         
+
+    <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
         {% for product in cart %} 
         
             <p>{{ product.exhibition }}</p> 
@@ -59,6 +61,8 @@
 
         <p>Total panier : {{ total }} €</p>
 
+        <button type="submit" name="submitOrderValidation">Réserver</button>
+    </form>
         <p>
             <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
         </p>    

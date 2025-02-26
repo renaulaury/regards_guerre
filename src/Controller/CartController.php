@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Entity\Ticket;
 use App\Entity\Exhibition;
+use App\Entity\OrderDetail;
+use App\Repository\ExhibitionRepository;
 use App\Service\CartService;
 use App\Repository\TicketRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,7 +85,6 @@ class CartController extends AbstractController
         }
     }
 
-    
 
     /************* Vide le panier ***************/
 
@@ -112,9 +115,63 @@ class CartController extends AbstractController
     }
 
 
-
-
-
+/********************** Valider la commande *****************/
+#[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
+public function orderValidated(CartService $cartService, EntityManagerInterface $entityManager, ExhibitionRepository $exhibitionRepository, TicketRepository $ticketRepository): Response
+{
+    $cart = $cartService->getCart();
     
+    // Création d'une nouvelle commande
+    $order = new Order();
+    $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
+    $order->setUser($this->getUser());
+
+    $order->setOrderStatus('Envoyé'); 
+    
+    foreach ($cart as $item) {
+        $orderDetail = new OrderDetail();
+        $orderDetail->setOrder($order);
+        
+        // Charger l'objet Exhibition à partir de l'ID
+        $exhibition = $exhibitionRepository->find($item['exhibitionId']); // Assumes 'exhibitionId' in cart item
+        if ($exhibition) {
+            $orderDetail->setExhibition($exhibition);
+        }
+
+        // Charger l'objet Ticket à partir de l'ID
+        $ticket = $ticketRepository->find($item['ticketId']);
+        if ($ticket) {
+            $orderDetail->setTicket($ticket);
+        } 
+
+        $orderDetail->setQuantity($item['qty']);
+        $orderDetail->setUnitPrice($item['price']);
+        // $orderDetail->setTotal($item['totalLine']);
+
+        $entityManager->persist($orderDetail);
+    }
+
+    $entityManager->persist($order);
+    $entityManager->flush();
+
+    // Vider le panier après validation
+    $cartService->clearCart();
+
+    return $this->redirectToRoute('orderSuccess');
 }
+
+
+ /********************** Commande validée *****************/
+    #[Route('/orderSuccess', name: 'orderSuccess')]
+    public function orderSuccess(): Response
+    {
+        return $this->render('order/orderSuccess.html.twig');
+    }
+
+}
+
+
+
+
+
     
