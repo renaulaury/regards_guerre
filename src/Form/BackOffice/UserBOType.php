@@ -22,8 +22,8 @@ class UserBOType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Utilisateur' => 'ROLE_USER',
                 ],
-                'expanded' => true,
-                'multiple' => false,
+                'expanded' => false,
+                'multiple' => true,
             ]);
         }
 
@@ -45,8 +45,8 @@ class UserBOType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'root' => false,  // Ajout de l'option pour définir si c'est un ROOT
-            'admin' => false, // Ajout de l'option pour définir si c'est un ADMIN
+            'root' => false,  // Option ROOT
+            'admin' => false, // Option ADMIN
         ]);
     }
 

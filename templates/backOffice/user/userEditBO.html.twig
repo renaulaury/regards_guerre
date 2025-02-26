@@ -6,11 +6,19 @@
 
 <h1>Back-Office</h1>
 
+
 <section>
     <h2>Modification de l'utilisateur</h2>
     
-    <p>Pseudo actuel: {{ user.userNickname }}</p>
-    
+    {# <p>Pseudo actuel: {{ user }} </p> #}
+
+    <p> Rôle actuel :        
+        {% if user.roles[0]  == 'ROLE_USER' %}
+            Utilisateur   
+        {% elseif user.roles[0]  == 'ROLE_ADMIN' %} 
+            Administrateur        
+        {% endif %} </p>
+
     {# Affichage du formulaire #}
     <form method="post" action="{{ path('userEditBO', {id: user.id}) }}">
         {{ form_start(form) }}
