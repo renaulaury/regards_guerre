@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class CartService 
 {
   private TicketRepository $ticketRepository; //privée car uniquement nécessaire ici
+  private RequestStack $requestStack;
 
   public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo)
   {  
@@ -23,7 +24,6 @@ class CartService
 
   public function getCart(): array
   {
-    // return $this->session->get('cart', []);
     return $this->getSession()->get('cart', []);
 
   }
@@ -31,52 +31,58 @@ class CartService
   public function setCart(array $cart): void
   {
     $this->getSession()->set('cart', $cart);  
-}
+  }
 
     /************* Ajouter un produit au panier ****************/
 
-    public function addCart(Ticket $ticket = null, int $qty = 1)
-{
-    // Récupérer le panier depuis la session
-    $cart = $this->getCart();
+    public function addCart(Ticket $ticket, int $qty = 1)
+    {
+        // Récupérer le panier depuis la session
+        $cart = $this->getCart();
 
-    if ($ticket) {
-        // Récupérer les informations via le repository
-        $ticketId = $ticket->getId();
-        $ticketDetails = $this->ticketRepository->findTicketDetails($ticketId);
+        if ($ticket) {
+            // Récupérer les informations via le repository
+            $ticketId = $ticket->getId();
+            $ticketDetails = $this->ticketRepository->findTicketDetails($ticketId);
 
-        // Vérifier si on a bien récupéré les informations nécessaires
-        if ($ticketDetails) {
-            $exhibition = $ticketDetails['exhibition'];
-            $exhibitionId = $ticketDetails['exhibitionId'];
-            $price = $ticketDetails['price'];
+            // Vérifier si on a bien récupéré les informations nécessaires
+            if ($ticketDetails) {
+                $exhibition = $ticketDetails['exhibition'];
+                $exhibitionId = $ticketDetails['exhibitionId'];
+                $price = $ticketDetails['price'];
 
-            // Si le ticket est déjà dans le panier, on met à jour la quantité
-            if (isset($cart[$ticketId])) {
-                $cart[$ticketId]['qty'] += $qty;
-            } else {
-                // Sinon, on ajoute le ticket au panier avec ses informations
-                $cart[$ticketId] = [
-                    'ticket' => $ticket,
-                    'ticketId' => $ticketId,
-                    'exhibition' => $exhibition,
-                    'exhibitionId' => $exhibitionId,
-                    'qty' => $qty,
-                    'price' => $price,
-                ];
+                // Si le ticket est déjà dans le panier, on met à jour la quantité
+                if (isset($cart[$ticketId])) {
+                    $cart[$ticketId]['qty'] += $qty;
+                } else {
+                    // Sinon, on ajoute le ticket au panier avec ses informations
+                    $cart[$ticketId] = [
+                        'ticket' => $ticket,
+                        'ticketId' => $ticketId,
+                        'exhibition' => $exhibition,
+                        'exhibitionId' => $exhibitionId,
+                        'qty' => $qty,
+                        'price' => $price,
+                    ];
+                }
+
+                // Ajouter le total de la ligne 
+                 $cart[$ticketId]['totalLine'] = $cart[$ticketId]['price'] * $cart[$ticketId]['qty'];            
             }
-            // Ajouter le total de la ligne
-            // Total de la ligne = prix du ticket en fonction de l'Id * la quantité en fonction de l'Id
-            $cart[$ticketId]['totalLine'] = $cart[$ticketId]['price'] * $cart[$ticketId]['qty'];
-        
-        }
     }
 
-    // Sauvegarde du panier dans la session
+    // Recalculer le total du panier
+    $this->updateCartTotal($cart);
+
+    // Calculer le total du panier
+    $total = $this->getTotal();
+
+    // Sauvegarde du panier et du total dans la session
     $this->getSession()->set('cart', $cart);
+    $this->getSession()->set('cartTotal', $total);
 }
- 
- 
+
+
 
  /************* Soustraire un produit ****************/
   
@@ -110,7 +116,6 @@ class CartService
         $this->getSession()->remove('cart');
     }
 
- 
 
  /***************************** Retirer un article du panier ***************/
     public function removeProduct(int $id): void
@@ -124,19 +129,34 @@ class CartService
         $this->getSession()->set('cart', $cart); // Met à jour la session
   }
 
+
+
   /***************************** Calcul total du panier *******************/
   public function getTotal(): float
-{
-    
-    $cart = $this->getCart(); // Récupération du panier depuis la session
-    $total = 0;
+    {
+        $cart = $this->getCart(); // Récupération du panier depuis la session
+        $total = 0;
 
-    foreach ($cart as $product) {
-        $total += $product['price'] * $product['qty'];
+        foreach ($cart as $product) {
+            $total += $product['price'] * $product['qty'];
+        }
+
+        return $total;
     }
 
-    return $total;
-}
+// Fonction pour mettre à jour le total du panier
+    public function updateCartTotal($cart)
+    {
+        $total = 0;
+
+        foreach ($cart as $product) {
+            $total += $product['totalLine']; // Total de la ligne du ticket
+        }
+
+        // Mettre à jour le total dans la session
+        $session = $this->requestStack->getCurrentRequest()->getSession();
+        $session->set('cartTotal', $total);
+    }
  
 
   /************* Compteur de produit dans le panier ****************/

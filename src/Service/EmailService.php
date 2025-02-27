@@ -6,18 +6,21 @@ use Twig\Environment;
 use App\Service\CartService;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class EmailService
 {
     private CartService $cartService;
     private MailerInterface $mailer;
     private Environment $twig;
+    private RequestStack $requestStack;
 
-    public function __construct(CartService $cartService, Environment $twig, MailerInterface $mailer)
+    public function __construct(CartService $cartService, Environment $twig, MailerInterface $mailer, RequestStack $requestStack)
     {
         $this->cartService = $cartService;
         $this->twig = $twig; // On récupère le service Twig pour créer un mail complet et personnalisé
         $this->mailer = $mailer;
+        $this->requestStack = $requestStack;
     }
 
     public function sendOrderConfirmationEmail($user, $cart): void
@@ -47,9 +50,10 @@ class EmailService
             }
         }
 
-        dump($cart); // Vérifie le contenu du panier
-        $total = $this->cartService->getTotal();
-        dump($total); // Vérifie que le total est bien calculé
+        // Récupérer le total du panier depuis la session
+        $this->cartService->updateCartTotal($cart); 
+        $session = $this->requestStack->getCurrentRequest()->getSession();        
+        $total = $session->get('cartTotal');
 
         $email = (new Email())
             ->from('noreply@regardsguerre.fr')  // Expéditeur
