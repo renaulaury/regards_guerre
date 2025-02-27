@@ -1,0 +1,26 @@
+
+{% block body %}
+
+
+
+<section>
+    <h1>Bonjour {{ user }},</h1>
+
+    <p>Voici le récapitulatif de votre commande :</p>
+    
+    <div>
+        {% for exhibitionId, exhibitionData in groupedCart %}
+            <h3>Exposition : {{ exhibitionData.exhibition }}</h3>
+                {% for ticketId, ticketData in exhibitionData.tickets %}
+                    <p>Ticket : {{ ticketData.ticket }} X {{ ticketData.quantity }}</p>
+                {% endfor %}
+        {% endfor %}
+        
+        <p><strong>Total de la commande :</strong> {{ total }} €</p>
+
+            <p>Merci pour votre commande et à bientôt !</p>
+
+            <p>Regards de guerre</p>
+    </div>
+</section>
+{% endblock %}

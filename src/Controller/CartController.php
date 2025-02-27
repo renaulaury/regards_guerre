@@ -6,9 +6,10 @@ use App\Entity\Order;
 use App\Entity\Ticket;
 use App\Entity\Exhibition;
 use App\Entity\OrderDetail;
-use App\Repository\ExhibitionRepository;
 use App\Service\CartService;
+use App\Service\EmailService;
 use App\Repository\TicketRepository;
+use App\Repository\ExhibitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -86,9 +87,9 @@ class CartController extends AbstractController
     }
 
 
-    /************* Vide le panier ***************/
+    /************* Vider le panier ***************/
 
-    /* Confirmation de suppression du panier */
+    // Confirmation de suppression du panier 
     #[Route('/order/deleteCartConfirm', name: 'deleteCartConfirm')]
     public function deleteCartConfirm(): Response
     {    
@@ -96,7 +97,7 @@ class CartController extends AbstractController
     ]);
     }
 
-    /* Vider le panier définitivement */
+    /************* Vider le panier définitivement ***************/
     #[Route('/order/cart/delete', name: 'deleteCart')]
     public function deleteCart(CartService $cartService): Response
     {
@@ -117,7 +118,7 @@ class CartController extends AbstractController
 
 /********************** Valider la commande *****************/
 #[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
-public function orderValidated(CartService $cartService, EntityManagerInterface $entityManager, ExhibitionRepository $exhibitionRepository, TicketRepository $ticketRepository): Response
+public function orderValidated(CartService $cartService, EntityManagerInterface $entityManager, ExhibitionRepository $exhibitRepo, TicketRepository $ticketRepo, EmailService $emailService): Response
 {
     $cart = $cartService->getCart();
     
@@ -133,13 +134,13 @@ public function orderValidated(CartService $cartService, EntityManagerInterface 
         $orderDetail->setOrder($order);
         
         // Charger l'objet Exhibition à partir de l'ID
-        $exhibition = $exhibitionRepository->find($item['exhibitionId']); // Assumes 'exhibitionId' in cart item
+        $exhibition = $exhibitRepo->find($item['exhibitionId']); 
         if ($exhibition) {
             $orderDetail->setExhibition($exhibition);
         }
 
         // Charger l'objet Ticket à partir de l'ID
-        $ticket = $ticketRepository->find($item['ticketId']);
+        $ticket = $ticketRepo->find($item['ticketId']);
         if ($ticket) {
             $orderDetail->setTicket($ticket);
         } 
@@ -153,6 +154,11 @@ public function orderValidated(CartService $cartService, EntityManagerInterface 
 
     $entityManager->persist($order);
     $entityManager->flush();
+    
+
+    // Envoi de l'email de confirmation de commande
+    $emailService->sendOrderConfirmationEmail($this->getUser(), $cart);
+    //getUserIdentifier -> retourne identifiant unique qui est l'email (mep l11 de security.yaml)
 
     // Vider le panier après validation
     $cartService->clearCart();
