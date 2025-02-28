@@ -13,7 +13,7 @@ class UserBORepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    /************** Méthode personnalisée pour le profil root  *********************/
+    /************** Listes des membres de l'association : personnalisé root  *********************/
     // -> que les membres de l'assoc
     public function findMembersByEmail() {
         // Récupération de l'EntityManager pour interagir avec la base de données
@@ -36,7 +36,7 @@ class UserBORepository extends ServiceEntityRepository
 
 
 
-     /************** Méthode personnalisée pour le profil admin  *********************/
+/************** Listes des utilisateurs : personnalisé admin  *********************/
      public function findUsersByRole() {
         // Récupération de l'EntityManager pour interagir avec la base de données
         $entityManager = $this->getEntityManager();
@@ -53,6 +53,6 @@ class UserBORepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult(); 
     }
 
-   
+
 
 }

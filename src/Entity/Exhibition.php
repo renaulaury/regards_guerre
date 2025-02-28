@@ -366,11 +366,6 @@ class Exhibition
         return $this;
     }
 
-    public function __toString()
-    {
-        $this->titleExhibit;
-    }
-
     /**
      * @return Collection<int, ticketPricing>
      */
@@ -423,6 +418,11 @@ class Exhibition
         $this->stockAlert = $stockAlert;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->titleExhibit;
     }
  
 }

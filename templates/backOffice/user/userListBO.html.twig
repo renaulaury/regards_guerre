@@ -45,7 +45,10 @@
         {% for user in users %}
             {% if 'ROLE_ROOT' not in user.roles %}
 
-                <p>{{ user.userNickname }}</p>
+                <p>
+                    <a href="{{ path('userOrderBO', {'id': user.id}) }}">{{ user.userNickname }}</a>
+                </p>
+                
                 <p>{{ user.userEmail }}</p>            
                 
                     {% if 'ROLE_ADMIN' in user.roles %}

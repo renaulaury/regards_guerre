@@ -87,7 +87,7 @@ class CartController extends AbstractController
     }
 
 
-    /************* Vider le panier ***************/
+/************* Vider le panier ***************/
 
     // Confirmation de suppression du panier 
     #[Route('/order/deleteCartConfirm', name: 'deleteCartConfirm')]
@@ -97,7 +97,7 @@ class CartController extends AbstractController
     ]);
     }
 
-    /************* Vider le panier définitivement ***************/
+    // Vider le panier définitivement 
     #[Route('/order/cart/delete', name: 'deleteCart')]
     public function deleteCart(CartService $cartService): Response
     {
@@ -106,7 +106,7 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart'); // Redirige vers la page du panier
     }
 
-    /********************** Retirer un article du panier *****************/
+/********************** Retirer un article du panier *****************/
     #[Route('/order/cart/remove/{id}', name: 'removeProduct')]
     public function removeProductToCart(CartService $cartService, int $id): Response
     {
@@ -117,54 +117,54 @@ class CartController extends AbstractController
 
 
 /********************** Valider la commande *****************/
-#[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
-public function orderValidated(CartService $cartService, EntityManagerInterface $entityManager, ExhibitionRepository $exhibitRepo, TicketRepository $ticketRepo, EmailService $emailService): Response
-{
-    $cart = $cartService->getCart();
-    
-    // Création d'une nouvelle commande
-    $order = new Order();
-    $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
-    $order->setUser($this->getUser());
-
-    $order->setOrderStatus('Envoyé'); 
-    
-    foreach ($cart as $item) {
-        $orderDetail = new OrderDetail();
-        $orderDetail->setOrder($order);
+    #[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
+    public function orderValidated(CartService $cartService, EntityManagerInterface $entityManager, ExhibitionRepository $exhibitRepo, TicketRepository $ticketRepo, EmailService $emailService): Response
+    {
+        $cart = $cartService->getCart();
         
-        // Charger l'objet Exhibition à partir de l'ID
-        $exhibition = $exhibitRepo->find($item['exhibitionId']); 
-        if ($exhibition) {
-            $orderDetail->setExhibition($exhibition);
+        // Création d'une nouvelle commande
+        $order = new Order();
+        $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
+        $order->setUser($this->getUser());
+
+        $order->setOrderStatus('Envoyé'); 
+        
+        foreach ($cart as $item) {
+            $orderDetail = new OrderDetail();
+            $orderDetail->setOrder($order);
+            
+            // Charger l'objet Exhibition à partir de l'ID
+            $exhibition = $exhibitRepo->find($item['exhibitionId']); 
+            if ($exhibition) {
+                $orderDetail->setExhibition($exhibition);
+            }
+
+            // Charger l'objet Ticket à partir de l'ID
+            $ticket = $ticketRepo->find($item['ticketId']);
+            if ($ticket) {
+                $orderDetail->setTicket($ticket);
+            } 
+
+            $orderDetail->setQuantity($item['qty']);
+            $orderDetail->setUnitPrice($item['price']);
+            // $orderDetail->setTotal($item['totalLine']);
+
+            $entityManager->persist($orderDetail);
         }
 
-        // Charger l'objet Ticket à partir de l'ID
-        $ticket = $ticketRepo->find($item['ticketId']);
-        if ($ticket) {
-            $orderDetail->setTicket($ticket);
-        } 
+        $entityManager->persist($order);
+        $entityManager->flush();
+        
 
-        $orderDetail->setQuantity($item['qty']);
-        $orderDetail->setUnitPrice($item['price']);
-        // $orderDetail->setTotal($item['totalLine']);
+        // Envoi de l'email de confirmation de commande
+        $emailService->sendOrderConfirmationEmail($this->getUser(), $cart);
+        //getUserIdentifier -> retourne identifiant unique qui est l'email (mep l11 de security.yaml)
 
-        $entityManager->persist($orderDetail);
+        // Vider le panier après validation
+        $cartService->clearCart();
+
+        return $this->redirectToRoute('orderSuccess');
     }
-
-    $entityManager->persist($order);
-    $entityManager->flush();
-    
-
-    // Envoi de l'email de confirmation de commande
-    $emailService->sendOrderConfirmationEmail($this->getUser(), $cart);
-    //getUserIdentifier -> retourne identifiant unique qui est l'email (mep l11 de security.yaml)
-
-    // Vider le panier après validation
-    $cartService->clearCart();
-
-    return $this->redirectToRoute('orderSuccess');
-}
 
 
  /********************** Commande validée *****************/
