@@ -46,7 +46,7 @@
             {% if 'ROLE_ROOT' not in user.roles %}
 
                 <p>
-                    <a href="{{ path('userOrderBO', {'id': user.id}) }}">{{ user.userNickname }}</a>
+                    {{ user.userNickname }}
                 </p>
                 
                 <p>{{ user.userEmail }}</p>            
@@ -60,6 +60,7 @@
                     {% elseif 'ROLE_USER' in user.roles %}                        
                             <p>Utilisateur</p>                    
                             <p>
+                                <a href="{{ path('userOrderBO', {'id': user.id}) }}"><i class="fa-regular fa-folder-open"></i></a>
                                 <a href="{{ path('userEditBO', {'id': user.id}) }}">
                                     <i class="fa-solid fa-pencil"></i>
                                 </a>
