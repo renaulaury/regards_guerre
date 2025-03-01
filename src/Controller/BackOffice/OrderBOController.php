@@ -8,15 +8,18 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\BackOffice\OrderBORepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\OrderService;
+use Symfony\Component\Mailer\MailerInterface;
 
 final class OrderBOController extends AbstractController
 
 {    
-    private $orderService;
+    private $orderService;    
+    private MailerInterface $mailer;
 
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, MailerInterface $mailer)
     {
         $this->orderService = $orderService;
+        $this->mailer = $mailer;
     }
    
 /***************** Historique d'un user ***********************/
@@ -74,13 +77,20 @@ final class OrderBOController extends AbstractController
              ];
          }
  
-         // Rendu du template Twig en passant les données nécessaires
+         
          return $this->render('backOffice/user/userOrderBO.html.twig', [
              'user' => $user,
              'groupedOrders' => $groupedOrders,
          ]);
     }
-    
 
+    #[Route('/backOffice/user/userOrderExportBO/{id}', name: 'userOrderExportBO')]
     
+    public function userOrderExportBO(): Response
+    {
+
+        return $this->render('backOffice/user/userOrderBO.html.twig', [
+            
+        ]);
+   }
 }
