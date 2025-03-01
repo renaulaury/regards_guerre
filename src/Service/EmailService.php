@@ -39,7 +39,7 @@ class EmailService
     public function sendOrderConfirmationEmail($user, $cart, $total, $groupedCart): void
     {
         //Contenu -> template
-        $body = $this->twig->render('order/orderConfirmEmail.html.twig', [
+        $body = $this->twig->render('emails/orderConfirmEmail.html.twig', [
             'user' => $user,
             'cart' => $cart,
             'total' => $total,

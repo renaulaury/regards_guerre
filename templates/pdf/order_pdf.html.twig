@@ -8,26 +8,30 @@
 
 
     <h1>Commande #{{ order.id }}</h1>
-    {# <p>Date de création : {{ order.orderDateCreation|date('d/m/Y H:i:s') }}</p> #}
+    <p>Date de création : {{ order.orderDateCreationFr }}</p>
     
 
     <h2>Détails de la commande :</h2>
-                Exposition
-                Ticket
-                Quantité
-                Prix unitaire
-                Total
+        <p class="thUsers">Exposition</p>
+        <p class="thUsers">Ticket</p>
+        <p class="thUsers">Quantité</p>
+        <p class="thUsers displayNone">Prix Unitaire</p>
+           
 
 
-            {% for orderDetail in order.orderDetails %}
-                
-                    {{ orderDetail.exhibition }}
-                    {{ orderDetail.ticket }}
-                    {{ orderDetail.quantity }}
-                
-            {% endfor %}
+        {% for orderDetail in order.orderDetails %}
+            
+                <p>{{ orderDetail.exhibition }}</p>
+                <p>{{ orderDetail.ticket }}</p>
+                <p>{{ orderDetail.quantity }}</p>
+                <p></p>
+                <p></p>
+            
+        {% endfor %}
        
 
-    {# <p>Total de la commande : {{ order.total }} €</p> #}
+     <p>Total de la commande : 
+        {{ total }} €
+    </p>
 </body>
 </html>

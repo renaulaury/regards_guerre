@@ -18,7 +18,7 @@ class PdfService
     }
 
    
-    public function generatePdf(Order $order): string
+    public function generatePdf(Order $order, array $context = []): string
     {
         // Configuration des options de Dompdf
         $pdfOptions = new Options();
@@ -27,9 +27,10 @@ class PdfService
         $dompdf = new Dompdf($pdfOptions); // Création d'une instance de Dompdf avec les options
 
         // Génération du HTML à partir du template Twig
-        $html = $this->twig->render('pdf/order_pdf.html.twig', [
-            'order' => $order, 
-        ]);
+        $html = $this->twig->render(
+            'pdf/order_pdf.html.twig', 
+            array_merge(['order' => $order], $context) //foncton php qui permet de fusionner plusieurs tabl
+        );
 
         //Mep options dompdf
         $dompdf->loadHtml($html); // Chargement du HTML dans Dompdf
