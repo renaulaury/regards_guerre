@@ -3,72 +3,52 @@
 namespace App\Service;
 
 use Twig\Environment;
-use App\Service\CartService;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Mailer\MailerInterface ;
 
 class EmailService
 {
-    private CartService $cartService;
+    private Environment $twig;    
     private MailerInterface $mailer;
-    private Environment $twig;
-    private RequestStack $requestStack;
 
-    public function __construct(CartService $cartService, Environment $twig, MailerInterface $mailer, RequestStack $requestStack)
+    public function __construct(Environment $twig, MailerInterface $mailer)
     {
-        $this->cartService = $cartService;
-        $this->twig = $twig; // On récupère le service Twig pour créer un mail complet et personnalisé
-        $this->mailer = $mailer;
-        $this->requestStack = $requestStack;
+        $this->twig = $twig; 
+        $this->mailer = $mailer;     
     }
 
-    public function sendOrderConfirmationEmail($user, $cart): void
+/********************* Envoi d'email *************************/
+    public function sendEmail(string $to, string $subject, string $body, string $attachmentContent = null, string $attachmentFilename = null): void
     {
-         // On regroupe les tickets par exposition
-        $groupedCart = [];
+        $email = (new Email())
+            ->from('noreply@regardsguerre.fr')
+            ->to($to)
+            ->subject($subject)
+            ->html($body);
 
-        foreach ($cart as $product) {
-            // Insertion de l'expo dans le tableau
-            if (!isset($groupedCart[$product['exhibitionId']])) {
-                $groupedCart[$product['exhibitionId']] = [
-                    'exhibition' => $product['exhibition'],
-                    'tickets' => []
-                ];
-            }
-
-            // Insertion du ticket dans le tableau
-            if (!isset($groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']])) {
-                $groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']] = [
-                    'ticket' => $product['ticket'],
-                    'quantity' => $product['qty'],
-                    'price' => $product['price'],
-                ];
-            } else {
-                // Sinon, on incrémente la quantité du ticket
-                $groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']]['quantity'] += $product['qty'];
-            }
+        //Si PJ
+        if ($attachmentContent && $attachmentFilename) {
+            $email->attach($attachmentContent, $attachmentFilename, 'application/pdf');
         }
 
-        // Récupérer le total du panier depuis la session
-        $this->cartService->updateCartTotal($cart); 
-        $session = $this->requestStack->getCurrentRequest()->getSession();        
-        $total = $session->get('cartTotal');
-
-        $email = (new Email())
-            ->from('noreply@regardsguerre.fr')  // Expéditeur
-            ->to($user->getUserIdentifier())  // Destinataire
-            ->subject('Confirmation de votre commande')
-            ->html(
-                $this->twig->render('order/orderConfirmEmail.html.twig', [
-                    'user' => $user,
-                    'cart' => $cart,
-                    'total' => $total,
-                    'groupedCart' => $groupedCart, //Regroupement des achats
-            ])
-                );
-
-        // Envoi de l'e-mail
+        //Envoi
         $this->mailer->send($email);
     }
+
+/********************* Envoie un email de confirmation de commande à un utilisateur *************************/
+    public function sendOrderConfirmationEmail($user, $cart, $total, $groupedCart): void
+    {
+        //Contenu -> template
+        $body = $this->twig->render('order/orderConfirmEmail.html.twig', [
+            'user' => $user,
+            'cart' => $cart,
+            'total' => $total,
+            'groupedCart' => $groupedCart,
+        ]);
+
+        //Envoi
+        $this->sendEmail($user->getUserIdentifier(), 'Confirmation de votre réservation', $body);
+        //permet d identifier le user par la clé unique mail
+    }
+
 }

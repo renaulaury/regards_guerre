@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Commande #{{ order.id }}</title>
+</head>
+<body>
+
+
+    <h1>Commande #{{ order.id }}</h1>
+    {# <p>Date de création : {{ order.orderDateCreation|date('d/m/Y H:i:s') }}</p> #}
+    
+
+    <h2>Détails de la commande :</h2>
+                Exposition
+                Ticket
+                Quantité
+                Prix unitaire
+                Total
+
+
+            {% for orderDetail in order.orderDetails %}
+                
+                    {{ orderDetail.exhibition }}
+                    {{ orderDetail.ticket }}
+                    {{ orderDetail.quantity }}
+                
+            {% endfor %}
+       
+
+    {# <p>Total de la commande : {{ order.total }} €</p> #}
+</body>
+</html>

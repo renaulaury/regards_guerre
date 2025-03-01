@@ -159,7 +159,7 @@ class CartService
     }
  
 
-  /************* Compteur de produit dans le panier ****************/
+/************* Compteur de produit dans le panier ****************/
   public function cartCount(): int
   {
       // Récupère le panier depuis la session
@@ -168,6 +168,34 @@ class CartService
       // Additionne toutes les quantités des produits dans le panier
       return array_sum(array_column($cart, 'qty'));
   }
+
+/************* Regroupement des achats  ****************/
+  public function groupCartByExhibition(array $cart): array
+    {
+        //Init tabl de regroupement
+        $groupedCart = [];
+
+        foreach ($cart as $product) {
+            if (!isset($groupedCart[$product['exhibitionId']])) { //si expo n'existe pas on la crée
+                $groupedCart[$product['exhibitionId']] = [
+                    'exhibition' => $product['exhibition'], //Add infos expo
+                    'tickets' => [] //Init tabl tickets
+                ];
+            }
+
+            if (!isset($groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']])) {//si ticket n'existe pas on le crée
+                $groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']] = [
+                    'ticket' => $product['ticket'], //Add infos ticket
+                    'quantity' => $product['qty'],
+                    'price' => $product['price'],
+                ];
+            } else { //Si ticket existe on incrémente qty
+                $groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']]['quantity'] += $product['qty'];
+            }
+        }
+
+        return $groupedCart;
+    }
 
 }
 

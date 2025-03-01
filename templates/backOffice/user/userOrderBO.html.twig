@@ -14,7 +14,9 @@
     <p>Aucune réservation trouvée.</p>
     {% else %}
         {% for groupedOrder in groupedOrders %}
-            <p>Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} <a href="#"><i class="fa-solid fa-file-export"></i></a></p>
+        <p>
+            Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} <a href="{{ path('userOrderExportBO', {'orderId': groupedOrder.order.id}) }}"><i class="fa-solid fa-file-export"></i></a>
+        </p>
 
             {% for exhibitionId, exhibitionData in groupedOrder.details %}
                 <p>Exposition : {{ exhibitionData.exhibition }}</p>

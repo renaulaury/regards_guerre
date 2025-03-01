@@ -14,24 +14,31 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartController extends AbstractController
 {
 
-    private $cartService;
+    private CartService $cartService;
+    private RequestStack $requestStack;
+    private EmailService $emailService;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, RequestStack $requestStack, EmailService $emailService, EntityManagerInterface $entityManager)
   {    
     $this->cartService = $cartService;
+    $this->requestStack = $requestStack;
+    $this->emailService = $emailService;
+    $this->entityManager = $entityManager;
   }
 
      /************* Affiche les produits du panier ***************/
      #[Route('/order/cart', name: 'cart')]
-     public function showCart(CartService $cartService): Response
+     public function showCart(): Response
      {
         // Récupérer le panier depuis le service
-         $cart = $cartService->getCart();
-         $total = $cartService->getTotal();
+         $cart = $this->cartService->getCart();
+         $total = $this->cartService->getTotal();
  
          
          return $this->render('order/cart.html.twig', [
@@ -43,14 +50,14 @@ class CartController extends AbstractController
 
     /************* Ajoute un ticket au panier  ***************/
     #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
-    public function addTicketToCart(CartService $cartService, TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
+    public function addTicketToCart(TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
     {
         // Récupération du ticket via le repository
         $ticket = $ticketRepo->find($ticketId);
 
 
         // Ajout du ticket au panier via le service
-        $cartService->addCart($ticket);
+        $this->cartService->addCart($ticket);
 
         // Redirection en fonction de l'origine
         if ($origin === 'ticket') {
@@ -64,14 +71,14 @@ class CartController extends AbstractController
 
 /************* Soustrait un produit au panier ***************/
     #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticketId}/{origin}', name: 'removeTicketFromCart')]
-    public function removeTicketFromCart(CartService $cartService, TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
+    public function removeTicketFromCart(TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
     {
 
          // Récupération du ticket via le repository
          $ticket = $ticketRepo->find($ticketId);
 
         // Soustraction au panier via le service
-        $cartService->removeCart($ticket);
+        $this->cartService->removeCart($ticket);
 
         if ($origin === 'ticket') { // Si l'origine est 'ticket', rediriger vers la page de ventes des tickets
             return $this->redirectToRoute('ticket', [
@@ -99,18 +106,18 @@ class CartController extends AbstractController
 
     // Vider le panier définitivement 
     #[Route('/order/cart/delete', name: 'deleteCart')]
-    public function deleteCart(CartService $cartService): Response
+    public function deleteCart(): Response
     {
-        $cartService->clearCart(); // Vide le panier
+        $this->cartService->clearCart(); // Vide le panier
 
         return $this->redirectToRoute('cart'); // Redirige vers la page du panier
     }
 
 /********************** Retirer un article du panier *****************/
     #[Route('/order/cart/remove/{id}', name: 'removeProduct')]
-    public function removeProductToCart(CartService $cartService, int $id): Response
+    public function removeProductToCart(int $id): Response
     {
-        $cartService->removeProduct($id); // Appelle la fonction pour supprimer l'élément
+        $this->cartService->removeProduct($id); // Appelle la fonction pour supprimer l'élément
 
         return $this->redirectToRoute('cart'); 
     }
@@ -118,15 +125,14 @@ class CartController extends AbstractController
 
 /********************** Valider la commande *****************/
     #[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
-    public function orderValidated(CartService $cartService, EntityManagerInterface $entityManager, ExhibitionRepository $exhibitRepo, TicketRepository $ticketRepo, EmailService $emailService): Response
+    public function orderValidated(ExhibitionRepository $exhibitRepo, TicketRepository $ticketRepo): Response
     {
-        $cart = $cartService->getCart();
+        $cart = $this->cartService->getCart();
         
         // Création d'une nouvelle commande
         $order = new Order();
         $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
         $order->setUser($this->getUser());
-
         $order->setOrderStatus('Envoyé'); 
         
         foreach ($cart as $item) {
@@ -149,19 +155,25 @@ class CartController extends AbstractController
             $orderDetail->setUnitPrice($item['price']);
             // $orderDetail->setTotal($item['totalLine']);
 
-            $entityManager->persist($orderDetail);
+            $this->entityManager->persist($orderDetail);
         }
 
-        $entityManager->persist($order);
-        $entityManager->flush();
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        // Calcul de $total et $groupedCart
+        $groupedCart = $this->cartService->groupCartByExhibition($cart); //Regroupe les articles du panier
+        $this->cartService->updateCartTotal($cart); //Maj panier
+        $session = $this->requestStack->getCurrentRequest()->getSession(); 
+        $total = $session->get('cartTotal'); //Récup total panier
         
 
         // Envoi de l'email de confirmation de commande
-        $emailService->sendOrderConfirmationEmail($this->getUser(), $cart);
-        //getUserIdentifier -> retourne identifiant unique qui est l'email (mep l11 de security.yaml)
+        $this->emailService->sendOrderConfirmationEmail($this->getUser(), $cart, $total, $groupedCart);
+        
 
         // Vider le panier après validation
-        $cartService->clearCart();
+        $this->cartService->clearCart();
 
         return $this->redirectToRoute('orderSuccess');
     }

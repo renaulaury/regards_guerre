@@ -3,23 +3,21 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\User;
+use App\Service\OrderService;
+use App\Service\OrderExportService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\BackOffice\OrderBORepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\OrderService;
-use Symfony\Component\Mailer\MailerInterface;
 
 final class OrderBOController extends AbstractController
 
 {    
-    private $orderService;    
-    private MailerInterface $mailer;
+    private OrderService $orderService; 
 
-    public function __construct(OrderService $orderService, MailerInterface $mailer)
+    public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
-        $this->mailer = $mailer;
     }
    
 /***************** Historique d'un user ***********************/
@@ -84,13 +82,13 @@ final class OrderBOController extends AbstractController
          ]);
     }
 
-    #[Route('/backOffice/user/userOrderExportBO/{id}', name: 'userOrderExportBO')]
-    
-    public function userOrderExportBO(): Response
-    {
 
-        return $this->render('backOffice/user/userOrderBO.html.twig', [
-            
-        ]);
-   }
+/***************** Envoi de la réservation en pdf ***********************/
+    #[Route('/backOffice/user/userOrderExportBO/{orderId}', name: 'userOrderExportBO')]
+    public function userOrderExportBO(int $orderId, OrderExportService $orderExportService): Response
+    {
+        return $orderExportService->exportOrder($orderId);
+    }
+
+    
 }
