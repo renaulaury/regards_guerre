@@ -62,6 +62,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ReasonNickname = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $userName = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $userFirstname = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -262,5 +268,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->userNickname;
+    }
+
+    public function getUserName(): ?string
+    {
+        return $this->userName;
+    }
+
+    public function setUserName(?string $userName): static
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    public function getUserFirstname(): ?string
+    {
+        return $this->userFirstname;
+    }
+
+    public function setUserFirstname(?string $userFirstname): static
+    {
+        $this->userFirstname = $userFirstname;
+
+        return $this;
     }
 }
