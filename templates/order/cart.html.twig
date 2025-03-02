@@ -8,64 +8,71 @@
 
 <section class="summaryCart">
     
-    {% if cart is empty %} 
-    <p>Votre panier est vide.</p>
-    
-    {% else %}    
-        <p class="thUsers">Exposition</p>
-        <p class="thUsers">Ticket</p>
-        <p class="thUsers">Quantité</p>
-        <p class="thUsers displayNone">Prix Unitaire</p>
-        <p class="thUsers">Montant</p>
-        <p></p>
+        {% if cart is empty %} 
+        <p>Votre panier est vide.</p>
         
-
-    <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
-        {% for product in cart %} 
+        {% else %}    
+            <p class="thUsers">Exposition</p>
+            <p class="thUsers">Ticket</p>
+            <p class="thUsers">Quantité</p>
+            <p class="thUsers displayNone">Prix Unitaire</p>
+            <p class="thUsers">Montant</p>
+            <p></p>
         
-            <p>{{ product.exhibition }}</p> 
-            <p>{{ product.ticket }}</p>            
+        {% if app.user %}  
+            <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
+        {% endif %}
 
-            <p>
-                <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
-                    <i class="fa-solid fa-minus"></i>
-                </a> 
-
-                {{ product.qty }}      
-
-                <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
-                    <i class="fa-solid fa-plus"></i>
-                </a>                 
-            </p>
-
-            {% if product.price == 0 %}                 
-                <p class="displayNone">-</p>
-            {% else %}
-                <p class="displayNone">{{ product.price }}</p>  
-            {% endif %}
+            {% for product in cart %} 
             
+                <p>{{ product.exhibition }}</p> 
+                <p>{{ product.ticket }}</p>            
 
-            {% if product.totalLine == 0 %}                 
-                <p>-</p>
-            {% else %}
-                <p>{{ product.totalLine }} €</p> 
-            {% endif %}
+                <p>
+                    <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
+                        <i class="fa-solid fa-minus"></i>
+                    </a> 
+
+                    {{ product.qty }}      
+
+                    <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>                 
+                </p>
+
+                {% if product.price == 0 %}                 
+                    <p class="displayNone">-</p>
+                {% else %}
+                    <p class="displayNone">{{ product.price }}</p>  
+                {% endif %}
+                
+
+                {% if product.totalLine == 0 %}                 
+                    <p>-</p>
+                {% else %}
+                    <p>{{ product.totalLine }} €</p> 
+                {% endif %}
 
            
+                <p>
+                    <a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
+                    <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </p>   
+            {% endfor %}   
+
+            <p>Total panier : {{ total }} €</p>
+
+            {% if app.user %}            
+                <button type="submit" name="submitOrderValidation">Réserver</button>
+            </form>
+            {% else %}
+                <p>Merci de vous enregistrer ou de vous connecter pour commander.</p>
+            {% endif %}                
+        
             <p>
-                <a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
-                <i class="fa-solid fa-trash-can"></i>
-                </a>
-            </p>   
-        {% endfor %}   
-
-        <p>Total panier : {{ total }} €</p>
-
-        <button type="submit" name="submitOrderValidation">Réserver</button>
-    </form>
-        <p>
-            <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
-        </p>    
-    {% endif %}
+                <a href="{{ path('deleteCartConfirm') }}" >Vider le panier</a>
+            </p>    
+        {% endif %}    
 </section>
 {% endblock %}
