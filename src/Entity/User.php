@@ -80,6 +80,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+    
+    public function getUserName(): ?string
+    {
+        return $this->userName;
+    }
+
+    public function setUserName(?string $userName): static
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    public function getUserFirstname(): ?string
+    {
+        return $this->userFirstname;
+    }
+
+    public function setUserFirstname(?string $userFirstname): static
+    {
+        $this->userFirstname = $userFirstname;
+
+        return $this;
+    }
+    
+    public function getUserNickname(): ?string
+    {
+        return $this->userNickname;
+    }
+
+    public function setUserNickname(string $userNickname): static
+    {
+        $this->userNickname = $userNickname;
+
+        return $this;
+    }
+
+    public function getReasonNickname(): ?string
+    {
+        return $this->ReasonNickname;
+    }
+
+    public function setReasonNickname(?string $ReasonNickname): static
+    {
+        $this->ReasonNickname = $ReasonNickname;
+
+        return $this;
+    }
+
     public function getUserEmail(): ?string
     {
         return $this->userEmail;
@@ -150,17 +199,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->password = null;
     }
 
-    public function getUserNickname(): ?string
-    {
-        return $this->userNickname;
-    }
-
-    public function setUserNickname(string $userNickname): static
-    {
-        $this->userNickname = $userNickname;
-
-        return $this;
-    }
+    
 
    
     /**
@@ -253,44 +292,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getReasonNickname(): ?string
-    {
-        return $this->ReasonNickname;
-    }
-
-    public function setReasonNickname(?string $ReasonNickname): static
-    {
-        $this->ReasonNickname = $ReasonNickname;
-
-        return $this;
-    }
+    
 
     public function __toString(): string
     {
         return $this->userNickname;
     }
 
-    public function getUserName(): ?string
-    {
-        return $this->userName;
-    }
-
-    public function setUserName(?string $userName): static
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
-    public function getUserFirstname(): ?string
-    {
-        return $this->userFirstname;
-    }
-
-    public function setUserFirstname(?string $userFirstname): static
-    {
-        $this->userFirstname = $userFirstname;
-
-        return $this;
-    }
 }

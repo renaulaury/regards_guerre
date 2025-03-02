@@ -10,12 +10,21 @@
 
     {{ form_start(registrationForm) }}
 
+    <div>
+        {{ form_row(registrationForm.userName) }}       
+        {{ form_row(registrationForm.userFirstname) }}
+        
+        <p>* Ces informations sont facultatives mais seront nécessaires pour passer une commande.</p>
+    </div>
+        
+
+    <div>
         {{ form_row(registrationForm.userNickname) }}
 
         {{ form_row(registrationForm.userEmail) }}
 
         {{ form_row(registrationForm.password) }}
-        {# {{ form_row(registrationForm.passwordConfirm) }} #}
+    </div>
 
         <p>
             {{ form_widget(registrationForm.agreeTerms, { attr: { class: 'form-check-input' } }) }}
