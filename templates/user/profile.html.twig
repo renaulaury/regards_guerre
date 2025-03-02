@@ -13,11 +13,11 @@
     </div>
     <p>
         Pseudo : {{ app.user.userNickname }}
-        {# <a href="{{ path('editUserNickname') }}"><i class="fa-solid fa-pencil"></i></a> #}
+        {# <a href="{{ path('userEditNickname') }}"><i class="fa-solid fa-pencil"></i></a> #}
     </p>
     <p>
         Email : {{ app.user.userEmail }}
-        {# <a href="{{ path('editUserEmail') }}"><i class="fa-solid fa-pencil"></i></a> #}
+        <a href="{{ path('userEditEmail', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
     </p>
     <p>Mot de passe</p>
     <p><a href="#">Supprimer mon profil</a></p>

@@ -93,6 +93,7 @@ final class UserBOController extends AbstractController
     }
 
 /******************** Suppression d'un user ***********************/
+    //Envoi vers la confirm
     #[Route('/backOffice/user/userDeleteBO/{id}', name: 'userDeleteBO')]
     public function userDeleteBO(User $user): Response
     {
@@ -102,7 +103,7 @@ final class UserBOController extends AbstractController
         ]);
     }
 
-/******************** Confirmation suppression d'un user ***********************/
+    //Confirm définitive
     #[Route('/backOffice/user/userConfirmDeleteBO/{id}', name: 'userConfirmDeleteBO')]
     public function userConfirmDeleteBO(User $user, EntityManagerInterface $entityManager): Response
     {    

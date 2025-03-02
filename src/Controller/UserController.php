@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Form\UserEditEmailFormType;
 use App\Form\UserEditIdentityFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +39,7 @@ final class UserController extends AbstractController
     {
         $user = $userRepository->find($id);
 
+        //Création du formulaire
         $form = $this->createForm(UserEditIdentityFormType::class, $user);
         $form->handleRequest($request);
 
@@ -47,6 +50,31 @@ final class UserController extends AbstractController
         }
 
         return $this->render('user/userEditIdentity.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /*********** Permet l'édition de l'email de l'utilisateur ************************/
+    #[Route('/user/userEditEmail/{id}', name: 'userEditEmail')]
+    public function userEditEmail(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        // Création du form
+        $form = $this->createForm(UserEditEmailFormType::class, $user, ['entityManager' => $entityManager]);
+
+        // Traiter la requête HTTP
+        $form->handleRequest($request);
+
+        // Vérif du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Persister les modifications dans la base de données
+            $entityManager->flush();
+
+            // Rediriger vers la page de profil de l'utilisateur
+            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+        }
+
+        // Rendre le template avec le formulaire
+        return $this->render('user/userEditEmail.html.twig', [
             'form' => $form->createView(),
         ]);
     }
