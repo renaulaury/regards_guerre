@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+<h1>Mon compte</h1>
+
+<p><a href="{{ path('profile', {id: app.user.id}) }}">Mon profil</a></p>
+
+<p><a href="#">Mon historique de commandes</a></p>
+
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <h1>Modifier votre identité</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.userName) }}
+        {{ form_row(form.userFirstname) }}
+
+        <button type="submit">Mettre à jour</button>
+    {{ form_end(form) }}
+
+{% endblock %}
