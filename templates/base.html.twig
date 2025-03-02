@@ -20,7 +20,7 @@
                     <img class="logo" src="/images/logo.svg" alt="Logo de l'association Regards de Guerre">
                     <div class="profile">
                         {% if app.user %}
-                            <p>Bienvenue <a href="#">{{ app.user.userNickname }} !</a></p>
+                            <p>Bienvenue <a href="{{ path('profile', {'id': app.user.id} ) }}">{{ app.user.userNickname }} !</a></p>
                             <p><a href="{{ path('logout') }}">Se déconnecter</a></p>
                         {% else %}
                             <p>                            

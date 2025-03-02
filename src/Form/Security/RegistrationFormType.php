@@ -21,16 +21,21 @@ class RegistrationFormType extends AbstractType
             ->add('userName', TextType::class, [
                 'label' => 'Nom *',  
                 'required' => false,
+                'trim' => true, //Enleve les espaces
             ])
+            
             ->add('userFirstname', TextType::class, [
                 'label' => 'Prénom *',
                 'required' => false, 
+                'trim' => true, //Enleve les espaces
             ])
             ->add('userNickname', TextType::class, [
-                'label' => 'Pseudo'  
+                'label' => 'Pseudo',  
+                'trim' => true, //Enleve les espaces
             ])
             ->add('userEmail', EmailType::class, [
-                'label' => 'Email'  
+                'label' => 'Email',
+                'trim' => true, //Enleve les espaces  
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

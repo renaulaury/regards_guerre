@@ -70,9 +70,12 @@
 
                 <p>Total panier : {{ total }} €</p>
 
-                {% if app.user %}            
-                    <button type="submit" name="submitOrderValidation">Réserver</button>
+                {# trim dans form enleve espaces #}
+                {% if app.user and app.user.userName is not empty and app.user.userFirstname is not empty %}            
+                    <button type="submit" name="submitOrderValidation">Commander</button>
                 </form>
+                {% else %}
+                    <p>Veuillez renseigner votre nom et prénom pour commander. <a href="{{ path('profile', {'id': app.user.id} ) }}">Modifier mon profil</a></p>                    
                 {% endif %}                
             </div>
             
