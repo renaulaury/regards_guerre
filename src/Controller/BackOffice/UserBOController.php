@@ -107,23 +107,31 @@ final class UserBOController extends AbstractController
     #[Route('/backOffice/user/userConfirmDeleteBO/{id}', name: 'userConfirmDeleteBO')]
     public function userConfirmDeleteBO(User $user, EntityManagerInterface $entityManager): Response
     {    
-        // Anonymisation du profil en utilisant le numéro d'id
-        $anonymizedEmail = 'utilisateur' . $user->getId() . '@supprime.fr';
-        $anonymizedNickname = 'Utilisateur' . $user->getId();
+        // Si le user a des commandes on garde nom+prenom uniquement
+        if ($user->getOrders()->count() > 0) {
+            // L'utilisateur a des commandes, anonymisation
+            $anonymizedEmail = 'utilisateur' . $user->getId() . '@supprime.fr';
+            $anonymizedNickname = 'Utilisateur' . $user->getId();
 
-        $user->setUserEmail($anonymizedEmail);
-        $user->setUserNickname($anonymizedNickname);
+            $user->setUserEmail($anonymizedEmail);
+            $user->setUserNickname($anonymizedNickname);
 
-        // Vous pouvez aussi vider d'autres champs personnels si nécessaire
-        $user->setRoles(['ROLE_DELETE']);
-        $user->setPassword('');
-        $user->setReasonNickname(null);
+            // Vider les autres champs personnels
+            $user->setRoles(['ROLE_DELETE']);
+            $user->setPassword('');
+            $user->setReasonNickname(null);
 
-        // Enregistrement des modifications
-        $entityManager->flush();
+            // Enregistrement des modifications
+            $entityManager->flush();
+
+        } else {
+            // L'utilisateur n'a pas de commandes, suppression
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
 
         // Redirection après suppression
-        return $this->redirectToRoute('userList');
+        return $this->redirectToRoute('userListBO');
     }
 
 

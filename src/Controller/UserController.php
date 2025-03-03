@@ -7,11 +7,18 @@ use App\Repository\UserRepository;
 use App\Form\UserEditEmailFormType;
 use App\Form\UserEditIdentityFormType;
 use App\Form\UserEditNicknameFormType;
+use App\Form\UserEditPasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class UserController extends AbstractController
 {
@@ -104,5 +111,135 @@ final class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+/*********** Permet l'édition du mdp l'utilisateur ************************/
+    // #[Route('/userEditPassword/{id}', name: 'userEditPassword')]
+    // public function userEditPassword(EntityManagerInterface $entityManager, Request $request): Response
+    // {
+    //     $user = $this->getUser();
+    //     $form = $this->createForm(UserEditPasswordFormType::class);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $oldPassword = $form->get('oldPassword')->getData();
+
+    //         if (!$userPasswordHasher->isPasswordValid($user, $oldPassword)) {
+    //             $form->get('oldPassword')->addError(new FormError('Mot de passe actuel incorrect'));
+    //             return $this->render('user/userEditPassword.html.twig', [
+    //                 'form' => $form->createView(),
+    //             ]);
+    //         }
+
+    //         $user->setPassword(
+    //             $userPasswordHasher->hashPassword(
+    //                 $user,
+    //                 $form->get('Password')->getData()
+    //             )
+    //         );
+    //         $entityManager->persist($user);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('profile');
+    //     }
+
+    //     return $this->render('user/userEditPassword.html.twig', [
+    //         'form' => $form->createView(),
+    //     ]);
+ 
+    // }
+
+/*********** Suppression profil de l'utilisateur ************************/
+    //Envoi vers la confirm
+    #[Route('/userDeleteProfile/{id}', name: 'userDeleteProfile')]
+    public function userDeleteProfile(User $user): Response
+    {
+        return $this->render('user/userDeleteProfile.html.twig', [
+            'user' => $user,
+        ]);
+    }
+  /*******************************************************************************/  
+
+
+  #[Route('/userDeleteConfirmProfile/{id}', name: 'userDeleteConfirmProfile')]
+  public function userDeleteConfirmProfile(
+      User $user,
+      EntityManagerInterface $entityManager,
+      Security $security,
+      RequestStack $requestStack
+  ): Response {
+      // Vérifie que l'utilisateur connecté est bien celui qui demande la suppression
+      if ($this->getUser() !== $user) {
+          throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer ce profil.');
+      }
+  
+      // Si l'utilisateur a des commandes, on anonymise ses données
+      if ($user->getOrders()->count() > 0) {
+          $user->setUserEmail('utilisateur' . $user->getId() . '@supprime.fr');
+          $user->setUserNickname('Utilisateur' . $user->getId());
+          $user->setRoles(['ROLE_DELETE']);
+          $user->setPassword('');
+          $user->setReasonNickname(null);
+      } else {
+          // Sinon, on supprime l'utilisateur
+          $entityManager->remove($user);
+      }
+  
+      // Sauvegarde les modifications
+      $entityManager->flush();
+  
+      // Déconnecte l'utilisateur
+      $security->logout(false); // Déconnexion propre
+  
+      // Invalide la session
+      $request = $requestStack->getCurrentRequest();
+      if ($request) {
+          $request->getSession()->invalidate();
+      }
+  
+      // Redirige vers la page d'accueil
+      return $this->redirectToRoute('home');
+  }
+
+
+
+    // //Confirm définitive
+    // #[Route('/userDeleteConfirmProfile/{id}', name: 'userDeleteConfirmProfile')]    
+    // public function userDeleteConfirmProfile(User $user, EntityManagerInterface $entityManager, ): Response
+    // {
+
+    //     // Si le user a des commandes on garde nom+prenom uniquement
+    //     if ($user->getOrders()->count() > 0) {
+    //         // L'utilisateur a des commandes, anonymisation
+    //         $anonymizedEmail = 'utilisateur' . $user->getId() . '@supprime.fr';
+    //         $anonymizedNickname = 'Utilisateur' . $user->getId();
+
+    //         $user->setUserEmail($anonymizedEmail);
+    //         $user->setUserNickname($anonymizedNickname);
+
+    //         // Vider les autres champs personnels
+    //         $user->setRoles(['ROLE_DELETE']);
+    //         $user->setPassword('');
+    //         $user->setReasonNickname(null);
+
+    //         // Enregistrement des modifications
+    //         $entityManager->flush();
+
+    //     } else {
+    //         // L'utilisateur n'a pas de commandes, suppression
+    //         $entityManager->remove($user);
+    //         $entityManager->flush();
+    //     }        
+
+    //     // Déconnexion
+    //     logout();
+
+    //     // return $this->redirectToRoute('home');
+        
     
 }
+
+       
+
+       
+
+       

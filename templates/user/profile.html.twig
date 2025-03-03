@@ -11,16 +11,23 @@
         </p>       
         <a href="{{ path('userEditIdentity', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a> 
     </div>
+
     <p>
         Pseudo : {{ app.user.userNickname }}
-        {# <a href="{{ path('userEditNickname') }}"><i class="fa-solid fa-pencil"></i></a> #}
+        <a href="{{ path('userEditNickname', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
     </p>
+
     <p>
         Email : {{ app.user.userEmail }}
         <a href="{{ path('userEditEmail', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
     </p>
-    <p>Mot de passe</p>
-    <p><a href="#">Supprimer mon profil</a></p>
+
+    <p>
+        Mot de passe :
+        {# <a href="{{ path('userEditPassword', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a> #}
+    </p>
+
+    <p><a href="{{ path('userDeleteProfile', {id: app.user.id}) }}">Supprimer mon profil</a></p>
 </div>
 
 {% endblock %}
