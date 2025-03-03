@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Form\UserEditEmailFormType;
 use App\Form\UserEditIdentityFormType;
+use App\Form\UserEditNicknameFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,4 +79,30 @@ final class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /*********** Permet l'édition du pseudo de l'utilisateur ************************/
+    #[Route('/user/userEditNickname/{id}', name: 'userEditNickname')]
+    public function userEditNickname(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        // Création du form
+        $form = $this->createForm(UserEditNicknameFormType::class, $user, ['entityManager' => $entityManager]);
+
+        // Traiter la requête HTTP
+        $form->handleRequest($request);
+
+        // Vérif du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Persister les modifications dans la base de données
+            $entityManager->flush();
+
+            // Rediriger vers la page de profil de l'utilisateur
+            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+        }
+
+        // Rendre le template avec le formulaire
+        return $this->render('user/userEditNickname.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
 }
