@@ -9,6 +9,8 @@ use App\Form\UserEditIdentityFormType;
 use App\Form\UserEditNicknameFormType;
 use App\Form\UserEditPasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use App\Form\Security\ChangePasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,8 +19,8 @@ use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 
 final class UserController extends AbstractController
 {
@@ -113,40 +115,43 @@ final class UserController extends AbstractController
     }
 
 /*********** Permet l'édition du mdp l'utilisateur ************************/
-    // #[Route('/userEditPassword/{id}', name: 'userEditPassword')]
-    // public function userEditPassword(EntityManagerInterface $entityManager, Request $request): Response
-    // {
-    //     $user = $this->getUser();
-    //     $form = $this->createForm(UserEditPasswordFormType::class);
-    //     $form->handleRequest($request);
+    #[Route('/userEditPassword/{id}', name: 'userEditPassword')]
+    public function userEditPassword(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        dump($user);
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $oldPassword = $form->get('oldPassword')->getData();
+        // Vérification que l'utilisateur connecté est celui qu'il tente de modifier
+        if ($this->getUser() !== $user) {
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à modifier ce mot de passe.');
+            return $this->redirectToRoute('profile'); 
+        }
 
-    //         if (!$userPasswordHasher->isPasswordValid($user, $oldPassword)) {
-    //             $form->get('oldPassword')->addError(new FormError('Mot de passe actuel incorrect'));
-    //             return $this->render('user/userEditPassword.html.twig', [
-    //                 'form' => $form->createView(),
-    //             ]);
-    //         }
 
-    //         $user->setPassword(
-    //             $userPasswordHasher->hashPassword(
-    //                 $user,
-    //                 $form->get('Password')->getData()
-    //             )
-    //         );
-    //         $entityManager->persist($user);
-    //         $entityManager->flush();
+        $form = $this->createForm(ChangePasswordFormType::class);
+        $form->handleRequest($request);
 
-    //         return $this->redirectToRoute('profile');
-    //     }
 
-    //     return $this->render('user/userEditPassword.html.twig', [
-    //         'form' => $form->createView(),
-    //     ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $oldPassword = $form->get('oldPassword')->getData();
+            $newPassword = $form->get('password')->getData();
+
+            if ($userPasswordHasher->isPasswordValid($user, $oldPassword)) {
+                $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($hashedPassword);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
+                return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+            } else {
+                $this->addFlash('error', 'Mot de passe actuel incorrect.');
+            }
+        }
+       
+        return $this->render('user/userEditPassword.html.twig', [
+            'changePasswordForm' => $form->createView(),
+        ]);
  
-    // }
+    }
 
 /*********** Suppression profil de l'utilisateur ************************/
     //Envoi vers la confirm

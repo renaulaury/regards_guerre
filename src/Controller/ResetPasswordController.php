@@ -109,7 +109,7 @@ class ResetPasswordController extends AbstractController
         }
 
         // Le jeton est valide, autorisation à l'utilisateur à modifier son mot de passe
-        $form = $this->createForm(ChangePasswordFormType::class);
+        $form = $this->createForm(ChangePasswordFormType::class, null, ['reset' => true]); //Rajout de reset pour gérer mdp oublié ou modif mdp dans ChangePasswordFormType
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -133,8 +133,10 @@ class ResetPasswordController extends AbstractController
             'resetForm' => $form,
         ]);
     }
+
+
     /************************* Méthode pour envoyer un email de réinitialisation de mot de passe ***************************/
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'userEmail' => $emailFormData,
@@ -177,3 +179,5 @@ class ResetPasswordController extends AbstractController
         return $this->redirectToRoute('check_email');
     }
 }
+
+

@@ -5,7 +5,10 @@ namespace App\Form\Security;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -51,7 +54,22 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe ne sont pas identiques.',
                 'options' => ['attr' => ['class' => '']],
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
+                'first_options'  => ['label' => 'Mot de passe',
+                'constraints' => [ // Ajout des contraintes ici
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un mot de passe.',
+                    ]),
+                    new Length([
+                        'min' => 12,
+                        'minMessage' => 'Votre mot de passe doit avoir au moins {{ limit }} caractères.',
+                        'max' => 4096,
+                    ]),
+                    new Regex([ // Ajout de la contrainte Regex
+                        'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/', //1 maj - 1 chiffre - 1 caractère spécial/word - 12 min
+                        'message' => 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.',
+                    ]),
+                ],
+            ],
                 'second_options' => ['label' => 'Répétez le mot de passe'],
             ])
     ;
@@ -64,3 +82,4 @@ class RegistrationFormType extends AbstractType
         ]);
     }
 }
+

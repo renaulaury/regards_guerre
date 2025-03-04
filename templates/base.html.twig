@@ -61,13 +61,22 @@
                         <div class="line"></div>
                     </div>
                 </div>
-            </nav>
+            </nav>            
 
             <div id="boldLine"></div>
         </header>
-                   
+
+        <div> {# Msg flash #}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
         
-        {% block body %}{% endblock %}
+        {% block body %}  {% endblock %}
 
         <footer>
             <div>
