@@ -27,25 +27,6 @@
         {% endfor %}
     {% endif %}
 
-    {# {% for groupedOrder in groupedOrders %}
-    {{ dump(groupedOrder) }}
-     <h2>Commande n°{{ groupedOrder.order.id }} - Total : {{ groupedOrder.total }}</h2>
-    <ul>
-        {% for exhibitionDetails in groupedOrder.details %}
-            <li>
-                <strong>{{ exhibitionDetails.exhibition.title }}</strong>
-                <ul>
-                    {% for ticketDetails in exhibitionDetails.tickets %}
-                        <li>
-                            {{ ticketDetails.ticket.name }} - Quantité : {{ ticketDetails.quantity }} - Prix unitaire : {{ ticketDetails.price }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li> 
-        {% endfor %}
-    </ul>
-{% endfor %}
-     #}
 
     
 
