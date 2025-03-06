@@ -1,4 +1,4 @@
-/* Navbar */
+/***************** Navbar ************************/
 #navbar {
     display: flex;
     align-items: center;
@@ -33,13 +33,6 @@
     justify-content: end;
 }
 
-#boldLine {
-    margin-top: 3%;
-    background-color: var(--line);
-    height: 1em;
-    width: 100%;
-}
-
 #rightBlock ol.open {
     display: flex;
     flex-direction: column;
@@ -59,7 +52,7 @@
     padding: 5%;
 }
 
-/* Burger */
+/***************** Burger *****************/
 .burgerButton {
     padding-right: 20%;
     display: flex;
@@ -108,7 +101,7 @@
 }
 
 
-/* Footer */
+/***************** Footer *****************/
 footer {
     padding: 5%;
     background-color: var(--footer);

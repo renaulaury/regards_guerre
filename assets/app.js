@@ -11,6 +11,7 @@ import './styles/home.css';
 import './styles/exhibition.css';
 import './styles/ticketCart.css';
 import './styles/backOffice.css';
+import './styles/security.css';
 // import './styles/media.css';
 
 

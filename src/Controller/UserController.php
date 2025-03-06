@@ -118,8 +118,6 @@ final class UserController extends AbstractController
     #[Route('/userEditPassword/{id}', name: 'userEditPassword')]
     public function userEditPassword(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        dump($user);
-
         // Vérification que l'utilisateur connecté est celui qu'il tente de modifier
         if ($this->getUser() !== $user) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à modifier ce mot de passe.');
