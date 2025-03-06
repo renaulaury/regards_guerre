@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+
+<h1>Historique de commande</h1>
+
+<section>
+    
+    {% if groupedOrders is empty %}
+    <p>Aucune réservation trouvée.</p>
+    {% else %}
+        {% for groupedOrder in groupedOrders %}
+        <p>
+            Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} <a href="{{ path('userOrderExportBO', {'orderId': groupedOrder.order.id}) }}"><i class="fa-solid fa-file-export"></i></a>
+        </p>
+
+            {% for exhibitionId, exhibitionData in groupedOrder.details %}
+                <p>Exposition : {{ exhibitionData.exhibition }}</p>
+                {% for ticketId, ticketData in exhibitionData.tickets %}
+                    <p>Ticket : {{ ticketData.ticket }} x {{ ticketData.quantity }}</p>
+                {% endfor %}
+                <p>Total de la commande : {{ groupedOrder.total }} €</p>
+                <p>---</p>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    {# {% for groupedOrder in groupedOrders %}
+    {{ dump(groupedOrder) }}
+     <h2>Commande n°{{ groupedOrder.order.id }} - Total : {{ groupedOrder.total }}</h2>
+    <ul>
+        {% for exhibitionDetails in groupedOrder.details %}
+            <li>
+                <strong>{{ exhibitionDetails.exhibition.title }}</strong>
+                <ul>
+                    {% for ticketDetails in exhibitionDetails.tickets %}
+                        <li>
+                            {{ ticketDetails.ticket.name }} - Quantité : {{ ticketDetails.quantity }} - Prix unitaire : {{ ticketDetails.price }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li> 
+        {% endfor %}
+    </ul>
+{% endfor %}
+     #}
+
+    
+
+    
+</section>
+{% endblock %}
