@@ -5,6 +5,8 @@
     --ftColor: #1e1e1e;
     --line: #FFA07A; 
     --backgroundColor: #FFA07A;
+    --backgroundColorPastel: rgba(255, 160, 122, 0.25);
+    --backgroundColorButton: linear-gradient(to right, #FFBFA6 0%, #FA8072 100%);
     --icon: #944C43;
     --ftTitle: #944C43;
     --footer: #FA8072;    
@@ -36,7 +38,7 @@ html {
   }
   
 
-*, body {
+body {
     font-size: 1.5rem; /* 1rem = la taille définie sur html */
 }
   
@@ -70,7 +72,7 @@ a {
 }
 
 section {
-    padding: 5%;
+    padding: 5%;    
 }
 
 

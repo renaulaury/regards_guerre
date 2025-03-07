@@ -3,37 +3,67 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+<div class="containH1">    
+    <h1>BIENVENUE</h1>
+</div>
 
-    <h1>Création de compte</h1>
+<section class="secuLogin">   
+        <div class="secuForm">
+            <div class="blockSecuForm">
+                {{ form_start(registrationForm) }}
 
-    {{ form_errors(registrationForm) }}  {# Affiche les erreurs du formulaire #}
-
-    {{ form_start(registrationForm) }}
-
-    <div>
-        {{ form_row(registrationForm.userName) }}       
-        {{ form_row(registrationForm.userFirstname) }}
-        
-        <p>* Ces informations sont facultatives mais seront nécessaires pour passer une commande.</p>
-    </div>
-        
-
-    <div>
-        {{ form_row(registrationForm.userNickname) }}
-
-        {{ form_row(registrationForm.userEmail) }}
-
-        {{ form_row(registrationForm.password) }}
-    </div>
-
-        <p>
-            {{ form_widget(registrationForm.agreeTerms, { attr: { class: 'form-check-input' } }) }}
-            J'accepte que mes données personnelles soient collectées et traitées conformément à <strong>la politique de confidentialité.</strong>
-        </p>
+                {{ form_errors(registrationForm) }} {# Affiche les erreurs du formulaire #}
             
-        <button type="submit" class="btn submit">Créer mon compte</button>
+            
+                <h2 class="secuH2">Création de compte</h2>
 
-    {{ form_end(registrationForm) }}
+                <div class="blockRegister">
+                    <div>
+                        <div class="label">{{ form_label(registrationForm.userName)}}</div>
+                        <div class="input">{{ form_widget(registrationForm.userName) }}</div> 
+                    </div>
+                    <div>
+                        <div class="label">{{ form_label(registrationForm.userFirstname)}}</div>
+                        <div class="input">{{ form_widget(registrationForm.userFirstname) }}</div> 
+                        
+                        <div class="blockNotaBene"><sup>1 </sup> Ces informations sont facultatives mais seront nécessaires pour passer une commande.</div>
+                    </div>
+                </div>    
 
+                <div class="blockRegister">
+                    <div>
+                        <div class="label">{{ form_label(registrationForm.userNickname)}}</div>
+                        <div class="input">{{ form_widget(registrationForm.userNickname) }}</div> 
+                    </div>  
+                    
+                    <div>
+                        <div class="label">{{ form_label(registrationForm.userEmail)}}</div>
+                        <div class="input">{{ form_widget(registrationForm.userEmail) }}</div> 
+                    </div> 
+                </div>
+
+                <div class="blockRegister">
+                    <div>
+                        <div class="label">{{ form_label(registrationForm.password.first) }}</div>
+                        <div class="input">{{ form_widget(registrationForm.password.first) }}</div>
+
+                        <div class="label">{{ form_label(registrationForm.password.second) }}</div>
+                        <div class="input">{{ form_widget(registrationForm.password.second) }}</div>
+
+                        <div class="blockNotaBene"><sup>2 </sup>12 Caractères dont 1 majuscule, 1 chiffre, 1 caratère spécial.</div>
+                    </div>
+                </div>
+                
+
+                <div class="blockSecuInput">
+                    <div class="confidentialCheckbox">{{ form_widget(registrationForm.agreeTerms, { attr: { class: 'caseCheckbox' }})}} J'accepte que mes données personnelles soient collectées et traitées conformément à <strong>la politique de confidentialité.</strong></div>
+                </div>
+            </div>            
+
+            <button type="submit" class="btnSubmit">Créer mon compte</button>
+
+            {{ form_end(registrationForm) }}
+        </div> 
+</section>
 {% endblock %}
 

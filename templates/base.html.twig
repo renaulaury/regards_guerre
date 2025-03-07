@@ -81,31 +81,50 @@
         {% block body %}  {% endblock %}
 
         <footer>
-            <div>
+            {# <div>
                 <p>Soyez les premiers au courant des nouvelles expositions.</p>
                 <p>Ici, un super input pour mettre le mail.</p>
                 <p>Ici un super bouton pour s'abonner</p>
+            </div> #}
+
+            <div class="blockFooter contactNetworks">
+
+                <div class="blockContact">
+                    <div class="titleContact">Nous contacter</div>                    
+                    <div class="footerIcon">
+                        <a href="mailto:regardsguerre@gmail.com?subject=Demande d'informations&body=Votre message ici" aria-label="Envoyer un email a Regards de Guerre"><i class="iconNetworks fa-solid fa-square-envelope"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="blockNetworks">
+                    <div class="titleContact">Nous suivre :</div>
+
+                    <div class="footerIcon">
+                        <div>
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Notre page Facebook"><i class="iconNetworks fa-brands fa-square-facebook"></i></a>
+                        </div>
+
+                        <div>
+                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page Instagram"><i class="iconNetworks fa-brands fa-square-instagram"></i></a>
+                        </div>
+
+                        <div>
+                            <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page X"><i class="iconNetworks fa-brands fa-square-x-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <p>Nous suivre :</p>
-
-                <p><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Notre page Facebook"><i class="fa-brands fa-facebook"></i></a></p>
-
-                <p><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
-                    aria-label="Visitez notre page Instagram"><i class="fa-brands fa-square-instagram"></i></a></p>
-
-                <p><a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page X"><i class="fa-brands fa-square-x-twitter"></i></a></p>
-            </div>
-
-            <div>
-                <a href="mailto:regardsguerre@gmail.com?subject=Demande d'informations&body=Votre message ici" aria-label="Envoyer un email a Regards de Guerre">Nous contacter</a>
-                <a href="#">Mentions légales</a>
+            
+                
+            <div class="blockFooter legalTexts">
                 <a href="#">Politique de confidentialité</a>
+                <a href="#">Mentions légales</a>                
             </div>
 
-            <div>
-                <p>Association loi 1901. Tous droits réservés.</p>
+            <div class="copyright">
+                <p>Association loi 1901 - Tous droits réservés.</p>
                 <p>Copyright 2025 Regards de Guerre</p>
             </div>
         </footer>

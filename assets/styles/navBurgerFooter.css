@@ -103,6 +103,53 @@
 
 /***************** Footer *****************/
 footer {
+    width: 100%;
     padding: 5%;
     background-color: var(--footer);
+}
+
+.blockFooter {
+    padding-bottom: 5%;
+    width: 100%;
+}
+
+
+/****** Réseaux *****/
+ .contactNetworks {  
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+} 
+
+.footerIcon {
+    padding-top: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;   
+} 
+
+.titleContact {
+    text-align: center;
+}
+
+.blockContact, .blockNetworks {
+    width: 50%;
+}
+
+.iconNetworks {
+    font-size: 3rem;
+}
+
+/****** Textes Légaux *****/
+.legalTexts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    place-items: center; 
+}
+
+/****** Copyright *****/
+.copyright p {
+    text-align: center;
+    padding: 0.5%;
 }
