@@ -7,7 +7,6 @@ use App\Repository\UserRepository;
 use App\Form\UserEditEmailFormType;
 use App\Form\UserEditIdentityFormType;
 use App\Form\UserEditNicknameFormType;
-use App\Form\UserEditPasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Form\Security\ChangePasswordFormType;
@@ -15,12 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 
 final class UserController extends AbstractController
 {
@@ -45,7 +41,7 @@ final class UserController extends AbstractController
 
 /*********** Permet l'édition du nom et prénom de l'utilisateur ************************/
     #[Route('/profile/userEditIdentity/{id}', name: 'userEditIdentity')]
-    public function editUserName(int $id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    public function userEditName(int $id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($id);
 

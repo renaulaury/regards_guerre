@@ -33,7 +33,7 @@ final class UserBOController extends AbstractController
 
 /************** Modifier le profil d'un user  *********************/
     #[Route('/backOffice/user/userEditBO/{id}', name: 'userEditBO')]
-    public function editUserBO(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function userEditBO(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         // Vérification des rôles de l'utilisateur connecté
         $root = $this->isGranted('ROLE_ROOT');
