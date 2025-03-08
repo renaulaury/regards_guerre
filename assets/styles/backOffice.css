@@ -1,5 +1,13 @@
+/************ Page utilisateurs ***************/
 .listMembers {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+}
+
+/************ Page artists ***************/
+.listArtists {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
 }
