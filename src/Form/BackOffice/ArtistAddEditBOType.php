@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ArtistEditBOType extends AbstractType
+class ArtistAddEditBOType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,7 +31,7 @@ class ArtistEditBOType extends AbstractType
                 'required' => false,
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Save',
+                'label' => 'Modifier',
             ]);
     }
 

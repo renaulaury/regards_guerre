@@ -3,8 +3,8 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\Artist;
-use App\Form\BackOffice\ArtistEditBOType;
 use Doctrine\ORM\EntityManagerInterface; 
+use App\Form\BackOffice\ArtistAddEditBOType;
 use Symfony\Component\HttpFoundation\Request; 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,25 +24,21 @@ final class ArtistBOController extends AbstractController
         ]);
     }
 
-/******************** Ajouter un artiste *********************/
-#[Route('/backOffice/artistAddBO/{id}', name: 'artistAddBO')]
-    public function artistAddBO(ArtistBORepository $artistRepo): Response
-    {
-        
-
-        return $this->render('backOffice/artist/artistAddBO.html.twig', [
-            // 'artists' => $artists,
-        ]);
-    }
-
-
-
-/******************** Modifier un artiste *********************/
+    /******************** Ajouter/modifier un artiste *********************/
+    #[Route('/backOffice/artistAddBO', name: 'artistAddBO')]
     #[Route('/backOffice/artistEditBO/{id}', name: 'artistEditBO')]
-    public function artistEditBO(Request $request, Artist $artist, EntityManagerInterface $entityManager): Response
+    public function artistAddEditBO(Request $request, ?Artist $artist, EntityManagerInterface $entityManager): Response
     {
+        $isAdd = false; // Variable de contrôle
+
+        // Déterminer si nous sommes en mode ajout ou édition
+        if (!$artist) { //Si ?Artist n existe pas 
+            $artist = new Artist(); // Créer une nouvelle instance pour l'ajout
+            $isAdd = true; // Définir le mode ajout
+        }
+
         // Création du form
-        $form = $this->createForm(ArtistEditBOType::class, $artist);
+        $form = $this->createForm(ArtistAddEditBOType::class, $artist);
 
         // Traiter la requête HTTP
         $form->handleRequest($request);
@@ -58,9 +54,10 @@ final class ArtistBOController extends AbstractController
         }
 
         // Rendre le template avec le formulaire
-        return $this->render('backOffice/artist/artistEditBO.html.twig', [
+        return $this->render('backOffice/artist/artistAddEditBO.html.twig', [
             'form' => $form->createView(),
             'artist' => $artist,
+            'isAdd' => $isAdd, 
         ]);
     }
 

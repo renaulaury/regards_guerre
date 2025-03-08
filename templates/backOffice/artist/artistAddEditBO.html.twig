@@ -4,10 +4,14 @@
 
 {% block body %}
 <div class="containH1">    
-    <h1>Modification de  {{ artist }}</h1>
+    {% if isAdd %}
+        <h1>Ajouter un artiste</h1>
+    {% else %}
+        <h1>Modification de {{ artist }}</h1>
+    {% endif %}
 </div>
 
-<section class="#"> 
+<section> 
     
     {{ form_start(form) }}
         {{ form_row(form.artistName) }}
