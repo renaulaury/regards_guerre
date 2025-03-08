@@ -18,8 +18,8 @@ class ArtistEditBOType extends AbstractType
             ->add('artistName', TextType::class, [
                 'label' => 'Nom',
             ])
-->add('artistFirstname', TextType::class, [
-            'label' => 'Prénom',
+            ->add('artistFirstname', TextType::class, [
+                'label' => 'Prénom',
             ])
             ->add('artistBirthDate', DateType::class, [
                 'label' => 'Date de naissance',
@@ -30,8 +30,8 @@ class ArtistEditBOType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,
             ])
-->add('save', SubmitType::class, [
-            'label' => 'Save',
+            ->add('save', SubmitType::class, [
+                'label' => 'Save',
             ]);
     }
 
@@ -39,7 +39,6 @@ class ArtistEditBOType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Artist::class,
-            'entityManager' => null,
         ]);
     }
 }

@@ -111,7 +111,7 @@ class Artist
         $date = $this->artistDeathDate;
 
         // Format date FR
-$dateFormat = new \IntlDateFormatter(
+        $dateFormat = new \IntlDateFormatter(
                     'fr_FR', //Pays
                     \IntlDateFormatter::LONG, //Format long
                     \IntlDateFormatter::NONE); //Fuseau horaire ou heure
@@ -153,6 +153,4 @@ $dateFormat = new \IntlDateFormatter(
     {
         return $this->artistFirstname. ' ' .$this->artistName;
     }
-
-  
 }
