@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArtistController!{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    <h1>Artistes</h1>
+</div>
+
+
+    <section class="listArtists">
+        <p class="thArtists">Nom</p>
+        <p class="thArtists">Prénom</p>
+        <p></p>
+
+        {% for artist in artists %}
+            <p>{{ artist.artistName }}</p>
+            <p>{{ artist.artistFirstname }}</p>
+            <p>
+                <a href="{{ path('artistEditBO', {'id': artist.id}) }}">
+                    <i class="fa-solid fa-pencil"></i>
+                </a>
+                {# <a href="{{ path('artistDeleteBO', {'id': artist.id}) }}"> #}
+                    <i class="fa-solid fa-trash-can"></i>
+                </a>
+            </p>
+        {% endfor %}
+    </section>
+{% endblock %}
+
+

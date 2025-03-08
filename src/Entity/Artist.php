@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ArtistRepository;
+use App\Repository\BackOffice\ArtistBORepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ArtistRepository::class)]
+#[ORM\Entity(repositoryClass: ArtistBORepository::class)]
 class Artist
 {
     #[ORM\Id]
@@ -84,7 +84,7 @@ class Artist
     {
         $date = $this->artistBirthDate;
 
-        // Create a DateTimeFormatter for French locale
+        // Format date FR
         $dateFormat = new \IntlDateFormatter(
                     'fr_FR', //Pays
                     \IntlDateFormatter::LONG, //Format long
@@ -110,8 +110,8 @@ class Artist
     {
         $date = $this->artistDeathDate;
 
-        // Create a DateTimeFormatter for French locale
-        $dateFormat = new \IntlDateFormatter(
+        // Format date FR
+$dateFormat = new \IntlDateFormatter(
                     'fr_FR', //Pays
                     \IntlDateFormatter::LONG, //Format long
                     \IntlDateFormatter::NONE); //Fuseau horaire ou heure

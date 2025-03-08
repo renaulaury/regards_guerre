@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArtistController!{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    <h1>Modification de </h1>
+</div>
+
+
+    <section class="listArtists">
+        <p class="thArtists">Nom</p>
+        <p class="thArtists">Prénom</p>
+        <p></p>
+
+
+        {{ form_start(form) }}
+            {{ form_row(form.artistName) }}
+            {{ form_row(form.artistFirstname) }}
+            {{ form_row(form.artistBirthDate) }}
+            {{ form_row(form.artistDeathDate) }}
+            {{ form_row(form.artistPhoto) }}
+            {{ form_row(form.artistPhotoAlt) }}
+            {{ form_row(form.artistJob) }}
+            {{ form_row(form.artistBio) }}
+            {{ form_row(form.artistTextArt) }}
+            {{ form_row(form.save) }}
+        {{ form_end(form) }}
+
+
+        
+    </section>
+{% endblock %}
+
+
