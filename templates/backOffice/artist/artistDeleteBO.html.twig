@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArtistController!{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    <h1>Artiste</h1>
+</div>
+
+
+    <section >
+        <p>Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
+
+        <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
+            <button type="submit" name="submitConfirmDeleteArtist">Supprimer</button>
+        </form>
+
+    </section>
+{% endblock %}
+
+
