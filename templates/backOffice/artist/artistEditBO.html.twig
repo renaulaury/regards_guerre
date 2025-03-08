@@ -4,14 +4,11 @@
 
 {% block body %}
 <div class="containH1">    
-    <h1>Modification de l'artiste</h1>
+    <h1>Modification de  {{ artist }}</h1>
 </div>
 
-<section class="listArtists">
-    <p class="thArtists">Nom</p>
-    <p class="thArtists">Prénom</p>
-    <p></p>
-
+<section class="#"> 
+    
     {{ form_start(form) }}
         {{ form_row(form.artistName) }}
         {{ form_row(form.artistFirstname) }}
@@ -19,6 +16,7 @@
         {{ form_row(form.artistDeathDate) }}
         {{ form_row(form.save) }}
     {{ form_end(form) }}
+
 </section>
 {% endblock %}
 
