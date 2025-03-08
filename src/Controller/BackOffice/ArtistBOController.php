@@ -26,10 +26,10 @@ final class ArtistBOController extends AbstractController
 
     /******************** Modifier un artiste *********************/
     #[Route('/backOffice/artistEditBO/{id}', name: 'artistEditBO')]
-    public function artistEditBO(Artist $artist, Request $request, EntityManagerInterface $entityManager): Response
+    public function artistEditBO(Request $request, Artist $artist, EntityManagerInterface $entityManager): Response
     {
         // Création du form
-        $form = $this->createForm(ArtistEditBOType::class, $artist, ['entityManager' => $entityManager]);
+        $form = $this->createForm(ArtistEditBOType::class, $artist);
 
         // Traiter la requête HTTP
         $form->handleRequest($request);
@@ -37,6 +37,7 @@ final class ArtistBOController extends AbstractController
         // Vérif du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             // Persister les modifications dans la base de données
+$entityManager->persist($artist);
             $entityManager->flush();
 
             // Rediriger vers la liste des artistes
@@ -46,6 +47,9 @@ final class ArtistBOController extends AbstractController
         // Rendre le template avec le formulaire
         return $this->render('backOffice/artist/artistEditBO.html.twig', [
             'form' => $form->createView(),
+        'artist' => $artist,
         ]);
     }
+
+    
 }
