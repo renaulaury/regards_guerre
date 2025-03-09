@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Share;
 
 use App\Entity\Exhibition;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -9,14 +9,14 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Exhibition>
  */
-class ExhibitionRepository extends ServiceEntityRepository
+class ExhibitionShareRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Exhibition::class);
     }
 
-    //Sélectionne les 3 dernières expositions prévues
+    /******************** Sélectionne les 3 dernières expositions prévues ********************/
     public function findNextExhibition() {
         // Récupération de l'EntityManager pour interagir avec la base de données
         $entityManager = $this->getEntityManager();
@@ -38,7 +38,9 @@ class ExhibitionRepository extends ServiceEntityRepository
     }
     
 
-    //Sélectionne toutes les dernières expositions prévues
+
+    
+    /******************** Sélectionne toutes les dernières expositions prévues ********************/
     public function findAllNextExhibition() {
         // Récupération de l'EntityManager pour interagir avec la base de données
         $entityManager = $this->getEntityManager();

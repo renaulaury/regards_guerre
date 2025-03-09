@@ -3,19 +3,17 @@
 namespace App\Controller;
 
 
-use App\Entity\Ticket;
-use App\Entity\Exhibition;
 use App\Service\CartService;
 use App\Repository\TicketRepository;
-use App\Repository\ExhibitionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class TicketController extends AbstractController
 {
    #[Route('/ticket', name: 'ticket')]
-    public function index(CartService $cartService, TicketRepository $ticketRepo, ExhibitionRepository $exhibitRepo): Response
+    public function index(CartService $cartService, TicketRepository $ticketRepo, ExhibitionShareRepository $exhibitShareRepo): Response
     {
         // Récupérer le panier depuis la session
         $cart = $cartService->getCart();   
@@ -24,7 +22,7 @@ final class TicketController extends AbstractController
         $priceByExhibit = $ticketRepo->findAllTicketsByExhibition();
 
         //Récup uniquement les infos des prochaines expos
-        $exhibitions = $exhibitRepo->findAllNextExhibition();
+        $exhibitions = $exhibitShareRepo->findAllNextExhibition();
 
         return $this->render('ticket/index.html.twig', [
             'priceByExhibit' => $priceByExhibit,

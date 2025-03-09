@@ -9,12 +9,12 @@ use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Service\EmailService;
 use App\Repository\TicketRepository;
-use App\Repository\ExhibitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\Share\ExhibitionShareRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
@@ -67,11 +67,15 @@ class CartController extends AbstractController
         if ($origin === 'cart') {
             return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
         }
+
+        // Default redirection if origin is not matched
+        return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
     }
 
 /************* Soustrait un produit au panier ***************/
     #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticketId}/{origin}', name: 'removeTicketFromCart')]
-    public function removeTicketFromCart(TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin): Response
+    public function removeTicketFromCart(TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin)
+    // : Response
     {
 
          // Récupération du ticket via le repository
@@ -88,7 +92,7 @@ class CartController extends AbstractController
 
         if ($origin === 'cart') { // Si l'origine est 'cart', rediriger vers le panier
             return $this->redirectToRoute('cart', [
-                'exhibition' => $exhibitionId
+                'exhibition' => $exhibitionId,
             ]);
         }
     }
@@ -125,7 +129,7 @@ class CartController extends AbstractController
 
 /********************** Valider la commande *****************/
     #[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
-    public function orderValidated(ExhibitionRepository $exhibitRepo, TicketRepository $ticketRepo): Response
+    public function orderValidated(ExhibitionShareRepository $exhibitShareRepo, TicketRepository $ticketRepo): Response
     {
         $cart = $this->cartService->getCart();
         
@@ -140,7 +144,7 @@ class CartController extends AbstractController
             $orderDetail->setOrder($order);
             
             // Charger l'objet Exhibition à partir de l'ID
-            $exhibition = $exhibitRepo->find($item['exhibitionId']); 
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); 
             if ($exhibition) {
                 $orderDetail->setExhibition($exhibition);
             }

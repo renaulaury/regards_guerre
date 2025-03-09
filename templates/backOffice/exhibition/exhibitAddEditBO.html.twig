@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de l'artiste{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    {% if isAdd %}
+        <h1>Ajouter une exposition</h1>
+    {% else %}
+        <h1>Modification de {{ exhibition }}</h1>
+    {% endif %}
+</div>
+
+<section> 
+    {{ form_start(form) }}
+        {{ form_row(form.titleExhibit) }}
+        {{ form_row(form.subtitleExhibit) }}
+        {{ form_row(form.hookExhibit) }}
+        {{ form_row(form.descriptionExhibit) }}
+        {{ form_row(form.dateExhibit) }}
+        {{ form_row(form.hourBegin) }}
+        {{ form_row(form.hourEnd) }}
+        {{ form_row(form.stockMax) }}
+        {{ form_row(form.stockAlert) }}
+        {{ form_row(form.save) }}
+    {{ form_end(form)
+ }}
+
+</section>
+{% endblock %}
+
+

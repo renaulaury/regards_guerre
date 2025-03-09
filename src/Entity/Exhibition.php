@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ExhibitionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\Share\ExhibitionShareRepository;
 
-#[ORM\Entity(repositoryClass: ExhibitionRepository::class)]
+#[ORM\Entity(repositoryClass: ExhibitionShareRepository::class)]
 class Exhibition
 {
     #[ORM\Id]
