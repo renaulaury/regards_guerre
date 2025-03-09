@@ -18,6 +18,9 @@ services:
         tags:
             - { name: 'twig.extension' }
 
+    App\Service\FileUploader:
+        # arguments:
+        #     $targetDirectory: '%kernel.project_dir%/public/uploads/images'
    
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

@@ -25,7 +25,7 @@ class Exhibition
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateWarBegin = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateWarEnd = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -179,7 +179,7 @@ class Exhibition
         return $this->dateWarEnd;
     }
 
-    public function setDateWarEnd(\DateTimeInterface $dateWarEnd): static
+    public function setDateWarEnd(?\DateTimeInterface $dateWarEnd): static
     {
         $this->dateWarEnd = $dateWarEnd;
 
@@ -376,12 +376,12 @@ class Exhibition
     /**
      * @return Collection<int, ticketPricing>
      */
-    public function getProductPricings(): Collection
+    public function getTicketPricings(): Collection
     {
         return $this->ticketPricings;
     }
 
-    public function addProductPricing(ticketPricing $ticketPricing): static
+    public function addTicketPricing(TicketPricing $ticketPricing): static
     {
         if (!$this->ticketPricings->contains($ticketPricing)) {
             $this->ticketPricings->add($ticketPricing);
@@ -391,7 +391,7 @@ class Exhibition
         return $this;
     }
 
-    public function removeProductPricing(ticketPricing $ticketPricing): static
+    public function removeTicketPricing(TicketPricing $ticketPricing): static
     {
         if ($this->ticketPricings->removeElement($ticketPricing)) {
             // set the owning side to null (unless already changed)
@@ -437,4 +437,3 @@ class Exhibition
 
 
 
-    
