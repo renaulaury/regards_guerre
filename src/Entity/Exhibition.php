@@ -217,6 +217,13 @@ class Exhibition
         return $dateFormat->format($date);         
     }
 
+    public function getDateExhibitFile()
+    {
+        $date = $this->dateExhibit;
+
+        return $date->format('Ymd');      
+    }
+
     public function getHourBegin(): ?\DateTimeInterface
     {
         return $this->hourBegin;

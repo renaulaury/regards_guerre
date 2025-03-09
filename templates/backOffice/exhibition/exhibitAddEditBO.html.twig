@@ -1,18 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification de l'artiste{% endblock %}
+{% block title %}Modification d'une exposition{% endblock %}
 
 {% block body %}
 <div class="containH1">    
     {% if isAdd %}
         <h1>Ajouter une exposition</h1>
     {% else %}
-        <h1>Modification de {{ exhibition }}</h1>
+        <h1>Modification : {{ exhibition }}</h1>
     {% endif %}
 </div>
 
 <section> 
-    {{ form_start(form) }}
+        {{ form_start(form) }}
+        {% if exhibition.mainImage is not empty %}
+            <img src="{{ exhibition.mainImage }}" alt="{{ form.mainImageAlt.vars.value }}" style="max-width: 200px; max-height: 200px;">
+        {% endif %}
+    
+        {{ form_row(form.mainImage) }}     
+        {{ form_row(form.mainImageAlt) }}
         {{ form_row(form.titleExhibit) }}
         {{ form_row(form.subtitleExhibit) }}
         {{ form_row(form.hookExhibit) }}
@@ -23,9 +29,7 @@
         {{ form_row(form.stockMax) }}
         {{ form_row(form.stockAlert) }}
         {{ form_row(form.save) }}
-    {{ form_end(form)
- }}
-
+    {{ form_end(form) }}
 </section>
 {% endblock %}
 
