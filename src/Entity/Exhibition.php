@@ -188,7 +188,11 @@ class Exhibition
 
     public function getDateWarEndFr()
     {
-        return $this->dateWarEnd->format('Y');
+        if ($this->dateWarEnd !== null) {
+            return $this->dateWarEnd->format('Y');
+        } else {
+            return null; // Ou une autre valeur par défaut, comme une chaîne vide ""
+        }
          
     }
 

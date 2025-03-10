@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
     
-    
+/************** Affiche le carrousel + l'agenda *********************/ 
     #[Route('/home', name: 'home')]
     public function index(ExhibitionShareRepository $exhibitShareRepo): Response
     {

@@ -13,7 +13,13 @@
         <div>
             <a href="{{ path('exhibition', {'id':exhibition.id}) }}">
                 <img class="carrouselImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
-                <h2>{{ exhibition.titleExhibit }} ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>        
+                <h2>{{ exhibition }} ({{ exhibition.dateWarBeginFr }} 
+
+                    {% if exhibition.dateWarEndFr is not null %}    
+                        - {{ exhibition.dateWarEndFr }}
+                    {% else %}à aujourd'hui
+                    {% endif %}
+                )</h2>
                 <p>{{ exhibition.dateExhibitFr }}</p>
                 <p>{{ exhibition.descriptionExhibit }}</p>
             </a>
