@@ -24,7 +24,7 @@
     font-style: normal;
 }
 
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -32,20 +32,13 @@
     text-align: justify;
     font-family: 'Parkinsans', sans-serif;
 }
-
-html {
-    font-size: clamp(16px, 2.5vw, 22px);
-  }
   
 
 body {
-    font-size: 1.5rem; /* 1rem = la taille définie sur html */
-}
-  
-
-body {
+    font-size: 16px; 
     display: flex;
     flex-direction: column;    
+    min-height: 100vh;
     background-color: var(--background);    
 }
 
@@ -58,6 +51,7 @@ body {
   }
   
 h1 {
+    font-size: 25px;
     text-align: center; 
     align-self: center;
     z-index: 2; 
@@ -72,8 +66,13 @@ a {
 }
 
 section {
-    padding: 5%;    
-}
+    flex-grow: 1; 
+    padding: 5%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;   
+} */
 
 
 

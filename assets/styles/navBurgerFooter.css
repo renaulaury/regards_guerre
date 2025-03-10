@@ -1,5 +1,5 @@
 /***************** Navbar ************************/
-#navbar {
+/* #navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -38,9 +38,9 @@
     flex-direction: column;
     position: absolute;
     right: 5%;
-    top: 12%;
+    top: 12%; */
     /* border: 1px solid var(--backgroundColor);  */
-    border-radius: 10px;
+    /* border-radius: 10px;
     width: 30%;
     height: auto;
     z-index: 10;
@@ -50,10 +50,10 @@
 
 #rightBlock li {
     padding: 5%;
-}
+} */
 
 /***************** Burger *****************/
-.burgerButton {
+/* .burgerButton {
     padding-right: 20%;
     display: flex;
     flex-direction: column;
@@ -67,9 +67,9 @@
 
 .burgerButton .line {
     width: 50px;
-    height: 5px;
+    height: 5px; */
     /* margin: 25%; */
-    background-color: var(--line);
+   /* background-color: var(--line);
     transition: all 0.3s ease;
     position: absolute;
 }
@@ -98,11 +98,11 @@
 .burgerButton.open .line:nth-child(3) {
     transform: rotate(-45deg);
     top: 22px;
-}
+} */
 
 
 /***************** Footer *****************/
-footer {
+/* footer {
     width: 100%;
     padding: 5%;
     background-color: var(--footer);
@@ -111,11 +111,11 @@ footer {
 .blockFooter {
     padding-bottom: 5%;
     width: 100%;
-}
+} */
 
 
 /****** Réseaux *****/
- .contactNetworks {  
+ /* .contactNetworks {  
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -138,18 +138,44 @@ footer {
 
 .iconNetworks {
     font-size: 3rem;
-}
+}*/
 
 /****** Textes Légaux *****/
-.legalTexts {
+/*.legalTexts {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
     place-items: center; 
-}
+} */
 
 /****** Copyright *****/
-.copyright p {
+/*.copyright p {
     text-align: center;
     padding: 0.5%;
+}*/
+
+/*-----------------------------------*/
+img {
+    width: 10%;
+}
+
+* {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--ftColor);   
+}
+
+body {
+    font-size: 16px;  
+}
+
+h1 h2 {
+    font-size: 25px;
+}
+
+.navbar {
+    font-size: 22px;
 }

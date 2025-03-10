@@ -1,7 +1,7 @@
 /********************** Login ********************/
 
 /************ Commun ****************/
-.secuH2 {
+/* .secuH2 {
     text-align: center;
     padding-bottom: 5%;
 }
@@ -55,10 +55,10 @@ button {
 
 input::placeholder {
     font-size: 1.2rem;
-}
+} */
 
 /*********** Login ***************/
-.rememberForgot {
+/* .rememberForgot {
     font-size: 1rem;
     display:flex;
     flex-direction: row;
@@ -70,14 +70,14 @@ input::placeholder {
 .blockRememberForgot {
     width: 50%;
     text-align: center;
-}
+} */
 
 /**************** Register ***************/
-.blockNotaBene {
+/* .blockNotaBene {
     font-size: 1rem;
 }
 
 .blockRegister {
     padding-bottom: 8%;
-}
+} */
 
