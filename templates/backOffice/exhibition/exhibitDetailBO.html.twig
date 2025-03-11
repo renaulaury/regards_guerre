@@ -14,33 +14,28 @@
 
     {% for show in exhibition.shows %}
         <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }}
-        
-            {# <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}"> #}
-                <i class="fa-solid fa-minus"></i>
-            </a>
+        {# <p>Profession: {{ show.artist.artistJob }}</p>
+        <p>Biographie: {{ show.artist.artistBio }}</p> #}
+        {# <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}"> #}
+            <i class="fa-solid fa-minus"></i>
+        </a>
         </p>
     {% endfor %}
 
+    <p><br></p>
     <p>+Formulaire avec infos de la table show</p>
     <p>Mise en relation avec room  </p>
 </div>
 
+
+
 <div class="blockArtistToAdded">
-    <h4>Liste des artistes non inscrits</h4>
+    <h4>Liste des artistes dispo</h4>
     
-        {% for unPlannedArtist in unPlanned %}
-            <p>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}</p>
-            {# <p>{{ unPlannedArtist.artistJob }}</p>
-            <p>{{ unPlannedArtist.artistTextArt }}</p>
-            <p>{{ unPlannedArtist.artistPhoto }}</p>
-            <p>{{ unPlannedArtist.artistPhotoAlt }}</p> #}
-            
-            <a href="{{ path('addArtistToExhibitBO', {'idArtist': unPlannedArtist.id, 'idExhibit': exhibition.id}) }}">
-                <i class="fa-solid fa-plus"></i>
-            </a>
-        {% endfor %}
-   
 </div>
+
+
+
 
 </section>
 

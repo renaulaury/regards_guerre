@@ -10,13 +10,13 @@
 
 <section class="listExhibit">
 
-    <a href="{{ path('addExhibitBO') }}">Ajouter une exposition</a>
+    <a href="{{ path('exhibitAddBO') }}">Ajouter une exposition</a>
 
     {% for exhibition in exhibitions %}
         <p>{{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}</p>
         
         <p>
-            <a href="{{ path('editExhibitBO', {'id': exhibition.id}) }}">
+            <a href="{{ path('exhibitEditBO', {'id': exhibition.id}) }}">
                 <i class="fa-solid fa-pencil"></i>
             </a>
 

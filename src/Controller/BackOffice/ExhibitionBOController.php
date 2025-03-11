@@ -30,8 +30,8 @@ final class ExhibitionBOController extends AbstractController
     }
 
     /******************* Ajout et édition d'une exposition  *************************/
-    #[Route('/backOffice/addExhibitBO', name: 'addExhibitBO')]
-    #[Route('/backOffice/editExhibitBO/{id}', name: 'editExhibitBO')]
+    #[Route('/backOffice/exhibitAddBO', name: 'exhibitAddBO')]
+    #[Route('/backOffice/exhibitEditBO/{id}', name: 'exhibitEditBO')]
     public function addEditExhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager, FileUploader $fileUploader, Filesystem $filesystem, Security $security): Response
     {
         $isAdd = false; // Variable de contrôle
@@ -134,16 +134,21 @@ final class ExhibitionBOController extends AbstractController
 
     //Ajout d'un artiste à l'expo
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
-    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
+    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager): Response
     {
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
         $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
 
         if ($artist && $exhibition) {
+            // Update artist details
+            $artist->setArtistJob($request->request->get('artistJob'));
+            $artist->setArtistBio($request->request->get('artistBio'));
+
             $show = new Show();
             $show->setArtist($artist);
             $show->setExhibition($exhibition);
 
+            $entityManager->persist($artist);
             $entityManager->persist($show);
             $entityManager->flush();
         }
