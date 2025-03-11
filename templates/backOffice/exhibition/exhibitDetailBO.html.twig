@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'exposition{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    <h1>Détail : <span class="longTitle">{{ exhibition }}</span></h1> 
+</div>
+
+<section>
+   
+<div class="blockArtistAvailable">
+    <h4>Artistes inscrits</h4>
+
+    {% for artist in artists %}
+            <p>{{ artist.artistFirstname }} {{ artist.artistName }}
+                {# <a href="{{ path('deleteArtistToExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}"> #}
+                    <i class="fa-solid fa-moins"></i>
+                </a>
+            </p>
+        {% endfor %}
+
+    <p>+Formulaire avec infos de la table show</p>
+    <p>Mise en relation avec room  </p>
+</div>
+
+<div class="blockArtistToAdded">
+    <h4>Liste des artistes non inscrits</h4>
+   
+        {% for noRegisteredArtist in noRegistered %}
+            <p>{{ noRegisteredArtist.artistFirstname }} {{ noRegisteredArtist.artistName }}
+                <a href="{{ path('addArtistToExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            </p>
+        {% endfor %}
+   
+</div>
+
+</section>
+
+{% endblock %}
+
+

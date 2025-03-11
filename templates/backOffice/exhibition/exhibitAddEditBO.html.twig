@@ -98,13 +98,13 @@
             </div>
         </div>
 
-        <p>------------------------------------------------------------------</p>
-
-
-        Boucle sur les salles
-        <div>
+        {% if isAdd %}
             <button type="submit" class="btnSubmit">Créer l'exposition</button>
-        </div>
+        {% else %}
+            <button type="submit" class="btnSubmit">Modifier</button>
+        {% endif %}
+
+        
     {{ form_end(form) }}
 </section>
 {% endblock %}

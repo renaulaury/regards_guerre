@@ -2,9 +2,12 @@
 
 namespace App\Form\BackOffice;
 
+use App\Entity\Show;
+use App\Entity\Artist;
 use App\Entity\Exhibition;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -74,7 +77,8 @@ class ExhibitAddEditBOType extends AbstractType
             ->add('stockAlert', IntegerType::class, [
                 'label' => 'Stock d\'alerte',
                 'data' => 10,
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
