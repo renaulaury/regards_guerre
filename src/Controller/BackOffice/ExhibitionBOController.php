@@ -3,6 +3,8 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\Exhibition;
+use App\Entity\Artist;
+use App\Entity\Show;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -27,10 +29,10 @@ final class ExhibitionBOController extends AbstractController
         ]);
     }
 
-/******************* Ajout et édition d'une exposition  *************************/
-    #[Route('/backOffice/exhibitAddBO', name: 'exhibitAddBO')]
-    #[Route('/backOffice/exhibitEditBO/{id}', name: 'exhibitEditBO')]
-    public function exhibitAddEditBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager, FileUploader $fileUploader, Filesystem $filesystem, Security $security): Response
+    /******************* Ajout et édition d'une exposition  *************************/
+    #[Route('/backOffice/addExhibitBO', name: 'addExhibitBO')]
+    #[Route('/backOffice/editExhibitBO/{id}', name: 'editExhibitBO')]
+    public function addEditexhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager, FileUploader $fileUploader, Filesystem $filesystem, Security $security): Response
     {
         $isAdd = false; // Variable de contrôle
         $oldDate = null; // Variable de contrôle - date de dossier
@@ -61,7 +63,7 @@ final class ExhibitionBOController extends AbstractController
                 $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
 
                 // Rendre le template avec le formulaire et le message d'erreur
-                return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
+                return $this->render('backOffice/exhibition/exhibitDetailBO.html.twig', [
                     'form' => $form->createView(),
                     'exhibition' => $exhibition,
                     'isAdd' => $isAdd,
@@ -102,15 +104,48 @@ final class ExhibitionBOController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la liste des expositions
-            return $this->redirectToRoute('exhibitListBO');
+            return $this->redirectToRoute('exhibitDetailBO');
         }
 
         // Rendre le template avec le formulaire
-        return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
+        return $this->render('backOffice/exhibition/addEditExhibitBO.html.twig', [
             'form' => $form->createView(),
             'exhibition' => $exhibition,
             'isAdd' => $isAdd,
             'dateExistsError' => $dateExistsError,
         ]);
+    }
+
+    /************************* Afficher détail de l'exposition *******************/
+
+    //Détail de l'expo
+    #[Route('/backOffice/exhibitDetailBO/{id}', name: 'exhibitDetailBO')]
+    public function exhibitDetailBO(Exhibition $exhibition, EntityManagerInterface $entityManager): Response
+    {
+        $artists = $entityManager->getRepository(Artist::class)->findAll();
+
+        return $this->render('/backOffice/exhibition/exhibitDetailBO.html.twig', [
+            'exhibition' => $exhibition,
+            'artists' => $artists,
+        ]);
+    }
+
+    //Ajout d'un artiste à l'expo')]
+    #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
+    public function addArtistToExhibitBO(Exhibition $exhibition, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $artistId = $request->query->get('artistId');
+        $artist = $entityManager->getRepository(Artist::class)->find($artistId);
+
+        if ($artist) {
+            $show = new Show();
+            $show->setArtist($artist);
+            $show->setExhibition($exhibition);
+
+            $entityManager->persist($show);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('exhibitDetailBO', ['id' => $exhibition->getId()]);
     }
 }
