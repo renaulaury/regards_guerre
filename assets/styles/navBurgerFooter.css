@@ -1,20 +1,20 @@
 /***************** Navbar ************************/
-/* #navbar {
+#navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2% 5%;
+    padding: 1% 5%;
 }
 
 .logo {
-    width: 30%;
+    width: 20%;
 }
 
 #leftBlock {
     width: 80%;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .profile p {
@@ -27,7 +27,7 @@
 }
 
 #rightBlock {
-    width: 50%;
+    width: 10%;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -38,9 +38,9 @@
     flex-direction: column;
     position: absolute;
     right: 5%;
-    top: 12%; */
-    /* border: 1px solid var(--backgroundColor);  */
-    /* border-radius: 10px;
+    top: 2%; 
+    background-color: var(--background);
+    border-radius: 10px;
     width: 30%;
     height: auto;
     z-index: 10;
@@ -50,11 +50,10 @@
 
 #rightBlock li {
     padding: 5%;
-} */
+} 
 
 /***************** Burger *****************/
-/* .burgerButton {
-    padding-right: 20%;
+.burgerButton {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,13 +62,14 @@
     height: 50px;
     cursor: pointer;
     position: relative;
+    z-index: 99;
 }
 
 .burgerButton .line {
-    width: 50px;
-    height: 5px; */
+    width: 40px;
+    height: 3px; 
     /* margin: 25%; */
-   /* background-color: var(--line);
+    background-color: var(--line);
     transition: all 0.3s ease;
     position: absolute;
 }
@@ -98,11 +98,11 @@
 .burgerButton.open .line:nth-child(3) {
     transform: rotate(-45deg);
     top: 22px;
-} */
+} 
 
 
 /***************** Footer *****************/
-/* footer {
+ footer {
     width: 100%;
     padding: 5%;
     background-color: var(--footer);
@@ -111,11 +111,11 @@
 .blockFooter {
     padding-bottom: 5%;
     width: 100%;
-} */
+} 
 
 
 /****** Réseaux *****/
- /* .contactNetworks {  
+ .contactNetworks {  
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -133,49 +133,27 @@
 }
 
 .blockContact, .blockNetworks {
-    width: 50%;
+    width: 45%;
 }
 
 .iconNetworks {
-    font-size: 3rem;
-}*/
+    font-size: 2rem;
+}
 
 /****** Textes Légaux *****/
-/*.legalTexts {
+.legalTexts {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
     place-items: center; 
-} */
+} 
 
 /****** Copyright *****/
-/*.copyright p {
-    text-align: center;
-    padding: 0.5%;
-}*/
-
-/*-----------------------------------*/
-img {
-    width: 10%;
+.copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
-* {
-    max-width: 100%;
-    overflow-wrap: break-word;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: var(--ftColor);   
-}
-
-body {
-    font-size: 16px;  
-}
-
-h1 h2 {
-    font-size: 25px;
-}
-
-.navbar {
-    font-size: 22px;
-}

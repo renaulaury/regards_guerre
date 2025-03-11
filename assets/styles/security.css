@@ -1,7 +1,7 @@
 /********************** Login ********************/
 
 /************ Commun ****************/
-/* .secuH2 {
+ .secuH2 {
     text-align: center;
     padding-bottom: 5%;
 }
@@ -18,7 +18,7 @@
 }
 
 .blockSecuForm {
-    width: 70%;
+    width: 90%;
 }
 
 .blockSecuInput {    
@@ -26,9 +26,8 @@
 }
 
 .caseCheckbox  {
-    transform: scale(2);
-    margin: 0% 2%;    
-    vertical-align: middle;
+    transform: scale(1.5);
+    margin: 0% 5%;    
 }
 
 .label {
@@ -41,43 +40,31 @@
     width: 100%;
 }
 
-.btnSubmit {
-    border: none;
-    padding: 2% 20%;
-    border-radius: 50px;
-    background: var(--backgroundColorButton);
-    font-size: 1.5rem;
-}
-
-button {
-    margin-top: 5%;
-}
-
 input::placeholder {
     font-size: 1.2rem;
-} */
+} 
 
 /*********** Login ***************/
-/* .rememberForgot {
+ .rememberForgot {
     font-size: 1rem;
     display:flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
 }
 
 .blockRememberForgot {
     width: 50%;
-    text-align: center;
-} */
+} 
 
 /**************** Register ***************/
-/* .blockNotaBene {
-    font-size: 1rem;
+ .blockNotaBene {
+    font-size: 0.6rem;
 }
 
 .blockRegister {
     padding-bottom: 8%;
-} */
+} 
+
 

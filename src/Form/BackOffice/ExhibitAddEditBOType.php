@@ -74,9 +74,6 @@ class ExhibitAddEditBOType extends AbstractType
             ->add('stockAlert', IntegerType::class, [
                 'label' => 'Stock d\'alerte',
                 'data' => 10,
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer',
             ]);
     }
 
