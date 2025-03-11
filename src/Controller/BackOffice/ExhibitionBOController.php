@@ -32,7 +32,7 @@ final class ExhibitionBOController extends AbstractController
     /******************* Ajout et édition d'une exposition  *************************/
     #[Route('/backOffice/addExhibitBO', name: 'addExhibitBO')]
     #[Route('/backOffice/editExhibitBO/{id}', name: 'editExhibitBO')]
-    public function addEditexhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager, FileUploader $fileUploader, Filesystem $filesystem, Security $security): Response
+    public function addEditExhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager, FileUploader $fileUploader, Filesystem $filesystem, Security $security): Response
     {
         $isAdd = false; // Variable de contrôle
         $oldDate = null; // Variable de contrôle - date de dossier
@@ -108,7 +108,7 @@ final class ExhibitionBOController extends AbstractController
         }
 
         // Rendre le template avec le formulaire
-        return $this->render('backOffice/exhibition/addEditExhibitBO.html.twig', [
+        return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
             'form' => $form->createView(),
             'exhibition' => $exhibition,
             'isAdd' => $isAdd,
@@ -120,24 +120,26 @@ final class ExhibitionBOController extends AbstractController
 
     //Détail de l'expo
     #[Route('/backOffice/exhibitDetailBO/{id}', name: 'exhibitDetailBO')]
-    public function exhibitDetailBO(Exhibition $exhibition, EntityManagerInterface $entityManager): Response
+    public function exhibitDetailBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo): Response
     {
-        $artists = $entityManager->getRepository(Artist::class)->findAll();
+        $artists = $exhibitionShareRepo->findAll();
+        $unPlanned = $exhibitionShareRepo->findUnplannedArtists($exhibition->getId());
 
         return $this->render('/backOffice/exhibition/exhibitDetailBO.html.twig', [
             'exhibition' => $exhibition,
             'artists' => $artists,
+            'unPlanned' => $unPlanned,
         ]);
     }
 
-    //Ajout d'un artiste à l'expo')]
+    //Ajout d'un artiste à l'expo
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
-    public function addArtistToExhibitBO(Exhibition $exhibition, Request $request, EntityManagerInterface $entityManager): Response
+    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
     {
-        $artistId = $request->query->get('artistId');
-        $artist = $entityManager->getRepository(Artist::class)->find($artistId);
+        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
+        $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
 
-        if ($artist) {
+        if ($artist && $exhibition) {
             $show = new Show();
             $show->setArtist($artist);
             $show->setExhibition($exhibition);

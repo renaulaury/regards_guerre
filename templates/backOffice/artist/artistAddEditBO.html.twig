@@ -16,8 +16,12 @@
     {{ form_start(form) }}
         {{ form_row(form.artistName) }}
         {{ form_row(form.artistFirstname) }}
+
         {{ form_row(form.artistBirthDate) }}
-        {{ form_row(form.artistDeathDate) }}
+        {{ form_row(form.artistDeathDate) }}  
+        
+        {{ form_row(form.artistJob) }}
+        {{ form_row(form.artistBio) }}              
         {{ form_row(form.save) }}
     {{ form_end(form) }}
 

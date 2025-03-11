@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArtistAddEditBOType extends AbstractType
 {
@@ -21,6 +22,7 @@ class ArtistAddEditBOType extends AbstractType
             ->add('artistFirstname', TextType::class, [
                 'label' => 'Prénom',
             ])
+
             ->add('artistBirthDate', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
@@ -30,6 +32,14 @@ class ArtistAddEditBOType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,
             ])
+
+            ->add('artistJob', TextType::class, [
+                'label' => 'Métier(s)',
+            ])
+            ->add('artistBio', TextareaType::class, [
+                'label' => 'Biographie',
+            ])            
+           
             ->add('save', SubmitType::class, [
                 'label' => 'Modifier',
             ]);
