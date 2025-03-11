@@ -24,12 +24,6 @@ class Show
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $artistPhoto = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $artistJob = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $artistBio = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $artistTextArt = null;
 
@@ -92,30 +86,6 @@ class Show
         return $this;
     }
 
-    public function getArtistJob(): ?string
-    {
-        return $this->artistJob;
-    }
-
-    public function setArtistJob(string $artistJob): static
-    {
-        $this->artistJob = $artistJob;
-
-        return $this;
-    }
-
-    public function getArtistBio(): ?string
-    {
-        return $this->artistBio;
-    }
-
-    public function setArtistBio(string $artistBio): static
-    {
-        $this->artistBio = $artistBio;
-
-        return $this;
-    }
-
     public function getArtistTextArt(): ?string
     {
         return $this->artistTextArt;
@@ -139,6 +109,4 @@ class Show
 
         return $this;
     }
-
-   
 }

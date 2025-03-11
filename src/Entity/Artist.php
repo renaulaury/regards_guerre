@@ -28,6 +28,12 @@ class Artist
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $artistDeathDate = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $artistJob = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $artistBio = null;
+
     /**
      * @var Collection<int, Show>
      */
@@ -118,6 +124,30 @@ class Artist
 
         return $dateFormat->format($date);         
     }   
+
+    public function getArtistJob(): ?string
+    {
+        return $this->artistJob;
+    }
+
+    public function setArtistJob(string $artistJob): static
+    {
+        $this->artistJob = $artistJob;
+
+        return $this;
+    }
+
+    public function getArtistBio(): ?string
+    {
+        return $this->artistBio;
+    }
+
+    public function setArtistBio(string $artistBio): static
+    {
+        $this->artistBio = $artistBio;
+
+        return $this;
+    }
 
     /**
      * @return Collection<int, Show>
