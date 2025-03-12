@@ -15,12 +15,9 @@
     {% for show in exhibition.shows %}
         <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }} 
             
-        {# <p>Photo : {{ show.artistPhoto }}</p>
-        <p>Description de la photo: {{ show.artistPhotoAlt }}</p> 
-        <p>Parcours artistique: {{ show.artistTextArt }}</p> #}
-        {# <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}"> #}
-            <i class="fa-solid fa-minus"></i>
-        </a>
+            <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
+                <i class="fa-solid fa-minus"></i>
+            </a>
         </p>
     {% endfor %}
 </div>
