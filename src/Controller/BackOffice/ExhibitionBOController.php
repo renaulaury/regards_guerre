@@ -2,10 +2,11 @@
 
 namespace App\Controller\BackOffice;
 
-use App\Entity\Exhibition;
-use App\Entity\Artist;
 use App\Entity\Show;
+use App\Entity\Artist;
+use App\Entity\Exhibition;
 use App\Service\FileUploader;
+use App\Form\BackOffice\ShowAddInfosBO;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
@@ -122,29 +123,53 @@ final class ExhibitionBOController extends AbstractController
     #[Route('/backOffice/exhibitDetailBO/{id}', name: 'exhibitDetailBO')]
     public function exhibitDetailBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo): Response
     {
+        //Récup tous les artistes associés à l'expo et ceux qui ne le sont pas
         $artists = $exhibitionShareRepo->findAll();
         $unPlanned = $exhibitionShareRepo->findUnplannedArtists($exhibition->getId());
+
+        $forms = []; //Tabl pour les forms
+
+        //On boucle uniquement sur les artistes non planifiés
+        foreach ($unPlanned as $unPlannedArtist) {
+            $show = new Show(); //Création d'un nouveau show
+            $show->setExhibition($exhibition); //Injection des infos de l'expo
+            $show->setArtist($unPlannedArtist); //et de l'artiste
+
+            //Création du form pour les attributs de show
+            $form = $this->createForm(ShowAddInfosBO::class, $show);
+
+            //Stocke la vue dans le tableau grâce à l'id
+            $forms[$unPlannedArtist->getId()] = $form->createView();
+        }
 
         return $this->render('/backOffice/exhibition/exhibitDetailBO.html.twig', [
             'exhibition' => $exhibition,
             'artists' => $artists,
             'unPlanned' => $unPlanned,
+            'forms' => $forms,
         ]);
     }
 
-    //Ajout d'un artiste à l'expo
+    //Ajout d'un artiste à l'expo suite à soumission du form
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
     public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Récupère l'exposition et l'artiste à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
         $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
-
-        if ($artist && $exhibition) {
+        
+        // Vérifie si l'exposition et l'artiste existent.
+        if ($exhibition && $artist) {
             
-            $show = new Show();
-            $show->setArtist($artist);
-            $show->setExhibition($exhibition);
+            $show = new Show(); //Création d'un nouveau show
+            $show->setArtist($exhibition); //Injection des infos de lexpo
+            $show->setExhibition($artist); //et de l'artiste
 
+            //Création du form pour les attributs de show
+            $form = $this->createForm(ShowAddInfosBO::class, $show);
+            $form->handleRequest($request); // Traite la requête HTTP pour remplir le form
+
+            // Persister et enregistre les modifications dans la base de données
             $entityManager->persist($artist);
             $entityManager->persist($show);
             $entityManager->flush();

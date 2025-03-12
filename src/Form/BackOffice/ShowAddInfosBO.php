@@ -1,18 +1,26 @@
 <?php
-namespace App\Form;
+namespace App\Form\BackOffice;
 
+use App\Entity\Room;
 use App\Entity\Show;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ShowType extends AbstractType
+class ShowAddInfosBO extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('room', EntityType::class, [
+                'class' => Room::class,
+                'choice_label' => 'titleRoom', 
+                'label' => 'Salle',
+                'placeholder' => '',
+            ])
             ->add('artistPhoto', TextType::class, [
                 'label' => 'Photo de l\'artiste',
                 'mapped' => false, 
@@ -22,7 +30,7 @@ class ShowType extends AbstractType
             ])
             ->add('artistTextArt', TextareaType::class, [
                 'label' => 'Parcours artistique',
-            ])
+            ])            
         ;
     }
 
