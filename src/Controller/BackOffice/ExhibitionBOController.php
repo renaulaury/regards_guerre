@@ -184,22 +184,28 @@ final class ExhibitionBOController extends AbstractController
     #[Route('/backOffice/{idExhibit}/removeArtistFromExhibitBO/{idArtist}', name: 'removeArtistFromExhibitBO')]
     public function removeArtistFromExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
     {
+        //Récup expo et l'artite via leur id
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
         $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
 
+
+        //Vérifie si l'expo et l'artiste existent
         if ($exhibition && $artist) {
             $show = $entityManager->getRepository(Show::class)->findOneBy([
                 'exhibition' => $exhibition,
                 'artist' => $artist,
             ]);
 
+            //Vérifie si le show existe
             if ($show) {
-                $entityManager->remove($show);
-                $entityManager->flush();
+                $entityManager->remove($show); //Supprime le show
+                $entityManager->flush(); //Enregistre les modifications
                 $this->addFlash('success', 'Artiste supprimé avec succès.');
             } 
 
             return $this->redirectToRoute('exhibitDetailBO', ['id' => $idExhibit]);
         }
+        return $this->redirectToRoute('exhibitDetailBO', ['id' => $idExhibit]);
     }
+    
 }
