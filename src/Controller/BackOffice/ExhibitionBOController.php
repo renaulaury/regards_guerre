@@ -140,10 +140,7 @@ final class ExhibitionBOController extends AbstractController
         $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
 
         if ($artist && $exhibition) {
-            // Update artist details
-            $artist->setArtistJob($request->request->get('artistJob'));
-            $artist->setArtistBio($request->request->get('artistBio'));
-
+            
             $show = new Show();
             $show->setArtist($artist);
             $show->setExhibition($exhibition);

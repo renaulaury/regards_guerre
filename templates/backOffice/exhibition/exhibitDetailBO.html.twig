@@ -14,7 +14,7 @@
 
     {% for show in exhibition.shows %}
         <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }} 
-            <a href="#"><i class="fa-solid fa-caret-down"></i></a>
+            
         {# <p>Photo : {{ show.artistPhoto }}</p>
         <p>Description de la photo: {{ show.artistPhotoAlt }}</p> 
         <p>Parcours artistique: {{ show.artistTextArt }}</p> #}
@@ -36,9 +36,9 @@
    
     {% for unPlannedArtist in unPlanned %}
     <p>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
-  
-    {# <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}"> #}
-        <i class="fa-solid fa-minus"></i>
+        <a href="#"><i class="fa-solid fa-caret-down"></i></a>
+    {# <a href="{{ path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id}) }}">  #}
+        <i class="fa-solid fa-plus"></i>
     </a>
     </p>
 {% endfor %}
