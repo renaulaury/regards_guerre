@@ -13,9 +13,11 @@
     <h4>Artistes inscrits</h4>
 
     {% for show in exhibition.shows %}
-        <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }}
-        {# <p>Profession: {{ show.artist.artistJob }}</p>
-        <p>Biographie: {{ show.artist.artistBio }}</p> #}
+        <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }} 
+            <a href="#"><i class="fa-solid fa-caret-down"></i></a>
+        {# <p>Photo : {{ show.artistPhoto }}</p>
+        <p>Description de la photo: {{ show.artistPhotoAlt }}</p> 
+        <p>Parcours artistique: {{ show.artistTextArt }}</p> #}
         {# <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}"> #}
             <i class="fa-solid fa-minus"></i>
         </a>
@@ -31,7 +33,16 @@
 
 <div class="blockArtistToAdded">
     <h4>Liste des artistes dispo</h4>
-    
+   
+    {% for unPlannedArtist in unPlanned %}
+    <p>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
+  
+    {# <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}"> #}
+        <i class="fa-solid fa-minus"></i>
+    </a>
+    </p>
+{% endfor %}
+
 </div>
 
 
