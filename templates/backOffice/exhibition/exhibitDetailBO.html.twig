@@ -13,8 +13,7 @@
     <h4>Artistes inscrits</h4>
 
     {% for show in exhibition.shows %}
-        <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }} 
-            
+        <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }}                       
             <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
                 <i class="fa-solid fa-minus"></i>
             </a>
@@ -29,10 +28,10 @@
    
     {% for unPlannedArtist in unPlanned %}
         <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
-            <a href="#"><i class="fa-solid fa-caret-down"></i></a>
+            <i class="fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
         </div>
 
-        <div class="formShowArtist">
+        <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
             {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id})}) }}
 
                 <div>

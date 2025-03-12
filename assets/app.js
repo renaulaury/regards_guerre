@@ -15,7 +15,9 @@ import './styles/security.css';
 import './styles/media.css';
 
 
-import './js/burger.js'; 
+
+import './js/exhibitDetailBO.js'; 
 // import './js/tickets.js'; 
+import './js/burger.js'; 
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
