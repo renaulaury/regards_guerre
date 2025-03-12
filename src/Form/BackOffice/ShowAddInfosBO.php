@@ -20,16 +20,20 @@ class ShowAddInfosBO extends AbstractType
                 'choice_label' => 'titleRoom', 
                 'label' => 'Salle',
                 'placeholder' => '',
+                'required' => true,
             ])
             ->add('artistPhoto', TextType::class, [
                 'label' => 'Photo de l\'artiste',
-                'mapped' => false, 
+                'required' => true,
+                // 'mapped' => false, 
             ])
             ->add('artistPhotoAlt', TextType::class, [
                 'label' => 'Description de la photo',
+                'required' => true,
             ])
             ->add('artistTextArt', TextareaType::class, [
                 'label' => 'Parcours artistique',
+                'required' => true,
             ])            
         ;
     }

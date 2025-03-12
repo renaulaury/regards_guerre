@@ -150,7 +150,7 @@ final class ExhibitionBOController extends AbstractController
         ]);
     }
 
-    //Ajout d'un artiste à l'expo suite à soumission du form
+    //Ajout d'un show à l'expo suite à soumission du form
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
     public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -162,19 +162,21 @@ final class ExhibitionBOController extends AbstractController
         if ($exhibition && $artist) {
             
             $show = new Show(); //Création d'un nouveau show
-            $show->setArtist($exhibition); //Injection des infos de lexpo
-            $show->setExhibition($artist); //et de l'artiste
+            $show->setExhibition($exhibition); //Injection des infos de lexpo
+            $show->setArtist($artist); //et de l'artiste
 
             //Création du form pour les attributs de show
             $form = $this->createForm(ShowAddInfosBO::class, $show);
             $form->handleRequest($request); // Traite la requête HTTP pour remplir le form
 
-            // Persister et enregistre les modifications dans la base de données
-            $entityManager->persist($artist);
-            $entityManager->persist($show);
-            $entityManager->flush();
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Persister et enregistre les modifications dans la base de données
+                $entityManager->persist($show);
+                $entityManager->flush();
+                $this->addFlash('success', 'Artiste ajouté avec succès.');
+            }
 
+        }
         return $this->redirectToRoute('exhibitDetailBO', ['id' => $exhibition->getId()]);
     }
 }
