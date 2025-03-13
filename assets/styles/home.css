@@ -1,8 +1,79 @@
 /* Carrousel */
 
-.carrouselImg {
-    width: 500px;
+.blockCarrousel {
+    display: inline-block; 
 }
+
+.imgContainHome {
+    position: relative; 
+    width: 100%; 
+    height: 300px;
+}
+
+.carrouselBlockText {
+    position: absolute;
+    top: 11%;
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 7%; 
+    box-sizing: border-box;
+}
+
+.carrouselImg {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block; 
+    margin: 0 auto; 
+} 
+
+.carrouselH2 {
+    width: 60%;
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+} 
+
+.carrouselDate {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.spaceCarrousel {
+    padding: 1.5% 0;
+}
+
+.blockRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.carrouselText {
+    padding: 5% 5% 0 5%;
+}
+
+.btnCTA {
+    border: none;
+    padding: 2%;
+    border-radius: 50px;
+    background: var(--backgroundColorButton);
+    font-size: 1.5rem;
+    text-align: center;
+    width: 95%;
+}
+
 
 /* Espace boutique */
 .welcomeShop {

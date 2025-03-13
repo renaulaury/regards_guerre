@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ! {% endblock %}
+{% block title %}Accueil{% endblock %}
 
 
 
@@ -10,18 +10,31 @@
 <section>
     
     {% for exhibition in exhibitions %}    
-        <div>
+        <div class="blockCarrousel">
             <a href="{{ path('exhibition', {'id':exhibition.id}) }}">
-                <img class="carrouselImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
-                <h2>{{ exhibition }} ({{ exhibition.dateWarBeginFr }} 
+                <div class="imgContainHome">
+                    <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
+                    {# <div class="filterImg"></div> #}
+                </div>
 
-                    {% if exhibition.dateWarEndFr is not null %}    
-                        - {{ exhibition.dateWarEndFr }}
-                    {% else %}à aujourd'hui
-                    {% endif %}
-                )</h2>
-                <p>{{ exhibition.dateExhibitFr }}</p>
-                <p>{{ exhibition.descriptionExhibit }}</p>
+                <div class="carrouselBlockText">
+                    <div class="blockRight">
+                        <h2 class="carrouselH2">{{ exhibition }} 
+                            <span class="spaceCarrousel">{{ exhibition.dateWarBeginFr }} 
+
+                            {% if exhibition.dateWarEndFr is not null %}    
+                                - {{ exhibition.dateWarEndFr }}</span>
+                            {% else %}à aujourd'hui
+                            {% endif %}
+                        </h2>                    
+
+                        <div class="carrouselDate"><strong class="spaceCarrousel">{{ exhibition.dateExhibitFr }}</strong></div>
+                    </div>
+
+                    <div class="carrouselText">{{ exhibition.descriptionExhibit }}</div>
+
+                    <button type="submit" class="button btnCTA">Ticket</button>
+                </div>
             </a>
         </div>
     {% endfor %}
