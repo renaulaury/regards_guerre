@@ -17,6 +17,7 @@ class ExhibitAddEditBOType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /*************** Formulaire du template exhibitAddEditBO ***************/
         $builder
             ->add('mainImage', FileType::class, [
                 'label' => 'Image principale',

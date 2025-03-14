@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArtistAddEditBOType extends AbstractType
 {
+    /*************** Formulaire du template artistAddEditBO ***************/
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

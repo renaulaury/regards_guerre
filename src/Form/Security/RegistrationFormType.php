@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class RegistrationFormType extends AbstractType 
 {
+    /*************** Formulaire du template security/register ***************/
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

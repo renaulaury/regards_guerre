@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class ChangePasswordFormType extends AbstractType
 {
+    /*************** Formulaire du template security/reset_password/reset ***************/
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         //Mdp actuel -> Modification de mdp

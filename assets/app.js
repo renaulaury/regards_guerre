@@ -16,7 +16,7 @@ import './styles/media.css';
 
 
 
-import './js/exhibitDetailBO.js'; 
+import './js/exhibitShowBO.js'; 
 // import './js/tickets.js'; 
 import './js/burger.js'; 
 

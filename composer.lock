@@ -7669,7 +7669,7 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "SymfonyCasts\\Bundle\\ResetPassword\\": "src/"
+                    "SymfonyCasts\\Bundle\\Reset_password\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",

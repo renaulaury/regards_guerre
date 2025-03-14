@@ -64,7 +64,7 @@ final class ExhibitionBOController extends AbstractController
                 $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
 
                 // Rendre le template avec le formulaire et le message d'erreur
-                return $this->render('backOffice/exhibition/exhibitDetailBO.html.twig', [
+                return $this->render('backOffice/exhibition/exhibitShowBO.html.twig', [
                     'form' => $form->createView(),
                     'exhibition' => $exhibition,
                     'isAdd' => $isAdd,
@@ -105,7 +105,7 @@ final class ExhibitionBOController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la liste des expositions
-            return $this->redirectToRoute('exhibitDetailBO');
+            return $this->redirectToRoute('exhibitshowBO');
         }
 
         // Rendre le template avec le formulaire
@@ -120,8 +120,8 @@ final class ExhibitionBOController extends AbstractController
     /************************* Afficher détail de l'exposition *******************/
 
     //Détail de l'expo
-    #[Route('/backOffice/exhibitDetailBO/{id}', name: 'exhibitDetailBO')]
-    public function exhibitDetailBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo): Response
+    #[Route('/backOffice/exhibitShowBO/{id}', name: 'exhibitShowBO')]
+    public function exhibitShowBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo): Response
     {
         //Récup tous les artistes associés à l'expo et ceux qui ne le sont pas
         $artists = $exhibitionShareRepo->findAll();
@@ -142,7 +142,7 @@ final class ExhibitionBOController extends AbstractController
             $forms[$unPlannedArtist->getId()] = $form->createView();
         }
 
-        return $this->render('/backOffice/exhibition/exhibitDetailBO.html.twig', [
+        return $this->render('/backOffice/exhibition/exhibitShowBO.html.twig', [
             'exhibition' => $exhibition,
             'artists' => $artists,
             'unPlanned' => $unPlanned,
@@ -177,7 +177,7 @@ final class ExhibitionBOController extends AbstractController
             }
 
         }
-        return $this->redirectToRoute('exhibitDetailBO', ['id' => $exhibition->getId()]);
+        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
     }
 
     //Suppression d'un artiste à l'expo 
@@ -203,9 +203,9 @@ final class ExhibitionBOController extends AbstractController
                 $this->addFlash('success', 'Artiste supprimé avec succès.');
             } 
 
-            return $this->redirectToRoute('exhibitDetailBO', ['id' => $idExhibit]);
+            return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
         }
-        return $this->redirectToRoute('exhibitDetailBO', ['id' => $idExhibit]);
+        return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
     }
     
 }

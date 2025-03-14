@@ -14,6 +14,8 @@ class UserBOType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {      
+        /*************** Formulaire du template userEditBO ***************/
+
         // Root -> changement de rôle d'un membre
         if ($options['root']) {
             $builder->add('roles', ChoiceType::class, [

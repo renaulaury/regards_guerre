@@ -14,7 +14,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'register')]
+
+    /************* S'enregistrer ************************/
+    #[Route('/security/register', name: 'register')]
     public function register(
         Request $request, 
         UserPasswordHasherInterface $userPasswordHasher, 
@@ -36,7 +38,7 @@ class RegistrationController extends AbstractController
                 $this->addFlash('error', 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.');
 
                 // Re-render le formulaire avec un message d'erreur
-                return $this->render('registration/register.html.twig', [
+                return $this->render('security/register.html.twig', [
                     'registrationForm' => $form,
                 ]);
             }
@@ -56,7 +58,7 @@ class RegistrationController extends AbstractController
             return $security->login($user, 'form_login', 'main');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('security/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }
