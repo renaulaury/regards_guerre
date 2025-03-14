@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
@@ -33,8 +33,7 @@ class ResetPasswordController extends AbstractController
     }
 
     /* Afficher et traiter le formulaire de demande de réinitialisation du mot de passe.*/
-    
-    #[Route('security/resetPassword', name: 'forgotPasswordRequest')]
+    #[Route('', name: 'forgotPasswordRequest')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         // Création du formulaire de demande de réinitialisation
@@ -42,22 +41,20 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { // Récupère l'email de l'utilisateur à partir du formulaire
-            /** @var string $email */
             $email = $form->get('userEmail')->getData();
 
             // Traite l'envoi du mail pour réinitialiser le mot de passe
-            return $this->processSendingPasswordResetEmail($email, $mailer, $translator
-            );
+            return $this->processSendingPasswordResetEmail($email, $mailer, $translator);
         }
 
-        return $this->render('security/resetPassword/request.html.twig', [
+        return $this->render('/resetPassword/request.html.twig', [ // Chemin mis à jour
             'requestForm' => $form,
         ]);
     }
 
     /******************* Page de confirmation après qu'un utilisateur a demandé la réinitialisation de son mot de passe. ************************/
-     
-    #[Route('/security/resetPassword/checkEmail', name: 'checkEmail')]
+
+    #[Route('checkEmail', name: 'checkEmail')]
     public function checkEmail(): Response
     {
         // Générer un faux jeton si l'utilisateur n'existe pas ou si quelqu'un a accédé à cette page directement.
@@ -67,22 +64,22 @@ class ResetPasswordController extends AbstractController
         }
 
         // Affiche la page de confirmation avec le jeton
-        return $this->render('security/resetPassword/check_email.html.twig', [
+        return $this->render('/resetPassword/checkEmail.html.twig', [ // Chemin mis à jour
             'resetToken' => $resetToken,
         ]);
     }
 
     /******************* Valide et traite l'URL de réinitialisation sur laquelle l'utilisateur a cliqué dans son courrier électronique. .************************/
 
-    #[Route('/security/resetPassword/reset/{token}', name: 'resetPassword')]
+    #[Route('/reset/{token}', name: 'resetPassword')]
     public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, ?string $token = null): Response
     {
         if ($token) {
-             // Nous stockons le jeton dans la session et le supprimons de l'URL, afin d'éviter que l'URL ne soit
+            // Nous stockons le jeton dans la session et le supprimons de l'URL, afin d'éviter que l'URL ne soit
             // chargée dans un navigateur et que le jeton ne soit pas divulgué à un JavaScript tiers.
             $this->storeTokenInSession($token);
 
-            return $this->redirectToRoute('/security/resetPassword/resetPassword');
+            return $this->redirectToRoute('resetPassword');
         }
 
         // Récupère le jeton depuis la session
@@ -96,7 +93,6 @@ class ResetPasswordController extends AbstractController
         try { // Valide le jeton et récupère l'utilisateur associé
             /** @var User $user */
             $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
-
         } catch (ResetPasswordExceptionInterface $e) { // Si le jeton est invalide, on affiche un message d'erreur
             $this->addFlash('reset_password_error', sprintf(
                 '%s - %s',
@@ -104,7 +100,7 @@ class ResetPasswordController extends AbstractController
                 $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
             ));
 
-            return $this->redirectToRoute('/security/resetPassword/forgotPasswordRequest');
+            return $this->redirectToRoute('forgotPasswordRequest');
         }
 
         // Le jeton est valide, autorisation à l'utilisateur à modifier son mot de passe
@@ -128,11 +124,10 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('security/resetPassword/reset.html.twig', [
+        return $this->render('/resetPassword/reset.html.twig', [ // Chemin mis à jour
             'resetForm' => $form,
         ]);
     }
-
 
     /************************* Méthode pour envoyer un email de réinitialisation de mot de passe ***************************/
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
@@ -141,33 +136,29 @@ class ResetPasswordController extends AbstractController
             'userEmail' => $emailFormData,
         ]);
 
-        
         // Ne pas indiquer si un compte d'utilisateur a été trouvé ou non
         if (!$user) {
-            return $this->redirectToRoute('/security/resetPassword/checkEmail');
+            return $this->redirectToRoute('checkEmail');
         }
-        
+
         try { // Génère le jeton de réinitialisation pour l'utilisateur
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-            
-        } catch (ResetPasswordExceptionInterface $e) { 
+        } catch (ResetPasswordExceptionInterface $e) {
             // Si vous voulez dire à l'utilisateur pourquoi un email de réinitialisation n'a pas été envoyé -> non
-            
-            
-            return $this->redirectToRoute('/security/resetPassword/checkEmail');
+
+            return $this->redirectToRoute('checkEmail');
         }
-        
+
         // Prépare l'email pour la réinitialisation
         $email = (new TemplatedEmail())
-        ->from(new Address('regardsguerre@gmail.com', 'Regards de Guerre'))
-        ->to((string) $user->getUserEmail())
-        ->subject('Votre demande de réinitialisation du mot de passe')
-        ->htmlTemplate('resetPassword/email.html.twig')
-        ->context([
-            'resetToken' => $resetToken,
-            ])
-            ;
-        
+            ->from(new Address('regardsguerre@gmail.com', 'Regards de Guerre'))
+            ->to((string) $user->getUserEmail())
+            ->subject('Votre demande de réinitialisation du mot de passe')
+            ->htmlTemplate('resetPassword/email.html.twig') // Chemin mis à jour
+            ->context([
+                'resetToken' => $resetToken,
+            ]);
+
         // Envoie l'email
         $mailer->send($email);
 
@@ -175,8 +166,6 @@ class ResetPasswordController extends AbstractController
         $this->setTokenObjectInSession($resetToken);
 
         // Redirige vers la page de confirmation
-        return $this->redirectToRoute('/security/resetPassword/checkEmail');
+        return $this->redirectToRoute('checkEmail');
     }
 }
-
-

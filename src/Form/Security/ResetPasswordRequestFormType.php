@@ -12,10 +12,15 @@ class ResetPasswordRequestFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /**************** Formulaire du template resetPassword/reset *****************/
         $builder
             ->add('userEmail', EmailType::class, [
                 'label' => 'Email',
-                'attr' => ['autocomplete' => 'email'],
+                'attr' => [
+                    'autocomplete' => 'email',
+                    'placeholder' => 'Votre email', // Placeholder défini ici
+                ],
+                'trim' => true, //Supprime les blancs
                 'constraints' => [
                     new NotBlank([ //Vérifie que le champ n'est pas vide
                         'message' => 'Veuillez entrer votre email afin de réinitialiser votre mot de passe.',

@@ -1,0 +1,14 @@
+{# Email envoyé avec le lien de réinitialisation #}
+
+<section style="display: flex; flex-direction: column; gap: 3%;">
+    <div style="margin-bottom: 20px">Bonjour,</div>
+
+    <div style="margin-bottom: 20px">Pour réinitialiser votre mot de passe, veuillez consulter le lien suivant</div>
+
+    {# Lien généré dynamiquement pour la réinitialisation du mot de passe #}
+    <a style="margin-bottom: 20px" href="{{ url('resetPassword', {token: resetToken.token}) }}">{{ url('resetPassword', {token: resetToken.token}) }}</a>
+
+    <div style="margin-bottom: 20px">Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</div>
+
+    <div>Regards de guerre</div>
+</section>

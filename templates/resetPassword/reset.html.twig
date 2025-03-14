@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialiser votre mot de passe{% endblock %}
+
+
+{% block body %} <!-- Form security/resetPasswordRequestFormType -->
+{# Fichier pour valider la réinitalisation du mdp #}
+
+    <h1>Réinitialiser votre mot de passe</h1>
+
+<section>
+    {{ form_start(resetForm) }}
+
+    <div class="blockResetPsd">
+        <div class="label">{{ form_label(resetForm.password.first) }}</div>
+        <div class="input">{{ form_widget(resetForm.password.first) }}</div>
+        <div class="resetError">{{ form_errors(resetForm.password.first) }}</div>
+    </div>
+
+    <div class="blockResetPsd">
+        <div class="label">{{ form_label(resetForm.password.second) }}</div>
+        <div class="input">{{ form_widget(resetForm.password.second) }}</div>
+        <div class="resetError">{{ form_errors(resetForm.password.second) }}</div>
+    </div>
+
+        <button class="btnSubmit button">Mot de passe réinitialisé</button>
+        
+    {{ form_end(resetForm) }}
+</section>
+{% endblock %}
