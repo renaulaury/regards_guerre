@@ -74,14 +74,100 @@
     width: 95%;
 }
 
-
-/* Espace boutique */
-.welcomeShop {
-    width: 50%;
-    border-radius: 30px;
+/****** Intro ******/
+.introHomeContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5%;
 }
 
-/* Accès */
+.introHome {
+    text-align: center;    
+}
+
+/****** A propos ******/
+.blockAbout p {
+    padding: 3% 0;
+}
+
+/****** Agenda ******/
+.sectionAgenda {    
+    padding: 0%;
+}
+
+.sectionAgenda h2{    
+    padding: 5%;
+}
+
+.blockAgendaContainer {
+    width: 100%;
+    padding: 0% 5%;
+    background: var(--backgroundColorPastel);
+}
+
+.exhibitAgenda {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:5px;
+    padding: 5% 0%;
+}
+
+.blockDateAgenda {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    padding-bottom: 5%;
+}
+
+.blockTextAgenda {
+    padding-bottom: 5%;
+}
+
+.hookAgenda {
+    padding-top: 3%;
+}
+
+
+/****** Espace boutique ******/
+.welcomeShop {
+    width: 100%;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.coffeeShopContainer {
+    width: 100%;
+}
+
+.coffeeFlex {
+    display: flex;
+    flex-direction: row;
+}
+
+.shopFlex {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.coffeeDisplay {
+    width: 100%;
+    padding: 0% 5% 5% 0%;
+}
+
+.coffeeDisplay {
+    width: 50%;
+    padding: 0% 5% 5% 0%;
+}
+
+.coffeeText {
+    padding: 0% 0% 10% 0%;
+}
+
+
+/****** Accès *******/
 .iconMetro {
     width: 5%;
     height: auto;
