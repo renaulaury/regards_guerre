@@ -133,7 +133,7 @@
 
 /****** Espace boutique ******/
 .welcomeShop {
-    width: 100%;
+    width: 45%;
     border-radius: 30px;
     object-fit: cover;
 }
@@ -143,32 +143,110 @@
 }
 
 .coffeeFlex {
+    width: 100%;
+    margin-bottom: 5%;
     display: flex;
     flex-direction: row;
 }
 
-.shopFlex {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
 .coffeeDisplay {
-    width: 100%;
-    padding: 0% 5% 5% 0%;
+    width: 45%;
+    margin: 0% 5% 5% 0%;
 }
 
 .coffeeDisplay {
     width: 50%;
-    padding: 0% 5% 5% 0%;
 }
 
-.coffeeText {
+.coffeeText, .shopText {
     padding: 0% 0% 10% 0%;
 }
 
+.shopFlex {
+    width: 100%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.shopDisplay {
+    width: 50%;
+    margin: 0% 0% 0% 5%;
+}
+
+.shopDisplay img {
+    width: 45%;
+}
+
+
 
 /****** Accès *******/
+.sectionVisit {
+    padding: 0%;
+}
+
+.sectionVisit h2 {
+    padding: 5%;
+}
+
+.blockVisitContainer {
+    width: 100%;
+    padding: 0% 5%;
+    background: var(--backgroundColorPastel);
+    padding-top: 5%;
+}
+
+.disabledBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    padding: 5% 0%;
+}
+
+.blockVisitContainer iframe {
+    width: 100%;
+    height: 300px;
+}
+
+.blockPath1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 5% 0%;
+}
+
+.blockPath1 h4 {
+    text-align: center;
+    padding: 5% 0%;
+}
+
+.blockPath2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 5% 0%;
+}
+
+.blockPath2 h4 {
+    text-align: center;
+    padding: 5% 0%;
+}
+
 .iconMetro {
-    width: 5%;
+    width: 1%;
     height: auto;
 }
+
+.blockMetro {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
