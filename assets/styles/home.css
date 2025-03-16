@@ -134,6 +134,7 @@
 /****** Espace boutique ******/
 .welcomeShop {
     width: 45%;
+    height: 200px;   
     border-radius: 30px;
     object-fit: cover;
 }
@@ -147,6 +148,8 @@
     margin-bottom: 5%;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .coffeeDisplay {
@@ -167,6 +170,8 @@
     margin-bottom: 5%;
     display: flex;
     flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
 }
 
 .shopDisplay {
@@ -209,44 +214,35 @@
     height: 300px;
 }
 
-.blockPath1 {
+.blockPath {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    padding: 5% 0%;
+    flex-direction: column; /*a enlever en desktop*/
+    align-items: center; /*a enlever en desktop*/
+    justify-content: center;    
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
 }
 
-.blockPath1 h4 {
+.visitCar, .visitTrain {
+    flex: 1;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.visitCar h4, .visitTrain h4 {
     text-align: center;
-    padding: 5% 0%;
+    margin-bottom: 10px;
 }
 
-.blockPath2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    padding: 5% 0%;
-}
-
-.blockPath2 h4 {
-    text-align: center;
-    padding: 5% 0%;
+.metroPath div {
+    margin-bottom: 5px;
 }
 
 .iconMetro {
-    width: 1%;
-    height: auto;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
 }
-
-.blockMetro {
-    width:100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-}
-
