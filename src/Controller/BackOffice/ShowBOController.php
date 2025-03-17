@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\FileUploader;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class ShowBOController extends AbstractController
 {
@@ -90,7 +92,7 @@ final class ShowBOController extends AbstractController
 
     //Ajout d'un show à l'expo suite à soumission du form
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
-    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager): Response
+    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         // Récupère l'exposition et l'artiste à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
@@ -99,13 +101,13 @@ final class ShowBOController extends AbstractController
         // Vérifie si l'exposition et l'artiste existent.
         if ($exhibition && $artist) {
             
-            // Check if a Show entity already exists for this artist and exhibition
+            // Vrifier si le show existe pour cette artiste et cette expo 
             $show = $entityManager->getRepository(Show::class)->findOneBy([
                 'exhibition' => $exhibition,
                 'artist' => $artist,
             ]);
 
-            // If it doesn't exist, create a new one
+            // Si le show n existe pas le créer
             if (!$show) {
                 $show = new Show(); //Création d'un nouveau show
                 $show->setExhibition($exhibition); //Injection des infos de lexpo
@@ -117,6 +119,22 @@ final class ShowBOController extends AbstractController
             $form->handleRequest($request); // Traite la requête HTTP pour remplir le form
 
             if ($form->isSubmitted() && $form->isValid()) {
+                
+                /*Rechercher le dossier de l expo */
+                $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $exhibition->getDateExhibit()->format('Ymd');
+
+                /* Verifier si l image existe ou non et 
+                Enregistrer l image dans le dossier sous nom_prenom*/
+                $artistPhoto = $form->get('artistPhoto')->getData();
+                if ($artistPhoto) {
+                    // Enregistrer l'image avec le nom artist_prenom
+                    $fileName = $artist->getArtistName() . '_' . $artist->getArtistFirstname() . '.' . $artistPhoto->guessExtension(); // Crée le nom du fichier + extension
+                    $fileUploader->upload($artistPhoto, $uploadDirectory, $fileName); // Dl le fichier vers le répertoire
+
+                    // Mettre à jour le chemin de l'image dans l'entité
+                    $show->setArtistPhoto('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName);
+                }      
+
                 // Persister et enregistre les modifications dans la base de données
                 $entityManager->persist($show);
                 $entityManager->flush();
