@@ -62,7 +62,6 @@ final class ExhibitionBOController extends AbstractController
                 $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
 
 
-
                 // Rendre le template avec le formulaire et le message d'erreur
                 return $this->render('backOffice/exhibition/exhibitShowBO.html.twig', [
                     'form' => $form->createView(),
