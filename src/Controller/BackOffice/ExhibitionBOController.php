@@ -105,7 +105,7 @@ final class ExhibitionBOController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la liste des expositions
-            return $this->redirectToRoute('exhibitshowBO');
+            return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
         }
 
         // Rendre le template avec le formulaire

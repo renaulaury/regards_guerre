@@ -141,12 +141,24 @@
 }
 
 /****** Textes Légaux *****/
+.blockLegaux {
+    display: flex;
+    justify-content: space-between;
+    gap: 5%;
+}
+
 .legalTexts {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-    place-items: center; 
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 } 
+
+.legalTexts p {
+    width: 50%;
+    text-align: center;
+}
 
 /****** Copyright *****/
 .copyright {

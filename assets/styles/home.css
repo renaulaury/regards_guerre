@@ -224,12 +224,18 @@
     padding: 20px;
     box-sizing: border-box;
     margin: 0 auto;
+
+    
 }
 
 .visitCar, .visitTrain {
     flex: 1;
     max-width: 100%;
     box-sizing: border-box;
+}
+
+.visitTrain {
+    padding-bottom: 5%;
 }
 
 .visitCar h4, .visitTrain h4 {

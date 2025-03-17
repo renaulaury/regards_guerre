@@ -21,33 +21,36 @@
     {% endfor %}
 </div>
 
-
-
 <div class="blockArtistToAdded">
     <h4>Liste des artistes dispo</h4>
    
-    {% for unPlannedArtist in unPlanned %}
-        <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
-            <i class="fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
-        </div>
+    {% if unPlanned is defined %}
+        {% for unPlannedArtist in unPlanned %}
+            <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
+                <i class="fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
+            </div>
 
-        <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
-            {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id})}) }}
+            <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
+                {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id})}) }}
 
-                <div>
-                    {{ form_label(forms[unPlannedArtist.id].room) }}
-                    {{ form_widget(forms[unPlannedArtist.id].room) }}
-                </div>
+                    <div>
+                        {{ form_label(forms[unPlannedArtist.id].room) }}
+                        {{ form_widget(forms[unPlannedArtist.id].room) }}
+                    </div>
 
                     <div>
                         {{ form_label(forms[unPlannedArtist.id].artistPhoto) }}
-                        
+
+                        {# {% if exhibition.mainImage is not empty %}
+                            <img class="mainImgForm" src="{{ asset(exhibition.artistPhoto) }}" alt="{{ form.artistPhotoAlt.vars.value }}">
+                    {% endif %} #}
+
+
                         {# {% if exhibition.mainImage is not empty %}
                             <img class="mainImgForm" src="{{ asset(exhibition.artistPhoto) }}" alt="{{ form.artistPhotoAlt.vars.value }}">
                     {% endif %} #}
 
                         {{ form_widget(forms[unPlannedArtist.id].artistPhoto) }}
-                    
                     </div>
 
                     <div>
@@ -66,16 +69,11 @@
                         </button>
                     </div>
 
-            {{ form_end(forms[unPlannedArtist.id]) }}
-        </div>
-    
-    
-{% endfor %}
-
+                {{ form_end(forms[unPlannedArtist.id]) }}
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
-
-
-
 
 </section>
 
