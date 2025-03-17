@@ -121,13 +121,14 @@ final class ExhibitionBOController extends AbstractController
 
     //Détail de l'expo
     #[Route('/backOffice/exhibitShowBO/{id}', name: 'exhibitShowBO')]
-    public function exhibitShowBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo): Response
+    public function exhibitShowBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo, EntityManagerInterface $entityManager): Response
     {
         //Récup tous les artistes associés à l'expo et ceux qui ne le sont pas
         $artists = $exhibitionShareRepo->findAll();
         $unPlanned = $exhibitionShareRepo->findUnplannedArtists($exhibition->getId());
 
         $forms = []; //Tabl pour les forms
+        $shows = []; //Tableau pour infos artist non planifiés du show
 
         //On boucle uniquement sur les artistes non planifiés
         foreach ($unPlanned as $unPlannedArtist) {
@@ -140,6 +141,14 @@ final class ExhibitionBOController extends AbstractController
 
             //Stocke la vue dans le tableau grâce à l'id
             $forms[$unPlannedArtist->getId()] = $form->createView();
+
+            // Récup artist associé au show
+             $show = $entityManager->getRepository(Show::class)->findOneBy([
+                'exhibition' => $exhibition,
+                'artist' => $unPlannedArtist,
+            ]);
+            
+            $shows[$unPlannedArtist->getId()] = $show;
         }
 
         return $this->render('/backOffice/exhibition/exhibitShowBO.html.twig', [
@@ -147,6 +156,7 @@ final class ExhibitionBOController extends AbstractController
             'artists' => $artists,
             'unPlanned' => $unPlanned,
             'forms' => $forms,
+            'shows' => $shows,
         ]);
     }
 
@@ -180,7 +190,22 @@ final class ExhibitionBOController extends AbstractController
         return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
     }
 
-    //Suppression d'un artiste à l'expo 
+    /***************** Suppression d'un artiste à l'expo ***********************/
+    //Confirmation suppression artiste à l'expo
+    #[Route('/backOffice/{idExhibit}/confirmRemoveArtistFromExhibitBO/{idArtist}', name: 'confirmRemoveArtistFromExhibitBO')]
+    public function confirmRemoveArtistFromExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
+    {
+        // Récupère l'exposition et l'artiste à partir de l'ID
+        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
+        $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
+        
+        return $this->render('backOffice/exhibition/confirmRemoveArtistFromExhibitBO.html.twig', [
+            'exhibition' => $exhibition,
+            'artist' => $artist,
+        ]);
+    }
+
+    //Suppression de l'artiste
     #[Route('/backOffice/{idExhibit}/removeArtistFromExhibitBO/{idArtist}', name: 'removeArtistFromExhibitBO')]
     public function removeArtistFromExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
     {

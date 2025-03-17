@@ -14,7 +14,7 @@
 
     {% for show in exhibition.shows %}
         <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }}                       
-            <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
+            <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
                 <i class="fa-solid fa-minus"></i>
             </a>
         </p>
@@ -31,7 +31,7 @@
             </div>
 
             <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
-                {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id})}) }}
+                {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id}) }) }}
 
                     <div>
                         {{ form_label(forms[unPlannedArtist.id].room) }}
@@ -41,9 +41,9 @@
                     <div>
                         {{ form_label(forms[unPlannedArtist.id].artistPhoto) }}
 
-                        {# {% if exhibition.mainImage is not empty %}
-                            <img class="mainImgForm" src="{{ asset(exhibition.artistPhoto) }}" alt="{{ form.artistPhotoAlt.vars.value }}">
-                    {% endif %} #}
+                        {% if shows[unPlannedArtist.id] and shows[unPlannedArtist.id].artistPhoto is not empty %}
+                            <img class="mainImgForm" src="{{ asset(shows[unPlannedArtist.id].artistPhoto) }}" alt="{{ forms[unPlannedArtist.id].artistPhotoAlt.vars.value }}">
+                        {% endif %}
 
                         {{ form_widget(forms[unPlannedArtist.id].artistPhoto) }}
                     </div>
@@ -59,9 +59,7 @@
                     </div>
 
                     <div>
-                        <button type="submit">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
+                        <button type="submit">Ajouter</button>
                     </div>
 
                 {{ form_end(forms[unPlannedArtist.id]) }}

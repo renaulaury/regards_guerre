@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de suppression d'un artiste d'une planification{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    <h1>Confirmation</h1>
+</div>
+
+<section>
+    <p>Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
+    </p>
+
+   <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
+    Supprimer
+</a>
+</section>
+{% endblock %}
+
+
