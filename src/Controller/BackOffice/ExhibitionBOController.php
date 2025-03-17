@@ -207,5 +207,50 @@ final class ExhibitionBOController extends AbstractController
         }
         return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
     }
-    
+
+    /************************** Suppression d'une expo ******************************/
+    #[Route('/backOffice/{idExhibit}/deleteExhibitBO', name: 'deleteExhibitBO')]
+    public function deleteExhibitBO(int $idExhibit, EntityManagerInterface $entityManager): Response
+    {
+    // Récupère l'exposition à partir de l'ID
+        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);        
+
+        // Render the confirmation template
+        return $this->render('backOffice/exhibition/exhibitConfirmDeleteBO.html.twig', [
+            'exhibition' => $exhibition,            
+        ]);
+    }
+
+
+    #[Route('/backOffice/{idExhibit}/deleteConfirmExhibitBO', name: 'deleteConfirmExhibitBO')]
+    public function deleteConfirmExhibitBO(int $idExhibit, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
+    {
+        // Récupère l'exposition à partir de l'ID
+        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
+
+        // Vérifie si l'exposition existe
+        if ($exhibition) {
+            // Supprime les shows associés à l'exposition
+            $shows = $entityManager->getRepository(Show::class)->findBy(['exhibition' => $exhibition]);
+            foreach ($shows as $show) {
+                $entityManager->remove($show);
+            }
+
+            // Supprime les fichiers associés à l'exposition
+            $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $exhibition->getDateExhibit()->format('Ymd');
+            if ($filesystem->exists($uploadDirectory)) {
+                $filesystem->remove($uploadDirectory);
+            }
+
+            // Supprime l'exposition
+            $entityManager->remove($exhibition);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Exposition supprimée avec succès.');
+        } else {
+            $this->addFlash('error', 'Exposition non trouvée.');
+        }
+
+        return $this->redirectToRoute('exhibitListBO');
+    }
 }

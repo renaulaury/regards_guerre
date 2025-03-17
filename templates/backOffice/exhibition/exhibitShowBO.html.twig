@@ -45,11 +45,6 @@
                             <img class="mainImgForm" src="{{ asset(exhibition.artistPhoto) }}" alt="{{ form.artistPhotoAlt.vars.value }}">
                     {% endif %} #}
 
-
-                        {# {% if exhibition.mainImage is not empty %}
-                            <img class="mainImgForm" src="{{ asset(exhibition.artistPhoto) }}" alt="{{ form.artistPhotoAlt.vars.value }}">
-                    {% endif %} #}
-
                         {{ form_widget(forms[unPlannedArtist.id].artistPhoto) }}
                     </div>
 

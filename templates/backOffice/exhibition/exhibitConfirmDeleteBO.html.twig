@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Expositions{% endblock %}
+
+{% block body %}
+<div class="containH1">    
+    <h1>Expositions</h1>
+</div>
+
+<section class="listExhibit">
+
+    <p>L'exposition sera entièrement supprimée ainsi que les artistes programmés.</p>
+    <p>Etes vous sûr de vouloir continuer ?</p>
+
+    <a href="{{ path('deleteConfirmExhibitBO', {'idExhibit': exhibition.id}) }}">
+        Supprimer
+    </a>
+</section>
+{% endblock %}
+
+
