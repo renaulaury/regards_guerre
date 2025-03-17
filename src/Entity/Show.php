@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ShowRepository;
+use App\Repository\BackOffice\ShowRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

@@ -5,17 +5,17 @@ namespace App\Controller\BackOffice;
 use App\Entity\Show;
 use App\Entity\Artist;
 use App\Entity\Exhibition;
+use App\Service\FileUploader;
 use App\Form\BackOffice\ShowAddInfosBO;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\BackOffice\ShowRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\FileUploader;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-final class ShowBOController extends AbstractController
+final class ShowController extends AbstractController
 {
     #[Route('/show', name: 'show')]
     public function index(): Response
@@ -30,7 +30,7 @@ final class ShowBOController extends AbstractController
 
     //Détail de l'expo
     #[Route('/backOffice/exhibitShowBO/{id}', name: 'exhibitShowBO')]
-    public function exhibitShowBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo, EntityManagerInterface $entityManager): Response
+    public function exhibitShowBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo, EntityManagerInterface $entityManager, ShowRepository $showRepo): Response
     {
         //Récup tous les artistes associés à l'expo et ceux qui ne le sont pas
         $artists = $exhibitionShareRepo->findAll();
@@ -55,7 +55,17 @@ final class ShowBOController extends AbstractController
                 $show->setArtist($plannedArtist->getArtist());
             }
 
-            $form = $this->createForm(ShowAddInfosBO::class, $show);
+            // Récupérer les IDs des salles déjà utilisées
+            $showId = null;
+            if ($show) {
+                $showId = $show->getId();
+            }
+            $usedRoom = $showRepo->findUsedRoomInShow($exhibition->getId(), $showId);
+
+
+            $form = $this->createForm(ShowAddInfosBO::class, $show, [
+                'usedRoom' => $usedRoom,
+            ]);
             $forms[$plannedArtist->getArtist()->getId()] = $form->createView();
             $shows[$plannedArtist->getArtist()->getId()] = $show;
         }
@@ -66,8 +76,18 @@ final class ShowBOController extends AbstractController
             $show->setExhibition($exhibition); //Injection des infos de l'expo
             $show->setArtist($unPlannedArtist); //et de l'artiste
 
+             // Récupérer les IDs des salles déjà utilisées
+             $showId = null;
+             if ($show) {
+                 $showId = $show->getId();
+             }
+             $usedRoom = $showRepo->findUsedRoomInShow($exhibition->getId(), $showId);
+
+
             //Création du form pour les attributs de show
-            $form = $this->createForm(ShowAddInfosBO::class, $show);
+            $form = $this->createForm(ShowAddInfosBO::class, $show, [
+                'usedRoom' => $usedRoom,
+            ]);
 
             //Stocke la vue dans le tableau grâce à l'id
             $forms[$unPlannedArtist->getId()] = $form->createView();
@@ -92,7 +112,7 @@ final class ShowBOController extends AbstractController
 
     //Ajout d'un show à l'expo suite à soumission du form
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
-    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, ShowRepository $showRepo): Response
     {
         // Récupère l'exposition et l'artiste à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
@@ -112,10 +132,20 @@ final class ShowBOController extends AbstractController
                 $show = new Show(); //Création d'un nouveau show
                 $show->setExhibition($exhibition); //Injection des infos de lexpo
                 $show->setArtist($artist); //et de l'artiste
+            }    
+            
+            // Récup les IDs des salles déjà utilisées
+            $showId = null; 
+            if ($show) {
+            $showId = $show->getId(); // Assignation si $show existe
             }
 
+            $usedRoom = $showRepo->findUsedRoomInShow($exhibition->getId(), $showId);
+            
             //Création du form pour les attributs de show
-            $form = $this->createForm(ShowAddInfosBO::class, $show);
+            $form = $this->createForm(ShowAddInfosBO::class, $show, [
+                'usedRoom' => $usedRoom,
+            ]);
             $form->handleRequest($request); // Traite la requête HTTP pour remplir le form
 
             if ($form->isSubmitted() && $form->isValid()) {
