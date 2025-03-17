@@ -13,12 +13,50 @@
     <h4>Artistes inscrits</h4>
 
     {% for show in exhibition.shows %}
-        <p>{{ show.artist.artistFirstname }} {{ show.artist.artistName }}                       
-            <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
-                <i class="fa-solid fa-minus"></i>
-            </a>
-        </p>
-    {% endfor %}
+    <p>
+        {{ show.artist.artistFirstname }} {{ show.artist.artistName }}
+        <i class="fa-solid fa-caret-down toggle-form" data-artist-id="{{ show.artist.id }}"></i>
+
+        <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
+            <i class="fa-solid fa-trash-can"></i>
+        </a>
+    </p>
+{###################################### Modification de l'artiste du show ######################################}
+    <div class="formShowArtist" id="form-{{ show.artist.id }}" style="display: none;">
+        {{ form_start(forms[show.artist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': show.artist.id}) }) }}
+
+            <div>
+                {{ form_label(forms[show.artist.id].room) }}
+                {{ form_widget(forms[show.artist.id].room) }}
+            </div>
+
+            <div>
+                {{ form_label(forms[show.artist.id].artistPhoto) }}
+
+                {% if shows[show.artist.id] and shows[show.artist.id].artistPhoto is not empty %}
+                    <img class="mainImgForm" src="{{ asset(shows[show.artist.id].artistPhoto) }}" alt="{{ forms[show.artist.id].artistPhotoAlt.vars.value }}">
+                {% endif %}
+
+                {{ form_widget(forms[show.artist.id].artistPhoto) }}
+            </div>
+
+            <div>
+                {{ form_label(forms[show.artist.id].artistPhotoAlt) }}
+                {{ form_widget(forms[show.artist.id].artistPhotoAlt) }}
+            </div>
+
+            <div>
+                {{ form_label(forms[show.artist.id].artistTextArt) }}
+                {{ form_widget(forms[show.artist.id].artistTextArt) }}
+            </div>
+
+            <div>
+                <button type="submit">Modifier</button>
+            </div>
+
+        {{ form_end(forms[show.artist.id]) }}
+    </div>
+{% endfor %}
 </div>
 
 <div class="blockArtistToAdded">
@@ -29,7 +67,7 @@
             <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
                 <i class="fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
             </div>
-
+{###################################### Ajout de l'artiste au show ######################################}
             <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
                 {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id}) }) }}
 
