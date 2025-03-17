@@ -127,6 +127,16 @@ final class ShowBOController extends AbstractController
                 Enregistrer l image dans le dossier sous nom_prenom*/
                 $artistPhoto = $form->get('artistPhoto')->getData();
                 if ($artistPhoto) {
+
+
+                    // Validation du type MIME (Multipurpose Internet Mail Extensions)
+                    $allowedMimeTypes = ['image/jpeg', 'image/webp'];
+                    if (!in_array($artistPhoto->getMimeType(), $allowedMimeTypes)) {
+                        $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou WebP).');
+                        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
+                    }
+
+
                     // Enregistrer l'image avec le nom artist_prenom
                     $fileName = $artist->getArtistName() . '_' . $artist->getArtistFirstname() . '.' . $artistPhoto->guessExtension(); // Crée le nom du fichier + extension
                     $fileUploader->upload($artistPhoto, $uploadDirectory, $fileName); // Dl le fichier vers le répertoire

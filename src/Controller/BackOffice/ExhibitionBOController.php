@@ -61,6 +61,8 @@ final class ExhibitionBOController extends AbstractController
                 $dateExistsError = true;
                 $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
 
+
+
                 // Rendre le template avec le formulaire et le message d'erreur
                 return $this->render('backOffice/exhibition/exhibitShowBO.html.twig', [
                     'form' => $form->createView(),
@@ -75,6 +77,22 @@ final class ExhibitionBOController extends AbstractController
             // Handle file upload
             $file = $form->get('mainImage')->getData();
             if ($file) { // Si un fichier a été envoyé alors l'enregistrer
+
+                // Validation du type MIME (Multipurpose Internet Mail Extensions)
+                $allowedMimeTypes = ['image/jpeg', 'image/webp'];
+                if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
+                    $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou WebP).');
+
+                    //redirige vers la page avec toute les infos d affichage
+                    return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
+                        'form' => $form->createView(),
+                        'exhibition' => $exhibition,
+                        'isAdd' => $isAdd,
+                        'dateExistsError' => $dateExistsError,
+                    ]);
+                }
+
+
                 // Enregistrer l'image principale avec le nom 00_main_image
                 $fileName = '00_main_image.' . $file->guessExtension(); // Crée le nom du fichier + extension
                 $fileUploader->upload($file, $uploadDirectory, $fileName); // Dl le fichier vers le répertoire
