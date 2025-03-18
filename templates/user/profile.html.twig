@@ -10,6 +10,9 @@
 </div>
 
 <section class="sectionProfile">
+    
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-rotate-left"></i></a>
+    
     <div class="infosProfile">
         {% if app.user %}
             {% if 'ROLE_ROOT' not in app.user.roles and 'ROLE_ADMIN' not in app.user.roles %}

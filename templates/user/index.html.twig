@@ -14,7 +14,7 @@
     <p><a href="{{ path('profile', {id: app.user.id}) }}">Mon profil</a></p>
 
     {% if not 'ROLE_ROOT' in app.user.roles or not 'ROLE_ADMIN' in app.user.roles %}
-    <p><a href="{{ path('orderHistory', {id: app.user.id}) }}">Mon historique de commandes</a></p>
+        <p><a href="{{ path('orderHistory', {id: app.user.id}) }}">Mon historique de commandes</a></p>
     {% endif %}
 
 </section>

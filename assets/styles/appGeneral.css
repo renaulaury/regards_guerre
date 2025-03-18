@@ -74,6 +74,16 @@ section {
     flex-direction: column;
 } 
 
+.comeBack { /* Bouton retour */
+    text-align: end;
+    padding-right: 10%;
+    padding-bottom: 5%;
+}
+
+.fa-solid, .fa-brands { /* Icones */
+    color: var(--icon);
+}
+
 /******** Form ********/
 .label {
     padding: 2% 0%;
