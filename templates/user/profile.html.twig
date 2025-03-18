@@ -1,33 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Mon compte{% endblock %}
 
 {% block body %}
+<!-- UserController -->
 
-<div>
-    <div>
+<div class="containH1">    
+    <h1>Mon compte</h1>
+</div>
+
+<section class="sectionProfile">
+    <div class="infosProfile">
+        {% if app.user %}
+            {% if 'ROLE_ROOT' not in app.user.roles and 'ROLE_ADMIN' not in app.user.roles %}
+            <div>
+                <p>
+                    Nom - Prénom : {{ app.user.userName }} {{ app.user.userFirstname }}  
+                    <a href="{{ path('userEditIdentity', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a> 
+                </p>
+            </div>
+            {% endif %}
+        {% endif %}
+
         <p>
-            Nom - Prénom : {{ app.user.userName }} {{ app.user.userFirstname }}       
-        </p>       
-        <a href="{{ path('userEditIdentity', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a> 
+            Pseudo : {{ app.user.userNickname }}
+            <a href="{{ path('userEditNickname', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
+        </p>
+
+        <p>
+            Email : {{ app.user.userEmail }}
+            <a href="{{ path('userEditEmail', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
+        </p>
+
+        <p>
+            Mot de passe :
+            <a href="{{ path('userEditPassword', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
+        </p>
     </div>
 
-    <p>
-        Pseudo : {{ app.user.userNickname }}
-        <a href="{{ path('userEditNickname', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
-    </p>
-
-    <p>
-        Email : {{ app.user.userEmail }}
-        <a href="{{ path('userEditEmail', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
-    </p>
-
-    <p>
-        Mot de passe :
-        <a href="{{ path('userEditPassword', {id: app.user.id}) }}"><i class="fa-solid fa-pencil"></i></a>
-    </p>
-
-    <p><a href="{{ path('userDeleteProfile', {id: app.user.id}) }}">Supprimer mon profil</a></p>
-</div>
+        <p><a href="{{ path('userDeleteProfile', {id: app.user.id}) }}">Supprimer mon profil</a></p>
+    
+</section>
 
 {% endblock %}

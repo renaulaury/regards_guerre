@@ -1,15 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Mon compte{% endblock %}
 
 {% block body %}
+<!-- UserController -->
+
+<div class="containH1">    
     <h1>Modifier votre identité</h1>
+</div>
+
+<section>
 
     {{ form_start(form) }}
-        {{ form_row(form.userName) }}
-        {{ form_row(form.userFirstname) }}
+        <p class="label">{{ form_label(form.userName) }}</p>
+        <p class="input">{{ form_widget(form.userName) }}</p>
 
-        <button type="submit">Mettre à jour</button>
+        <p class="label">{{ form_label(form.userFirstname) }}</p>
+        <p class="input">{{ form_widget(form.userFirstname) }}</p>
+
+        <button type="submit" class="btn btnSubmit">Mettre à jour</button>
     {{ form_end(form) }}
-
+    
+</section>
 {% endblock %}

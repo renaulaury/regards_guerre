@@ -3,12 +3,16 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
+<!-- UserController -->
 
-<div>
-    <p>Confirmez-vous la suppression de votre profil ?</p>
-    <p>
-        <a href="{{ path('userDeleteConfirmProfile', {id: app.user.id}) }}">Je confirme</a>
-    </p>
+<div class="containH1">    
+    <h1>Mon compte</h1>
 </div>
 
+<section class="sectionDeleteProfile">
+        <p>Confirmez-vous la suppression de votre profil ?</p>
+        <p class="btn btnSubmit">
+            <a href="{{ path('userDeleteConfirmProfile', {id: app.user.id}) }}">Je confirme</a>
+        </p>
+</section>
 {% endblock %}

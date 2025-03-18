@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block body %}
+<!-- UserController -->
 
-<h1>Mon compte</h1>
+<div class="containH1">    
+    <h1>Mon compte</h1>
+</div>
 
-<p><a href="{{ path('profile', {id: app.user.id}) }}">Mon profil</a></p>
+<section>
 
-{% if not 'ROLE_ROOT' in app.user.roles or not 'ROLE_ADMIN' in app.user.roles %}
-<p><a href="{{ path('orderHistory', {id: app.user.id}) }}">Mon historique de commandes</a></p>
-{% endif %}
+    <p><a href="{{ path('profile', {id: app.user.id}) }}">Mon profil</a></p>
 
+    {% if not 'ROLE_ROOT' in app.user.roles or not 'ROLE_ADMIN' in app.user.roles %}
+    <p><a href="{{ path('orderHistory', {id: app.user.id}) }}">Mon historique de commandes</a></p>
+    {% endif %}
+
+</section>
 {% endblock %}
+

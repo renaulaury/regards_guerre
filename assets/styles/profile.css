@@ -1,0 +1,22 @@
+/* Profile */
+.sectionProfile {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.infosProfile p {
+    padding: 10px 0%;
+}
+
+
+
+/* Delete profile */
+.sectionDeleteProfile {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+.sectionDeleteProfile p {
+    text-align: center;
+}

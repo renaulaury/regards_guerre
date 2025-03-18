@@ -21,7 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserController extends AbstractController
 {
 
-    /*********** Affiche l'index de l'utilisateur ************************/
+    /*********** Affiche l'accueil' de l'utilisateur ************************/
     #[Route('/profile', name: 'index')]
     public function index(): Response
     {

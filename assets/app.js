@@ -8,10 +8,13 @@
 import './styles/app.css';
 import './styles/appGeneral.css';
 import './styles/navBurgerFooter.css';
+
 import './styles/home.css';
+import './styles/profile.css';
 import './styles/exhibition.css';
 import './styles/ticketCart.css';
 import './styles/backOffice.css';
+
 import './styles/security.css';
 import './styles/media.css';
 
