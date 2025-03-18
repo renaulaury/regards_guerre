@@ -44,12 +44,16 @@ class RegistrationFormType extends AbstractType
 
 
             ->add('userNickname', TextType::class, [
-                'label' => 'Pseudo',  
+                'label' => 'Pseudo <sup>3</sup>',  
+                'label_html' => true, // Active l'interprétation HTML
                 'attr' => [
                         'placeholder' => 'Votre pseudonyme',
                     ],
+                'required' => false, 
                 'trim' => true, //Enleve les espaces
             ])
+
+
             ->add('userEmail', EmailType::class, [
                 'label' => 'Email',
                 'attr' => [
@@ -57,7 +61,6 @@ class RegistrationFormType extends AbstractType
                     ],
                 'trim' => true, //Enleve les espaces  
             ])
-
 
             ->add('password', RepeatedType::class, [
                 'mapped' => false, //cela signifie que ce champ ne sera pas directement associé à une propriété de l'entité User

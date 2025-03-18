@@ -13,8 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER_EMAIL', fields: ['userEmail'])]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER_NICKNAME', fields: ['userNickname'])]
-#[UniqueEntity(fields: ['userEmail', 'userNickname'], message: 'Ce pseudo ou cet email est déjà pris.')]
+#[UniqueEntity(fields: ['userEmail'], message: 'Ce pseudo ou cet email est déjà pris.')]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -38,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $userNickname = null;
 
     /**
@@ -110,7 +109,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userNickname;
     }
 
-    public function setUserNickname(string $userNickname): static
+    public function setUserNickname(?string $userNickname): static
     {
         $this->userNickname = $userNickname;
 
