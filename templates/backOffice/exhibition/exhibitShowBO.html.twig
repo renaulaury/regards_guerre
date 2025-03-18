@@ -2,6 +2,11 @@
 
 {% block title %}Détail de l'exposition{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }} {# appelle le bloc js de la base twig #}
+    <script src="{{ asset('js/exhibitShowBO.js') }}"></script>  
+{% endblock %}
+
 {% block body %}
 <div class="containH1">    
     <h1>Détail : <span class="longTitle">{{ exhibition }}</span></h1> 

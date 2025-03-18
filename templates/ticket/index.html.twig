@@ -10,22 +10,30 @@
 
 
 {% block body %}
-<h1>Tickets</h1>
-<h2>Expositions</h2>
+<!-- UserController -->
 
-<select id="exhibitionSelect">
-    {% for exhibition in exhibitions %}               
-    <option value="{{ exhibition.id }}">{{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}</option>
-    {% endfor %}
-</select> 
+<div class="containH1">    
+    <h1>Tickets</h1>
+</div>
 
-{% for exhibition in exhibitions %}
-    <div id="exhibitionDetails-{{ exhibition.id }}" style="display: none;">
+<section>
+    <h2>Expositions</h2>
 
-        {% for priceByExhibits in priceByExhibit %}
-            {% if priceByExhibits.id == exhibition.id %} 
+    <select id="exhibitionSelect">
+        {% for exhibition in exhibitions %}               
+            <option value="{{ exhibition.id }}">
+                {{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}
+            </option>           
+        {% endfor %}
+    </select> 
 
-           <div>
+    {% for exhibition in exhibitions %}
+        <div id="exhibitionDetails-{{ exhibition.id }}" class="blockTickets" style="display: none;">
+
+            {% for priceByExhibits in priceByExhibit %}
+                {% if priceByExhibits.id == exhibition.id %} 
+
+           
                 <p>Ticket {{ priceByExhibits.titleTicket }} 
                     {# Verification si le ticket est dans le panier  #}
                     {% if cart[priceByExhibits.ticketId] is defined %}
@@ -35,32 +43,39 @@
                     {% endif %}
                 </p>
 
-                {% if priceByExhibits.standardPrice == 0 %} 
-                    <p>Gratuit</p>
-                {% else %}
-                    <p>{{ priceByExhibits.standardPrice }} €</p>
+                <div class="sectionBlockPrice">
+                    <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
+
+                    <div class="blockPrice">
+                        <div>
+                            {% if priceByExhibits.standardPrice == 0 %} 
+                                <p>Gratuit</p>
+                            {% else %}
+                                <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup> 1</sup>)</span></p>
+                            {% endif %}
+                        </div>
+                    
+            
+                        <div>
+                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                                <i class="fa-solid fa-minus"></i>
+                            </a>
+
+                            <span>1</span>
+
+                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
-                
-            </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
 
-            <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
-
-            <p>
-                <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                    <i class="fa-solid fa-minus"></i>
-                </a>
-
-                <span>1</span>
-
-                <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                    <i class="fa-solid fa-plus"></i>
-                </a>
-            </p>
-            {% endif %}
-        {% endfor %}
-    </div>
-{% endfor %}
-
+    <p class="miniText blockNotaBene"><sup>1 </sup>PU : Prix unitaire</p>
+</section>
 
 
 

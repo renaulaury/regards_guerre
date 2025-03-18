@@ -4,6 +4,7 @@
     --line: #FFA07A; 
     --backgroundColor: #FFA07A;
     --backgroundColorPastel: rgba(255, 160, 122, 0.15);
+    --backgroundColorPastelTitle: rgba(255, 160, 122, 0.50);
     --backgroundColorButton: linear-gradient(to right, #FFBFA6 0%, #FA8072 100%);
     --icon: #944C43;
     --ftTitle: #944C43;

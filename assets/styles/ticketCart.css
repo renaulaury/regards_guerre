@@ -4,9 +4,47 @@
 }
 
 /************************** Ticket ****************************/
-.ticketImg {
-    width: 30%;
+#exhibitionSelect {
+    border: none;
+    padding: 2%;
+    margin-bottom: 8%;
+    border-radius: 10px;
+    background: var(--backgroundColorPastelTitle);
+    color: var(--ftTitle);
+    font-weight: 500;
+    width: 95%;
+} 
+
+.blockTickets {
+    padding-bottom: 10%;
 }
+
+.ticketImg {
+    margin: 3% 0%;
+    width: 50%;
+}
+
+.sectionBlockPrice {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5%;
+    padding-bottom: 10%;
+}
+
+.blockPrice {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.miniText {
+    font-size: 0.8rem;
+}
+
 
 /**************************** Cart *****************************/
 .summaryCart {

@@ -10,13 +10,13 @@
 }
 
 
-
 /* Delete profile */
 .sectionDeleteProfile {
     display: flex;
     flex-direction: column;
     gap: 100px;
 }
+
 .sectionDeleteProfile p {
     text-align: center;
 }
