@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Expositions{% endblock %}
+{% block title %}Suppression d'une Exposition{% endblock %}
 
 {% block body %}
 <div class="containH1">    
@@ -8,14 +8,17 @@
 </div>
 
 <section class="listExhibit">
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %} 
+            <p>L'exposition <strong>{{ exhibition }}</strong> sera entièrement supprimée ainsi que les artistes programmés.</p>
+            
+            <p>Etes vous sûr de vouloir continuer ?</p>
 
-    <p>L'exposition <strong>{{ exhibition }}</strong> sera entièrement supprimée ainsi que les artistes programmés.</p>
-    
-    <p>Etes vous sûr de vouloir continuer ?</p>
-
-    <a href="{{ path('deleteConfirmExhibitBO', {'idExhibit': exhibition.id}) }}">
-        Supprimer
-    </a>
+            <a href="{{ path('deleteConfirmExhibitBO', {'idExhibit': exhibition.id}) }}">
+                Supprimer
+            </a>
+        {% endif %}
+    {% endif %}
 </section>
 {% endblock %}
 

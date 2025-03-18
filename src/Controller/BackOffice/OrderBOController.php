@@ -8,7 +8,6 @@ use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\BackOffice\OrderBORepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderBOController extends AbstractController
@@ -32,6 +31,7 @@ public function userOrderBO(User $user, OrderHistoryService $orderHistoryService
 
     return $this->render('backOffice/user/userOrderBO.html.twig', [
         'groupedOrders' => $groupedOrders,
+        'user'  => $user,
     ]);
 }
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Confirmation de suppression d'un artiste d'une planification{% endblock %}
+{% block title %}Suppression d'un artiste d'une exposition{% endblock %}
 
 {% block body %}
 <div class="containH1">    
@@ -8,12 +8,16 @@
 </div>
 
 <section>
-    <p>Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
-    </p>
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
+            <p>Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
+            </p>
 
-   <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
-    Supprimer
-</a>
+            <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
+                Supprimer
+            </a>
+        {% endif %}
+    {% endif %}
 </section>
 {% endblock %}
 

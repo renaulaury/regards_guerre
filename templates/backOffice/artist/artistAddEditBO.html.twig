@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification de l'artiste{% endblock %}
+{% block title %}
+    {% if isAdd %}
+        <h1>Ajouter un artiste</h1>
+    {% else %}
+        <h1>Modification de {{ artist }}</h1>
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 <div class="containH1">    
@@ -12,19 +18,23 @@
 </div>
 
 <section> 
-    
-    {{ form_start(form) }}
-        {{ form_row(form.artistName) }}
-        {{ form_row(form.artistFirstname) }}
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
 
-        {{ form_row(form.artistBirthDate) }}
-        {{ form_row(form.artistDeathDate) }}  
-        
-        {{ form_row(form.artistJob) }}
-        {{ form_row(form.artistBio) }}              
-        {{ form_row(form.save) }}
-    {{ form_end(form) }}
+            {{ form_start(form) }}
+                {{ form_row(form.artistName) }}
+                {{ form_row(form.artistFirstname) }}
 
+                {{ form_row(form.artistBirthDate) }}
+                {{ form_row(form.artistDeathDate) }}  
+                
+                {{ form_row(form.artistJob) }}
+                {{ form_row(form.artistBio) }}              
+                {{ form_row(form.save) }}
+            {{ form_end(form) }}
+            
+        {% endif %}
+    {% endif %}
 </section>
 {% endblock %}
 

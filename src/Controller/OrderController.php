@@ -7,10 +7,8 @@ use App\Service\CartService;
 use App\Service\OrderService;
 use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\BackOffice\OrderBORepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController

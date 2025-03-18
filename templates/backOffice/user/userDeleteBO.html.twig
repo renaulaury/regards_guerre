@@ -1,18 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BackOfficeController!{% endblock %}
+{% block title %}Suppression 
+    {% if user.userFirstname %}
+        {{ user.userFirstname }}
+    {% elseif user.userNickname %}
+        {{ user.userNickname }}
+    {% else %}
+        {{ user.userEmail|split('@')[0] }}
+    {% endif %}  
+{% endblock %}
 
 {% block body %}
 
 <h1>Back-Office</h1>
 
 <section>
-    <h2>Etes vous sûr(e) de vouloir supprimer {{ user.userNickname }} ?</h2>
-    
-    <form method="post" action="{{ path('userConfirmDeleteBO', {id: user.id}) }}">
-        <button type="submit" name="submitConfirmDeleteUser">Supprimer</button>
-    </form>
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
 
+            <h2>Etes vous sûr(e) de vouloir supprimer 
+                {% if user.userFirstname %}
+                    {{ user.userFirstname }}
+                {% elseif user.userNickname %}
+                    {{ user.userNickname }}
+                {% else %}
+                    {{ user.userEmail|split('@')[0] }}
+                {% endif %} 
+            ?</h2>
+            
+            <form method="post" action="{{ path('userConfirmDeleteBO', {id: user.id}) }}">
+                <button type="submit" name="submitConfirmDeleteUser">Supprimer</button>
+            </form>
+            
+        {% endif %}
+    {% endif %}
 </section>
 
 {% endblock %}

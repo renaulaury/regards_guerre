@@ -1,18 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BackOfficeController!{% endblock %}
+{% block title %}Back-Office{% endblock %}
 
 {% block body %}
 
 <h1>Back-Office</h1>
 
 <section>
-    <ol>
-        <li><a href="{{ path('userListBO') }}">Utilisateurs</a></li>   {# root - admin - user + Infos - Commandes - Modération blog - #}
-        <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li> {# Crud - blog #}
-        <li><a href="{{ path('artistListBO') }}">Artistes</a></li>
-        <li><a href="#">Blog</a></li>
-    </ol>
+    {% if app.user %}
+        <ol>
+            {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
+            
+                <li><a href="{{ path('userListBO') }}">Utilisateurs</a></li>   {# root - admin - user + Infos - Commandes - Modération blog - #}
+
+            {% if 'ROLE_ADMIN' in app.user.roles %}      
+              
+                <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li> {# Crud - blog #}
+                <li><a href="{{ path('artistListBO') }}">Artistes</a></li>
+                {# <li><a href="#">Blog</a></li> #}
+            
+            {% endif %}
+        </ol>
+    {% endif %}    
 </section>
 
 {% endblock %}
+

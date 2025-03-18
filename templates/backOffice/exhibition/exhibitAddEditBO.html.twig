@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification d'une exposition{% endblock %}
+{% block title %}
+    {% if isAdd %}
+        <h1>Ajouter une exposition</h1>
+    {% else %}
+        <h1>Modification : <span class="longTitle">{{ exhibition }}</span></h1>
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 <div class="containH1">    
@@ -12,100 +18,105 @@
 </div>
 
 <section>
-    {{ form_start(form) }}
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
 
-        <div class="blockDateImgExpo">
-            <div class="blockMiniExpo ">
-                <div class="miniExpo">
-                    <div class="label">{{ form_label(form.dateExhibit) }}</div>
-                    <div class="input">{{ form_widget(form.dateExhibit) }}</div>
+            {{ form_start(form) }}
+
+                <div class="blockDateImgExpo">
+                    <div class="blockMiniExpo ">
+                        <div class="miniExpo">
+                            <div class="label">{{ form_label(form.dateExhibit) }}</div>
+                            <div class="input">{{ form_widget(form.dateExhibit) }}</div>
+                        </div>
+                    </div>
+
+                    <div class="blockEditImg">
+                        <div class="label">{{ form_label(form.mainImage) }}</div>            
+
+                        {% if exhibition.mainImage is not empty %}
+                            <img class="mainImgForm" src="{{ asset(exhibition.mainImage) }}" alt="{{ form.mainImageAlt.vars.value }}">
+                        {% endif %}
+
+
+                        <div class="input parcourir">
+                            {{ form_widget(form.mainImage, {'label': false}) }}
+                        </div>
+                        
+                    </div>
                 </div>
-            </div>
 
-            <div class="blockEditImg">
-                <div class="label">{{ form_label(form.mainImage) }}</div>            
+                <div>
+                    <div class="label">{{ form_label(form.mainImageAlt) }}</div>
+                    <div class="input">{{ form_widget(form.mainImageAlt) }}</div>
+                </div>
 
-                {% if exhibition.mainImage is not empty %}
-                    <img class="mainImgForm" src="{{ asset(exhibition.mainImage) }}" alt="{{ form.mainImageAlt.vars.value }}">
+                <div>
+                    <div class="label">{{ form_label(form.titleExhibit) }}</div>
+                    <div class="input">{{ form_widget(form.titleExhibit) }}</div>
+                </div>
+
+                <div>
+                    <div class="label">{{ form_label(form.subtitleExhibit) }}</div>
+                    <div class="input">{{ form_widget(form.subtitleExhibit) }}</div>
+                </div>
+
+                <div>
+                    <div class="label">{{ form_label(form.hookExhibit) }}</div>
+                    <div class="input">{{ form_widget(form.hookExhibit) }}</div>
+                </div>
+
+                <div>
+                    <div class="label">{{ form_label(form.descriptionExhibit) }}</div>
+                    <div class="input">{{ form_widget(form.descriptionExhibit) }}</div>
+                </div>
+
+                <div class="blockMini">
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.dateWarBegin) }}</div>
+                        <div class="input">{{ form_widget(form.dateWarBegin) }}</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.dateWarEnd) }}</div>
+                        <div class="input">{{ form_widget(form.dateWarEnd) }}</div>
+                    </div>
+                </div>
+
+                <div class="blockMini">
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.hourBegin) }}</div>
+                        <div class="input">{{ form_widget(form.hourBegin) }}</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.hourEnd) }}</div>
+                        <div class="input">{{ form_widget(form.hourEnd) }}</div>
+                    </div>
+                </div>
+
+                <div class="blockMini">
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.stockMax) }}</div>
+                        <div class="input">{{ form_widget(form.stockMax) }}</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.stockAlert) }}</div>
+                        <div class="input">{{ form_widget(form.stockAlert) }}</div>
+                    </div>
+                </div>
+
+                {% if isAdd %}
+                    <button type="submit" class="btnSubmit">Créer l'exposition</button>
+                {% else %}
+                    <button type="submit" class="btnSubmit">Modifier</button>
                 {% endif %}
 
-
-                <div class="input parcourir">
-                    {{ form_widget(form.mainImage, {'label': false}) }}
-                </div>
                 
-            </div>
-        </div>
-
-        <div>
-            <div class="label">{{ form_label(form.mainImageAlt) }}</div>
-            <div class="input">{{ form_widget(form.mainImageAlt) }}</div>
-        </div>
-
-        <div>
-            <div class="label">{{ form_label(form.titleExhibit) }}</div>
-            <div class="input">{{ form_widget(form.titleExhibit) }}</div>
-        </div>
-
-        <div>
-            <div class="label">{{ form_label(form.subtitleExhibit) }}</div>
-            <div class="input">{{ form_widget(form.subtitleExhibit) }}</div>
-        </div>
-
-        <div>
-            <div class="label">{{ form_label(form.hookExhibit) }}</div>
-            <div class="input">{{ form_widget(form.hookExhibit) }}</div>
-        </div>
-
-        <div>
-            <div class="label">{{ form_label(form.descriptionExhibit) }}</div>
-            <div class="input">{{ form_widget(form.descriptionExhibit) }}</div>
-        </div>
-
-        <div class="blockMini">
-            <div class="mini">
-                <div class="label">{{ form_label(form.dateWarBegin) }}</div>
-                <div class="input">{{ form_widget(form.dateWarBegin) }}</div>
-            </div>
-
-            <div class="mini">
-                <div class="label">{{ form_label(form.dateWarEnd) }}</div>
-                <div class="input">{{ form_widget(form.dateWarEnd) }}</div>
-            </div>
-        </div>
-
-        <div class="blockMini">
-            <div class="mini">
-                <div class="label">{{ form_label(form.hourBegin) }}</div>
-                <div class="input">{{ form_widget(form.hourBegin) }}</div>
-            </div>
-
-            <div class="mini">
-                <div class="label">{{ form_label(form.hourEnd) }}</div>
-                <div class="input">{{ form_widget(form.hourEnd) }}</div>
-            </div>
-        </div>
-
-        <div class="blockMini">
-            <div class="mini">
-                <div class="label">{{ form_label(form.stockMax) }}</div>
-                <div class="input">{{ form_widget(form.stockMax) }}</div>
-            </div>
-
-            <div class="mini">
-                <div class="label">{{ form_label(form.stockAlert) }}</div>
-                <div class="input">{{ form_widget(form.stockAlert) }}</div>
-            </div>
-        </div>
-
-        {% if isAdd %}
-            <button type="submit" class="btnSubmit">Créer l'exposition</button>
-        {% else %}
-            <button type="submit" class="btnSubmit">Modifier</button>
+            {{ form_end(form) }}
         {% endif %}
-
-        
-    {{ form_end(form) }}
+    {% endif %}
 </section>
 {% endblock %}
 

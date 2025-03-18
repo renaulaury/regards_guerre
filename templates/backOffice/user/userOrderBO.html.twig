@@ -1,36 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BackOfficeController!{% endblock %}
+{% block title %}Historique des commandes{% endblock %}
 
 {% block body %}
+<!-- OrderBOController -->
 
 <h1>Back-Office</h1>
 
 <section>
-    <h2>Historique de réservation de {{ user }}</h2>
-    
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}  
 
-    {% if groupedOrders is empty %}
-    <p>Aucune réservation trouvée.</p>
-    {% else %}
-        {% for groupedOrder in groupedOrders %}
-        <p>
-            Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} <a href="{{ path('userOrderExportBO', {'orderId': groupedOrder.order.id}) }}"><i class="fa-solid fa-file-export"></i></a>
-        </p>
+            <h2>Historique de réservation de 
+                {% if user.userFirstname %}
+                    {{ user.userFirstname }}
+                {% elseif user.userNickname %}
+                    {{ user.userNickname }}
+                {% else %}
+                    {{ user.userEmail|split('@')[0] }}
+                {% endif %}
+            </h2>
 
-            {% for exhibitionId, exhibitionData in groupedOrder.details %}
-                <p>Exposition : {{ exhibitionData.exhibition }}</p>
-                {% for ticketId, ticketData in exhibitionData.tickets %}
-                    <p>Ticket : {{ ticketData.ticket }} x {{ ticketData.quantity }}</p>
+            {% if groupedOrders is empty %}
+            <p>Aucune réservation trouvée.</p>
+            {% else %}
+                {% for groupedOrder in groupedOrders %}
+                <p>
+                    Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} <a href="{{ path('userOrderExportBO', {'orderId': groupedOrder.order.id}) }}"><i class="fa-solid fa-file-export"></i></a>
+                </p>
+
+                    {% for exhibitionId, exhibitionData in groupedOrder.details %}
+                        <p>Exposition : {{ exhibitionData.exhibition }}</p>
+                        {% for ticketId, ticketData in exhibitionData.tickets %}
+                            <p>Ticket : {{ ticketData.ticket }} x {{ ticketData.quantity }}</p>
+                        {% endfor %}
+                        <p>Total de la commande : {{ groupedOrder.total }} €</p>
+                        <p>---</p>
+                    {% endfor %}
                 {% endfor %}
-                <p>Total de la commande : {{ groupedOrder.total }} €</p>
-                <p>---</p>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
-
-    
-    
+            {% endif %}
+            
+        {% endif %} 
+    {% endif %} 
 </section>
 
 {% endblock %}

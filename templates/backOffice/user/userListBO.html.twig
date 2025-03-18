@@ -1,77 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BackOfficeController!{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
 
 <h1>Back-Office</h1>
+<!-- UserBOController -->
 
 <section class="listMembers">
-    
+    {% if app.user %}
         <p class="thUsers">Pseudo</p>
         <p class="thUsers">Email</p>
         <p class="thUsers">Rôle</p>
         <p></p>
+
     
-    
-    {% if 'ROLE_ROOT' in app.user.roles %}
-    
-        {# Affiche tous les membres sauf ceux avec le rôle ROLE_ROOT #}
-        {% for member in members %}
-            {% if 'ROLE_ROOT' not in member.roles %} {# Root non affiché #}
-                
-                    <p>{{ member.userNickname }}</p>
-                    <p>{{ member.userEmail }}</p>
+        {% if 'ROLE_ROOT' in app.user.roles %}
+        
+            {# Affiche tous les membres sauf ceux avec le rôle ROLE_ROOT #}
+            {% for member in members %}
+                {% if 'ROLE_ROOT' not in member.roles %} {# Root non affiché #}
                     
-                        {% if 'ROLE_ADMIN' in member.roles %}
-                            <p>Administrateur</p>
-                        {% elseif 'ROLE_USER' in member.roles %}
-                            <p>Utilisateur</p>
-                            
-                        {% endif %}                    
-                            <p>
-                                <a href="{{ path('userEditBO', {'id': member.id}) }}">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a href="{{ path('userDeleteBO', {'id': member.id}) }}">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </p>
-                
-            {% endif %}
-        {% endfor %}
+                        <p>{{ member.userNickname }}</p>
+                        <p>{{ member.userEmail }}</p>
+                        
+                            {% if 'ROLE_ADMIN' in member.roles %}
+                                <p>Administrateur</p>
+                            {% elseif 'ROLE_USER' in member.roles %}
+                                <p>Utilisateur</p>
+                                
+                            {% endif %}                    
+                                <p>
+                                    <a href="{{ path('userEditBO', {'id': member.id}) }}">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                    <a href="{{ path('userDeleteBO', {'id': member.id}) }}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </p>
+                    
+                {% endif %}
+            {% endfor %}
 
-    {% elseif 'ROLE_ADMIN' in app.user.roles %}
-        {% for user in users %}
-            {% if 'ROLE_ROOT' not in user.roles %}
+        {% elseif 'ROLE_ADMIN' in app.user.roles %}
+            {% for user in users %}
+                {% if 'ROLE_ROOT' not in user.roles %}
 
-                <p>
-                    {{ user.userNickname }}
-                </p>
-                
-                <p>{{ user.userEmail }}</p>            
-                
-                    {% if 'ROLE_ADMIN' in user.roles %}
-                        <p>Administrateur</p>    
-                        <p></p>                 
-                    {% elseif 'ROLE_DELETE' in user.roles %}   
-                        <p>Supprimé</p>  
-                        <p></p>
-                    {% elseif 'ROLE_USER' in user.roles %}                        
-                            <p>Utilisateur</p>                    
-                            <p>
-                                <a href="{{ path('userOrderBO', {'id': user.id}) }}"><i class="fa-regular fa-folder-open"></i></a>
-                                <a href="{{ path('userEditBO', {'id': user.id}) }}">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a href="{{ path('userDeleteBO', {'id': user.id}) }}">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </p>
-                    {% endif %} 
-            {% endif %}
-        {% endfor %}
-    {% endif %} 
+                    <p>
+                        {{ user.userNickname }}
+                    </p>
+                    
+                    <p>{{ user.userEmail }}</p>            
+                    
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <p>Administrateur</p>    
+                            <p></p>                 
+                        {% elseif 'ROLE_DELETE' in user.roles %}   
+                            <p>Supprimé</p>  
+                            <p></p>
+                        {% elseif 'ROLE_USER' in user.roles %}                        
+                                <p>Utilisateur</p>                    
+                                <p>
+                                    <a href="{{ path('userOrderBO', {'id': user.id}) }}"><i class="fa-regular fa-folder-open"></i></a>
+                                    <a href="{{ path('userEditBO', {'id': user.id}) }}">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                    <a href="{{ path('userDeleteBO', {'id': user.id}) }}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </p>
+                        {% endif %} 
+                {% endif %}
+            {% endfor %}
+            
+        {% endif %} 
+    {% endif %}
 </section>
 
 {% endblock %}

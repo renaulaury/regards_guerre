@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArtistController!{% endblock %}
+{% block title %}Suppression de {{ artist }}{% endblock %}
 
 {% block body %}
 <div class="containH1">    
@@ -8,14 +8,19 @@
 </div>
 
 
-    <section >
-        <p>Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
+<section >
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
 
-        <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
-            <button type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
-        </form>
+            <p>Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
 
-    </section>
+            <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
+                <button type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
+            </form>
+            
+        {% endif %}
+    {% endif %}
+</section>
 {% endblock %}
 
 
