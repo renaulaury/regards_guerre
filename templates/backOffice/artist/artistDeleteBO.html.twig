@@ -9,17 +9,19 @@
 
 
 <section >
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
+    {% if is_granted('ROLE_ADMIN') %}
 
-            <p>Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
+        <p class="marginTop">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
 
-            <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
-                <button type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
-            </form>
-            
-        {% endif %}
+        <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
+            <button class="btnSubmit" type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
+        </form>
+
     {% endif %}
+{% endif %}
 </section>
 {% endblock %}
 

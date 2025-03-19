@@ -7,32 +7,39 @@
     <h1>Artistes</h1>
 </div>
 
-<a href="{{ path('artistAddBO') }}">Ajouter un artiste</a> 
 
-<section class="listArtists">
-        {% if app.user %}
-            {% if 'ROLE_ADMIN' in app.user.roles %}
-            
-            <p class="thArtists">Nom</p>
-            <p class="thArtists">Prénom</p>
-            <p></p>
 
+<section>
+    
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+
+    {% if app.user %}
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div class="blockBtnAdd">
+                <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a> 
+            </div>
+
+        
             {% for artist in artists %}
-                <p>{{ artist.artistName }}</p>
-                <p>{{ artist.artistFirstname }}</p>
-                <p>
-                    <a href="{{ path('artistEditBO', {'id': artist.id}) }}">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
-                    <a href="{{ path('artistDeleteBO', {'id': artist.id}) }}">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </a>
-                </p>
+                <div class="blockListExhibit"> 
+                    <p>
+                        {{ artist.artistName }} {{ artist.artistFirstname }} - 
+
+                        <a href="{{ path('artistEditBO', {'id': artist.id}) }}">
+                            <i class="iconsEdit fa-solid fa-pencil"></i>
+                        </a>
+
+                        <a href="{{ path('artistDeleteBO', {'id': artist.id}) }}">
+                            <i class="iconsEdit fa-solid fa-trash-can"></i>
+                        </a>
+                    </p>
+                </div>
             {% endfor %}
 
         {% endif %}
     {% endif %}
-    </section>
+</section>
 {% endblock %}
 
 

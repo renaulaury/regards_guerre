@@ -39,10 +39,6 @@ class ArtistAddEditBOType extends AbstractType
             ])
             ->add('artistBio', TextareaType::class, [
                 'label' => 'Biographie',
-            ])            
-           
-            ->add('save', SubmitType::class, [
-                'label' => 'Modifier',
             ]);
     }
 

@@ -17,32 +17,34 @@
     {% endif %}
 </div>
 
-<section>
+<section class="sectionCenter">
+
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+    
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
+        {% if is_granted('ROLE_ADMIN') %}
 
             {{ form_start(form) }}
 
                 <div class="blockDateImgExpo">
-                    <div class="blockMiniExpo ">
-                        <div class="miniExpo">
-                            <div class="label">{{ form_label(form.dateExhibit) }}</div>
-                            <div class="input">{{ form_widget(form.dateExhibit) }}</div>
-                        </div>
-                    </div>
-
                     <div class="blockEditImg">
-                        <div class="label">{{ form_label(form.mainImage) }}</div>            
+                        <div class="label">{{ form_label(form.mainImage) }}</div>
 
                         {% if exhibition.mainImage is not empty %}
                             <img class="mainImgForm" src="{{ asset(exhibition.mainImage) }}" alt="{{ form.mainImageAlt.vars.value }}">
                         {% endif %}
 
-
                         <div class="input parcourir">
                             {{ form_widget(form.mainImage, {'label': false}) }}
                         </div>
-                        
+
+                    </div>
+
+                    <div class="blockMiniExpo ">
+                        <div class="miniExpo">
+                            <div class="label">{{ form_label(form.dateExhibit) }}</div>
+                            <div class="input">{{ form_widget(form.dateExhibit) }}</div>
+                        </div>
                     </div>
                 </div>
 
@@ -108,12 +110,11 @@
                 </div>
 
                 {% if isAdd %}
-                    <button type="submit" class="btnSubmit">Créer l'exposition</button>
+                    <button type="submit" class="btn btnSubmit">Créer l'exposition</button>
                 {% else %}
-                    <button type="submit" class="btnSubmit">Modifier</button>
+                    <button type="submit" class="btn btnSubmit">Modifier</button>
                 {% endif %}
 
-                
             {{ form_end(form) }}
         {% endif %}
     {% endif %}

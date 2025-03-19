@@ -58,7 +58,7 @@ h1 {
 h2 {
     font-family: var(--cormorantGaramond);
     color: var(--ftTitle);
-    padding-bottom: 5%;
+    padding-bottom: 3%;
     text-align: left;
 }
 
@@ -69,15 +69,23 @@ a {
 
 section {
     flex-grow: 1;        
-    padding: 5%; 
+    padding: 3%; 
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
 } 
 
 .comeBack { /* Bouton retour */
     text-align: end;
-    padding-right: 10%;
-    padding-bottom: 5%;
+    width: 100%;
+    padding-right: 5%;
+}
+
+.sectionCenter {
+    align-items: center;
+}
+
+.marginTop { /*Marge supplémentaire en fonction icone fleche retour */
+    margin-top: 3%;
 }
 
 .fa-solid, .fa-brands { /* Icones */
@@ -99,25 +107,24 @@ input::placeholder {
     font-size: 1.2rem;
 } 
 
-.btnSubmit {
-    border: none;
-    padding: 2%;
-    border-radius: 50px;
-    background: var(--backgroundColorButton);
-    font-size: 1.5rem;
-    text-align: center;
-    width: 95%;
-}
-
 button {
     margin-top: 5%;
 }
 
-
-
-
-
-  
+.btnSubmit {
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 10px;
+    border-radius: 50px;
+    background: var(--backgroundColorButton);
+    font-size: 1.2rem;
+    text-align: center;
+    width: 400px;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}  
   
   
 

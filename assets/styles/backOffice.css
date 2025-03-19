@@ -1,6 +1,55 @@
+/************ Commun ***************/
+.blockBtnAdd {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.btnAdd {
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--backgroundColorButton);
+    text-align: center;
+    width: 300px;	
+}
+
+.blockBtn {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
 /************ Index ***************/
 .backOffice ol {
     list-style: none;
+}
+
+/************ Liste d'expositions ***************/
+.blockListExhibit {
+    padding-bottom: 10px;
+}
+
+.iconsEdit {
+    padding: 0% 5px;
+}
+
+/************ Page Show ***************/
+.blockArtistAvailable, .blockArtistToAdded {
+    padding-bottom: 5%;
+}
+
+.blockRoomImgExpo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15%;
+    padding-top: 3%;
+}
+
+.select select {
+    width: 150px;
+    padding: 2%; 
 }
 
 /************ Page utilisateurs ***************/

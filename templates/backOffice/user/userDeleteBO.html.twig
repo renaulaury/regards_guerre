@@ -16,8 +16,7 @@
 
 <section>
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
-
+        {% if is_granted('ROLE_ADMIN') %}
             <h2>Etes vous sûr(e) de vouloir supprimer 
                 {% if user.userFirstname %}
                     {{ user.userFirstname }}
@@ -26,12 +25,12 @@
                 {% else %}
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %} 
-            ?</h2>
+                ?
+            </h2>
             
             <form method="post" action="{{ path('userConfirmDeleteBO', {id: user.id}) }}">
                 <button type="submit" name="submitConfirmDeleteUser">Supprimer</button>
             </form>
-            
         {% endif %}
     {% endif %}
 </section>

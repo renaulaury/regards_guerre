@@ -7,15 +7,19 @@
     <h1>Confirmation</h1>
 </div>
 
-<section>
+<section class="sectionCenter">
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
-            <p>Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
+        {% if is_granted('ROLE_ADMIN') %}
+            <p class="marginTop">Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
             </p>
 
-            <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
-                Supprimer
-            </a>
+            <div class="btn btnSubmit">
+                <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
+                    Supprimer
+                </a>
+            </div>
         {% endif %}
     {% endif %}
 </section>

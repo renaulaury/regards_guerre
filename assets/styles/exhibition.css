@@ -34,10 +34,12 @@ textarea {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    
 }
 
 .mini {
     width: 45%;
+    padding: 3% 0%;
 }
 
 .blockMiniSolo {

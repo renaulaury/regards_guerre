@@ -17,22 +17,46 @@
     {% endif %}
 </div>
 
-<section> 
+<section>
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+    
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
+        {% if is_granted('ROLE_ADMIN') %}
 
             {{ form_start(form) }}
-                {{ form_row(form.artistName) }}
-                {{ form_row(form.artistFirstname) }}
-
-                {{ form_row(form.artistBirthDate) }}
-                {{ form_row(form.artistDeathDate) }}  
-                
-                {{ form_row(form.artistJob) }}
-                {{ form_row(form.artistBio) }}              
-                {{ form_row(form.save) }}
-            {{ form_end(form) }}
             
+                <div class="label">{{ form_label(form.artistName) }}</div>
+                <div class="input">{{ form_widget(form.artistName) }}</div>
+            
+                <div class="label">{{ form_label(form.artistFirstname) }}</div>
+                <div class="input">{{ form_widget(form.artistFirstname) }}</div>
+                    
+                <div class="blockMini">
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.artistBirthDate) }}</div>
+                        <div class="input">{{ form_widget(form.artistBirthDate) }}</div>
+                    </div>
+                    
+                    <div class="mini"> 
+                        <div class="label">{{ form_label(form.artistDeathDate) }}</div>
+                        <div class="input">{{ form_widget(form.artistDeathDate) }}</div>
+                    </div>
+                </div>
+                
+                <div class="label">{{ form_label(form.artistJob) }}</div>
+                <div class="input">{{ form_widget(form.artistJob) }}</div>
+
+                <div class="label">{{ form_label(form.artistBio) }}</div>
+                <div class="input">{{ form_widget(form.artistBio) }}</div>
+
+                {% if isAdd %}
+                    <button type="submit" class="btn btnSubmit">Créer l'artiste</button>
+                {% else %}
+                    <button type="submit" class="btn btnSubmit">Modifier</button>
+                {% endif %}
+
+            {{ form_end(form) }}
+
         {% endif %}
     {% endif %}
 </section>

@@ -17,7 +17,7 @@
 
 <section>
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
+        {% if is_granted('ROLE_ADMIN') %}
 
             <h2>Modification de l'utilisateur
                 {% if user.userFirstname %}
@@ -28,42 +28,41 @@
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %}
             </h2>
-            
+
             <p>Nom : {{ user.userName }}</p>
-            <p>Prénom : {{ user.userFirstname }}</p>    
+            <p>Prénom : {{ user.userFirstname }}</p>
 
             <p>Pseudo actuel: {{ user.userNickname }} </p>
 
-            <p> Rôle actuel :        
-                {% if user.roles[0]  == 'ROLE_USER' %}
-                    Utilisateur   
-                {% elseif user.roles[0]  == 'ROLE_ADMIN' %} 
-                    Administrateur        
-                {% endif %} </p>
+            <p> Rôle actuel :
+                {% if user.roles[0] == 'ROLE_USER' %}
+                    Utilisateur
+                {% elseif user.roles[0] == 'ROLE_ADMIN' %}
+                    Administrateur
+                {% endif %}
+            </p>
 
             {# Affichage du formulaire #}
             <form method="post" action="{{ path('userEditBO', {id: user.id}) }}">
                 {{ form_start(form) }}
-            
+
                 {% if root %}
                     {{ form_row(form.roles) }}
                     <button type="submit" name="submitRoles">Modifier le rôle</button>
                 {% endif %}
-            
+
                 {% if admin %}
                     {{ form_row(form.userNickname) }}
                     {{ form_row(form.reasonNickname) }}
                     <button type="submit" name="submitNickname">Modifier le pseudo</button>
                 {% endif %}
-            
-                {{ form_end(form) }} 
-                
-            {% endif %}
-        {% endif %} 
-    </form>
-    
 
-   
+                {{ form_end(form) }}
+
+            </form>
+
+        {% endif %}
+    {% endif %}
 </section>
 
 {% endblock %}
