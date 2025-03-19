@@ -6,22 +6,20 @@
 
 <h1>Back-Office</h1>
 
-<section>
+<section class="backOffice">
     {% if app.user %}
         <ol>
-            {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
-            
-                <li><a href="{{ path('userListBO') }}">Utilisateurs</a></li>   {# root - admin - user + Infos - Commandes - Modération blog - #}
+            {% if is_granted('ROLE_ROOT') or is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('userListBO') }}">Utilisateurs</a></li>
+            {% endif %}
 
-            {% if 'ROLE_ADMIN' in app.user.roles %}      
-              
-                <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li> {# Crud - blog #}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li>
                 <li><a href="{{ path('artistListBO') }}">Artistes</a></li>
                 {# <li><a href="#">Blog</a></li> #}
-            
             {% endif %}
         </ol>
-    {% endif %}    
+    {% endif %}
 </section>
 
 {% endblock %}
