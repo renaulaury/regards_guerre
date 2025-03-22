@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ExhibitAddEditBOType extends AbstractType
 {
@@ -74,6 +75,15 @@ class ExhibitAddEditBOType extends AbstractType
             ->add('stockAlert', IntegerType::class, [
                 'label' => 'Stock d\'alerte',
                 'data' => 10,
+            ])
+            ->add('ticketPricings', CollectionType::class, [
+                'entry_type' => TicketPricingType::class,
+                'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                'prototype_name' => '__name__',
             ])
         ;
     }

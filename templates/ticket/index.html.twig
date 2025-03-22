@@ -51,7 +51,7 @@
                             {% if priceByExhibits.standardPrice == 0 %} 
                                 <p>Gratuit</p>
                             {% else %}
-                                <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup> 1</sup>)</span></p>
+                                <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup>*</sup>)</span></p>
                             {% endif %}
                         </div>
                     
@@ -74,7 +74,7 @@
         </div>
     {% endfor %}
 
-    <p class="miniText blockNotaBene"><sup>1 </sup>PU : Prix unitaire</p>
+    <p class="miniText blockNotaBene"><sup>* </sup>PU : Prix unitaire</p>
 </section>
 
 

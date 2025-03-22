@@ -2,13 +2,15 @@
 
 {% block title %}
     {% if isAdd %}
-        <h1>Ajouter une exposition</h1>
+        Ajouter une exposition
     {% else %}
-        <h1>Modification : <span class="longTitle">{{ exhibition }}</span></h1>
+       Modification : {{ exhibition }}
     {% endif %}
 {% endblock %}
 
 {% block body %}
+<!-- ExhibitionBOController ExhibitAddEditBOType -->
+
 <div class="containH1">    
     {% if isAdd %}
         <h1>Ajouter une exposition</h1>
@@ -109,6 +111,22 @@
                     </div>
                 </div>
 
+                <h3>Tarifs des tickets</h3>
+
+                <div>
+
+                    {% for ticketPricing in form.ticketPricings %}
+                        <div>                            
+                            <div>
+                                <p>{{ ticketPricing.vars.data.ticket.titleTicket }}</p>
+                                <p>{{ form_widget(ticketPricing.standardPrice) }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                
+
                 {% if isAdd %}
                     <button type="submit" class="btn btnSubmit">Créer l'exposition</button>
                 {% else %}
@@ -120,5 +138,6 @@
     {% endif %}
 </section>
 {% endblock %}
+
 
 

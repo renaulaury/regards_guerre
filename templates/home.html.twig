@@ -83,15 +83,17 @@
                             <p class="cgBold">{{ agendas.titleExhibit }}</p>
                             <p class="cgBold">{{ agendas.subTitleExhibit }} ({{ agendas.dateWarBeginFr }} - 
                                 {% if agendas.dateWarEndFr is null %}
-                                    à aujourd'hui)
+                                    à aujourd'hui
                                 {% else %}
-                                    {{ agendas.dateWarEndFr }})
+                                    {{ agendas.dateWarEndFr }} 
                                 {% endif %}
+                                )
                             </p>                 
                         
                             <p class="hookAgenda">{{ agendas.hookExhibit }}</p>
                         </div>
-                        <a class="parkinsanBrown" href="#"> > Fiche détaillée</a>
+                        
+                        <a class="parkinsanBrown" href="{{ path('exhibition', {'id': agendas.id}) }}"> > Fiche détaillée</a>
                     </div>
 
                     {% if not loop.last %}

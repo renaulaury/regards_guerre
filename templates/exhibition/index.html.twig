@@ -39,21 +39,24 @@
 
     <div>
 
-        {% for show in exhibition.shows %}        
+        {% for show in exhibition.shows %}
+        
             <p>
-                {{ show.artist.artistFirstname }} {{ show.artist.artistName }} - 
-                {{ show.artistJob }}
+                {{ show.artist.artistFirstname }} {{ show.artist.artistName }} -
+                {{ show.artist.artistJob }}
             </p>
-
+    
             <p>( {{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }} )</p>
-
-            <img class="artistImg" src="{{ show.artistPhoto}}" alt="{{ show.artistPhotoAlt}}">
-
-            <p>{{ show.artistBio }} </p>
+    
+            <img class="artistImg" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">
+    
+            <p>{{ show.artist.artistBio }} </p>
             <p>{{ show.artistTextArt }} </p>
-            <p>Exposition : Salle {{ show.room.titleRoom }}</p>
-
-        {% endfor %}
+        
+    
+        {# <p>Exposition : Salle {{ show.room.titleRoom }}</p> #}
+    
+    {% endfor %}
 
         
     </div>

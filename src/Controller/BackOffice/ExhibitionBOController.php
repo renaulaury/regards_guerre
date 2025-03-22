@@ -12,6 +12,7 @@ use App\Form\BackOffice\ExhibitAddEditBOType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -114,6 +115,24 @@ final class ExhibitionBOController extends AbstractController
 
             // Associer l'utilisateur à l'exposition
             $exhibition->setUser($user);
+
+            // Gestion des TicketPricing
+            foreach ($exhibition->getTicketPricings() as $ticketPricing) {
+                $ticketPricing->setExhibition($exhibition);
+                $entityManager->persist($ticketPricing);
+            }
+
+            // Supprimer les TicketPricing supprimés
+            $originalTicketPricings = new ArrayCollection();
+            foreach ($exhibition->getTicketPricings() as $ticketPricing) {
+                $originalTicketPricings->add($ticketPricing);
+            }
+
+            foreach ($originalTicketPricings as $ticketPricing) {
+                if (false === $exhibition->getTicketPricings()->contains($ticketPricing)) {
+                    $entityManager->remove($ticketPricing);
+                }
+            }
 
             // Persister les modifications dans la base de données
             $entityManager->persist($exhibition);
