@@ -1,0 +1,54 @@
+/****************** Exposition ******************/
+.longTitle {
+    display: block;
+    text-align: center;
+}
+
+.blockDateImgExpo {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blockEditImg, .blockMiniExpo {
+    width: 45%;
+}
+
+.mainImgForm {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    padding: 2%;
+    height: 150px;
+    border-radius: 10px;
+    resize: none;
+}
+
+.blockMini {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    
+}
+
+.mini {
+    width: 45%;
+    padding: 3% 0%;
+}
+
+.blockMiniSolo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/****************** Artistes ******************/
+

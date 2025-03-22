@@ -8,54 +8,54 @@
 
 <section>    
 
-    <h2>{{ exhibition.titleExhibit}}  
+    <h2 class="pageExhibitH2">{{ exhibition.titleExhibit}}  
         ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>
 
-    <div>
+    <div class="dateHourPageExhibit">
         <p>{{ exhibition.dateExhibitFr }}</p>
         <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
-
     </div>
 
     <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
 
     <p>{{ exhibition.descriptionExhibit }}</p>
 
-    <p>Petit bouton qui va te faire acheter un ticket :) </p>
+    <p class="btnSubmit">Petit bouton qui va te faire acheter un ticket :) </p>
+</section>
+
+
+<section class="sectionIntroExhibit">
+        <p class="cormorantGaramond"> 
+            Regards de Guerre rassemble des artistes aux horizons variés, offrant, à travers un regard neuf, une exploration des conflits d'ici et d'ailleurs. 
+        </p>
+
+        <p class="cormorantGaramond">
+            Chaque salle vous immerge dans leur univers unique, proposant une perspective inédite sur ces événements marquants.
+        </p>
 </section>
 
 <section>
     <h2>Galerie des artistes</h2>
 
     <div>
-        <p> 
-            Regards de Guerre rassemble des artistes aux horizons variés, offrant, à travers un regard neuf, une exploration des conflits d'ici et d'ailleurs. 
-        </p>
-
-        <p>
-            Chaque salle vous immerge dans leur univers unique, proposant une perspective inédite sur ces événements marquants.
-        </p>
-    </div>
-
-    <div>
 
         {% for show in exhibition.shows %}
         
-            <p>
-                {{ show.artist.artistFirstname }} {{ show.artist.artistName }} -
-                {{ show.artist.artistJob }}
-            </p>
-    
-            <p>( {{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }} )</p>
-    
-            <img class="artistImg" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">
-    
+        <div class="blockArtistPageExhibit">
+            <div class="artistInfosPageExhibit">
+                <p class="cormorantGaramond">{{ show.artist.artistFirstname }} {{ show.artist.artistName }} - {{ show.artist.artistJob }}</p>
+                <p class="cormorantGaramond">({{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }})</p>
+            </div>
+
+            <img class="artistImgPageExhibit" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">
+        </div>
+
+        <div class="artistTextPageExhibit">
             <p>{{ show.artist.artistBio }} </p>
             <p>{{ show.artistTextArt }} </p>
-        
+        </div>
     
-        {# <p>Exposition : Salle {{ show.room.titleRoom }}</p> #}
-    
+         <p class="artistRoomPageExhibit">Salle {{ show.room.titleRoom }}</p> 
     {% endfor %}
 
         
