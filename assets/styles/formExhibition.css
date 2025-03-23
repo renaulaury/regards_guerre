@@ -7,12 +7,16 @@
 .blockDateImgExpo {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
 }
 
 .blockEditImg, .blockMiniExpo {
+    width: 100%;
+}
+
+.blockMiniExpo input{
     width: 45%;
 }
 
@@ -49,6 +53,9 @@ textarea {
     justify-content: center;
 }
 
-
-/****************** Artistes ******************/
+.inputMini input{
+    padding: 2%;
+    border-radius: 10px;
+    width: 25%;
+}
 

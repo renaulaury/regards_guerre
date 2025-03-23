@@ -3,6 +3,8 @@
 namespace App\Form\BackOffice;
 
 use App\Entity\Exhibition;
+use App\Entity\Ticket;
+use App\Entity\TicketPricing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,9 +15,20 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ExhibitAddEditBOType extends AbstractType
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /*************** Formulaire du template exhibitAddEditBO ***************/
@@ -25,7 +38,7 @@ class ExhibitAddEditBOType extends AbstractType
                 'mapped' => false, 
             ])
             ->add('mainImageAlt', TextType::class, [
-                'label' => 'Courte description de l\'image principale',
+                'label' => 'Courte description de l\'image',
                 'required' => true,
             ])
             ->add('titleExhibit', TextType::class, [
@@ -86,6 +99,43 @@ class ExhibitAddEditBOType extends AbstractType
                 'prototype_name' => '__name__',
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            // Récupère l'entité Exhibition à partir des données du form ci dessus
+            $exhibition = $event->getData();
+
+            if ($exhibition->getId() === null) { //Vérif si l'expo est nouvelle
+                // Récup tous les tickets
+                $tickets = $this->entityManager->getRepository(Ticket::class)->findAll(); 
+
+                foreach ($tickets as $ticket) {
+                    $ticketPricing = new TicketPricing();
+                    $ticketPricing->setTicket($ticket);
+
+                    // Définir le tarif par défaut en fonction du type de ticket
+                    $ticketTitle = trim($ticket->getTitleTicket()); 
+
+                    switch ($ticketTitle) {
+                        case 'Adulte dématérialisé':
+                            $ticketPricing->setStandardPrice('10.00'); 
+                            break;
+                        case 'Enfant dématérialisé':
+                            $ticketPricing->setStandardPrice('8.00'); 
+                            break;
+                        case 'Enfant -6ans dématérialisé':
+                            $ticketPricing->setStandardPrice('0.00'); 
+                            break;
+                        default:
+                            $ticketPricing->setStandardPrice('10.00'); // Tarif par défaut si non reconnu
+                            break;
+                    } 
+
+                    $exhibition->addTicketPricing($ticketPricing);
+                }
+
+                $event->setData($exhibition); //Maj de l'expo
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

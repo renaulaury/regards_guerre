@@ -28,7 +28,7 @@
 
             {{ form_start(form) }}
 
-                <div class="blockDateImgExpo">
+                
                     <div class="blockEditImg">
                         <div class="label">{{ form_label(form.mainImage) }}</div>
 
@@ -39,7 +39,11 @@
                         <div class="input parcourir">
                             {{ form_widget(form.mainImage, {'label': false}) }}
                         </div>
-
+                    </div>
+                    
+                    <div>
+                        <div class="label">{{ form_label(form.mainImageAlt) }}</div>
+                        <div class="input">{{ form_widget(form.mainImageAlt) }}</div>
                     </div>
 
                     <div class="blockMiniExpo ">
@@ -48,16 +52,35 @@
                             <div class="input">{{ form_widget(form.dateExhibit) }}</div>
                         </div>
                     </div>
-                </div>
+                
 
-                <div>
-                    <div class="label">{{ form_label(form.mainImageAlt) }}</div>
-                    <div class="input">{{ form_widget(form.mainImageAlt) }}</div>
+                <div class="blockMini">
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.hourBegin) }}</div>
+                        <div class="input">{{ form_widget(form.hourBegin) }}</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.hourEnd) }}</div>
+                        <div class="input">{{ form_widget(form.hourEnd) }}</div>
+                    </div>
                 </div>
 
                 <div>
                     <div class="label">{{ form_label(form.titleExhibit) }}</div>
                     <div class="input">{{ form_widget(form.titleExhibit) }}</div>
+                </div>
+
+                <div class="blockMini">
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.dateWarBegin) }}</div>
+                        <div class="input">{{ form_widget(form.dateWarBegin) }}</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="label">{{ form_label(form.dateWarEnd) }}</div>
+                        <div class="input">{{ form_widget(form.dateWarEnd) }}</div>
+                    </div>
                 </div>
 
                 <div>
@@ -73,30 +96,21 @@
                 <div>
                     <div class="label">{{ form_label(form.descriptionExhibit) }}</div>
                     <div class="input">{{ form_widget(form.descriptionExhibit) }}</div>
-                </div>
+                </div>               
+                
 
-                <div class="blockMini">
-                    <div class="mini">
-                        <div class="label">{{ form_label(form.dateWarBegin) }}</div>
-                        <div class="input">{{ form_widget(form.dateWarBegin) }}</div>
-                    </div>
+                <h2>Tickets : tarifs et stocks</h2>
 
-                    <div class="mini">
-                        <div class="label">{{ form_label(form.dateWarEnd) }}</div>
-                        <div class="input">{{ form_widget(form.dateWarEnd) }}</div>
-                    </div>
-                </div>
+                <div>
 
-                <div class="blockMini">
-                    <div class="mini">
-                        <div class="label">{{ form_label(form.hourBegin) }}</div>
-                        <div class="input">{{ form_widget(form.hourBegin) }}</div>
-                    </div>
-
-                    <div class="mini">
-                        <div class="label">{{ form_label(form.hourEnd) }}</div>
-                        <div class="input">{{ form_widget(form.hourEnd) }}</div>
-                    </div>
+                    {% for ticketPricing in form.ticketPricings %}
+                        <div>                            
+                            <div>
+                                <p>{{ ticketPricing.vars.data.ticket.titleTicket }}</p>
+                                <p class="inputMini">{{ form_widget(ticketPricing.standardPrice) }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
 
                 <div class="blockMini">
@@ -110,22 +124,6 @@
                         <div class="input">{{ form_widget(form.stockAlert) }}</div>
                     </div>
                 </div>
-
-                <h3>Tarifs des tickets</h3>
-
-                <div>
-
-                    {% for ticketPricing in form.ticketPricings %}
-                        <div>                            
-                            <div>
-                                <p>{{ ticketPricing.vars.data.ticket.titleTicket }}</p>
-                                <p>{{ form_widget(ticketPricing.standardPrice) }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                
 
                 {% if isAdd %}
                     <button type="submit" class="btn btnSubmit">Créer l'exposition</button>
