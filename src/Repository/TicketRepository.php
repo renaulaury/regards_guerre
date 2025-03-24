@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-
 use App\Entity\Ticket;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -34,7 +33,6 @@ class TicketRepository extends ServiceEntityRepository
        return $queryBuilder->getQuery()->getResult();
    }
 
-
 public function findTicketDetails(int $ticketId): ?array
 {
     return $this->createQueryBuilder('t')
@@ -43,6 +41,7 @@ public function findTicketDetails(int $ticketId): ?array
         ->join('tp.exhibition', 'e')
         ->where('t.id = :ticketId')
         ->setParameter('ticketId', $ticketId)
+        ->setMaxResults(1) //Récup 1 seul résultat répondant aux critères évitant les doublons
         ->getQuery()
         ->getOneOrNullResult();
 }
@@ -50,5 +49,5 @@ public function findTicketDetails(int $ticketId): ?array
    
 }
 
-   
+
 

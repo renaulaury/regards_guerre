@@ -34,7 +34,7 @@
                 {% if priceByExhibits.id == exhibition.id %} 
 
            
-                <p>Ticket {{ priceByExhibits.titleTicket }} 
+                <p>Ticket {{ priceByExhibits.titleTicket }} dématérialisé
                     {# Verification si le ticket est dans le panier  #}
                     {% if cart[priceByExhibits.ticketId] is defined %}
                         <span>({{ cart[priceByExhibits.ticketId].qty }})</span>

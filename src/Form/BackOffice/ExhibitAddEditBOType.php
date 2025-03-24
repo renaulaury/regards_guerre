@@ -89,7 +89,7 @@ class ExhibitAddEditBOType extends AbstractType
                 'label' => 'Stock d\'alerte',
                 'data' => 10,
             ])
-            ->add('ticketPricings', CollectionType::class, [
+            ->add('ticketPricings', CollectionType::class, [ //Pour edit
                 'entry_type' => TicketPricingType::class,
                 'label' => false,
                 'allow_add' => true,
@@ -100,7 +100,9 @@ class ExhibitAddEditBOType extends AbstractType
             ])
         ;
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        //Pour add
+        // Init tarifs par défaut pour une nouvelle expo
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) { //FormEvent = évent de form permet de choisir des données - PRE_SET_DATA = prépare les données avt de les afficher
             // Récupère l'entité Exhibition à partir des données du form ci dessus
             $exhibition = $event->getData();
 
