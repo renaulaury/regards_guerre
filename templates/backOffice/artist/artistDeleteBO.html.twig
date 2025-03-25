@@ -14,7 +14,7 @@
     {% if app.user %}
     {% if is_granted('ROLE_ADMIN') %}
 
-        <p class="marginTop">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
+        <p class="marginTop textDelete">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
 
         <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
             

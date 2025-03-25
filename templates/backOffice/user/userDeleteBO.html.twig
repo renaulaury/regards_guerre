@@ -15,9 +15,11 @@
 <h1>Back-Office</h1>
 
 <section>
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
-            <h2>Etes vous sûr(e) de vouloir supprimer 
+            <p class="marginTop textDelete">Etes vous sûr(e) de vouloir supprimer 
                 {% if user.userFirstname %}
                     {{ user.userFirstname }}
                 {% elseif user.userNickname %}
@@ -26,10 +28,12 @@
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %} 
                 ?
-            </h2>
+            </p>
             
             <form method="post" action="{{ path('userConfirmDeleteBO', {id: user.id}) }}">
-                <button type="submit" name="submitConfirmDeleteUser">Supprimer</button>
+                <div class="button">
+                    <button class="btnSubmit" type="submit" name="submitConfirmDeleteUser">Supprimer</button>
+                </div>
             </form>
         {% endif %}
     {% endif %}

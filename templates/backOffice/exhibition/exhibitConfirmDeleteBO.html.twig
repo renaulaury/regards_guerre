@@ -3,20 +3,26 @@
 {% block title %}Suppression d'une Exposition{% endblock %}
 
 {% block body %}
+<!-- BackOffice/ExhibitionController -->
+
 <div class="containH1">    
     <h1>Expositions</h1>
 </div>
 
-<section class="listExhibit">
+<section>
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+
     {% if app.user %}
         {% if 'ROLE_ADMIN' in app.user.roles %} 
-            <p>L'exposition <strong>{{ exhibition }}</strong> sera entièrement supprimée ainsi que les artistes programmés.</p>
+            <p class="marginTop textDelete">L'exposition <strong>{{ exhibition }}</strong> sera entièrement supprimée ainsi que les artistes programmés.</p>
             
-            <p>Etes vous sûr de vouloir continuer ?</p>
+            <p class="marginTop textDelete">Etes vous sûr de vouloir continuer ?</p>
 
-            <a href="{{ path('deleteConfirmExhibitBO', {'idExhibit': exhibition.id}) }}">
-                Supprimer
-            </a>
+            <div class="button">
+                <a class="btnSubmit" href="{{ path('deleteConfirmExhibitBO', {'idExhibit': exhibition.id}) }}">
+                    Supprimer
+                </a>
+            </div>
         {% endif %}
     {% endif %}
 </section>

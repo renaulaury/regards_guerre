@@ -24,6 +24,10 @@
     padding: 0% 5px;
 }
 
+.textDelete {
+    text-align: center;
+}
+
 /************ Index ***************/
 .backOffice ol {
     list-style: none;
@@ -45,8 +49,14 @@
     margin-bottom: 5%;
 }
 
-/************ Edit users ***************/
+/************ Edit orders users ***************/
+.blockOrderUser {
+    padding-bottom: 10%;
+}
 
+.infosOrder {
+    padding-bottom: 3%;
+}
 
 
 

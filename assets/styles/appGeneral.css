@@ -109,7 +109,6 @@ input::placeholder {
 } 
 
 .button {
-    margin-top: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,8 +124,8 @@ input::placeholder {
     background: var(--backgroundColorButton);
     font-size: 1.2rem;
     text-align: center;
-    width: 400px;
-    margin-top: 80px;
+    width: 340px;
+    margin-top: 50px;
     margin-bottom: 40px;
 }  
   
