@@ -70,7 +70,7 @@ a {
 
 section {
     flex-grow: 1;        
-    padding: 5%; 
+    padding: 5% 5% 10% 5%; 
     display: flex;
     flex-direction: column;    
 } 
@@ -89,7 +89,7 @@ section {
     margin-top: 3%;
 }
 
-.fa-solid, .fa-brands { /* Icones */
+.fa-solid, .fa-brands, .fa-regular { /* Icones */
     color: var(--icon);
 }
 

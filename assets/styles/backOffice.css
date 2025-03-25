@@ -20,18 +20,37 @@
     margin-bottom: 5%;
 }
 
+.iconsEdit {
+    padding: 0% 5px;
+}
+
 /************ Index ***************/
 .backOffice ol {
     list-style: none;
 }
 
+/************ Liste des users ***************/
+ .listMembers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 5px 15px;
+    margin-bottom: 5%;
+} 
+
+.listMbrs {
+    display: grid;
+    grid-template-rows: auto;
+    row-gap: 5px;
+    margin-bottom: 5%;
+}
+
+/************ Edit users ***************/
+
+
 /************ Liste d'expositions ***************/
 .blockListExhibit {
     padding-bottom: 10px;
-}
-
-.iconsEdit {
-    padding: 0% 5px;
 }
 
 /************ Page Show ***************/
@@ -50,13 +69,6 @@
 .select select {
     width: 150px;
     padding: 2%; 
-}
-
-/************ Page utilisateurs ***************/
-.listMembers {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto;
 }
 
 /************ Page artists ***************/

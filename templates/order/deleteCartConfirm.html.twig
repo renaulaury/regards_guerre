@@ -7,10 +7,13 @@
 <h1>Panier</h1>
 
 <section>
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
 
-    <p>Etes vous sur de vouloir supprimer votre panier ?</p>
+    <p class="confirmDeleteCart">Etes vous sur de vouloir supprimer votre panier ?</p>
 
-    <a href="{{ path('deleteCart') }}" >Oui</a>
-    <a href="{{ path('cart') }}" >Non</a>
+    <p class="yesNoConfirmDeleteCart">
+        <a href="{{ path('deleteCart') }}" >Oui</a>
+        <a href="{{ path('cart') }}" >Non</a>
+    </p>
 </section>
 {% endblock %}

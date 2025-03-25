@@ -16,6 +16,9 @@
 <!-- UserBOController -->
 
 <section>
+
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+    
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
 
@@ -34,6 +37,8 @@
 
             <p>Pseudo actuel: {{ user.userNickname }} </p>
 
+            <p>Mail: {{ user.userEmail }} </p>
+
             <p> Rôle actuel :
                 {% if user.roles[0] == 'ROLE_USER' %}
                     Utilisateur
@@ -48,13 +53,13 @@
 
                 {% if root %}
                     {{ form_row(form.roles) }}
-                    <button type="submit" name="submitRoles">Modifier le rôle</button>
+                    <button type="submit" class="btnSubmit" name="submitRoles">Modifier le rôle</button>
                 {% endif %}
 
                 {% if admin %}
                     {{ form_row(form.userNickname) }}
                     {{ form_row(form.reasonNickname) }}
-                    <button type="submit" name="submitNickname">Modifier le pseudo</button>
+                    <button type="submit" class="btnSubmit" name="submitNickname">Modifier le pseudo</button>
                 {% endif %}
 
                 {{ form_end(form) }}
