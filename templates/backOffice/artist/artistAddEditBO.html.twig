@@ -50,9 +50,13 @@
                 <div class="input">{{ form_widget(form.artistBio) }}</div>
 
                 {% if isAdd %}
-                    <button type="submit" class="btn btnSubmit">Créer l'artiste</button>
+                    <div class="button">   
+                        <button type="submit" class="btn btnSubmit">Créer l'artiste</button>
+                    </div>
                 {% else %}
-                    <button type="submit" class="btn btnSubmit">Modifier</button>
+                    <div class="button">   
+                        <button type="submit" class="btn btnSubmit">Modifier</button>
+                    </div>
                 {% endif %}
 
             {{ form_end(form) }}

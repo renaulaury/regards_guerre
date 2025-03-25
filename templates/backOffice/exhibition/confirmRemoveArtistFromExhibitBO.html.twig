@@ -15,7 +15,7 @@
             <p class="marginTop">Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
             </p>
 
-            <div class="btn btnSubmit">
+            <div class="button btnSubmit">
                 <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
                     Supprimer
                 </a>

@@ -37,8 +37,7 @@ textarea {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    
+    width: 100%;    
 }
 
 .mini {
@@ -56,6 +55,6 @@ textarea {
 .inputMini input{
     padding: 2%;
     border-radius: 10px;
-    width: 25%;
+    width: 30%;
 }
 

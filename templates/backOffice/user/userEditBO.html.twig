@@ -30,42 +30,62 @@
                 {% else %}
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %}
-            </h2>
+            </h2>            
 
-            <p>Nom : {{ user.userName }}</p>
-            <p>Prénom : {{ user.userFirstname }}</p>
+            <div class="listMbrs">
+                <p>Pseudo actuel: {{ user.userNickname }} </p>
 
-            <p>Pseudo actuel: {{ user.userNickname }} </p>
+                <p>Mail: {{ user.userEmail }} </p>
+            
 
-            <p>Mail: {{ user.userEmail }} </p>
+                <p> Rôle actuel :
+                    {% if user.roles[0] == 'ROLE_USER' %}
+                        Utilisateur
+                    {% elseif user.roles[0] == 'ROLE_ADMIN' %}
+                        Administrateur
+                    {% endif %}
+                </p>
+            </div>
 
-            <p> Rôle actuel :
-                {% if user.roles[0] == 'ROLE_USER' %}
-                    Utilisateur
-                {% elseif user.roles[0] == 'ROLE_ADMIN' %}
-                    Administrateur
-                {% endif %}
-            </p>
+            {% if user.userName is not empty and user.userFirstname is not empty %}
+                <div class="listMbrs">
+                    <p>Nom : {{ user.userName }}</p>
+                    <p>Prénom : {{ user.userFirstname }}</p>
+                </div>
+            {% endif %}
 
-            {# Affichage du formulaire #}
-            <form method="post" action="{{ path('userEditBO', {id: user.id}) }}">
-                {{ form_start(form) }}
+            
+                {# Affichage du formulaire #}
+                <form method="post" action="{{ path('userEditBO', {id: user.id}) }}">
+                    {{ form_start(form) }}
 
-                {% if root %}
-                    {{ form_row(form.roles) }}
-                    <button type="submit" class="btnSubmit" name="submitRoles">Modifier le rôle</button>
-                {% endif %}
+                    {% if root %}
+                        <p class="label">{{ form_label(form.roles) }}</p>
+                        <p class="input">{{ form_widget(form.roles) }}</p>
 
-                {% if admin %}
-                    {{ form_row(form.userNickname) }}
-                    {{ form_row(form.reasonNickname) }}
-                    <button type="submit" class="btnSubmit" name="submitNickname">Modifier le pseudo</button>
-                {% endif %}
+                        <div class="button">   
+                            <button type="submit" class="btnSubmit" name="submitRoles">Modifier le rôle</button>
+                        </div>
+                    {% endif %}
 
-                {{ form_end(form) }}
+                    {% if admin %}
+                    <div class="listMbrs">
+                        <p class="label">{{ form_label(form.userNickname) }}</p>
+                        <p class="input">{{ form_widget(form.userNickname) }}</p>
+                        
+                    </div>
+                        <p class="label">{{ form_label(form.reasonNickname) }}</p>
+                        <p class="textarea">{{ form_widget(form.reasonNickname) }}</p>
+                        
+                        <div class="button">   
+                            <button type="submit" class="btnSubmit" name="submitNickname">Modifier le pseudo</button>
+                        </div>
+                    {% endif %}
 
-            </form>
+                    {{ form_end(form) }}
 
+                </form>
+            
         {% endif %}
     {% endif %}
 </section>

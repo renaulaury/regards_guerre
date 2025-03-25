@@ -108,8 +108,11 @@ input::placeholder {
     font-size: 1.2rem;
 } 
 
-button {
+.button {
     margin-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnSubmit {

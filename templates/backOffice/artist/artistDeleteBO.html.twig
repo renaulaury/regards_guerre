@@ -17,7 +17,11 @@
         <p class="marginTop">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
 
         <form method="post" action="{{ path('artistConfirmDeleteBO', {id: artist.id}) }}">
-            <button class="btnSubmit" type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
+            
+            <div class="button"> 
+                <button class="btnSubmit" type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
+            </div>
+            
         </form>
 
     {% endif %}
