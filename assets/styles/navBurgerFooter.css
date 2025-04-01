@@ -147,6 +147,11 @@
     gap: 5%;
 }
 
+.listLegal {
+    list-style: none;
+    padding-left: 5%;
+}
+
 .legalTexts {
     width:100%;
     display: flex;

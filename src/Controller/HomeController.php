@@ -27,6 +27,22 @@ final class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/privacyPolicy', name: 'privacyPolicy')]
+    public function privacyPolice(): Response
+    {
+
+        return $this->render('legalTexts/privacyPolicy.html.twig', [
+        ]);
+    }
+
+    #[Route('/legalNotices', name: 'legalNotices')]
+    public function legalNotices(): Response
+    {
+    
+        return $this->render('legalTexts/legalNotices.html.twig', [
+        ]);
+    }
+
     
 
 }
