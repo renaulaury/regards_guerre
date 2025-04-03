@@ -35,80 +35,69 @@ class CartService
 
     /************* Ajouter un produit au panier ****************/
 
-    public function addCart(Ticket $ticket, int $qty = 1)
-    {
-        // Récupérer le panier depuis la session
-        $cart = $this->getCart();
+    public function addCart(Ticket $ticket, int $exhibitionId, int $qty = 1)
+{
+    // Récupérer le panier depuis la session
+    $cart = $this->getCart();
 
-        if ($ticket) {
-            // Récupérer les informations via le repository
-            $ticketId = $ticket->getId();
-            $ticketDetails = $this->ticketRepository->findTicketDetails($ticketId);
+    if ($ticket) {
+        // Récupérer les informations via le repository
+        $ticketId = $ticket->getId();
+        $ticketDetails = $this->ticketRepository->findTicketDetails($ticketId);
 
-            // Vérifier si on a bien récupéré les informations nécessaires
-            if ($ticketDetails) {
-                $exhibition = $ticketDetails['exhibition'];
-                $exhibitionId = $ticketDetails['exhibitionId'];
-                $price = $ticketDetails['price'];
+        // Vérifier si on a bien récupéré les informations nécessaires
+        if ($ticketDetails) {
+            $exhibition = $ticketDetails['exhibition'];
+            $price = $ticketDetails['price'];
 
-                // Si le ticket est déjà dans le panier, on met à jour la quantité
-                if (isset($cart[$ticketId])) {
-                    $cart[$ticketId]['qty'] += $qty;
-                } else {
-                    // Sinon, on ajoute le ticket au panier avec ses informations
-                    $cart[$ticketId] = [
-                        'ticket' => $ticket,
-                        'ticketId' => $ticketId,
-                        'exhibition' => $exhibition,
-                        'exhibitionId' => $exhibitionId,
-                        'qty' => $qty,
-                        'price' => $price,
-                    ];
-                }
+            // Créer une clé unique combinant exhibitionId et ticketId
+            $cartKey = $exhibitionId.'_'.$ticketId;
 
-                // Ajouter le total de la ligne 
-                 $cart[$ticketId]['totalLine'] = $cart[$ticketId]['price'] * $cart[$ticketId]['qty'];            
+            // Si le ticket est déjà dans le panier pour cette exposition, on met à jour la quantité
+            if (isset($cart[$cartKey])) {
+                $cart[$cartKey]['qty'] += $qty;
+            } else {
+                // Sinon, on ajoute le ticket au panier avec ses informations
+                $cart[$cartKey] = [
+                    'ticket' => $ticket,
+                    'ticketId' => $ticketId,
+                    'exhibition' => $exhibition,
+                    'exhibitionId' => $exhibitionId,
+                    'qty' => $qty,
+                    'price' => $price,
+                ];
             }
+
+            // Ajouter le total de la ligne 
+            $cart[$cartKey]['totalLine'] = $cart[$cartKey]['price'] * $cart[$cartKey]['qty'];            
+        }
     }
 
-    // Recalculer le total du panier
+    // Sauvegarde du panier
+    $this->setCart($cart);
     $this->updateCartTotal($cart);
-
-    // Calculer le total du panier
-    $total = $this->getTotal();
-
-    // Sauvegarde du panier et du total dans la session
-    $this->getSession()->set('cart', $cart);
-    $this->getSession()->set('cartTotal', $total);
 }
 
 
 
  /************* Soustraire un produit ****************/
   
- public function removeCart(Ticket $ticket, int $qty = 1)
- {
-     // Récupérer le panier depuis la session
-     $cart = $this->getCart();
- 
-     if ($ticket) {
-         $ticketId = $ticket->getId();
- 
-         // Vérifier si le ticket est déjà dans le panier
-         if (isset($cart[$ticketId])) {
-             // Réduire la quantité
-             $cart[$ticketId]['qty'] -= $qty;
- 
-             // Si la quantité devient 0 ou moins, on supprime l'entrée du panier
-             if ($cart[$ticketId]['qty'] <= 0) {
-                 unset($cart[$ticketId]);
-             }
-         }
-     }
- 
-     // Sauvegarde dans la session
-     $this->getSession()->set('cart', $cart);
- }
+ public function removeCart(Ticket $ticket, int $exhibitionId, int $qty = 1)
+{
+    $cart = $this->getCart();
+    $ticketId = $ticket->getId();
+    $cartKey = $exhibitionId.'_'.$ticketId;
+
+    if (isset($cart[$cartKey])) {
+        $cart[$cartKey]['qty'] -= $qty;
+
+        if ($cart[$cartKey]['qty'] <= 0) {
+            unset($cart[$cartKey]);
+        }
+    }
+
+    $this->setCart($cart);
+}
 
    /************* Supprime le panier complet ****************/
     public function clearCart(): void
@@ -118,16 +107,16 @@ class CartService
 
 
  /***************************** Retirer un article du panier ***************/
-    public function removeProduct(int $id): void
+    public function removeProduct(string $cartKey): void
     {
         $cart = $this->getCart();
-    
-        if (isset($cart[$id])) {
-            unset($cart[$id]); // Supprime l’élément du panier
+        
+        if (isset($cart[$cartKey])) {
+            unset($cart[$cartKey]);
         }
-    
-        $this->getSession()->set('cart', $cart); // Met à jour la session
-  }
+        
+        $this->setCart($cart);
+    }
 
 
 

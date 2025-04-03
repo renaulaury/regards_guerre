@@ -56,7 +56,7 @@ class CartController extends AbstractController
 
 
         // Ajout du ticket au panier via le service
-        $this->cartService->addCart($ticket);
+        $this->cartService->addCart($ticket, $exhibitionId);
 
         // Redirection en fonction de l'origine
         if ($origin === 'ticket') {
@@ -81,7 +81,7 @@ class CartController extends AbstractController
          $ticket = $ticketRepo->find($ticketId);
 
         // Soustraction au panier via le service
-        $this->cartService->removeCart($ticket);
+        $this->cartService->removeCart($ticket, $exhibitionId);
 
         if ($origin === 'ticket') { // Si l'origine est 'ticket', rediriger vers la page de ventes des tickets
             return $this->redirectToRoute('ticket', [
