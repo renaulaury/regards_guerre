@@ -57,18 +57,25 @@
 
             <div class="amountCart">Montant total : <span>{{ total }} €</span></div>
 
-            {% if is_granted('ROLE_ADMIN') %}
-                <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
-            {% else %}
-                {% if app.user and app.user.userName is not empty and app.user.userFirstname is not empty %}
-                    <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
-                        <button type="submit" name="submitOrderValidation">Commander</button>
-                    </form>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
                 {% else %}
-                    {# <p class="blockIdentityOrder">Veuillez renseigner votre nom et prénom pour commander. <a href="{{ path('profile', {id: app.user.id} ) }}"><strong>Modifier mon profil</strong></a></p> #}
+                    {% if app.user %}
+                        {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
+                            <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
+                                <button type="submit" name="submitOrderValidation">Commander</button>
+                            </form>
+                        {% else %}
+                            <p class="blockIdentityOrder">
+                                Veuillez renseigner votre nom et prénom pour commander. 
+                                <a href="{{ path('profile', {id: app.user.id}) }}"><strong>Modifier mon profil</strong></a>
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        <p>Veuillez vous connecter pour passer une commande.</p>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-        </div>
+            </div>
 
         <p class="marginTop" >
             <a href="{{ path('deleteCartConfirm') }}" ><u>Vider le panier</u></a>
