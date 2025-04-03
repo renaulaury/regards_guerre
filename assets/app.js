@@ -23,7 +23,6 @@ import './styles/media.css';
 
 
 // import './js/exhibitShowBO.js'; 
-import './js/tickets.js'; 
 import './js/burger.js'; 
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
