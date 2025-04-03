@@ -159,27 +159,40 @@ class CartService
   }
 
 /************* Regroupement des achats  ****************/
-  public function groupCartByExhibition(array $cart): array
+    public function groupCartByExhibition(array $cart): array
     {
-        //Init tabl de regroupement
+        // Init tableau de regroupement
         $groupedCart = [];
 
         foreach ($cart as $product) {
-            if (!isset($groupedCart[$product['exhibitionId']])) { //si expo n'existe pas on la crée
-                $groupedCart[$product['exhibitionId']] = [
-                    'exhibition' => $product['exhibition'], //Add infos expo
-                    'tickets' => [] //Init tabl tickets
+            // Récupération des IDs pour plus de lisibilité
+            $exhibitionId = $product['exhibitionId'];
+            $ticketId = $product['ticketId'];
+
+            // Si expo n'existe pas on la crée
+            if (!isset($groupedCart[$exhibitionId])) {
+                $groupedCart[$exhibitionId] = [
+                    'exhibition' => $product['exhibition'], // Add infos expo
+                    'tickets' => [] // Init tabl tickets
                 ];
             }
 
-            if (!isset($groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']])) {//si ticket n'existe pas on le crée
-                $groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']] = [
-                    'ticket' => $product['ticket'], //Add infos ticket
+            // Si ticket n'existe pas on le crée
+            if (!isset($groupedCart[$exhibitionId]['tickets'][$ticketId])) {
+                $groupedCart[$exhibitionId]['tickets'][$ticketId] = [
+                    'ticket' => $product['ticket'], // Add infos ticket
                     'quantity' => $product['qty'],
                     'price' => $product['price'],
+                    // Ajout optionnel du total ligne si nécessaire
+                    'totalLine' => $product['price'] * $product['qty']
                 ];
-            } else { //Si ticket existe on incrémente qty
-                $groupedCart[$product['exhibitionId']]['tickets'][$product['ticketId']]['quantity'] += $product['qty'];
+            } else {
+                // Si ticket existe on incrémente qty
+                $groupedCart[$exhibitionId]['tickets'][$ticketId]['quantity'] += $product['qty'];
+                // Mise à jour du total ligne si vous l'avez ajouté
+                if (isset($groupedCart[$exhibitionId]['tickets'][$ticketId]['totalLine'])) {
+                    $groupedCart[$exhibitionId]['tickets'][$ticketId]['totalLine'] += $product['price'] * $product['qty'];
+                }
             }
         }
 

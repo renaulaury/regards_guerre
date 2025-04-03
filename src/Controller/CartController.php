@@ -156,7 +156,6 @@ class CartController extends AbstractController
 
             $orderDetail->setQuantity($item['qty']);
             $orderDetail->setUnitPrice($item['price']);
-            // $orderDetail->setTotal($item['totalLine']);
 
             $this->entityManager->persist($orderDetail);
         }
