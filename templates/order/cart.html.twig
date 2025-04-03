@@ -16,69 +16,81 @@
 
         <div class="summaryCart marginTop">
             <div class="blockTicketCart">
-                {% for product in cart %}
-                    <div class="ticketCart">
-                        <p>{{ product.exhibition }}</p>
+                {% for exhibitionId, exhibitionData in groupedCart %}
+                    <div class="exhibition-group">
+                        <h2>{{ exhibitionData.exhibition }}</h2>
+                        
+                        {% for ticketId, ticketData in exhibitionData.tickets %}
+                            <div class="ticketCart">
+                                <div class="lineTicketCart">
+                                    <p>{{ ticketData.ticket }}</p>
 
-                        <div class="lineTicketCart">
-                            <p>{{ product.ticket }}</p>
+                                    <div class="blockQtyPrice">
+                                        <p>
+                                            <a href="{{ path('removeTicketFromCart', {
+                                                'exhibitionId': exhibitionId, 
+                                                'ticketId': ticketId, 
+                                                'origin': 'cart'
+                                            }) }}">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </a>
 
-                            <div class="blockQtyPrice">
-                                <p>
-                                    <a href="{{ path('removeTicketFromCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </a>
+                                            {{ ticketData.quantity }}
 
-                                    {{ product.qty }}
+                                            <a href="{{ path('addTicketToCart', {
+                                                'exhibitionId': exhibitionId, 
+                                                'ticketId': ticketId, 
+                                                'origin': 'cart'
+                                            }) }}">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </p>
 
-                                    <a href="{{ path('addTicketToCart', {'exhibitionId': product.exhibitionId, 'ticketId' : product.ticketId, 'origin': 'cart'}) }}">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </a>
-                                </p>
+                                        <div>
+                                            {% if (ticketData.price * ticketData.quantity) == 0 %}
+                                                <p>Gratuit</p>
+                                            {% else %}
+                                                <p>{{ ticketData.price * ticketData.quantity }} €</p>
+                                            {% endif %}
+                                        </div>
 
-                                <div>
-                                    {% if product.totalLine == 0 %}
-                                        <p>Gratuit</p>
-                                    {% else %}
-                                        <p>{{ product.totalLine }} €</p>
-                                    {% endif %}
+                                        <p>
+                                            <a href="{{ path('removeProduct', {'id': ticketData.ticket.id}) }}">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </p>
+                                    </div>
                                 </div>
-
-                                <p>
-                                    <a href="{{ path('removeProduct', {'id': product.ticket.id}) }}">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-                                </p>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 {% endfor %}
             </div>
 
             <div class="amountCart">Montant total : <span>{{ total }} €</span></div>
 
-                {% if is_granted('ROLE_ADMIN') %}
-                    <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
-                {% else %}
-                    {% if app.user %}
-                        {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
-                            <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
-                                <button type="submit" name="submitOrderValidation">Commander</button>
-                            </form>
-                        {% else %}
-                            <p class="blockIdentityOrder">
-                                Veuillez renseigner votre nom et prénom pour commander. 
-                                <a href="{{ path('profile', {id: app.user.id}) }}"><strong>Modifier mon profil</strong></a>
-                            </p>
-                        {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
+            {% else %}
+                {% if app.user %}
+                    {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
+                        <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
+                            <button type="submit" name="submitOrderValidation">Commander</button>
+                        </form>
                     {% else %}
-                        <p>Veuillez vous connecter pour passer une commande.</p>
+                        <p class="blockIdentityOrder">
+                            Veuillez renseigner votre nom et prénom pour commander. 
+                            <a href="{{ path('profile', {id: app.user.id}) }}"><strong>Modifier mon profil</strong></a>
+                        </p>
                     {% endif %}
+                {% else %}
+                    <p>Veuillez vous connecter pour passer une commande.</p>
                 {% endif %}
-            </div>
+            {% endif %}
+        </div>
 
-        <p class="marginTop" >
-            <a href="{{ path('deleteCartConfirm') }}" ><u>Vider le panier</u></a>
+        <p class="marginTop">
+            <a href="{{ path('deleteCartConfirm') }}"><u>Vider le panier</u></a>
         </p>
     {% endif %}
 </section>

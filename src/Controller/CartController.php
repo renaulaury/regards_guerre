@@ -37,9 +37,10 @@ class CartController extends AbstractController
         // Récupérer le panier depuis le service
          $cart = $this->cartService->getCart();
          $total = $this->cartService->getTotal();
- 
+         $groupedCart = $this->cartService->groupCartByExhibition($cart);
          
          return $this->render('order/cart.html.twig', [
+            'groupedCart' => $groupedCart,
              'cart' => $cart,
              'total' => $total,
          ]);
