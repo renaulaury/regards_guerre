@@ -63,11 +63,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('ticket', ['exhibition' => $exhibitionId]);
         }
 
-        if ($origin === 'cart') {
-            return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
-        }
-
-        // Default redirection if origin is not matched
+        // Redirection par défaut
         return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
     }
 
