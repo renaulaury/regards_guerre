@@ -14,7 +14,7 @@
             <p>Merci de vous enregistrer ou de vous connecter pour commander.</p>
         {% endif %}
 
-        <div class="summaryCart">
+        <div class="summaryCart marginTop">
             <div class="blockTicketCart">
                 {% for product in cart %}
                     <div class="ticketCart">
@@ -65,7 +65,7 @@
                         <button type="submit" name="submitOrderValidation">Commander</button>
                     </form>
                 {% else %}
-                    <p class="blockIdentityOrder">Veuillez renseigner votre nom et prénom pour commander. <a href="{{ path('profile', {'id': app.user.id} ) }}"><strong>Modifier mon profil</strong></a></p>
+                    {# <p class="blockIdentityOrder">Veuillez renseigner votre nom et prénom pour commander. <a href="{{ path('profile', {id: app.user.id} ) }}"><strong>Modifier mon profil</strong></a></p> #}
                 {% endif %}
             {% endif %}
         </div>
