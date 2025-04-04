@@ -2,6 +2,10 @@
 
 {% block title %}Tickets{% endblock %}
 
+{% block description %}
+Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Consultez les tarifs, choisissez vos places et gérez votre panier en toute simplicité.
+{% endblock %}
+
  {% block javascripts %}
     {{ parent() }}  {# appelle le bloc js de la base twig #}
      <script src="{{ asset('js/tickets.js') }}"></script>   

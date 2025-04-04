@@ -2,6 +2,12 @@
 
 {% block title %}Détail de l'exposition{% endblock %}
 
+{% block description %}
+    Cette page permet de consulter les détails d'une exposition, y compris les artistes inscrits et leur gestion. 
+    Vous pouvez modifier les informations des artistes, les ajouter à l'exposition ou les retirer. 
+{% endblock %}
+
+
 {% block javascripts %}
     {{ parent() }} {# appelle le bloc js de la base twig #}
     <script src="{{ asset('js/exhibitShowBO.js') }}"></script>  

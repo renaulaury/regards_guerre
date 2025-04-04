@@ -8,6 +8,10 @@
     {% endif %}
 {% endblock %}
 
+{% block description %}
+{{ isAdd ? 'Ajoutez un nouvel artiste à l\'exposition' : 'Modifiez les informations de l\'artiste ' ~ artist }}
+{% endblock %}
+
 {% block body %}
 <div class="containH1">    
     {% if isAdd %}

@@ -2,6 +2,10 @@
 
 {% block title %}Réinitialisation{% endblock %}
 
+{% block description %}
+Réinitialisez votre mot de passe en toute simplicité. Entrez votre email pour recevoir un lien permettant de créer un nouveau mot de passe.
+{% endblock %}
+
 {% block body %} {# Fichier pour lancer la réinitalisation #}
 
     {% for flash_error in app.flashes('reset_password_error') %} {# Affichage des erreurs de réinitialisation #}
