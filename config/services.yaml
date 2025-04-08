@@ -11,6 +11,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    App\Service\Slugger:
+        public: false # Slugger est un service privé par défaut
+
     # Prend en compte l'extension twig pour le service
     App\Twig\CartExtension:
         arguments:
