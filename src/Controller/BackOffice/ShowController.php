@@ -157,8 +157,16 @@ final class ShowController extends AbstractController
                 /* Verifier si l image existe ou non et 
                 Enregistrer l image dans le dossier sous nom_prenom*/
                 $artistPhoto = $form->get('artistPhoto')->getData();
-                if ($artistPhoto) {
+                
 
+                if ($artistPhoto) {
+                    // Vérifiez la taille du fichier (en octets)
+                    $maxFileSize = 20000 * 1024; // 20 Mo
+                    
+                    if ($artistPhoto->getSize() > $maxFileSize) {
+                        $this->addFlash('error', 'La taille de l\'image ne doit pas dépasser 20 Mo.');
+                        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
+}
 
                     // Validation du type MIME (Multipurpose Internet Mail Extensions)
                     $allowedMimeTypes = ['image/jpeg', 'image/webp'];
