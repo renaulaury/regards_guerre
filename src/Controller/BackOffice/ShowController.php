@@ -166,21 +166,29 @@ final class ShowController extends AbstractController
                     if ($artistPhoto->getSize() > $maxFileSize) {
                         $this->addFlash('error', 'La taille de l\'image ne doit pas dépasser 20 Mo.');
                         return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
-}
+                    }
 
                     // Validation du type MIME (Multipurpose Internet Mail Extensions)
-                    $allowedMimeTypes = ['image/jpeg', 'image/webp'];
+                    $allowedMimeTypes = ['image/jpeg', 'image/png'];
                     if (!in_array($artistPhoto->getMimeType(), $allowedMimeTypes)) {
-                        $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou WebP).');
+                        $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou PNG).');
                         return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
                     }
 
                     // Enregistrer l'image avec le nom artist_prenom
-                    $fileName = $artist->getArtistName() . '_' . $artist->getArtistFirstname() . '.' . $artistPhoto->guessExtension(); // Crée le nom du fichier + extension
-                    $fileUploader->upload($artistPhoto, $uploadDirectory, $fileName); // Dl le fichier vers le répertoire
+                    $fileName = $artist->getArtistName() . '_' . $artist->getArtistFirstname();
+                    $originalFilePath = $uploadDirectory . '/' . $fileName . '.' . $artistPhoto->guessExtension();
+                    $artistPhoto->move($uploadDirectory, $fileName . '.' . $artistPhoto->guessExtension());
+
+                    // Convertir en WebP
+                    $webpFilePath = $uploadDirectory . '/' . $fileName . '.webp';
+                    $this->convertToWebP($originalFilePath, $webpFilePath);
+
+                    // Supprimer le fichier original après conversion
+                    unlink($originalFilePath);
 
                     // Mettre à jour le chemin de l'image dans l'entité
-                    $show->setArtistPhoto('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName);
+                    $show->setArtistPhoto('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName . '.webp');
                 }      
 
                 // Persister et enregistre les modifications dans la base de données
@@ -237,4 +245,50 @@ final class ShowController extends AbstractController
         return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
     }
     
+    private function convertToWebP(string $sourcePath, string $destinationPath): void
+    {
+        ini_set('memory_limit', '512M'); // Augmente temporairement la limite de mémoire
+
+        $imageInfo = getimagesize($sourcePath);
+        $mimeType = $imageInfo['mime'];
+
+        // Charger l'image en fonction de son type MIME
+        if ($mimeType === 'image/jpeg') {
+            $image = imagecreatefromjpeg($sourcePath);
+        } elseif ($mimeType === 'image/png') {
+            $image = imagecreatefrompng($sourcePath);
+        } else {
+            throw new \Exception('Format d\'image non supporté pour la conversion en WebP.');
+        }
+
+        // Redimensionner l'image si elle est trop grande (par exemple, max 1920x1080)
+        $maxWidth = 1920;
+        $maxHeight = 1080;
+        if (imagesx($image) > $maxWidth || imagesy($image) > $maxHeight) {
+            $image = $this->resizeImage($image, $maxWidth, $maxHeight);
+        }
+
+        // Convertir en WebP
+        imagewebp($image, $destinationPath);
+
+        // Libérer la mémoire
+        imagedestroy($image);
+    }
+
+    private function resizeImage($image, int $maxWidth, int $maxHeight)
+    {
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        // Calculer les nouvelles dimensions tout en conservant le ratio
+        $ratio = min($maxWidth / $width, $maxHeight / $height);
+        $newWidth = (int)($width * $ratio);
+        $newHeight = (int)($height * $ratio);
+
+        // Créer une nouvelle image redimensionnée
+        $newImage = imagecreatetruecolor($newWidth, $newHeight);
+        imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+        return $newImage;
+    }
 }
