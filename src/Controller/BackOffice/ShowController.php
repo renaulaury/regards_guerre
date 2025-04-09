@@ -6,6 +6,7 @@ use App\Entity\Show;
 use App\Entity\Artist;
 use App\Entity\Exhibition;
 use App\Service\FileUploader;
+use Intervention\Image\ImageManager;
 use App\Form\BackOffice\ShowAddInfosBO;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\BackOffice\ShowRepository;
@@ -165,7 +166,6 @@ final class ShowController extends AbstractController
                         $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou WebP).');
                         return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
                     }
-
 
                     // Enregistrer l'image avec le nom artist_prenom
                     $fileName = $artist->getArtistName() . '_' . $artist->getArtistFirstname() . '.' . $artistPhoto->guessExtension(); // Crée le nom du fichier + extension
