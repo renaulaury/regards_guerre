@@ -5,9 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Entity\Show;
 use App\Entity\Artist;
 use App\Entity\Exhibition;
-use App\Service\FileUploader;
 use App\Service\ImageService;
-use Intervention\Image\ImageManager;
 use App\Form\BackOffice\ShowAddInfosBO;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\BackOffice\ShowRepository;
@@ -121,7 +119,7 @@ final class ShowController extends AbstractController
 
     //Ajout d'un show à l'expo suite à soumission du form
     #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
-    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, ShowRepository $showRepo): Response
+    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager, ShowRepository $showRepo): Response
     {
         // Récupère l'exposition et l'artiste à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);

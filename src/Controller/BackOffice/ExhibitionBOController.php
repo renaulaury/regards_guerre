@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Entity\Show;
 use App\Entity\Exhibition;
 use App\Service\FileUploader;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
@@ -32,7 +33,7 @@ final class ExhibitionBOController extends AbstractController
     /******************* Ajout et édition d'une exposition  *************************/
     #[Route('/backOffice/exhibitAddBO', name: 'exhibitAddBO')]
     #[Route('/backOffice/exhibitEditBO/{id}', name: 'exhibitEditBO')]
-    public function addEditExhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager, FileUploader $fileUploader, Filesystem $filesystem, Security $security): Response
+    public function addEditExhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager,Filesystem $filesystem, Security $security, ImageService $imageService): Response
     {
         $isAdd = false; // Variable de contrôle
         $oldDate = null; // Variable de contrôle - date de dossier
@@ -54,36 +55,15 @@ final class ExhibitionBOController extends AbstractController
 
         // Vérifier le formulaire
         if ($form->isSubmitted() && $form->isValid()) {
-            // Création du dossier avec la date de l'exposition
-            $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $exhibition->getDateExhibit()->format('Ymd');
+            $newDate = $exhibition->getDateExhibit();
+            $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $newDate->format('Ymd');
 
-            // Vérifier si le dossier existe déjà
-            if ($filesystem->exists($uploadDirectory)) {
-                $dateExistsError = true;
-                $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
+            // Vérifier si le dossier existe déjà uniquement si la date a changé
+            if ($isAdd || ($oldDate && $oldDate != $newDate)) {
+                if ($filesystem->exists($uploadDirectory)) {
+                    $dateExistsError = true;
+                    $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
 
-
-                // Rendre le template avec le formulaire et le message d'erreur
-                return $this->render('backOffice/exhibition/exhibitShowBO.html.twig', [
-                    'form' => $form->createView(),
-                    'exhibition' => $exhibition,
-                    'isAdd' => $isAdd,
-                    'dateExistsError' => $dateExistsError,
-                ]);
-            }
-
-            $filesystem->mkdir($uploadDirectory); // Création répertoire de destination
-
-            // Handle file upload
-            $file = $form->get('mainImage')->getData();
-            if ($file) { // Si un fichier a été envoyé alors l'enregistrer
-
-                // Validation du type MIME (Multipurpose Internet Mail Extensions)
-                $allowedMimeTypes = ['image/jpeg', 'image/webp'];
-                if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
-                    $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou WebP).');
-
-                    //redirige vers la page avec toute les infos d affichage
                     return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
                         'form' => $form->createView(),
                         'exhibition' => $exhibition,
@@ -92,13 +72,42 @@ final class ExhibitionBOController extends AbstractController
                     ]);
                 }
 
+                //Création du dossier
+                $filesystem->mkdir($uploadDirectory);
 
-                // Enregistrer l'image principale avec le nom 00_main_image
-                $fileName = '00_main_image.' . $file->guessExtension(); // Crée le nom du fichier + extension
-                $fileUploader->upload($file, $uploadDirectory, $fileName); // Dl le fichier vers le répertoire
+                // Renommer le dossier si la date a été modifiée
+                if ($oldDate && $oldDate != $newDate) {
+                    $oldDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $oldDate->format('Ymd');
+                    if ($filesystem->exists($oldDirectory)) {
+                        $filesystem->rename($oldDirectory, $uploadDirectory);
+                    }
+                }
+            }
+
+            // Handle file upload
+            $file = $form->get('mainImage')->getData();
+            if ($file) { // Si un fichier a été envoyé alors l'enregistrer
+
+                // Validation du type MIME (Multipurpose Internet Mail Extensions)
+                $allowedMimeTypes = ['image/jpeg', 'image/webp', 'image/png'];
+                if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
+                    $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG, PNG ou WebP).');
+
+                    // Rendre le template avec le formulaire et le message d'erreur
+                    return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
+                        'form' => $form->createView(),
+                        'exhibition' => $exhibition,
+                        'isAdd' => $isAdd,
+                        'dateExistsError' => $dateExistsError,
+                    ]);
+                }
+
+                // Convertir l'image en WebP directement
+                $webpFileName = '00_main_image.webp';
+                $imageService->convertToWebP($file->getPathname(), $uploadDirectory . '/' . $webpFileName);
 
                 // Mettre à jour le chemin de l'image dans l'entité
-                $exhibition->setMainImage('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName);
+                $exhibition->setMainImage('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $webpFileName);
 
                 // Renommer le dossier si la date a été modifiée
                 if ($oldDate && $oldDate != $exhibition->getDateExhibit()) {
@@ -177,6 +186,11 @@ final class ExhibitionBOController extends AbstractController
             $shows = $entityManager->getRepository(Show::class)->findBy(['exhibition' => $exhibition]);
             foreach ($shows as $show) {
                 $entityManager->remove($show);
+            }
+
+            // Supprime les ticket_pricing associés à l'exposition
+            foreach ($exhibition->getTicketPricings() as $ticketPricing) {
+                $entityManager->remove($ticketPricing);
             }
 
             // Supprime les fichiers associés à l'exposition

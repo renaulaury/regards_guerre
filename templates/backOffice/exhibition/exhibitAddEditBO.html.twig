@@ -34,6 +34,11 @@
 
             {{ form_start(form) }}
 
+            {% if dateExistsError %}
+                <div class="error">
+                    Une exposition avec cette date existe déjà. Veuillez choisir une autre date.
+                </div>
+            {% endif %}
                 
                     <div class="blockEditImg">
                         <div class="label">{{ form_label(form.mainImage) }}</div>
