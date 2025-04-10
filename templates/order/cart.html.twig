@@ -23,7 +23,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             <div class="blockTicketCart">
                 {% for exhibitionId, exhibitionData in groupedCart %}
                     <div class="exhibition-group">
-                        <h2>{{ exhibitionData.exhibition }}</h2>
+                        <h2>{{ exhibitionData.exhibition.titleExhibit }}</h2>
                         
                         {% for ticketId, ticketData in exhibitionData.tickets %}
                             <div class="ticketCart">
@@ -60,7 +60,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                         </div>
 
                                         <p>
-                                            <a href="{{ path('removeProduct', {'id': ticketData.ticket.id}) }}">
+                                            <a href="{{ path('removeProduct', {'id': exhibitionId ~ '_' ~ ticketData.ticket.id}) }}">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a>
                                         </p>

@@ -5,16 +5,19 @@ namespace App\Service;
 use App\Entity\Ticket;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\Share\ExhibitionShareRepository; // Add this line
 
 class CartService 
 {
   private TicketRepository $ticketRepository; //privée car uniquement nécessaire ici
   private RequestStack $requestStack;
+  private ExhibitionShareRepository $exhibitionShareRepository; // Add this line
 
-  public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo)
+  public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo, ExhibitionShareRepository $exhibitionShareRepo) // Modify this line
   {  
     $this->ticketRepository = $ticketRepo;
     $this->requestStack = $requestStack;
+    $this->exhibitionShareRepository = $exhibitionShareRepo; // Add this line
   }
 
   private function getSession()
@@ -47,7 +50,8 @@ class CartService
 
         // Vérifier si on a bien récupéré les informations nécessaires
         if ($ticketDetails) {
-            $exhibition = $ticketDetails['exhibition'];
+            // Fetch the entire exhibition entity
+            $exhibition = $this->exhibitionShareRepository->find($exhibitionId); // Modify this line
             $price = $ticketDetails['price'];
 
             // Créer une clé unique combinant exhibitionId et ticketId
