@@ -6,6 +6,7 @@ use App\Entity\Show;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,6 +44,13 @@ class ShowAddInfosBO extends AbstractType
                 'label' => 'Photo de l\'artiste',
                 'required' => true,
                 'mapped' => false, 
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '2G', //Gestion taille, format et erreur de téléversement
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide au format JPEG, PNG ou WEBP.',
+                    ]),
+                ],
             ])
             ->add('artistPhotoAlt', TextType::class, [
                 'label' => 'Description de la photo',

@@ -2,11 +2,15 @@
 
 namespace App\Form\BackOffice;
 
-use App\Entity\Exhibition;
 use App\Entity\Ticket;
+use App\Entity\Exhibition;
 use App\Entity\TicketPricing;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -15,9 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Doctrine\ORM\EntityManagerInterface;
 
 class ExhibitAddEditBOType extends AbstractType
 {
@@ -36,7 +37,14 @@ class ExhibitAddEditBOType extends AbstractType
             ->add('mainImage', FileType::class, [
                 'label' => 'Image principale',
                 'mapped' => false, 
-            ])
+                'constraints' => [
+                        new Image([ //Gestion taille, format et erreur de téléversement
+                            'maxSize' => '2G', 
+                            'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                            'mimeTypesMessage' => 'Veuillez télécharger une image valide au format JPEG, PNG ou WEBP et/ou de moins de 2Go.',
+                        ]),
+                    ],
+                ])
             ->add('mainImageAlt', TextType::class, [
                 'label' => 'Courte description de l\'image',
                 'required' => true,

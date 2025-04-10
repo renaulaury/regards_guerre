@@ -6,6 +6,7 @@ use App\Entity\Show;
 use App\Entity\Artist;
 use App\Entity\Exhibition;
 use App\Service\FileUploader;
+use App\Service\ImageService;
 use Intervention\Image\ImageManager;
 use App\Form\BackOffice\ShowAddInfosBO;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ShowController extends AbstractController
 {
+    private ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     #[Route('/show', name: 'show')]
     public function index(): Response
     {
@@ -150,48 +158,35 @@ final class ShowController extends AbstractController
             $form->handleRequest($request); // Traite la requête HTTP pour remplir le form
 
             if ($form->isSubmitted() && $form->isValid()) {
-                
-                /*Rechercher le dossier de l expo */
+                /* Rechercher le dossier de l'expo */
                 $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $exhibition->getDateExhibit()->format('Ymd');
 
-                /* Verifier si l image existe ou non et 
-                Enregistrer l image dans le dossier sous nom_prenom*/
+                /* Vérifier si l'image existe ou non et enregistrer l'image dans le dossier sous nom_prenom */
                 $artistPhoto = $form->get('artistPhoto')->getData();
-                
 
                 if ($artistPhoto) {
-                    // Vérifiez la taille du fichier (en octets)
-                    $maxFileSize = 20000 * 1024; // 20 Mo
-                    
-                    if ($artistPhoto->getSize() > $maxFileSize) {
-                        $this->addFlash('error', 'La taille de l\'image ne doit pas dépasser 20 Mo.');
-                        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
-                    }
-
-                    // Validation du type MIME (Multipurpose Internet Mail Extensions)
-                    $allowedMimeTypes = ['image/jpeg', 'image/png'];
-                    if (!in_array($artistPhoto->getMimeType(), $allowedMimeTypes)) {
-                        $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG ou PNG).');
-                        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
-                    }
-
-                    // Enregistrer l'image avec le nom artist_prenom
+                    // Définir le nom du fichier et le chemin d'enregistrement
                     $fileName = $artist->getArtistName() . '_' . $artist->getArtistFirstname();
                     $originalFilePath = $uploadDirectory . '/' . $fileName . '.' . $artistPhoto->guessExtension();
                     $artistPhoto->move($uploadDirectory, $fileName . '.' . $artistPhoto->guessExtension());
 
                     // Convertir en WebP
                     $webpFilePath = $uploadDirectory . '/' . $fileName . '.webp';
-                    $this->convertToWebP($originalFilePath, $webpFilePath);
+                    try {
+                        $this->imageService->convertToWebP($originalFilePath, $webpFilePath);
+                    } catch (\Exception $e) {
+                        $this->addFlash('error', 'Erreur lors de la conversion de l\'image : ' . $e->getMessage());
+                        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
+                    }
 
                     // Supprimer le fichier original après conversion
                     unlink($originalFilePath);
 
                     // Mettre à jour le chemin de l'image dans l'entité
                     $show->setArtistPhoto('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName . '.webp');
-                }      
+                }
 
-                // Persister et enregistre les modifications dans la base de données
+                // Persister et enregistrer les modifications dans la base de données
                 $entityManager->persist($show);
                 $entityManager->flush();
                 $this->addFlash('success', 'Artiste ajouté avec succès.');
@@ -245,50 +240,4 @@ final class ShowController extends AbstractController
         return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
     }
     
-    private function convertToWebP(string $sourcePath, string $destinationPath): void
-    {
-        ini_set('memory_limit', '512M'); // Augmente temporairement la limite de mémoire
-
-        $imageInfo = getimagesize($sourcePath);
-        $mimeType = $imageInfo['mime'];
-
-        // Charger l'image en fonction de son type MIME
-        if ($mimeType === 'image/jpeg') {
-            $image = imagecreatefromjpeg($sourcePath);
-        } elseif ($mimeType === 'image/png') {
-            $image = imagecreatefrompng($sourcePath);
-        } else {
-            throw new \Exception('Format d\'image non supporté pour la conversion en WebP.');
-        }
-
-        // Redimensionner l'image si elle est trop grande (par exemple, max 1920x1080)
-        $maxWidth = 1920;
-        $maxHeight = 1080;
-        if (imagesx($image) > $maxWidth || imagesy($image) > $maxHeight) {
-            $image = $this->resizeImage($image, $maxWidth, $maxHeight);
-        }
-
-        // Convertir en WebP
-        imagewebp($image, $destinationPath);
-
-        // Libérer la mémoire
-        imagedestroy($image);
-    }
-
-    private function resizeImage($image, int $maxWidth, int $maxHeight)
-    {
-        $width = imagesx($image);
-        $height = imagesy($image);
-
-        // Calculer les nouvelles dimensions tout en conservant le ratio
-        $ratio = min($maxWidth / $width, $maxHeight / $height);
-        $newWidth = (int)($width * $ratio);
-        $newHeight = (int)($height * $ratio);
-
-        // Créer une nouvelle image redimensionnée
-        $newImage = imagecreatetruecolor($newWidth, $newHeight);
-        imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
-        return $newImage;
-    }
 }
