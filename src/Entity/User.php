@@ -67,9 +67,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $userFirstname = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $slug = null;
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -290,18 +287,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $exhibition->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(?string $slug): static
-    {
-        $this->slug = $slug;
 
         return $this;
     }

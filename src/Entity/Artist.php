@@ -22,9 +22,6 @@ class Artist
     #[ORM\Column(length: 50)]
     private ?string $artistFirstname = null;
 
-    #[ORM\Column(length: 255, unique: true, nullable: true)]
-    private ?string $slug = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $artistBirthDate = null;
 
@@ -73,18 +70,6 @@ class Artist
     public function setArtistFirstname(string $artistFirstname): static
     {
         $this->artistFirstname = $artistFirstname;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(?string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }

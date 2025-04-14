@@ -11,9 +11,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Service\Slugger:
-        public: false # Slugger est un service privé par défaut
-
     # Prend en compte l'extension twig pour le service
     App\Twig\CartExtension:
         arguments:
@@ -42,6 +39,3 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Command\GenerateExhibitionSlugsCommand:
-        arguments: ['@doctrine.orm.entity_manager', '@App\Service\SluggerInterface']
-        tags: ['console.command']
