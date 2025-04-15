@@ -139,13 +139,13 @@ class CartController extends AbstractController
             $orderDetail->setOrder($order);
             
             // Charger l'objet Exhibition à partir de l'ID
-            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); /////////////////
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); 
             if ($exhibition) {
                 $orderDetail->setExhibition($exhibition);
             }
 
             // Charger l'objet Ticket à partir de l'ID
-            $ticket = $ticketRepo->find($item['ticketId']); /////////////////
+            $ticket = $ticketRepo->find($item['ticketId']); 
             if ($ticket) {
                 $orderDetail->setTicket($ticket);
             } 

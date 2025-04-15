@@ -19,6 +19,9 @@ class Exhibition
     #[ORM\Column(length: 255)]
     private ?string $titleExhibit = null;
 
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null; // Propriété slug
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mainImage = null;
 
@@ -128,6 +131,17 @@ class Exhibition
     {
         $this->titleExhibit = $titleExhibit;
 
+        return $this;
+    }
+
+    public function getSlug(): ?string 
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static 
+    {
+        $this->slug = $slug;
         return $this;
     }
 

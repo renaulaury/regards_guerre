@@ -23,7 +23,7 @@ Gérez votre compte Regards de Guerre : mettez à jour vos informations personne
                 <div>
                     <p>
                         Nom - Prénom : {{ app.user.userName }} {{ app.user.userFirstname }}
-                        <a href="{{ path('userEditIdentity', {id: app.user.id}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
+                        <a href="{{ path('userEditIdentity', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
                     </p>
                 </div>
             {% endif %}
@@ -31,21 +31,21 @@ Gérez votre compte Regards de Guerre : mettez à jour vos informations personne
 
         <p>
             Pseudo : {{ app.user.userNickname }}
-            <a href="{{ path('userEditNickname', {id: app.user.id}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
+            <a href="{{ path('userEditNickname', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
         </p>
 
         <p>
             Email : {{ app.user.userEmail }}
-            <a href="{{ path('userEditEmail', {id: app.user.id}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
+            <a href="{{ path('userEditEmail', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
         </p>
 
         <p>
             Mot de passe :
-            <a href="{{ path('userEditPassword', {id: app.user.id}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
+            <a href="{{ path('userEditPassword', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
         </p>
     </div>
 
-    <p><a href="{{ path('userDeleteProfile', {id: app.user.id}) }}">Supprimer mon profil</a></p>
+    <p><a href="{{ path('userDeleteProfile', {slug: app.user.slug}) }}">Supprimer mon profil</a></p>
 
 </section>
 

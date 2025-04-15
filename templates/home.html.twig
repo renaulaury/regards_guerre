@@ -17,7 +17,7 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
     <!--
     {% for exhibition in exhibitions %}    
         <div class="blockCarrousel">
-            <a href="{{ path('exhibition', {'id':exhibition.id}) }}">
+            <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
                 <div class="imgContainHome">
                     <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
                     {# <div class="filterImg"></div> #}
@@ -96,7 +96,7 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
                             <p class="hookAgenda">{{ agendas.hookExhibit }}</p>
                         </div>
                         
-                        <a class="parkinsanBrown" href="{{ path('exhibition', {'id': agendas.id}) }}"> > Fiche détaillée</a>
+                        <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': agendas.slug}) }}"> > Fiche détaillée</a>
                     </div>
 
                     {% if not loop.last %}

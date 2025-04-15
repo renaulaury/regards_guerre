@@ -4,7 +4,6 @@ namespace App\Controller\BackOffice;
 
 use App\Entity\Show;
 use App\Entity\Exhibition;
-use App\Service\FileUploader;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -14,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Cocur\Slugify\Slugify;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -32,9 +33,16 @@ final class ExhibitionBOController extends AbstractController
 
     /******************* Ajout et édition d'une exposition  *************************/
     #[Route('/backOffice/exhibitAddBO', name: 'exhibitAddBO')]
-    #[Route('/backOffice/exhibitEditBO/{id}', name: 'exhibitEditBO')]
-    public function addEditExhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager,Filesystem $filesystem, Security $security, ImageService $imageService): Response
+    #[Route('/backOffice/exhibitEditBO/{slug}', name: 'exhibitEditBO')]
+    public function addEditExhibitBO(
+        Request $request, 
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Exhibition $exhibition = null,
+        EntityManagerInterface $entityManager,
+        Filesystem $filesystem, 
+        Security $security, 
+        ImageService $imageService): Response
     {
+
         $isAdd = false; // Variable de contrôle
         $oldDate = null; // Variable de contrôle - date de dossier
         $dateExistsError = false; // Variable pour indiquer une erreur de date existante
@@ -55,6 +63,11 @@ final class ExhibitionBOController extends AbstractController
 
         // Vérifier le formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Générer le slug
+            $slugify = new Slugify();
+            $exhibition->setSlug($slugify->slugify($exhibition));
+
             $newDate = $exhibition->getDateExhibit();
             $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $newDate->format('Ymd');
 

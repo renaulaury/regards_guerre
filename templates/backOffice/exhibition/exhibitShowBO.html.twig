@@ -33,14 +33,14 @@
                         {{ show.artist.artistFirstname }} {{ show.artist.artistName }}
                         <i class="iconsEdit fa-solid fa-caret-down toggle-form" data-artist-id="{{ show.artist.id }}"></i>
 
-                        <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'idArtist': show.artist.id, 'idExhibit': exhibition.id}) }}">
+                        <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'slugArtist': show.artist.slug, 'slugExhibit': exhibition.slug}) }}">
                             <i class="iconsEdit fa-solid fa-trash-can"></i>
                         </a>
                     </p>
 
                     {###################################### Modification de l'artiste du show ######################################}
                     <div class="formShowArtist" id="form-{{ show.artist.id }}" style="display: none;">
-                        {{ form_start(forms[show.artist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': show.artist.id}) }) }}
+                        {{ form_start(forms[show.artist.id], {'action': path('addArtistToExhibitBO', {'slugExhibit': exhibition.slug, 'slugArtist': show.artist.slug}) }) }}
 
                         <div class="blockRoomImgExpo">
                             <div>
@@ -93,7 +93,7 @@
                         {###################################### Ajout de l'artiste au show ######################################}
                         <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
 
-                            {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'idExhibit': exhibition.id, 'idArtist': unPlannedArtist.id}) }) }}
+                            {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'slugExhibit': exhibition.slug, 'slugArtist': unPlannedArtist.slug}) }) }}
 
                             <div class="blockRoomImgExpo">
                                 <div>
