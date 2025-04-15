@@ -3,11 +3,13 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\Artist;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface; 
 use App\Form\BackOffice\ArtistAddEditBOType;
 use Symfony\Component\HttpFoundation\Request; 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\BackOffice\ArtistBORepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -26,8 +28,11 @@ final class ArtistBOController extends AbstractController
 
     /******************** Ajouter/modifier un artiste *********************/
     #[Route('/backOffice/artistAddBO', name: 'artistAddBO')]
-    #[Route('/backOffice/artistEditBO/{id}', name: 'artistEditBO')]
-    public function artistAddEditBO(Request $request, ?Artist $artist, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/artistEditBO/{slug}', name: 'artistEditBO')]
+    public function artistAddEditBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,
+        Request $request,         
+        EntityManagerInterface $entityManager): Response
     {
         $isAdd = false; // Variable de contrôle
 
@@ -45,6 +50,10 @@ final class ArtistBOController extends AbstractController
 
         // Vérif du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            //Générer le slug
+            $slugify = new Slugify();
+            $artist->setSlug($slugify->slugify($artist));
+            
             // Persister les modifications dans la base de données
             $entityManager->persist($artist);
             $entityManager->flush();
@@ -63,8 +72,8 @@ final class ArtistBOController extends AbstractController
 
     /******************** Suppression un artiste *********************/
     //Demande de suppression
-    #[Route('/backOffice/artistDeleteBO/{id}', name: 'artistDeleteBO')]
-    public function artistDeleteBO(Artist $artist): Response
+    #[Route('/backOffice/artistDeleteBO/{slug}', name: 'artistDeleteBO')]
+    public function artistDeleteBO(#[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,): Response
     {       
         return $this->render('backOffice/artist/artistDeleteBO.html.twig', [            
             'artist' => $artist,
@@ -72,8 +81,10 @@ final class ArtistBOController extends AbstractController
     }
 
     //Confirmation de suppression
-    #[Route('/backOffice/artistConfirmDeleteBO/{id}', name: 'artistConfirmDeleteBO')]
-    public function artistConfirmDeleteBO(Artist $artist, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/artistConfirmDeleteBO/{slug}', name: 'artistConfirmDeleteBO')]
+    public function artistConfirmDeleteBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,
+        EntityManagerInterface $entityManager): Response
     {
         // Vérifier si l'artiste est lié à une exposition
         if (!$artist->getShows()->isEmpty()) {

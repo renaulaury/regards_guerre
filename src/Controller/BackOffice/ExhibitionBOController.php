@@ -174,8 +174,10 @@ final class ExhibitionBOController extends AbstractController
     }
 
     /************************** Suppression d'une expo ******************************/
-    #[Route('/backOffice/{idExhibit}/deleteExhibitBO', name: 'deleteExhibitBO')]
-    public function deleteExhibitBO(int $idExhibit, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/{slugExhibit}/deleteExhibitBO', name: 'deleteExhibitBO')]
+    public function deleteExhibitBO(
+        int $idExhibit, 
+        EntityManagerInterface $entityManager): Response
     {
     // Récupère l'exposition à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);        
@@ -188,7 +190,10 @@ final class ExhibitionBOController extends AbstractController
 
     //Confirmation de suppression de l'expo
     #[Route('/backOffice/{idExhibit}/deleteConfirmExhibitBO', name: 'deleteConfirmExhibitBO')]
-    public function deleteConfirmExhibitBO(int $idExhibit, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
+    public function deleteConfirmExhibitBO(
+        int $idExhibit, 
+        EntityManagerInterface $entityManager, 
+        Filesystem $filesystem): Response
     {
         // Récupère l'exposition à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);

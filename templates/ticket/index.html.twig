@@ -62,13 +62,13 @@ Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Cons
                     
             
                         <div>
-                            <a href="{{ path('removeTicketFromCart', {'exhibitionSlug': exhibition.slug, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                            <a href="{{ path('removeTicketFromCart', {'exhibitionSlug': exhibition.slug, 'ticketSlug' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                                 <i class="fa-solid fa-minus"></i>
                             </a>
 
                             <span>1</span>
 
-                            <a href="{{ path('addTicketToCart', {'exhibitionSlug': exhibition.slug, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                            <a href="{{ path('addTicketToCart', {'exhibitionSlug': exhibition.slug, 'ticketSlug' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>

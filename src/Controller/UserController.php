@@ -31,7 +31,7 @@ final class UserController extends AbstractController
     }
 
 /*********** Affiche le profil de l'utilisateur ************************/
-    #[Route('/profile/{id}', name: 'profile')]
+    #[Route('/profile/{slug}', name: 'profile')]
     public function profile(): Response
     {
         return $this->render('user/profile.html.twig', [
@@ -40,7 +40,7 @@ final class UserController extends AbstractController
     }
 
 /*********** Permet l'édition du nom et prénom de l'utilisateur ************************/
-    #[Route('/profile/userEditIdentity/{id}', name: 'userEditIdentity')]
+    #[Route('/profile/userEditIdentity/{slug}', name: 'userEditIdentity')]
     public function userEditName(int $id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($id);
@@ -52,7 +52,7 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('profile', ['id' => $id]);
+            return $this->redirectToRoute('profile', ['slug' => $id]);
         }
 
         return $this->render('user/userEditIdentity.html.twig', [
@@ -61,7 +61,7 @@ final class UserController extends AbstractController
     }
 
     /*********** Permet l'édition de l'email de l'utilisateur ************************/
-    #[Route('/user/userEditEmail/{id}', name: 'userEditEmail')]
+    #[Route('/user/userEditEmail/{slug}', name: 'userEditEmail')]
     public function userEditEmail(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         // Création du form
@@ -86,7 +86,7 @@ final class UserController extends AbstractController
     }
 
     /*********** Permet l'édition du pseudo de l'utilisateur ************************/
-    #[Route('/user/userEditNickname/{id}', name: 'userEditNickname')]
+    #[Route('/user/userEditNickname/{slug}', name: 'userEditNickname')]
     public function userEditNickname(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         // Création du form
@@ -111,7 +111,7 @@ final class UserController extends AbstractController
     }
 
 /*********** Permet l'édition du mdp l'utilisateur ************************/
-    #[Route('/userEditPassword/{id}', name: 'userEditPassword')]
+    #[Route('/userEditPassword/{slug}', name: 'userEditPassword')]
     public function userEditPassword(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         // Vérification que l'utilisateur connecté est celui qu'il tente de modifier
@@ -135,7 +135,7 @@ final class UserController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
-                return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+                return $this->redirectToRoute('profile', ['slug' => $user->getId()]);
             } else {
                 $this->addFlash('error', 'Mot de passe actuel incorrect.');
             }
@@ -149,7 +149,7 @@ final class UserController extends AbstractController
 
 /*********** Suppression profil de l'utilisateur ************************/
     //Envoi vers la confirm
-    #[Route('/userDeleteProfile/{id}', name: 'userDeleteProfile')]
+    #[Route('/userDeleteProfile/{slug}', name: 'userDeleteProfile')]
     public function userDeleteProfile(User $user): Response
     {
         return $this->render('user/userDeleteProfile.html.twig', [
@@ -159,7 +159,7 @@ final class UserController extends AbstractController
   
 
     //Confirm définitive
-    #[Route('/userDeleteConfirmProfile/{id}', name: 'userDeleteConfirmProfile')]
+    #[Route('/userDeleteConfirmProfile/{slug}', name: 'userDeleteConfirmProfile')]
     public function userDeleteConfirmProfile(
         User $user,
         EntityManagerInterface $entityManager,

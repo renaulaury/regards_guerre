@@ -29,10 +29,10 @@
                         <p>{{ member.userEmail }}</p>
 
                         <p>
-                            <a class="iconsEdit" href="{{ path('userEditBO', {'id': member.id}) }}">
+                            <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
                                 <i class="fa-solid fa-pencil"></i>
                             </a>
-                            <a class="iconsEdit" href="{{ path('userDeleteBO', {'id': member.id}) }}">
+                            <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </p>
@@ -61,13 +61,13 @@
                     {{ user.userEmail }}
 
                     <p>
-                        <a class="iconsEdit" href="{{ path('userOrderBO', {'id': user.id}) }}">
+                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': user.slug}) }}">
                             <i class="fa-regular fa-folder-open"></i>
                         </a>
-                        <a class="iconsEdit" href="{{ path('userEditBO', {'id': user.id}) }}">
+                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': user.slug}) }}">
                             <i class="fa-solid fa-pencil"></i>
                         </a>
-                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'id': user.id}) }}">
+                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': user.slug}) }}">
                             <i class="fa-solid fa-trash-can"></i>
                         </a>
                     </p>
@@ -83,11 +83,11 @@
                         {{ user.userEmail }}
 
                         <p>
-                            <a class="iconsEdit" href="{{ path('userOrderBO', {'id': user.id}) }}"><i class="fa-regular fa-folder-open"></i></a>
-                            <a class="iconsEdit" href="{{ path('userEditBO', {'id': user.id}) }}">
+                            <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': user.slug}) }}"><i class="fa-regular fa-folder-open"></i></a>
+                            <a class="iconsEdit" href="{{ path('userEditBO', {'slug': user.slug}) }}">
                                 <i class="fa-solid fa-pencil"></i>
                             </a>
-                            <a class="iconsEdit" href="{{ path('userDeleteBO', {'id': user.id}) }}">
+                            <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': user.slug}) }}">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </p>

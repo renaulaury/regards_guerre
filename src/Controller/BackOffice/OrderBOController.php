@@ -8,6 +8,7 @@ use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderBOController extends AbstractController
@@ -22,9 +23,10 @@ final class OrderBOController extends AbstractController
    
 /***************** Historique d'un user ***********************/
 /*********** Affiche l'historique de commande de l'utilisateur ************************/
-#[Route('/backOffice/user/userOrderBO/{id}', name: 'userOrderBO')]
-        
-public function userOrderBO(User $user, OrderHistoryService $orderHistoryService): Response
+#[Route('/backOffice/user/userOrderBO/{slug}', name: 'userOrderBO')]        
+public function userOrderBO(
+    #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+    OrderHistoryService $orderHistoryService): Response
 {
 
     $groupedOrders = $orderHistoryService->getUserOrderHistory($user);
@@ -38,7 +40,9 @@ public function userOrderBO(User $user, OrderHistoryService $orderHistoryService
 
 /***************** Envoi de la réservation en pdf ***********************/
     #[Route('/backOffice/user/userOrderExportBO/{orderId}', name: 'userOrderExportBO')]
-    public function userOrderExportBO(int $orderId, OrderExportService $orderExportService): Response
+    public function userOrderExportBO(
+        int $orderId, 
+        OrderExportService $orderExportService): Response
     {
         return $orderExportService->exportOrder($orderId);
     }
