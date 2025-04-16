@@ -137,6 +137,7 @@
 }
 
 .iconNetworks {
+    color: var(--iconFooter);
     font-size: 2rem;
 }
 

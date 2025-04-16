@@ -41,18 +41,24 @@
     gap: 15px;
 }
 
+.blockQty{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.qtyProduct {
+    padding: 0% 18px;
+}
+
 .miniText {
     font-size: 0.8rem;
 }
 
 
 /**************************** Cart *****************************/
-/* .summaryCart {
-    display:grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: auto;
-} */
-
 .blockTicketCart {
     padding-bottom: 5%;
 }
@@ -84,6 +90,7 @@
 .amountCart span {
     padding: 0 5%;
 }
+
 .blockIdentityOrder {
     padding: 5% 0;
 }

@@ -31,7 +31,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                     <p>Ticket {{ ticketData.ticket }}</p>
 
                                     <div class="blockQtyPrice">
-                                        <p>
+                                        <div class="blockQty">
                                             <a href="{{ path('removeTicketFromCart', {
                                                 'exhibitionId': exhibitionId, 
                                                 'ticketId': ticketId, 
@@ -40,7 +40,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                                 <i class="fa-solid fa-minus"></i>
                                             </a>
 
-                                            {{ ticketData.quantity }}
+                                            <span class="qtyProduct">{{ ticketData.quantity }}</span>
 
                                             <a href="{{ path('addTicketToCart', {
                                                 'exhibitionId': exhibitionId, 
@@ -49,9 +49,9 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                             }) }}">
                                                 <i class="fa-solid fa-plus"></i>
                                             </a>
-                                        </p>
+                                        </div>
 
-                                        <div>
+                                        <div class="blockQty">
                                             {% if (ticketData.price * ticketData.quantity) == 0 %}
                                                 <p>Gratuit</p>
                                             {% else %}
