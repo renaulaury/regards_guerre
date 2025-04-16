@@ -4,7 +4,6 @@ namespace App\Controller\BackOffice;
 
 use App\Entity\Show;
 use App\Entity\Exhibition;
-use App\Service\FileUploader;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -14,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Cocur\Slugify\Slugify;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -32,10 +33,17 @@ final class ExhibitionBOController extends AbstractController
 
     /******************* Ajout et édition d'une exposition  *************************/
     #[Route('/backOffice/exhibitAddBO', name: 'exhibitAddBO')]
-    #[Route('/backOffice/exhibitEditBO/{id}', name: 'exhibitEditBO')]
-    public function addEditExhibitBO(Request $request, ?Exhibition $exhibition, EntityManagerInterface $entityManager,Filesystem $filesystem, Security $security, ImageService $imageService): Response
+    #[Route('/backOffice/exhibitEditBO/{slug}', name: 'exhibitEditBO')]
+    public function addEditExhibitBO(
+        Request $request, 
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Exhibition $exhibition = null,
+        EntityManagerInterface $entityManager,
+        Filesystem $filesystem, 
+        Security $security, 
+        ImageService $imageService): Response
     {
-        $isAdd = false; // Variable de contrôle
+
+        $isAdd = false; // Variable de contrôle - ajout/edit
         $oldDate = null; // Variable de contrôle - date de dossier
         $dateExistsError = false; // Variable pour indiquer une erreur de date existante
 
@@ -55,6 +63,13 @@ final class ExhibitionBOController extends AbstractController
 
         // Vérifier le formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Générer le slug
+            $slug = $exhibition->createSlugDateTitleExhibit();
+
+            // Définir le slug sur l'entité
+            $exhibition->setSlug($slug);
+
             $newDate = $exhibition->getDateExhibit();
             $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/images/events/' . $newDate->format('Ymd');
 
@@ -148,7 +163,7 @@ final class ExhibitionBOController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la liste des expositions
-            return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
+            return $this->redirectToRoute('exhibitShowBO', ['slug' => $exhibition->getSlug()]);
         }
 
         // Rendre le template avec le formulaire
@@ -161,12 +176,10 @@ final class ExhibitionBOController extends AbstractController
     }
 
     /************************** Suppression d'une expo ******************************/
-    #[Route('/backOffice/{idExhibit}/deleteExhibitBO', name: 'deleteExhibitBO')]
-    public function deleteExhibitBO(int $idExhibit, EntityManagerInterface $entityManager): Response
-    {
-    // Récupère l'exposition à partir de l'ID
-        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);        
-
+    #[Route('/backOffice/{slugExhibit}/deleteExhibitBO', name: 'deleteExhibitBO')]
+    public function deleteExhibitBO(
+        #[MapEntity(mapping: ['slugExhibit' => 'slug'])] ?Exhibition $exhibition = null): Response
+    {          
         // Render the confirmation template
         return $this->render('backOffice/exhibition/exhibitConfirmDeleteBO.html.twig', [
             'exhibition' => $exhibition,            
@@ -174,11 +187,12 @@ final class ExhibitionBOController extends AbstractController
     }
 
     //Confirmation de suppression de l'expo
-    #[Route('/backOffice/{idExhibit}/deleteConfirmExhibitBO', name: 'deleteConfirmExhibitBO')]
-    public function deleteConfirmExhibitBO(int $idExhibit, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
+    #[Route('/backOffice/{slugExhibit}/deleteConfirmExhibitBO', name: 'deleteConfirmExhibitBO')]
+    public function deleteConfirmExhibitBO(
+        #[MapEntity(mapping: ['slugExhibit' => 'slug'])] ?Exhibition $exhibition = null,
+        EntityManagerInterface $entityManager, 
+        Filesystem $filesystem): Response
     {
-        // Récupère l'exposition à partir de l'ID
-        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
 
         // Vérifie si l'exposition existe
         if ($exhibition) {

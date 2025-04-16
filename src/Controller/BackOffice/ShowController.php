@@ -12,6 +12,7 @@ use App\Repository\BackOffice\ShowRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -36,8 +37,12 @@ final class ShowController extends AbstractController
     /************************* Afficher détail de l'exposition *******************/
 
     //Détail de l'expo
-    #[Route('/backOffice/exhibitShowBO/{id}', name: 'exhibitShowBO')]
-    public function exhibitShowBO(Exhibition $exhibition, ExhibitionShareRepository $exhibitionShareRepo, EntityManagerInterface $entityManager, ShowRepository $showRepo): Response
+    #[Route('/backOffice/exhibitShowBO/{slug}', name: 'exhibitShowBO')]
+    public function exhibitShowBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Exhibition $exhibition = null,
+        ExhibitionShareRepository $exhibitionShareRepo, 
+        EntityManagerInterface $entityManager, 
+        ShowRepository $showRepo): Response
     {
         //Récup tous les artistes associés à l'expo et ceux qui ne le sont pas
         $artists = $exhibitionShareRepo->findAll();
@@ -118,17 +123,25 @@ final class ShowController extends AbstractController
     }
 
     //Ajout d'un show à l'expo suite à soumission du form
-    #[Route('/backOffice/{idExhibit}/addArtistToExhibitBO/{idArtist}', name: 'addArtistToExhibitBO')]
-    public function addArtistToExhibitBO(int $idExhibit, int $idArtist, Request $request, EntityManagerInterface $entityManager, ShowRepository $showRepo): Response
+    #[Route('/backOffice/{slugExhibit}/addArtistToExhibitBO/{slugArtist}', name: 'addArtistToExhibitBO')]
+    public function addArtistToExhibitBO(
+        // int $idExhibit, 
+        #[MapEntity(mapping: ['slugExhibit' => 'slug'])] ?Exhibition $exhibition = null,
+        // int $idArtist, 
+        #[MapEntity(mapping: ['slugArtist' => 'slug'])] ?Artist $artist = null,
+        Request $request, 
+        // ExhibitionRepository $exhibitionRepo,
+        EntityManagerInterface $entityManager, 
+        ShowRepository $showRepo): Response
     {
         // Récupère l'exposition et l'artiste à partir de l'ID
-        $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
-        $artist = $entityManager->getRepository(Artist::class)->find($idArtist);
+        // $exhibition = $exhibitionRepo->find($idExhibit);
+        // $artist = $artistRepo->find($idArtist);
         
         // Vérifie si l'exposition et l'artiste existent.
         if ($exhibition && $artist) {
             
-            // Vrifier si le show existe pour cette artiste et cette expo 
+            // Vérifier si le show existe pour cette artiste et cette expo 
             $show = $entityManager->getRepository(Show::class)->findOneBy([
                 'exhibition' => $exhibition,
                 'artist' => $artist,
@@ -174,7 +187,7 @@ final class ShowController extends AbstractController
                         $this->imageService->convertToWebP($originalFilePath, $webpFilePath);
                     } catch (\Exception $e) {
                         $this->addFlash('error', 'Erreur lors de la conversion de l\'image : ' . $e->getMessage());
-                        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
+                        return $this->redirectToRoute('exhibitShowBO', ['slug' => $exhibition->getId()]);
                     }
 
                     // Supprimer le fichier original après conversion
@@ -191,14 +204,19 @@ final class ShowController extends AbstractController
             }
 
         }
-        return $this->redirectToRoute('exhibitShowBO', ['id' => $exhibition->getId()]);
+        return $this->redirectToRoute('exhibitShowBO', ['slug' => $exhibition->getId()]);
     }
     
 
     /***************** Suppression d'un artiste à l'expo ***********************/
     //Confirmation suppression artiste à l'expo
-    #[Route('/backOffice/{idExhibit}/confirmRemoveArtistFromExhibitBO/{idArtist}', name: 'confirmRemoveArtistFromExhibitBO')]
-    public function confirmRemoveArtistFromExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/{slugExhibit}/confirmRemoveArtistFromExhibitBO/{slugArtist}', name: 'confirmRemoveArtistFromExhibitBO')]
+    public function confirmRemoveArtistFromExhibitBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Exhibition $exhibition = null,
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,
+        int $idExhibit, 
+        int $idArtist, 
+        EntityManagerInterface $entityManager): Response
     {
         // Récupère l'exposition et l'artiste à partir de l'ID
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
@@ -211,8 +229,13 @@ final class ShowController extends AbstractController
     }
 
     //Suppression de l'artiste
-    #[Route('/backOffice/{idExhibit}/removeArtistFromExhibitBO/{idArtist}', name: 'removeArtistFromExhibitBO')]
-    public function removeArtistFromExhibitBO(int $idExhibit, int $idArtist, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/{slugExhibit}/removeArtistFromExhibitBO/{slugArtist}', name: 'removeArtistFromExhibitBO')]
+    public function removeArtistFromExhibitBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Exhibition $exhibition = null,
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,
+        int $idExhibit, 
+        int $idArtist, 
+        EntityManagerInterface $entityManager): Response
     {
         //Récup expo et l'artite via leur id
         $exhibition = $entityManager->getRepository(Exhibition::class)->find($idExhibit);
@@ -233,9 +256,9 @@ final class ShowController extends AbstractController
                 $this->addFlash('success', 'Artiste supprimé avec succès.');
             } 
 
-            return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
+            return $this->redirectToRoute('exhibitShowBO', ['slug' => $idExhibit]);
         }
-        return $this->redirectToRoute('exhibitShowBO', ['id' => $idExhibit]);
+        return $this->redirectToRoute('exhibitShowBO', ['slug' => $idExhibit]);
     }
     
 }

@@ -28,10 +28,10 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                         {% for ticketId, ticketData in exhibitionData.tickets %}
                             <div class="ticketCart">
                                 <div class="lineTicketCart">
-                                    <p>{{ ticketData.ticket }}</p>
+                                    <p>Ticket {{ ticketData.ticket }}</p>
 
                                     <div class="blockQtyPrice">
-                                        <p>
+                                        <div class="blockQty">
                                             <a href="{{ path('removeTicketFromCart', {
                                                 'exhibitionId': exhibitionId, 
                                                 'ticketId': ticketId, 
@@ -40,7 +40,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                                 <i class="fa-solid fa-minus"></i>
                                             </a>
 
-                                            {{ ticketData.quantity }}
+                                            <span class="qtyProduct">{{ ticketData.quantity }}</span>
 
                                             <a href="{{ path('addTicketToCart', {
                                                 'exhibitionId': exhibitionId, 
@@ -49,9 +49,9 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                             }) }}">
                                                 <i class="fa-solid fa-plus"></i>
                                             </a>
-                                        </p>
+                                        </div>
 
-                                        <div>
+                                        <div class="blockQty">
                                             {% if (ticketData.price * ticketData.quantity) == 0 %}
                                                 <p>Gratuit</p>
                                             {% else %}
@@ -79,13 +79,13 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             {% else %}
                 {% if app.user %}
                     {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
-                        <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
+                        <form action="{{ path('orderValidated', {slug: app.user.slug}) }}" method="post">
                             <button type="submit" name="submitOrderValidation">Commander</button>
                         </form>
                     {% else %}
                         <p class="blockIdentityOrder">
                             Veuillez renseigner votre nom et prénom pour commander. 
-                            <a href="{{ path('profile', {id: app.user.id}) }}"><strong>Modifier mon profil</strong></a>
+                            <a href="{{ path('profile', {slug: app.user.slug}) }}"><strong>Modifier mon profil</strong></a>
                         </p>
                     {% endif %}
                 {% else %}

@@ -30,15 +30,15 @@
                     <p>
                         {{ exhibition.dateExhibitFr }} - 
 
-                        <a href="{{ path('exhibitEditBO', {'id': exhibition.id}) }}">
+                        <a href="{{ path('exhibitEditBO', {'slug': exhibition.slug}) }}">
                             <i class="iconsEdit fa-solid fa-pencil"></i>
                         </a>
 
-                        <a href="{{ path('exhibitShowBO', {'id': exhibition.id}) }}">
-                            <i class=" iconsEdit fa-solid fa-pen-to-square"></i>
+                        <a href="{{ path('exhibitShowBO', {'slug': exhibition.slug}) }}">
+                            <i class="iconsEdit fa-solid fa-pen-to-square"></i>
                         </a>
                         
-                        <a href="{{ path('deleteExhibitBO', {'idExhibit': exhibition.id}) }}">
+                        <a href="{{ path('deleteExhibitBO', {'slugExhibit': exhibition.slug}) }}">
                             <i class="iconsEdit fa-solid fa-trash-can"></i>
                         </a>
                     </p>

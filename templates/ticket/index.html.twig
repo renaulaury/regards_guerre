@@ -14,7 +14,7 @@ Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Cons
 
 
 {% block body %}
-<!-- UserController -->
+<!-- TicketController CartController-->
 
 <div class="containH1">    
     <h1>Tickets</h1>
@@ -52,7 +52,7 @@ Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Cons
                     <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
                     <div class="blockPrice">
-                        <div>
+                        <div class="blockQty">
                             {% if priceByExhibits.standardPrice == 0 %} 
                                 <p>Gratuit</p>
                             {% else %}
@@ -61,12 +61,12 @@ Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Cons
                         </div>
                     
             
-                        <div>
-                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                        <div class="blockQty">
+                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.slug, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                                 <i class="fa-solid fa-minus"></i>
                             </a>
 
-                            <span>1</span>
+                            <span class="qtyProduct">1</span>
 
                             <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                                 <i class="fa-solid fa-plus"></i>

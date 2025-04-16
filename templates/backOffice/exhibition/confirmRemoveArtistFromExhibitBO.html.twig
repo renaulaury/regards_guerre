@@ -21,7 +21,7 @@
             </p>
 
             <div class="button btnSubmit">
-                <a href="{{ path('removeArtistFromExhibitBO', {'idArtist': artist.id, 'idExhibit': exhibition.id}) }}">
+                <a href="{{ path('removeArtistFromExhibitBO', {'slugArtist': artist.slug, 'slugExhibit': exhibition.slug}) }}">
                     Supprimer
                 </a>
             </div>

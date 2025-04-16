@@ -29,7 +29,7 @@ final class OrderController extends AbstractController
     }
     
 /*********** Affiche l'historique de commande de l'utilisateur ************************/
-    #[Route('/orderHistory/{id}', name: 'orderHistory')]
+    #[Route('/orderHistory/{slug}', name: 'orderHistory')]
     
     public function orderHistory(User $user, OrderHistoryService $orderHistoryService): Response
     {

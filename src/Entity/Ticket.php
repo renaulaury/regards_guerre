@@ -17,6 +17,9 @@ class Ticket
     #[ORM\Column(length: 50)]
     private ?string $titleTicket = null;
 
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null; // Propriété slug
+
     #[ORM\Column(length: 255)]
     private ?string $imageTicket = null;
 
@@ -64,6 +67,17 @@ class Ticket
     {
         $this->titleTicket = $titleTicket;
 
+        return $this;
+    }
+
+    public function getSlug(): ?string 
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static 
+    {
+        $this->slug = $slug;
         return $this;
     }
 

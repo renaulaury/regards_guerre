@@ -24,7 +24,7 @@
                     <div class="profile">
                         {% if app.user %}
                             <p>Bienvenue 
-                                <a href="{{ path('index', {'id': app.user.id} ) }}">
+                                <a href="{{ path('index', {'slug': app.user.slug} ) }}">
                                     {% if app.user.userFirstname %}
                                         {{ app.user.userFirstname }}
                                     {% elseif app.user.userNickname %}

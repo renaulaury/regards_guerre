@@ -13,7 +13,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class TicketController extends AbstractController
 {
    #[Route('/ticket', name: 'ticket')]
-    public function index(CartService $cartService, TicketRepository $ticketRepo, ExhibitionShareRepository $exhibitShareRepo): Response
+    public function index(
+        CartService $cartService, 
+        TicketRepository $ticketRepo, 
+        ExhibitionShareRepository $exhibitShareRepo): Response
     {
         // Récupérer le panier depuis la session
         $cart = $cartService->getCart();   

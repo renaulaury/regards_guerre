@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\BackOffice\UserBORepository;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class UserBOController extends AbstractController
@@ -18,7 +19,8 @@ final class UserBOController extends AbstractController
 
     /******************** Affiche les membres ***********************/
     #[Route('/backOffice/userListBO', name: 'userListBO')]
-    public function rolesBackOffice(UserBORepository $userBORepo): Response
+    public function rolesBackOffice(
+        UserBORepository $userBORepo): Response
     {
         $user = $this->getUser(); //User co
         $members = $userBORepo->findMembersByEmail(); //Membres de l'assoc
@@ -32,8 +34,11 @@ final class UserBOController extends AbstractController
     }
 
 /************** Modifier le profil d'un user  *********************/
-    #[Route('/backOffice/user/userEditBO/{id}', name: 'userEditBO')]
-    public function userEditBO(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/user/userEditBO/{slug}', name: 'userEditBO')]
+    public function userEditBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, 
+        Request $request, 
+        EntityManagerInterface $entityManager): Response
     {
         // Vérification des rôles de l'utilisateur connecté
         $root = $this->isGranted('ROLE_ROOT');
@@ -94,8 +99,9 @@ final class UserBOController extends AbstractController
 
 /******************** Suppression d'un user ***********************/
     //Envoi vers la confirm
-    #[Route('/backOffice/user/userDeleteBO/{id}', name: 'userDeleteBO')]
-    public function userDeleteBO(User $user): Response
+    #[Route('/backOffice/user/userDeleteBO/{slug}', name: 'userDeleteBO')]
+    public function userDeleteBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, ): Response
     {
         
         return $this->render('backOffice/user/userDeleteBO.html.twig', [
@@ -104,8 +110,10 @@ final class UserBOController extends AbstractController
     }
 
     //Confirm définitive
-    #[Route('/backOffice/user/userConfirmDeleteBO/{id}', name: 'userConfirmDeleteBO')]
-    public function userConfirmDeleteBO(User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/backOffice/user/userConfirmDeleteBO/{slug}', name: 'userConfirmDeleteBO')]
+    public function userConfirmDeleteBO(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, 
+        EntityManagerInterface $entityManager): Response
     {    
         // Si le user a des commandes on garde nom+prenom uniquement
         if ($user->getOrders()->count() > 0) {

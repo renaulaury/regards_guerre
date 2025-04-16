@@ -22,7 +22,6 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li>
                 <li><a href="{{ path('artistListBO') }}">Artistes</a></li>
-                {# <li><a href="#">Blog</a></li> #}
             {% endif %}
         </ol>
     {% endif %}

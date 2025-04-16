@@ -30,11 +30,11 @@
                     <p>
                         {{ artist.artistName }} {{ artist.artistFirstname }} 
 
-                        <a href="{{ path('artistEditBO', {'id': artist.id}) }}">
+                        <a href="{{ path('artistEditBO', {'slug': artist.slug}) }}">
                             <i class="iconsEdit fa-solid fa-pencil"></i>
                         </a>
 
-                        <a href="{{ path('artistDeleteBO', {'id': artist.id}) }}">
+                        <a href="{{ path('artistDeleteBO', {'slug': artist.slug}) }}">
                             <i class="iconsEdit fa-solid fa-trash-can"></i>
                         </a>
                     </p>

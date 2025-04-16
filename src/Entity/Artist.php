@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\BackOffice\ArtistBORepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\BackOffice\ArtistBORepository;
 
 #[ORM\Entity(repositoryClass: ArtistBORepository::class)]
 class Artist
@@ -21,6 +22,9 @@ class Artist
 
     #[ORM\Column(length: 50)]
     private ?string $artistFirstname = null;
+
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $artistBirthDate = null;
@@ -72,6 +76,28 @@ class Artist
         $this->artistFirstname = $artistFirstname;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function createSlugDateIdentityArtist(): string
+    {
+        $slugify = new Slugify();
+        $datePart = $this->artistBirthDate ? $this->artistBirthDate->format('dmY') : '';
+        $namePart = $this->artistFirstname . ' ' . $this->artistName;
+
+        $slugSource = $datePart . '-' . $namePart;
+        return $slugify->slugify($slugSource);
     }
 
     public function getArtistBirthDate(): ?\DateTimeInterface

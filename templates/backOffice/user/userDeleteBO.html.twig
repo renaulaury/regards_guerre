@@ -38,7 +38,7 @@
                 ?
             </p>
             
-            <form method="post" action="{{ path('userConfirmDeleteBO', {id: user.id}) }}">
+            <form method="post" action="{{ path('userConfirmDeleteBO', {slug: user.slug}) }}">
                 <div class="button">
                     <button class="btnSubmit" type="submit" name="submitConfirmDeleteUser">Supprimer</button>
                 </div>

@@ -21,7 +21,7 @@ Confirmez la suppression définitive de votre compte Regards de Guerre. Cette ac
         <p>Confirmez-vous la suppression de votre profil ?</p>
 
         <div class="button">
-            <a class="btnSubmit" href="{{ path('userDeleteConfirmProfile', {id: app.user.id}) }}">Je confirme</a>
+            <a class="btnSubmit" href="{{ path('userDeleteConfirmProfile', {slug: app.user.slug}) }}">Je confirme</a>
         </div>
     </div>
 

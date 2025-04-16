@@ -64,7 +64,7 @@
 
             
                 {# Affichage du formulaire #}
-                <form method="post" action="{{ path('userEditBO', {id: user.id}) }}">
+                <form method="post" action="{{ path('userEditBO', {slug: user.slug}) }}">
                     {{ form_start(form) }}
 
                     {% if root %}
