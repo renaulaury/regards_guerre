@@ -52,39 +52,41 @@ class CartController extends AbstractController
  
 
     /************* Ajoute un ticket au panier  ***************/
-    #[Route('/ticket/{exhibitionSlug}/addTicketToCart/{ticketSlug}/{origin}', name: 'addTicketToCart')]
+    #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
     public function addTicketToCart(
-        #[MapEntity(mapping: ['exhibitionSlug' => 'slug'])] ?Exhibition $exhibition = null,
-        #[MapEntity(mapping: ['ticketSlug' => 'slug'])] Ticket $ticket,
-        CartService $cartService,
-        // TicketRepository $ticketRepo, 
-        // int $exhibitionId, 
-        // int $ticketId, 
+        TicketRepository $ticketRepo, 
+        int $exhibitionId, 
+        int $ticketId, 
         string $origin): Response
     {
         // Récupération du ticket via le repository
-        // $ticket = $ticketRepo->find($ticketId);
-        
+        $ticket = $ticketRepo->find($ticketId);
+
+
         // Ajout du ticket au panier via le service
-        $cartService->addCart($ticket, $exhibition->getId());
+        $this->cartService->addCart($ticket, $exhibitionId);
 
         // Redirection en fonction de l'origine
         if ($origin === 'ticket') {
-            return $this->redirectToRoute('ticket', ['exhibition' => $exhibition->getId()]);
+            return $this->redirectToRoute('ticket', ['exhibition' => $exhibitionId]);
         }
 
         // Redirection par défaut
-        return $this->redirectToRoute('cart', ['exhibition' => $exhibition->getId()]);
+        return $this->redirectToRoute('cart', ['exhibition' => $exhibitionId]);
     }
 
-    /************* Soustrait un produit au panier ***************/
+/************* Soustrait un produit au panier ***************/
     #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticketId}/{origin}', name: 'removeTicketFromCart')]
-    public function removeTicketFromCart(TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin)
+    public function removeTicketFromCart(
+        TicketRepository $ticketRepo, 
+        int $exhibitionId, 
+        int $ticketId, 
+        string $origin)
     // : Response
     {
 
-        // Récupération du ticket via le repository
-        $ticket = $ticketRepo->find($ticketId);
+         // Récupération du ticket via le repository
+         $ticket = $ticketRepo->find($ticketId);
 
         // Soustraction au panier via le service
         $this->cartService->removeCart($ticket, $exhibitionId);
@@ -123,10 +125,9 @@ class CartController extends AbstractController
     }
 
 /********************** Retirer un article du panier *****************/
-    #[Route('/order/cart/remove/{slug}', name: 'removeProduct')]
+    #[Route('/order/cart/remove/{id}', name: 'removeProduct')]
     public function removeProductToCart(
-        // #[MapEntity(mapping: ['exhibitionSlug' => 'slug'])] ?Exhibition $exhibition = null,
-        int $id): Response
+        string $id): Response
     {
         $this->cartService->removeProduct($id); // Appelle la fonction pour supprimer l'élément
 
@@ -135,7 +136,7 @@ class CartController extends AbstractController
 
 
 /********************** Valider la commande *****************/
-    #[Route('/order/cart/orderValidated/{slug}', name: 'orderValidated')]
+    #[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
     public function orderValidated(
         ExhibitionShareRepository $exhibitShareRepo, 
         TicketRepository $ticketRepo): Response
