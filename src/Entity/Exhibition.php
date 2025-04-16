@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -143,6 +144,16 @@ class Exhibition
     {
         $this->slug = $slug;
         return $this;
+    }
+
+    public function createSlugDateTitleExhibit(): string
+    {
+        $slugify = new Slugify();
+        $datePart = $this->dateExhibit ? $this->dateExhibit->format('dmY') : '';
+        $namePart = $this->titleExhibit;
+
+        $slugSource = $datePart . '-' . $namePart;
+        return $slugify->slugify($slugSource);
     }
 
     public function getSubtitleExhibit(): ?string

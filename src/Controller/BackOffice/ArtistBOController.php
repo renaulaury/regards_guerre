@@ -51,8 +51,10 @@ final class ArtistBOController extends AbstractController
         // Vérif du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             //Générer le slug
-            $slugify = new Slugify();
-            $artist->setSlug($slugify->slugify($artist));
+            $slug = $artist->createSlugDateIdentityArtist();
+
+            // Définir le slug sur l'entité
+            $artist->setSlug($slug);
             
             // Persister les modifications dans la base de données
             $entityManager->persist($artist);

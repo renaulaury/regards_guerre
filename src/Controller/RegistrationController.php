@@ -28,7 +28,8 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $password */
+
+            // Enregistrement mot de passe
             $password = $form->get('password')->getData();
 
             $regex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'; //1 maj - 1 chiffre - 1 caractère spécial/word - 12 min
@@ -53,7 +54,14 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
+            //Générer le slug
+            $slug = $user->createSlugUser();
+
+            // Définir le slug sur l'entité
+            $user->setSlug($slug);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             return $security->login($user, 'form_login', 'main');
         }

@@ -28,13 +28,13 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                         {% for ticketId, ticketData in exhibitionData.tickets %}
                             <div class="ticketCart">
                                 <div class="lineTicketCart">
-                                    <p>{{ ticketData.ticket }}</p>
+                                    <p>Ticket {{ ticketData.ticket }} dématérialisé</p>
 
                                     <div class="blockQtyPrice">
                                         <p>
                                             <a href="{{ path('removeTicketFromCart', {
-                                                'exhibitionSlug': exhibitionId, 
-                                                'ticketSlug': ticketId, 
+                                                'exhibitionSlug': exhibitionData.exhibition.slug, 
+                                                'ticketSlug': ticketData.ticket.slug, 
                                                 'origin': 'cart'
                                             }) }}">
                                                 <i class="fa-solid fa-minus"></i>
@@ -43,8 +43,8 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                             {{ ticketData.quantity }}
 
                                             <a href="{{ path('addTicketToCart', {
-                                                'exhibitionSlug': exhibitionId, 
-                                                'ticketSlug': ticketId, 
+                                                'exhibitionSlug': exhibitionData.exhibition.slug, 
+                                                'ticketSlug': ticketData.ticket.slug, 
                                                 'origin': 'cart'
                                             }) }}">
                                                 <i class="fa-solid fa-plus"></i>
@@ -60,7 +60,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                         </div>
 
                                         <p>
-                                            <a href="{{ path('removeProduct', {'slug': exhibitionSlug ~ '_' ~ ticketData.ticket.slug}) }}">
+                                            <a href="{{ path('removeProduct', {'slug': exhibitionData.exhibition.slug ~ '_' ~ ticketData.ticket.slug}) }}">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a>
                                         </p>

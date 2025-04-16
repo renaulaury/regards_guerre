@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Entity\Ticket;
 use App\Entity\Exhibition;
+use Cocur\Slugify\Slugify;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Service\EmailService;
@@ -54,7 +55,7 @@ class CartController extends AbstractController
     #[Route('/ticket/{exhibitionSlug}/addTicketToCart/{ticketSlug}/{origin}', name: 'addTicketToCart')]
     public function addTicketToCart(
         #[MapEntity(mapping: ['exhibitionSlug' => 'slug'])] ?Exhibition $exhibition = null,
-        #[MapEntity(mapping: ['ticketSlug' => 'slug'])] ?Ticket $ticket = null,
+        #[MapEntity(mapping: ['ticketSlug' => 'slug'])] Ticket $ticket,
         CartService $cartService,
         // TicketRepository $ticketRepo, 
         // int $exhibitionId, 
@@ -63,8 +64,7 @@ class CartController extends AbstractController
     {
         // Récupération du ticket via le repository
         // $ticket = $ticketRepo->find($ticketId);
-
-
+        
         // Ajout du ticket au panier via le service
         $cartService->addCart($ticket, $exhibition->getId());
 
@@ -131,7 +131,9 @@ class CartController extends AbstractController
 
 /********************** Retirer un article du panier *****************/
     #[Route('/order/cart/remove/{slug}', name: 'removeProduct')]
-    public function removeProductToCart(int $id): Response
+    public function removeProductToCart(
+        // #[MapEntity(mapping: ['exhibitionSlug' => 'slug'])] ?Exhibition $exhibition = null,
+        int $id): Response
     {
         $this->cartService->removeProduct($id); // Appelle la fonction pour supprimer l'élément
 

@@ -13,6 +13,7 @@ use App\Form\Security\ChangePasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -41,10 +42,11 @@ final class UserController extends AbstractController
 
 /*********** Permet l'édition du nom et prénom de l'utilisateur ************************/
     #[Route('/profile/userEditIdentity/{slug}', name: 'userEditIdentity')]
-    public function userEditName(int $id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    public function userEditName(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+        Request $request, 
+        EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->find($id);
-
         //Création du formulaire
         $form = $this->createForm(UserEditIdentityFormType::class, $user);
         $form->handleRequest($request);
@@ -52,7 +54,7 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('profile', ['slug' => $id]);
+            return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
         }
 
         return $this->render('user/userEditIdentity.html.twig', [
@@ -62,7 +64,10 @@ final class UserController extends AbstractController
 
     /*********** Permet l'édition de l'email de l'utilisateur ************************/
     #[Route('/user/userEditEmail/{slug}', name: 'userEditEmail')]
-    public function userEditEmail(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function userEditEmail(       
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+        Request $request, 
+        EntityManagerInterface $entityManager): Response
     {
         // Création du form
         $form = $this->createForm(UserEditEmailFormType::class, $user, ['entityManager' => $entityManager]);
@@ -76,7 +81,7 @@ final class UserController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la page de profil de l'utilisateur
-            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+            return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
         }
 
         // Rendre le template avec le formulaire
@@ -87,7 +92,10 @@ final class UserController extends AbstractController
 
     /*********** Permet l'édition du pseudo de l'utilisateur ************************/
     #[Route('/user/userEditNickname/{slug}', name: 'userEditNickname')]
-    public function userEditNickname(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function userEditNickname(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+        Request $request, 
+        EntityManagerInterface $entityManager): Response
     {
         // Création du form
         $form = $this->createForm(UserEditNicknameFormType::class, $user, ['entityManager' => $entityManager]);
@@ -101,7 +109,7 @@ final class UserController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la page de profil de l'utilisateur
-            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+            return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
         }
 
         // Rendre le template avec le formulaire
@@ -112,7 +120,11 @@ final class UserController extends AbstractController
 
 /*********** Permet l'édition du mdp l'utilisateur ************************/
     #[Route('/userEditPassword/{slug}', name: 'userEditPassword')]
-    public function userEditPassword(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function userEditPassword(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        EntityManagerInterface $entityManager): Response
     {
         // Vérification que l'utilisateur connecté est celui qu'il tente de modifier
         if ($this->getUser() !== $user) {
@@ -135,7 +147,7 @@ final class UserController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
-                return $this->redirectToRoute('profile', ['slug' => $user->getId()]);
+                return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
             } else {
                 $this->addFlash('error', 'Mot de passe actuel incorrect.');
             }
@@ -150,7 +162,9 @@ final class UserController extends AbstractController
 /*********** Suppression profil de l'utilisateur ************************/
     //Envoi vers la confirm
     #[Route('/userDeleteProfile/{slug}', name: 'userDeleteProfile')]
-    public function userDeleteProfile(User $user): Response
+    public function userDeleteProfile(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+    ): Response
     {
         return $this->render('user/userDeleteProfile.html.twig', [
             'user' => $user,
@@ -161,7 +175,7 @@ final class UserController extends AbstractController
     //Confirm définitive
     #[Route('/userDeleteConfirmProfile/{slug}', name: 'userDeleteConfirmProfile')]
     public function userDeleteConfirmProfile(
-        User $user,
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
         EntityManagerInterface $entityManager,
         Security $security,
         RequestStack $requestStack
