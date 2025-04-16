@@ -77,34 +77,27 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart', ['exhibition' => $exhibition->getId()]);
     }
 
-/************* Soustrait un produit au panier ***************/
-    #[Route('/ticket/{exhibitionSlug}/removeTicketFromCart/{ticketSlug}/{origin}', name: 'removeTicketFromCart')]
-    public function removeTicketFromCart(
-        #[MapEntity(mapping: ['exhibitionSlug' => 'slug'])] ?Exhibition $exhibition = null,
-        #[MapEntity(mapping: ['ticketSlug' => 'slug'])] ?Ticket $ticket = null,
-        CartService $cartService,
-        // TicketRepository $ticketRepo, 
-        // int $exhibitionId, 
-        // int $ticketId, 
-        string $origin)
+    /************* Soustrait un produit au panier ***************/
+    #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticketId}/{origin}', name: 'removeTicketFromCart')]
+    public function removeTicketFromCart(TicketRepository $ticketRepo, int $exhibitionId, int $ticketId, string $origin)
     // : Response
     {
 
-         // Récupération du ticket via le repository
-        //  $ticket = $ticketRepo->find($ticketId);
+        // Récupération du ticket via le repository
+        $ticket = $ticketRepo->find($ticketId);
 
         // Soustraction au panier via le service
-        $cartService->removeCart($ticket,$exhibition->getId());
+        $this->cartService->removeCart($ticket, $exhibitionId);
 
         if ($origin === 'ticket') { // Si l'origine est 'ticket', rediriger vers la page de ventes des tickets
             return $this->redirectToRoute('ticket', [
-                'exhibition' => $exhibition->getId()
+                'exhibition' => $exhibitionId
             ]);
         }
 
         if ($origin === 'cart') { // Si l'origine est 'cart', rediriger vers le panier
             return $this->redirectToRoute('cart', [
-                'exhibition' => $exhibition->getId(),
+                'exhibition' => $exhibitionId,
             ]);
         }
     }
