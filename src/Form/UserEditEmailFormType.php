@@ -26,9 +26,8 @@ class UserEditEmailFormType extends AbstractType
             ->add('userEmail', EmailType::class, [
                 'label' => 'Email',
                 'required' => false,
-                'trim' => true,
-                //Eviter les doublons
-                'constraints' => [
+                'trim' => true,                
+                'constraints' => [//Evite les doublons
                     new Callback([$this, 'validateUniqueEmail']),
                 ],
             ])           

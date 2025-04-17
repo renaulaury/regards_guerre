@@ -41,7 +41,7 @@ class ExhibitAddEditBOType extends AbstractType
                         new Image([ //Gestion taille, format et erreur de téléversement
                             'maxSize' => '2G', 
                             'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
-                            'mimeTypesMessage' => 'Veuillez télécharger une image valide au format JPEG, PNG ou WEBP et/ou de moins de 2Go.',
+                            'mimeTypesMessage' => 'Veuillez télécharger une image valide au format JPEG, PNG ou WEBP et de moins de 2Go.',
                         ]),
                     ],
                 ])
