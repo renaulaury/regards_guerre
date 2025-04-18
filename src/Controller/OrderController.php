@@ -9,6 +9,7 @@ use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController
@@ -31,7 +32,9 @@ final class OrderController extends AbstractController
 /*********** Affiche l'historique de commande de l'utilisateur ************************/
     #[Route('/orderHistory/{slug}', name: 'orderHistory')]
     
-    public function orderHistory(User $user, OrderHistoryService $orderHistoryService): Response
+    public function orderHistory(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user,
+        OrderHistoryService $orderHistoryService): Response
     {
 
         $groupedOrders = $orderHistoryService->getUserOrderHistory($user);

@@ -318,7 +318,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        return $this->userNickname;
+        if ($this->userNickname) {
+            return $this->userNickname;
+        }
+
+        if ($this->userFirstname && $this->userName) {
+            return $this->userFirstname . ' ' . $this->userName;
+        }
+    
+        if ($this->userEmail) {
+            $emailParts = explode('@', $this->userEmail);
+            if (isset($emailParts[0]) && $emailParts[0] !== '') {
+                return $emailParts[0];
+            }
+        }
+
+        return 'Utilisateur inconnu'; 
+    
     }
 
 }

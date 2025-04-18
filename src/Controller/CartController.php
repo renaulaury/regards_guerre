@@ -82,7 +82,7 @@ class CartController extends AbstractController
         int $exhibitionId, 
         int $ticketId, 
         string $origin)
-    // : Response
+        // : Response
     {
 
          // Récupération du ticket via le repository
