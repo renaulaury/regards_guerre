@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ExhibitAddEditBOType extends AbstractType
@@ -91,7 +92,13 @@ class ExhibitAddEditBOType extends AbstractType
             ])
             ->add('stockMax', IntegerType::class, [
                 'label' => 'Stock maximum',
-                'data' => 150,
+                'data' => 150, //200m2
+                'constraints' => [
+                    new LessThanOrEqual([
+                        'value' => 150,
+                        'message' => 'Le nombre maximum de tickets ne peut pas dépasser {{ compared_value }}.',
+                    ]),
+                ],
             ])
             ->add('stockAlert', IntegerType::class, [
                 'label' => 'Stock d\'alerte',

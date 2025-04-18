@@ -14,7 +14,21 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
 <h1>Gestion des stocks <br> tickets</h1>
 
 <section>
-    
 
+    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+    
+    {% for stockInfo in exhibitionStocks %}
+        <h2>{{ stockInfo.exhibition }} ({{ stockInfo.exhibition.dateExhibitFr }})</h2>
+
+        <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
+        <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}
+            <a href="{{ path('exhibitEditBO', {'slug': stockInfo.exhibition.slug}) }}">
+                <i class="iconsEdit fa-solid fa-pencil"></i>
+            </a>
+        </p>
+
+        <p>Réservés : {{ stockInfo.reserved }}</p>
+        <p>Reste : {{ stockInfo.remaining }}</p>
+    {% endfor %}
 </section>
 {% endblock %}

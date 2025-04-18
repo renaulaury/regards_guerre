@@ -456,6 +456,22 @@ class Exhibition
         return $this;
     }
 
+    //Nb de tickets réservés
+    public function getTicketsReserved(): int
+    {
+        $totalTickets = 0;
+        foreach ($this->orderDetail as $orderDetail) {
+            $totalTickets += $orderDetail->getQuantity(); // Assure-toi que OrderDetail a une propriété 'quantity'
+        }
+        return $totalTickets;
+    }
+
+    //Nb de tickets restants
+    public function getTicketsRemaining(): int
+    {
+        return $this->getStockMax() - $this->getTicketsReserved();
+    }
+
     public function __toString()
     {
         return $this->titleExhibit;
