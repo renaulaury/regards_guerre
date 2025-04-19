@@ -8,42 +8,49 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 {% endblock %}
 
 {% block body %}  
+<!-- HomeController ExhibitionShareRepository -->
 <div class="containH1"> 
     <h1>Accueil</h1>  
 </div> 
      
 
 <section>
-    <!--
+    
     {% for exhibition in exhibitions %}    
         <div class="blockCarrousel">
             <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
                 <div class="imgContainHome">
                     <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
-                    {# <div class="filterImg"></div> #}
+                    <div class="filterImg"></div>
                 </div>
 
                 <div class="carrouselBlockText">
                     <div class="blockRight">
-                        <h2 class="carrouselH2">{{ exhibition }} 
-                            <span class="spaceCarrousel">{{ exhibition.dateWarBeginFr }} 
+                        <h2 class="carrouselH2">
+                            <span>{{ exhibition }}</span>
+                            <span class="spaceCarrousel dateWarCarrousel">
+                                {{ exhibition.dateWarBeginFr }} 
 
-                            {% if exhibition.dateWarEndFr is not null %}    
-                                - {{ exhibition.dateWarEndFr }}</span>
-                            {% else %}à aujourd'hui
-                            {% endif %}
+                                {% if exhibition.dateWarEndFr is not null %}    
+                                        - {{ exhibition.dateWarEndFr }}
+                                    {% else %}à aujourd'hui
+                                {% endif %}
+                            </span>
                         </h2>                    
 
-                        <div class="carrouselDate"><strong class="spaceCarrousel">{{ exhibition.dateExhibitFr }}</strong></div>
+                        <div class="carrouselDate">
+                            <span><strong>{{ exhibition.dateExhibitFr }}</strong></span>
+                            <span><strong>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</strong></span>
+                        </div>
                     </div>
 
                     <div class="carrouselText">{{ exhibition.descriptionExhibit }}</div>
 
-                    <button type="submit" class="button btnCTA">Ticket</button>
+                    <button type="submit" class="btnCTA">Ticket</button>
                 </div>
             </a>
         </div>
-    {% endfor %}-->
+    {% endfor %}
 </section>   
     
     <div class="introHomeContainer">
@@ -78,8 +85,7 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
                 <div class="blockAgenda">
                     <div class="exhibitAgenda">
                         <div class="blockDateAgenda">
-                            <p><strong>{{ agendas.dateExhibitFr }}</strong></p>
-                            <p>{{ agendas.hourBeginFr }} - {{ agendas.hourEndFr }}</p>
+                            <p>Exposition le <strong>{{ agendas.dateExhibitFr }}</strong> de {{ agendas.hourBeginFr }} à {{ agendas.hourEndFr }}</p>
                         </div>
 
                         <div class="blockImgStockHome">

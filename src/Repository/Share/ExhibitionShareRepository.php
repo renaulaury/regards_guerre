@@ -29,7 +29,7 @@ class ExhibitionShareRepository extends ServiceEntityRepository
             ->where('e.dateExhibit > :now') //now() ne fonctionne pas seul, il faut setParameter
             ->setParameter('now', new \DateTime()) 
             ->orderBy('e.dateExhibit', 'DESC')
-            ->setMaxResults(3);  //Limit en sql
+            ->setMaxResults(1);  //Limit en sql
 
         //Renvoie du résultat
         // getQuery() retourne l'objet Query Doctrine qui permet d'exécuter la requête construite

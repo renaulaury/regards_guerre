@@ -1,77 +1,110 @@
 /* Carrousel */
 
+/* Filtrer pour tablette et ecran 
+.filterImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0.2) 0%,      
+        rgba(255, 255, 255, 0.5) 20%,   
+        rgba(255, 255, 255, 0.5) 40%,   
+        rgba(255, 255, 255, 0.8) 60%,   
+        rgba(255, 255, 255, 1) 80%,     
+        rgba(255, 255, 255, 1) 100%     
+    );
+} */
+
 .blockCarrousel {
-    display: inline-block; 
+    position: relative;   
+    width: 100%;
+    height: 320px;
 }
 
 .imgContainHome {
     position: relative; 
-    width: 100%; 
-    height: 300px;
+    overflow: hidden; 
+    width: 100%;
+    height: 100%;
+}
+
+.carrouselImg {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;  
+}
+
+.filterImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);   
 }
 
 .carrouselBlockText {
     position: absolute;
-    top: 11%;
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 7%; 
-    box-sizing: border-box;
-}
-
-.carrouselImg {
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 300px;
-    object-fit: cover;
-    display: block; 
-    margin: 0 auto; 
-} 
-
-.carrouselH2 {
-    width: 60%;
-    font-size: 1em;
+    height: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-} 
-
-.carrouselDate {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.spaceCarrousel {
-    padding: 1.5% 0;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: flex-end; 
+    padding: 5px 15px; 
 }
 
 .blockRight {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    width: 60%;
+    font-size: 0.7em;
+}
+
+
+.carrouselH2 span {
+    font-family: var(--cormorantGaramond);
+    color: var(--ftTitle);
+    text-align: center;
+    display: block;
+}
+
+.dateWarCarrousel {
+    display: block;
+}
+
+.carrouselDate span {
+    display: block;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .carrouselText {
-    padding: 5% 5% 0 5%;
+    width: 100%;
+    text-align: justify; 
+    font-size: 0.7em;
+    width: 100%; 
+    height: 100%;
+    box-sizing: border-box; 
+    padding-top: 5px;
 }
 
-.btnCTA {
+.btnCTA {    
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
     border: none;
-    padding: 2%;
+    padding: 10px;
     border-radius: 50px;
     background: var(--backgroundColorButton);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-align: center;
-    width: 95%;
+    width: 100%;
+    margin-top: 10px; 
 }
 
 /****** Intro ******/
