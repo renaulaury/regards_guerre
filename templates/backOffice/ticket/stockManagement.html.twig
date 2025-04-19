@@ -18,7 +18,14 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
     <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
     
     {% for stockInfo in exhibitionStocks %}
-        <h2>{{ stockInfo.exhibition }} ({{ stockInfo.exhibition.dateExhibitFr }})</h2>
+        <h2> 
+            {% if stockInfo.remaining <= 0 %}
+                <i class="fa-solid fa-xmark"></i> 
+            {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
+                <i class="fa-solid fa-triangle-exclamation"></i> 
+            {% endif %}
+                {{ stockInfo.exhibition }} ({{ stockInfo.exhibition.dateExhibitFr }})
+        </h2>
 
         <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
         <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}

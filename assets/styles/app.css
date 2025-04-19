@@ -13,6 +13,32 @@
 
     --parkinsans: 'Parkinsans', serif;
     --cormorantGaramond: 'CormorantGaramond', serif;
+
+    --warning: #f5d93a;
+    --success: green;
+    --error: rgb(223, 18, 18);
+
+}
+
+.alert-success {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--success);
+    color: white;
+}
+
+.alert-warning {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--warning);
+    color: var(--ftColor);
+}
+
+.alert-error {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--error);
+    color: white;
 }
 
 @font-face {

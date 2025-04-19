@@ -36,7 +36,7 @@ class RegistrationController extends AbstractController
 
             if (!preg_match($regex, $password)) {
                 // Ajouter un message d'erreur si le mot de passe ne correspond pas à la regex
-                $this->addFlash('error', 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.');
+                $this->addFlash('error', 'ERREUR : Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.');
 
                 // Re-render le formulaire avec un message d'erreur
                 return $this->render('security/register.html.twig', [

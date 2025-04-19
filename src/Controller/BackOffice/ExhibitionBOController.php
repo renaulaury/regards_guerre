@@ -77,7 +77,7 @@ final class ExhibitionBOController extends AbstractController
             if ($isAdd || ($oldDate && $oldDate != $newDate)) {
                 if ($filesystem->exists($uploadDirectory)) {
                     $dateExistsError = true;
-                    $this->addFlash('error', 'Une exposition avec cette date existe déjà.');
+                    $this->addFlash('error', 'ERREUR : Une exposition avec cette date existe déjà.');
 
                     return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
                         'form' => $form->createView(),
@@ -106,7 +106,7 @@ final class ExhibitionBOController extends AbstractController
                 // Validation du type MIME (Multipurpose Internet Mail Extensions)
                 $allowedMimeTypes = ['image/jpeg', 'image/webp', 'image/png'];
                 if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
-                    $this->addFlash('error', 'Veuillez télécharger une image valide (JPEG, PNG ou WebP).');
+                    $this->addFlash('error', 'ERREUR : Veuillez télécharger une image valide (JPEG, PNG ou WebP).');
 
                     // Rendre le template avec le formulaire et le message d'erreur
                     return $this->render('backOffice/exhibition/exhibitAddEditBO.html.twig', [
@@ -217,9 +217,9 @@ final class ExhibitionBOController extends AbstractController
             $entityManager->remove($exhibition);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Exposition supprimée avec succès.');
+            $this->addFlash('success', 'SUCCES : Exposition supprimée avec succès.');
         } else {
-            $this->addFlash('error', 'Exposition non trouvée.');
+            $this->addFlash('error', 'ERREUR : Exposition non trouvée.');
         }
 
         return $this->redirectToRoute('exhibitListBO');

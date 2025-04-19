@@ -186,7 +186,7 @@ final class ShowController extends AbstractController
                     try {
                         $this->imageService->convertToWebP($originalFilePath, $webpFilePath);
                     } catch (\Exception $e) {
-                        $this->addFlash('error', 'Erreur lors de la conversion de l\'image : ' . $e->getMessage());
+                        $this->addFlash('error', 'ERREUR : Sur la conversion de l\'image : ' . $e->getMessage());
                         return $this->redirectToRoute('exhibitShowBO', ['slug' => $exhibition->getId()]);
                     }
 
@@ -200,7 +200,7 @@ final class ShowController extends AbstractController
                 // Persister et enregistrer les modifications dans la base de données
                 $entityManager->persist($show);
                 $entityManager->flush();
-                $this->addFlash('success', 'Artiste ajouté avec succès.');
+                $this->addFlash('success', 'SUCCES : Artiste ajouté avec succès.');
             }
 
         }
@@ -253,7 +253,7 @@ final class ShowController extends AbstractController
             if ($show) {
                 $entityManager->remove($show); //Supprime le show
                 $entityManager->flush(); //Enregistre les modifications
-                $this->addFlash('success', 'Artiste supprimé avec succès.');
+                $this->addFlash('success', 'SUCCES : Artiste supprimé avec succès.');
             } 
 
             return $this->redirectToRoute('exhibitShowBO', ['slug' => $idExhibit]);

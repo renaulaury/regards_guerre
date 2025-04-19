@@ -91,7 +91,7 @@ final class ArtistBOController extends AbstractController
         // Vérifier si l'artiste est lié à une exposition
         if (!$artist->getShows()->isEmpty()) {
             // Ajouter un message flash pour avertir l'utilisateur
-            $this->addFlash('error', 'Impossible de supprimer cet artiste car il est affilié à une ou plusieurs expositions.');
+            $this->addFlash('error', 'ERREUR : Impossible de supprimer cet artiste car il est affilié à une ou plusieurs expositions.');
     
             // Rediriger l'utilisateur vers la liste des artistes ou une autre page
             return $this->redirectToRoute('artistListBO');
@@ -102,7 +102,7 @@ final class ArtistBOController extends AbstractController
         $entityManager->flush();
     
         // Ajouter un message flash pour confirmer la suppression
-        $this->addFlash('success', 'L\'artiste a été supprimé avec succès.');
+        $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
     
         return $this->redirectToRoute('artistListBO');
     }

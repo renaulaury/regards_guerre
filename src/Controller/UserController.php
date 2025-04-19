@@ -128,7 +128,7 @@ final class UserController extends AbstractController
     {
         // Vérification que l'utilisateur connecté est celui qu'il tente de modifier
         if ($this->getUser() !== $user) {
-            $this->addFlash('error', 'Vous n\'êtes pas autorisé à modifier ce mot de passe.');
+            $this->addFlash('error', 'ERREUR : Vous n\'êtes pas autorisé à modifier ce mot de passe.');
             return $this->redirectToRoute('profile'); 
         }
 
@@ -146,10 +146,10 @@ final class UserController extends AbstractController
                 $user->setPassword($hashedPassword);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
+                $this->addFlash('success', 'SUCCES : Votre mot de passe a été modifié avec succès.');
                 return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
             } else {
-                $this->addFlash('error', 'Mot de passe actuel incorrect.');
+                $this->addFlash('error', 'ERREUR : Mot de passe actuel incorrect.');
             }
         }
        
