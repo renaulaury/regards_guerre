@@ -20,9 +20,9 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
     {% for stockInfo in exhibitionStocks %}
         <h2> 
             {% if stockInfo.remaining <= 0 %}
-                <i class="fa-solid fa-xmark"></i> 
+                <i class="iconError fa-solid fa-xmark"></i> 
             {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
-                <i class="fa-solid fa-triangle-exclamation"></i> 
+                <i class="iconWarning fa-solid fa-triangle-exclamation"></i> 
             {% endif %}
                 {{ stockInfo.exhibition }} ({{ stockInfo.exhibition.dateExhibitFr }})
         </h2>
