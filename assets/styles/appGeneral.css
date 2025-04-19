@@ -76,7 +76,7 @@ section {
 } 
 
 .comeBack { /* Bouton retour */
-    text-align: end;
+    text-align: start;
     width: 100%;
     padding-right: 5%;
 }
