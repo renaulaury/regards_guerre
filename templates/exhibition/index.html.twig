@@ -23,11 +23,18 @@ Explorez les détails de l'exposition et artistes exposants.
         <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
     </div>
 
-    <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+    <div class="blockImgExhibit">
+        <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+        {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
+            <img class="imgStockExhibit" src="{{ asset('images/stocks/soon_out_of_stock.png') }}" alt="Presque épuisé">
+        {% elseif exhibition.ticketsRemaining <= 10 %}
+            <img class="imgStockExhibit" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Epuisé">
+        {% endif %}
+    </div>
 
     <p>{{ exhibition.descriptionExhibit }}</p>
 
-    <div class="button btnSubmit cta">Petit bouton qui va te faire acheter un ticket :) </div>
+    <div class="button btnSubmit">Ticket</div>
 </section>
 
 

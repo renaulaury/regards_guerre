@@ -122,6 +122,22 @@
     padding-bottom: 5%;
 }
 
+.blockImgStockHome {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+    padding-bottom: 5%; 
+}
+
+.imgStockHome {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 40%; 
+    max-height: 50%; 
+}
+
 .blockTextAgenda {
     padding-bottom: 5%;
 }

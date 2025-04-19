@@ -82,6 +82,14 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
                             <p>{{ agendas.hourBeginFr }} - {{ agendas.hourEndFr }}</p>
                         </div>
 
+                        <div class="blockImgStockHome">
+                            {% if agendas.ticketsRemaining <= 10 and agendas.ticketsRemaining > 0 %}
+                                <img class="imgStockHome" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
+                            {% elseif agendas.ticketsRemaining <= 10 %}
+                                <img class="imgStockHome" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Epuisé">
+                            {% endif %}
+                        </div>
+
                         <div class="blockTextAgenda">
                             <p class="cgBold">{{ agendas.titleExhibit }}</p>
                             <p class="cgBold">{{ agendas.subTitleExhibit }} ({{ agendas.dateWarBeginFr }} - 

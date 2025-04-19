@@ -13,12 +13,30 @@
     padding-bottom: 20px;
 }
 
+.blockImgExhibit {
+    position: relative; 
+    display: inline-block; 
+}
+
 .expoImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 30px;
+}
+
+.imgStockExhibit {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: auto; 
+    height: auto; 
+    max-width: 50%; 
+    max-height: 50%; 
+    z-index: 10;     
+    top: 10px; 
+    left: 10px;     
 }
 
 .cta {
