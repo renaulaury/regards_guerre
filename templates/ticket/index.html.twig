@@ -3,87 +3,123 @@
 {% block title %}Tickets{% endblock %}
 
 {% block description %}
-Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Consultez les tarifs, choisissez vos places et gérez votre panier en toute simplicité.
+    Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Consultez les tarifs, choisissez vos places et gérez votre panier en toute simplicité.
 {% endblock %}
 
- {% block javascripts %}
-    {{ parent() }}  {# appelle le bloc js de la base twig #}
-     <script src="{{ asset('js/tickets.js') }}"></script>   
-{% endblock %} 
-
-
+{% block javascripts %}
+    {{ parent() }} {# appelle le bloc js de la base twig #}
+    <script src="{{ asset('js/tickets.js') }}"></script>
+{% endblock %}
 
 {% block body %}
-<!-- TicketController CartController-->
+    <div class="containH1">
+        <h1>Tickets</h1>
+    </div>
 
-<div class="containH1">    
-    <h1>Tickets</h1>
-</div>
+    <section>
+        <h2>Expositions</h2>
 
-<section>
-    <h2>Expositions</h2>
-
-    <select id="exhibitionSelect">
-        {% for exhibition in exhibitions %}               
-            <option value="{{ exhibition.id }}">
-                {{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}
-            </option>           
-        {% endfor %}
-    </select> 
-
-    {% for exhibition in exhibitions %}
-        <div id="exhibitionDetails-{{ exhibition.id }}" class="blockTickets" style="display: none;">
-
-            {% for priceByExhibits in priceByExhibit %}
-                {% if priceByExhibits.id == exhibition.id %} 
-
-                    
-                <p>Ticket {{ priceByExhibits.titleTicket }} dématérialisé
-                    {# Modification ici pour utiliser la clé composite #}
-                    {% set cartKey = exhibition.id ~ '_' ~ priceByExhibits.ticketId %}
-                    {% if cart[cartKey] is defined %}
-                        <span>({{ cart[cartKey].qty }})</span>
-                    {% else %}
-                        <span></span>
-                    {% endif %}
-                </p>
-
-                <div class="sectionBlockPrice">
-                    <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
-
-                    <div class="blockPrice">
-                        <div class="blockQty">
-                            {% if priceByExhibits.standardPrice == 0 %} 
-                                <p>Gratuit</p>
-                            {% else %}
-                                <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup>*</sup>)</span></p>
-                            {% endif %}
-                        </div>
-                    
-            
-                        <div class="blockQty">
-                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                                <i class="fa-solid fa-minus"></i>
-                            </a>
-
-                            <span class="qtyProduct">1</span>
-
-                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                                <i class="fa-solid fa-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
+        <select id="exhibitionSelect">
+            {% for exhibition in exhibitions %}
+                <option value="{{ exhibition.id }}">
+                    {{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}
+                </option>
             {% endfor %}
-        </div>
-    {% endfor %}
+        </select>
 
-    <p class="miniText blockNotaBene"><sup>* </sup>PU : Prix unitaire</p>
-</section>
+        {% for exhibition in exhibitions %}
+            <div id="exhibitionDetails-{{ exhibition.id }}" class="blockTickets" style="display: none;">
+                {% if exhibition.ticketsRemaining <= 0 %}
+                    <div class="blockImgTicketSoldOut">
+                        <img class="imgTicketSoldOut" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Épuisé">
+                    <div>
 
 
+                {% elseif exhibition.ticketsRemaining > 0 and exhibition.ticketsRemaining <= exhibition.stockAlert %}
+                    <div class="blockImgTicketStockAlert">
+                        <img class="imgTicketSoonSoldOut" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque Épuisé">
+                        <p>Il reste {{ exhibition.ticketsRemaining }} tickets.</p>
+                    </div>
+                    {% for priceByExhibits in priceByExhibit %}
+                        {% if priceByExhibits.id == exhibition.id %}
+                            <p>Ticket {{ priceByExhibits.titleTicket }} dématérialisé
+                                {# Modification ici pour utiliser la clé composite #}
+                                {% set cartKey = exhibition.id ~ '_' ~ priceByExhibits.ticketId %}
+                                {% if cart[cartKey] is defined %}
+                                    <span>({{ cart[cartKey].qty }})</span>
+                                {% else %}
+                                    <span></span>
+                                {% endif %}
+                            </p>
 
+                            <div class="sectionBlockPrice">
+                                <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
 
+                                <div class="blockPrice">
+                                    <div class="blockQty">
+                                        {% if priceByExhibits.standardPrice == 0 %}
+                                            <p>Gratuit</p>
+                                        {% else %}
+                                            <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup>*</sup>)</span></p>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="blockQty">
+                                        <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </a>
+                                        <span class="qtyProduct">1</span>
+                                        <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for priceByExhibits in priceByExhibit %}
+                        {% if priceByExhibits.id == exhibition.id %}
+                            <p>Ticket {{ priceByExhibits.titleTicket }} dématérialisé
+                                {# Modification ici pour utiliser la clé composite #}
+                                {% set cartKey = exhibition.id ~ '_' ~ priceByExhibits.ticketId %}
+                                {% if cart[cartKey] is defined %}
+                                    <span>({{ cart[cartKey].qty }})</span>
+                                {% else %}
+                                    <span></span>
+                                {% endif %}
+                            </p>
+
+                            <div class="sectionBlockPrice">
+                                <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
+
+                                <div class="blockPrice">
+                                    <div class="blockQty">
+                                        {% if priceByExhibits.standardPrice == 0 %}
+                                            <p>Gratuit</p>
+                                        {% else %}
+                                            <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup>*</sup>)</span></p>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="blockQty">
+                                        <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </a>
+                                        <span class="qtyProduct">1</span>
+                                        <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        {% endif %}
+                    {% endfor %}
+                    <p class="miniText blockNotaBene"><sup>*</sup> PU : Prix unitaire</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </section>
 {% endblock %}
-
