@@ -142,7 +142,43 @@ class CartController extends AbstractController
         TicketRepository $ticketRepo): Response
     {
         $cart = $this->cartService->getCart();
+        $stockErrors = []; //Erreur de stock sur le panier
         
+        foreach ($cart as $item) {
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']);
+            if ($exhibition) {
+                $ticketRemaining = $exhibition->getTicketsRemaining();
+                $stockMax = $exhibition->getStockMax();
+                $ticketAvailable = $stockMax - $ticketRemaining;
+                $cartQty = $item['qty'];
+    
+                if ($cartQty > $ticketAvailable) {
+                    $stockErrors[] = [
+                        'nameExhibit' => $exhibition,
+                        'cartQty' => $cartQty,
+                        'available' => $ticketAvailable,
+                    ];
+                }
+            }
+        }
+    
+        if (!empty($stockErrors)) {
+            foreach ($stockErrors as $error) {
+                $this->addFlash(
+                    'danger',
+                    sprintf(
+                        'Stock insuffisant pour l\'exposition "%s". Vous avez demandé %d tickets, mais il n\'en reste que %d.',
+                        $error['nom'],
+                        $error['demandee'],
+                        $error['disponible']
+                    )
+                );
+            }
+    
+            return $this->redirectToRoute('cart_index'); // Redirige vers le panier pour modification
+        }
+
+        // --------------
         // Création d'une nouvelle commande
         $order = new Order();
         $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)

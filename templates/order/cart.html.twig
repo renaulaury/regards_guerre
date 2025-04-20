@@ -80,7 +80,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                 {% if app.user %}
                     {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
                         <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post">
-                            <button type="submit" name="submitOrderValidation">Commander</button>
+                            <button type="submit" class="btnSubmit" name="submitOrderValidation">Commander</button>
                         </form>
                     {% else %}
                         <p class="blockIdentityOrder">

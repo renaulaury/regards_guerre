@@ -23,9 +23,9 @@ final class BackOfficeController extends AbstractController
         
         foreach ($exhibitions as $exhibition) {
             // Vérifie si le stock restant est inférieur ou égal au niveau d'alerte
-            if ($exhibition->getTicketsRemaining() <= $exhibition->getStockAlert()) {
-                $lastExhibitSoonSoldOut = $exhibition; // Stocke le nom de l'expo                
-            }   
+            if ($exhibition->getTicketsRemaining() > 0 && $exhibition->getTicketsRemaining() <= $exhibition->getStockAlert()) {
+                $lastExhibitSoonSoldOut = $exhibition; // Stocke le nom de l'exposition
+            }
              // Vérifie si le stock restant est égal à zéro
             if ($exhibition->getTicketsRemaining() <= 0) {
                 $lastExhibitSoldOut = $exhibition; 
@@ -38,9 +38,10 @@ final class BackOfficeController extends AbstractController
             if ($lastExhibitSoonSoldOut) {
                 $this->addFlash(
                     'warning',
-                    'ATTENTION : Le seuil d\'alerte a été atteint pour l\'exposition' . $lastExhibitSoonSoldOut . 'Merci de vérifier l\'état des stocks.'
+                    'ATTENTION : Le seuil d\'alerte a été atteint pour l\'exposition ' . $lastExhibitSoonSoldOut . '.'
                 );
-            } elseif ($lastExhibitSoldOut) {
+            } 
+            if ($lastExhibitSoldOut) {
                 $this->addFlash(
                     'danger',
                     'URGENT : Le stock est épuisé pour l\'exposition : ' . $lastExhibitSoldOut . '.'

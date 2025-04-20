@@ -16,6 +16,7 @@
 
     --warning: #f5d93a;
     --success: green;
+    --danger: rgb(223, 18, 18);
     --error: rgb(223, 18, 18);
 
 }
@@ -38,15 +39,21 @@
     color: var(--warning) !important;
 }
 
-.iconError {
-    color: var(--error) !important;
+.alert-danger {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--danger);
+    color: white;
+}
+
+.iconDanger {
+    color: var(--danger) !important;
 }
 
 .alert-error {
     text-align: center;
     padding: 10px;
-    background-color: var(--error);
-    color: white;
+    color: var(--danger);
 }
 
 @font-face {
