@@ -37,18 +37,30 @@ final class OrderController extends AbstractController
         OrderHistoryService $orderHistoryService): Response
     {
 
-        $groupedOrders = $orderHistoryService->getUserOrderHistory($user);
+        $groupedOrders = $orderHistoryService->getUserOrderHistory($user->getId());
 
         return $this->render('order/orderHistory.html.twig', [
             'groupedOrders' => $groupedOrders,
         ]);
     }
 
-    /***************** Envoi de la réservation en pdf ***********************/
-    #[Route('/backOffice/user/userOrderExportBO/{orderId}', name: 'userOrderExportBO')]
-    public function userOrderExportBO(int $orderId, OrderExportService $orderExportService): Response
+/***************** Envoi de la réservation en pdf ***********************/
+    #[Route('/backOffice/user/userOrderExport/{orderId}', name: 'userOrderExport')]
+    public function userOrderExport(
+        int $orderId, 
+        OrderExportService $orderExportService,
+        OrderService $orderService): Response
     {
-        return $orderExportService->exportOrder($orderId);
+        $orderExportService->exportOrder($orderId);
+        
+        $order = $orderService->findOrder($orderId); 
+
+    if ($order && $order->getUser()) {
+        return $this->redirectToRoute('orderHistory', ['slug' => $order->getUser()->getSlug()]);
+    } else {
+    
+        return $this->redirectToRoute('index');
+    }
     }
     
 }

@@ -16,10 +16,10 @@ class OrderHistoryService
         $this->orderService = $orderService;
     }
 
-    public function getUserOrderHistory(User $user): array
+    public function getUserOrderHistory(int $userId): array
     {
         // Récupération des commandes de l'utilisateur
-        $orders = $this->orderShareRepository->findOrdersDetailByUser($user->getId());
+        $orders = $this->orderShareRepository->findOrdersDetailByUser($userId);
 
         // Initialisation du tableau pour les commandes regroupées
         $groupedOrders = [];

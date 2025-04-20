@@ -25,11 +25,11 @@ final class OrderBOController extends AbstractController
 /*********** Affiche l'historique de commande de l'utilisateur ************************/
 #[Route('/backOffice/user/userOrderBO/{slug}', name: 'userOrderBO')]        
 public function userOrderBO(
-    #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+    #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, 
     OrderHistoryService $orderHistoryService): Response
 {
 
-    $groupedOrders = $orderHistoryService->getUserOrderHistory($user);
+    $groupedOrders = $orderHistoryService->getUserOrderHistory($user->getId());
 
     return $this->render('backOffice/user/userOrderBO.html.twig', [
         'groupedOrders' => $groupedOrders,
@@ -42,9 +42,20 @@ public function userOrderBO(
     #[Route('/backOffice/user/userOrderExportBO/{orderId}', name: 'userOrderExportBO')]
     public function userOrderExportBO(
         int $orderId, 
-        OrderExportService $orderExportService): Response
+        OrderExportService $orderExportService,
+        OrderService $orderService): Response
     {
-        return $orderExportService->exportOrder($orderId);
+        $orderExportService->exportOrder($orderId);
+        
+        $order = $orderService->findOrder($orderId); 
+
+    if ($order && $order->getUser()) {
+        return $this->redirectToRoute('userOrderBO', ['slug' => $order->getUser()->getSlug()]);
+    } else {
+    
+        return $this->redirectToRoute('backOffice/user/userListBO.html.twig');
+    }
+    
     }
 
     

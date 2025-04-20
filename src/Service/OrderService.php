@@ -2,10 +2,19 @@
 
 namespace App\Service;
 
+use App\Entity\Order;
+use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\Collection;
 
 class OrderService
 {
+    private OrderRepository $orderRepository;
+
+    public function __construct(OrderRepository $orderRepository)
+    {
+        $this->orderRepository = $orderRepository;
+    }
+    
 
 /************** Calcul du total de la commande ***********************/
     public function orderTotal(Collection $orderDetails): float
@@ -15,5 +24,11 @@ class OrderService
             $total += $detail->getUnitPrice() * $detail->getQuantity();
         }
         return $total;
+    }
+
+/************** Récupération d'une commande par son ID ***********************/
+    public function findOrder(int $orderId): ?Order
+    {
+        return $this->orderRepository->find($orderId);
     }
 }

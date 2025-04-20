@@ -141,44 +141,40 @@ class CartController extends AbstractController
         ExhibitionShareRepository $exhibitShareRepo, 
         TicketRepository $ticketRepo): Response
     {
-        $cart = $this->cartService->getCart();
-        $stockErrors = []; //Erreur de stock sur le panier
-        
+        $cart = $this->cartService->getCart();        
+        $stockErrors = []; //Gestion des erreurs de stock/panier
+
         foreach ($cart as $item) {
-            $exhibition = $exhibitShareRepo->find($item['exhibitionId']);
-            if ($exhibition) {
-                $ticketRemaining = $exhibition->getTicketsRemaining();
-                $stockMax = $exhibition->getStockMax();
-                $ticketAvailable = $stockMax - $ticketRemaining;
-                $cartQty = $item['qty'];
-    
-                if ($cartQty > $ticketAvailable) {
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); //Récup id expo like id dans panier
+            if ($exhibition) { 
+                //Vérif si les tickets commandés sont dispos
+                $ticketsAvailable = $exhibition->getStockMax() - $exhibition->getTicketsReserved();
+                $quantityRequested = $item['qty']; //Qté demandée
+
+                if ($quantityRequested > $ticketsAvailable) {
                     $stockErrors[] = [
-                        'nameExhibit' => $exhibition,
-                        'cartQty' => $cartQty,
-                        'available' => $ticketAvailable,
+                        'exhibitionTitle' => $exhibition,
+                        'ticketsAvailable' => $ticketsAvailable,
                     ];
                 }
             }
         }
-    
+
         if (!empty($stockErrors)) {
             foreach ($stockErrors as $error) {
                 $this->addFlash(
                     'danger',
-                    sprintf(
-                        'Stock insuffisant pour l\'exposition "%s". Vous avez demandé %d tickets, mais il n\'en reste que %d.',
-                        $error['nom'],
-                        $error['demandee'],
-                        $error['disponible']
+                    sprintf( //Permet concaténation string + variable
+                        'Stock insuffisant pour l\'exposition "%s". (%d restants).',
+                        $error['exhibitionTitle'],
+                        $error['ticketsAvailable']
                     )
                 );
             }
-    
-            return $this->redirectToRoute('cart_index'); // Redirige vers le panier pour modification
-        }
 
-        // --------------
+            return $this->redirectToRoute('cart'); // Redirige vers le panier pour modification
+        }
+       
         // Création d'une nouvelle commande
         $order = new Order();
         $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
