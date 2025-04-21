@@ -78,6 +78,7 @@ class ExhibitionShareRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult(); 
     }
 
+    
 /***************** Artistes non prévus sur un show *****************************/
     public function findUnplannedArtists($exhibition_id)
     {
