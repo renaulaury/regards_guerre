@@ -34,7 +34,9 @@ Explorez les détails de l'exposition et artistes exposants.
 
     <p>{{ exhibition.descriptionExhibit }}</p>
 
-    <div class="button btnSubmit">Ticket</div>
+    {% if exhibition.ticketsRemaining > 0 %}
+        <div class="btnSubmit">Ticket</div>
+    {% endif %}
 </section>
 
 

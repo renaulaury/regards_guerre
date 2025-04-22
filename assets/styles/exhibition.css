@@ -66,13 +66,23 @@
     padding-bottom: 5px;
 }
 
+.blockArtistPageExhibit img {
+    width: 70%;
+    height: auto;
+    border-radius: 10px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 .artistInfosPageExhibit, .artistImgPageExhibit {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2px;
-    padding-bottom: 20px; 
+    margin-bottom: 20px; 
 }
 
 .artistTextPageExhibit {

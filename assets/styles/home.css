@@ -180,8 +180,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 40%; 
-    max-height: 50%; 
+    max-width: 100px; 
+    max-height: auto; 
 }
 
 .blockTextAgenda {
