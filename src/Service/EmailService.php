@@ -51,4 +51,17 @@ class EmailService
         //permet d identifier le user par la clé unique mail
     }
 
+/********************* Envoie un email d'alerte de stock à un root/admin *************************/
+
+    public function sendStockAlertEmail(array $soonOutStockExhibits, array $outOfStockExhibitions): void
+    {
+        //Contenu -> template
+        $body = $this->twig->render('emails/stockAlertEmail.html.twig', [
+        'soonOutStockExhibits' => $soonOutStockExhibits,
+            'outOfStockExhibitions' => $outOfStockExhibitions,
+        ]);
+
+        //Envoi
+        $this->sendEmail('alerte_stock@regardsguerre.fr', 'Alerte de stock', $body);
+    }
 }

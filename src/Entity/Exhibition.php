@@ -461,7 +461,7 @@ class Exhibition
     {
         $totalTickets = 0;
         foreach ($this->orderDetail as $orderDetail) {
-            $totalTickets += $orderDetail->getQuantity(); // Assure-toi que OrderDetail a une propriété 'quantity'
+            $totalTickets += $orderDetail->getQuantity(); 
         }
         return $totalTickets;
     }
@@ -471,6 +471,8 @@ class Exhibition
     {
         return $this->getStockMax() - $this->getTicketsReserved();
     }
+
+
 
     public function __toString()
     {

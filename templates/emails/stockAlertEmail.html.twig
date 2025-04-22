@@ -2,7 +2,26 @@
 
 <section>
 
-    <p>Seuil d'alerte atteint pour : </p>
+    {% if soonOutStockExhibits|length > 0 %}
+            <p><strong>Seuil d'alerte atteint pour les expositions suivantes :</strong></p>
+            <ul>
+                {% for exhibition in soonOutStockExhibits %}
+                    <li>
+                        {{ exhibition.titleExhibit }}
+                        ({{ exhibition.stockMax - exhibition.getTicketsReserved }} restant(s) / {{ exhibition.stockAlert }} seuil d'alerte)
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+    {% if outOfStockExhibitions|length > 0 %}
+        <p><strong>Stock épuisé pour les expositions suivantes :</strong></p>
+            <ul>
+                {% for exhibition in outOfStockExhibitions %}
+                    <li>{{ exhibition.titleExhibit }}</li>
+                {% endfor %}
+            </ul>    
+    {% endif %}
 
     
 </section>

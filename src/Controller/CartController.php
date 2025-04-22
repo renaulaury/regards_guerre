@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\Ticket;
-use App\Entity\Exhibition;
-use Cocur\Slugify\Slugify;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Service\EmailService;
@@ -13,7 +10,6 @@ use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +22,11 @@ class CartController extends AbstractController
     private EmailService $emailService;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(CartService $cartService, RequestStack $requestStack, EmailService $emailService, EntityManagerInterface $entityManager)
+    public function __construct(
+        CartService $cartService, 
+        RequestStack $requestStack, 
+        EmailService $emailService, 
+        EntityManagerInterface $entityManager)
   {    
     $this->cartService = $cartService;
     $this->requestStack = $requestStack;
@@ -143,15 +143,18 @@ class CartController extends AbstractController
     {
         $cart = $this->cartService->getCart();        
         $stockErrors = []; //Gestion des erreurs de stock/panier
+        $soonOutStockExhibits = []; // Gestion des expo presque épuisées
+        $outOfStockExhibitions = []; // Gestion des expo épuisées
 
+        // Vérification init du stock et collecte des erreurs de stock
         foreach ($cart as $item) {
             $exhibition = $exhibitShareRepo->find($item['exhibitionId']); //Récup id expo like id dans panier
             if ($exhibition) { 
                 //Vérif si les tickets commandés sont dispos
                 $ticketsAvailable = $exhibition->getStockMax() - $exhibition->getTicketsReserved();
-                $quantityRequested = $item['qty']; //Qté demandée
+                $qtyRequested = $item['qty']; //Qté demandée
 
-                if ($quantityRequested > $ticketsAvailable) {
+                if ($qtyRequested > $ticketsAvailable) {
                     $stockErrors[] = [
                         'exhibitionTitle' => $exhibition,
                         'ticketsAvailable' => $ticketsAvailable,
@@ -206,6 +209,8 @@ class CartController extends AbstractController
         $this->entityManager->persist($order);
         $this->entityManager->flush();
 
+
+        /********* Envoi confirm commande au user ***********/
         // Calcul de $total et $groupedCart
         $groupedCart = $this->cartService->groupCartByExhibition($cart); //Regroupe les articles du panier
         $this->cartService->updateCartTotal($cart); //Maj panier
@@ -215,7 +220,29 @@ class CartController extends AbstractController
 
         // Envoi de l'email de confirmation de commande
         $this->emailService->sendOrderConfirmationEmail($this->getUser(), $cart, $total, $groupedCart);
-        
+
+        /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
+        $this->entityManager->refresh($exhibition); //raffraichit l'expo pour avoir la maj
+        // Vérification des stocks APRÈS l'enregistrement de la commande en parcourant le groupedCart
+        foreach ($groupedCart as $exhibitionId => $items) { //Parcours groupedCart (tabl AM)
+            $exhibition = $exhibitShareRepo->find($exhibitionId);
+            
+            if ($exhibition) {
+                $remainingStock = $exhibition->getStockMax() - $exhibition->getTicketsReserved(); // Calcul du stock restant
+
+                if ($remainingStock <= $exhibition->getStockAlert() && $remainingStock > 0 && !in_array($exhibition, $soonOutStockExhibits)) {
+                    $soonOutStockExhibits[] = $exhibition; // si stock presque épuisé alors expo dans le tableau
+                }
+                if ($remainingStock <= 0 && !in_array($exhibition, $outOfStockExhibitions)) {
+                    $outOfStockExhibitions[] = $exhibition; // si stock épuisé alors expo dans le tableau
+                }
+            }
+        }
+
+        // Envoi de l'email d'alerte de stock à l'admin
+        $this->emailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
+
+       
 
         // Vider le panier après validation
         $this->cartService->clearCart();
