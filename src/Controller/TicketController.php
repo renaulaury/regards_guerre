@@ -27,15 +27,11 @@ final class TicketController extends AbstractController
         //Récup uniquement les infos des prochaines expos
         $exhibitions = $exhibitShareRepo->findAllNextExhibition();
 
+
         return $this->render('ticket/index.html.twig', [
             'priceByExhibit' => $priceByExhibit,
             'exhibitions' => $exhibitions, 
             'cart' => $cart,          
         ]);
+    }
 }
-
-
-
-    
-}
-

@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fonction pour afficher les détails de l'exposition
     function toggleExhibitionDetails() {
         let option = document.getElementById('exhibitionSelect').value;
+        console.log(option);
 
         // Masquer toutes les options de détails des expositions
         document.querySelectorAll('[id^="exhibitionDetails-"]'). // ^ -> commence par / [] -> sélectionne l'id dynamique
