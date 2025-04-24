@@ -33,11 +33,10 @@ class OrderExportService
     public function exportOrder(int $orderId): Void
     {
         $order = $this->orderRepository->find($orderId);
-
-        $order = $this->orderRepository->find($orderId);
-    if (!$order || !$order->getUser()) {
-        throw new NotFoundHttpException(sprintf('Commande non trouvée (ID: %d)', $orderId));
-    }
+        
+        if (!$order || !$order->getUser()) {
+            throw new NotFoundHttpException(sprintf('Commande non trouvée (ID: %d)', $orderId));
+        }
         
         $user = $order->getUser();
 
@@ -56,8 +55,9 @@ class OrderExportService
         // On génére le template 
         $pdfContent = $this->pdfService->generatePdf(
             'pdf/orderPdf.html.twig', 
-            $orderData, 
+            ['orderData' => $orderData] // On passe les données de la commande 
         );
+        
 
         //Envoie de l'email avec le pdf en pj
         $body = $this->twig->render('emails/orderExportEmail.html.twig', [ 

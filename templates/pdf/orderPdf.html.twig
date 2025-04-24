@@ -15,7 +15,7 @@
         {# <img class="logoPdf" src="{{ absolute_url('images/logo.svg') }}" alt="Logo de l'association Regards de Guerre"> #}
     </div>
 
-    {# <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1> #}
+    <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1>
 
     <h2>Détails de votre commande :</h2>
 
@@ -30,22 +30,22 @@
             </tr>
         </thead>
         <tbody>
-            {# {% for exhibitionDetails in orderData.details %}
+            {% for exhibitionDetails in orderData.details %}
                 {% for ticketDetails in exhibitionDetails.tickets %}
                     <tr>
-                        <td>{{ exhibitionDetails.exhibition.name }}</td>
-                        <td>{{ ticketDetails.ticket.name }}</td>
+                        <td>{{ exhibitionDetails.exhibition }}</td>
+                        <td>{{ ticketDetails.ticket }}</td>
                         <td>{{ ticketDetails.quantity }}</td>
-                        <td>{{ ticketDetails.price|format_number({ style: 'currency', currency: 'EUR' }) }}</td>
-                        <td>{{ (ticketDetails.quantity * ticketDetails.price)|format_number({ style: 'currency', currency: 'EUR' }) }}</td>
+                        <td>{{ ticketDetails.price }} €</td>
+                        <td>{{ (ticketDetails.quantity * ticketDetails.price) }}</td>
                     </tr>
                 {% endfor %}
-            {% endfor %} #}
+            {% endfor %}
         </tbody>
     </table>
 
     <div class="total-section">
-        {# Total de la commande : {{ orderData.total|format_number({ style: 'currency', currency: 'EUR' }) }} #}
+        Total de la commande : {{ orderData.total }} €
     </div>
 
     <div class="footerPdf">

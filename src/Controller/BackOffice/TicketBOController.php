@@ -15,11 +15,11 @@ final class TicketBOController extends AbstractController
     #[Route('/backOffice/stockManagement/{filter?}', name: 'stockManagement')]
     public function ticketStockManagement(
         ExhibitionShareRepository $exhibitionShareRepo, 
-        Request $request): Response
+        string $filter = null): Response
     {
 
         // Récupérer la valeur du filtre depuis la requête
-        $filter = $request->query->get('filter');
+    // $filter = $request->query->get('filter');
        
         $exhibitions = $exhibitionShareRepo->findAllNextExhibition();
         $stockSoldOut = [];//Stock épuisé

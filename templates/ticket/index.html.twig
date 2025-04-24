@@ -20,7 +20,8 @@
         <h2>Expositions</h2>
 
         <!-- Liste d'expo -->
-        <select id="exhibitionSelect">{% for exhibition in exhibitions %}
+        <select id="exhibitionSelect">
+            {% for exhibition in exhibitions %}
                 <option value="{{ exhibition.id }}">
                     {{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}
                 </option>
@@ -74,8 +75,8 @@
                                     <div class="blockQty">
                                         <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                                             <i class="fa-solid fa-minus"></i>
-                                        </a>
-                                        <span class="qtyProduct">1</span>
+                                        </a>                                        
+                                        <span class="qtyProduct">1</span>                                        
                                         <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
                                             <i class="fa-solid fa-plus"></i>
                                         </a>

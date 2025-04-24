@@ -55,7 +55,7 @@ final class OrderController extends AbstractController
 
         
         $orderExportService->exportOrder($orderId);
-        dd($orderData);
+        
         
         $this->addFlash('success', 'Votre commande vous a été envoyée par mail.');
         return $this->redirectToRoute('orderHistory', ['slug' => $order->getUser()->getSlug()]);
