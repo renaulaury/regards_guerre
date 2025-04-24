@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\CartService;
+use App\Repository\OrderRepository;
 use App\Service\OrderService;
 use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
@@ -14,16 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController
 {
-    private OrderService $orderService;
-
-    public function __construct(OrderService $orderService)
-    {
-        $this->orderService = $orderService;
-    }
     
     /************* Affiche le récapitulatif de la commande ****************/
     #[Route('/order', name: 'index')]
-    public function showCart(CartService $cartService): Response
+    public function showCart(): Response
     {
         return $this->render('order/index.html.twig', [
         ]);
@@ -49,18 +43,22 @@ final class OrderController extends AbstractController
     public function userOrderExport(
         int $orderId, 
         OrderExportService $orderExportService,
-        OrderService $orderService): Response
+        OrderRepository $orderRepo): Response
     {
-        $orderExportService->exportOrder($orderId);
         
-        $order = $orderService->findOrder($orderId); 
+        $order = $orderRepo->find($orderId);
 
-    if ($order && $order->getUser()) {
+        if (!$order || !$order->getUser()) {
+            $this->addFlash('error', 'Commande non trouvée.');
+            return $this->redirectToRoute('index');
+        }
+
+        
+        $orderExportService->exportOrder($orderId);
+        dd($orderData);
+        
+        $this->addFlash('success', 'Votre commande vous a été envoyée par mail.');
         return $this->redirectToRoute('orderHistory', ['slug' => $order->getUser()->getSlug()]);
-    } else {
-    
-        return $this->redirectToRoute('index');
-    }
     }
     
 }

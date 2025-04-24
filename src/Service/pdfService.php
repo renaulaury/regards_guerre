@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Order; 
 use Dompdf\Dompdf; //bibliotheque php pour transformer doc html en pdf
 use Dompdf\Options; //Permet de personnaliser le pdf
 use Twig\Environment; //Remplace EngineInterface pour rendre la vue
@@ -17,19 +16,22 @@ class PdfService
         $this->twig = $twig;
     }
 
-   
-    public function generatePdf(Order $order, array $context = []): string
+   /************ Genere un pdf  *******************/
+    public function generatePdf(
+        string $templatePath, 
+        array $data): string
     {
         // Configuration des options de Dompdf
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('isRemoteEnabled', true); // Use image
 
         $dompdf = new Dompdf($pdfOptions); // Création d'une instance de Dompdf avec les options
 
         // Génération du HTML à partir du template Twig
         $html = $this->twig->render(
-            'pdf/order_pdf.html.twig', 
-            array_merge(['order' => $order], $context) //foncton php qui permet de fusionner plusieurs tabl
+            $templatePath,
+            $data
         );
 
         //Mep options dompdf

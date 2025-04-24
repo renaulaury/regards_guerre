@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {# pdf/orderPdf.html.twig #}
+    <meta charset="UTF-8">
+    <title>Commande #{{ orderData.order.id }}</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+<section class="sectionPdf">
+    <div class="headerPdf">
+        <p>Logo</p>
+        {# <img class="logoPdf" src="{{ absolute_url('images/logo.svg') }}" alt="Logo de l'association Regards de Guerre"> #}
+    </div>
+
+    {# <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1> #}
+
+    <h2>Détails de votre commande :</h2>
+
+    <table class="order-details-table">
+        <thead>
+            <tr>
+                <th>Exposition</th>
+                <th>Ticket</th>
+                <th>Quantité</th>
+                <th>Prix Unitaire</th>
+                <th>Prix Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# {% for exhibitionDetails in orderData.details %}
+                {% for ticketDetails in exhibitionDetails.tickets %}
+                    <tr>
+                        <td>{{ exhibitionDetails.exhibition.name }}</td>
+                        <td>{{ ticketDetails.ticket.name }}</td>
+                        <td>{{ ticketDetails.quantity }}</td>
+                        <td>{{ ticketDetails.price|format_number({ style: 'currency', currency: 'EUR' }) }}</td>
+                        <td>{{ (ticketDetails.quantity * ticketDetails.price)|format_number({ style: 'currency', currency: 'EUR' }) }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %} #}
+        </tbody>
+    </table>
+
+    <div class="total-section">
+        {# Total de la commande : {{ orderData.total|format_number({ style: 'currency', currency: 'EUR' }) }} #}
+    </div>
+
+    <div class="footerPdf">
+        <p>Regards de guerre - Association loi 1901</p>
+        <p>Rue de la paix - 75000 PARIS</p>
+    </div>
+</section>
+</body>
+</html>

@@ -10,6 +10,7 @@ class OrderHistoryService
     private OrderShareRepository $orderShareRepository;
     private OrderService $orderService;
 
+/******************** Permet le regroupement des commandes -> historique de cde -> Emission de pdf cde ****************************/
     public function __construct(OrderShareRepository $orderShareRepository, OrderService $orderService)
     {
         $this->orderShareRepository = $orderShareRepository;
@@ -26,45 +27,39 @@ class OrderHistoryService
 
         // Parcours des commandes récupérées
         foreach ($orders as $order) {
-            // Initialisation du tableau pour la commande regroupée
-            $groupedDetails = [];
+            // Initialisation du tableau pour les détails de la commande regroupés par exposition
+            $groupedDetailsByExhibition = [];
 
-            // Parcours des détails de la commande
+            // Calcul du total de la commande
+            $totalOrder = $this->orderService->orderTotal($order->getOrderDetails());
+
+            // Parcours des détails de la commande pour les regrouper par exposition
             foreach ($order->getOrderDetails() as $detail) {
-                // Récupération de l'identifiant unique de l'exposition
-                $exhibitionId = $detail->getExhibition()->getId();
-                // Récupération de l'identifiant unique du ticket
-                $ticketId = $detail->getTicket()->getId();
+                $exhibition = $detail->getExhibition();
+                $ticket = $detail->getTicket();
+                $quantity = $detail->getQuantity();
+                $exhibitionId = $exhibition->getId();
 
-                // Calcul du total de la commande
-                $totalOrder = $this->orderService->orderTotal($order->getOrderDetails());
-
-                // Regroupement des tickets par exposition
-                if (!isset($groupedDetails[$exhibitionId])) {
-                    // Si l'exposition n'existe pas encore dans le tableau, on la crée
-                    $groupedDetails[$exhibitionId] = [
-                        'exhibition' => $detail->getExhibition(),
+                // Si l'exposition n'existe pas encore dans le tableau, on la crée
+                if (!isset($groupedDetailsByExhibition[$exhibitionId])) {
+                    $groupedDetailsByExhibition[$exhibitionId] = [
+                        'exhibition' => $exhibition,
                         'tickets' => []
                     ];
                 }
 
-                // Regroupement des quantités de tickets identiques par exposition
-                if (!isset($groupedDetails[$exhibitionId]['tickets'][$ticketId])) {
-                    // Si le ticket n'existe pas encore pour cette exposition, on le crée
-                    $groupedDetails[$exhibitionId]['tickets'][$ticketId] = [
-                        'ticket' => $detail->getTicket(),
-                        'quantity' => $detail->getQuantity(),
-                        'price' => $detail->getUnitPrice(),
-                    ];
-                } else {
-                    // Sinon, on incrémente la quantité du ticket existant
-                    $groupedDetails[$exhibitionId]['tickets'][$ticketId]['quantity'] += $detail->getQuantity();
-                }
+                // Ajout du ticket à la liste des tickets de l'exposition
+                $groupedDetailsByExhibition[$exhibitionId]['tickets'][] = [
+                    'ticket' => $ticket,
+                    'quantity' => $quantity,
+                    'price' => $detail->getUnitPrice(),
+                ];
             }
-            // Ajout de la commande complète
+
+            // Ajout de la commande complète et de ses détails regroupés
             $groupedOrders[] = [
                 'order' => $order,
-                'details' => $groupedDetails,
+                'details' => $groupedDetailsByExhibition,
                 'total' => $totalOrder,
             ];
         }
