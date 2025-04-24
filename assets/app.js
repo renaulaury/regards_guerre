@@ -17,6 +17,7 @@ import './styles/ticketCart.css';
 
 import './styles/backOffice.css';
 import './styles/formExhibition.css';
+import './styles/stockManagement.css';
 
 import './styles/security.css';
 import './styles/media.css';

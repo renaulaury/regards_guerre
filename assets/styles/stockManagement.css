@@ -1,0 +1,22 @@
+.filter-dropdown {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.filter-dropdown label {
+    margin-right: 10px;
+}
+
+.filter-dropdown select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#stockFilter {
+    background-color: var(--backgroundColorPastel);
+}
+
+
+ 

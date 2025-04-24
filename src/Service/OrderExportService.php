@@ -12,7 +12,6 @@ class OrderExportService
     private EmailService $emailService;
     private OrderRepository $orderRepository;
     private Environment $twig;
-    private OrderService $orderService;
     private OrderHistoryService $orderHistoryService; // Ajout du service OrderHistoryService
 
     public function __construct(
@@ -20,14 +19,12 @@ class OrderExportService
         EmailService $emailService,
         OrderRepository $orderRepository,
         Environment $twig,
-        OrderService $orderService,
         OrderHistoryService $orderHistoryService // Injection du nouveau service
     ) {
         $this->pdfService = $pdfService;
         $this->emailService = $emailService;
         $this->orderRepository = $orderRepository;
         $this->twig = $twig;
-        $this->orderService = $orderService;
         $this->orderHistoryService = $orderHistoryService;
     }
 
