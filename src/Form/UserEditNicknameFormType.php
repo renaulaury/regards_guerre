@@ -6,6 +6,8 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,10 +29,19 @@ class UserEditNicknameFormType extends AbstractType
                 'label' => 'Pseudo',
                 'required' => false,
                 'trim' => true,
-                //Eviter les doublons
                 'constraints' => [
-                    new Callback([$this, 'validateUniqueEmail']),
-                ],
+                    new Length([
+                        'min' => 2,
+                        'max' => 50, 
+                        'minMessage' => 'Le pseudo doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le pseudo ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9_-]+$/',
+                        'message' => 'Le pseudo ne peut contenir que des lettres, des chiffres, des tirets et des underscores.',
+                    ]),
+                    new Callback([$this, 'validateUniqueNickname']), //Evite les doublons
+    ],
             ])           
         ;
     }

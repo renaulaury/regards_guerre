@@ -2,17 +2,13 @@
 
 namespace App\Form\BackOffice;
 
-use App\Entity\Ticket;
+
 use App\Entity\TicketPricing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+
 
 class TicketPricingType extends AbstractType
 {
@@ -23,8 +19,13 @@ class TicketPricingType extends AbstractType
         $builder
             ->add('standardPrice', MoneyType::class, [
                 'label' => 'Prix',
-            ]);
-    }
+                'constraints' => [
+                        new \Symfony\Component\Validator\Constraints\PositiveOrZero([
+                            'message' => 'Le prix ne peut pas être négatif.',
+                        ]),
+                    ],
+                ]);
+        }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -33,3 +34,5 @@ class TicketPricingType extends AbstractType
         ]);
     }
 }
+
+

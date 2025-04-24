@@ -5,6 +5,9 @@ namespace App\Form\BackOffice;
 use App\Entity\Artist;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,9 +22,36 @@ class ArtistAddEditBOType extends AbstractType
         $builder
             ->add('artistName', TextType::class, [
                 'label' => 'Nom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer le nom de l\'artiste.',
+                    ]),
+                    new Length([
+                        'max' => 50,
+                        'maxMessage' => 'Le nom de l\'artiste ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Zéèçàùïöë -]+$/i',
+                        'message' => 'Le nom de l\'artiste ne peut contenir que des lettres, des espaces et des tirets.',
+                    ]),
+                ],
             ])
+
             ->add('artistFirstname', TextType::class, [
                 'label' => 'Prénom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer le prénom de l\'artiste.',
+                    ]),
+                    new Length([
+                        'max' => 50,
+                        'maxMessage' => 'Le prénom de l\'artiste ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Zéèçàùïöë -]+$/i',
+                        'message' => 'Le prénom de l\'artiste ne peut contenir que des lettres, des espaces et des tirets.',
+                    ]),
+                ],
             ])
 
             ->add('artistBirthDate', DateType::class, [
@@ -36,7 +66,14 @@ class ArtistAddEditBOType extends AbstractType
 
             ->add('artistJob', TextType::class, [
                 'label' => 'Métier(s)',
+                'constraints' => [
+                    new Length([
+                        'max' => 100,
+                        'maxMessage' => 'Le ou les métiers de l\'artiste ne peuvent pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
+
             ->add('artistBio', TextareaType::class, [
                 'label' => 'Biographie',
             ]);

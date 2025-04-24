@@ -31,6 +31,18 @@ class RegistrationFormType extends AbstractType
                     ],
                 'required' => false,
                 'trim' => true, //Enleve les espaces
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'max' => 50,
+                        'minMessage' => 'Votre nom doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Votre nom ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Zéèçàùïöë -]+$/i',
+                        'message' => 'Votre nom ne peut contenir que des lettres, des espaces et des tirets.',
+                    ]),
+                ],
             ])            
             ->add('userFirstname', TextType::class, [
                 'label' => 'Prénom <sup>1</sup>',  
@@ -40,6 +52,18 @@ class RegistrationFormType extends AbstractType
                     ],
                 'required' => false, 
                 'trim' => true, //Enleve les espaces
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'max' => 50,
+                        'minMessage' => 'Votre prénom doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Votre prénom ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Zéèçàùïöë -]+$/i',
+                        'message' => 'Votre prénom ne peut contenir que des lettres, des espaces et des tirets.',
+                    ]),
+                ],
             ])
 
 
@@ -51,6 +75,18 @@ class RegistrationFormType extends AbstractType
                     ],
                 'required' => false, 
                 'trim' => true, //Enleve les espaces
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'max' => 50,
+                        'minMessage' => 'Votre pseudo doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Votre pseudo ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9_-]+$/',
+                        'message' => 'Votre pseudo ne peut contenir que des lettres, des chiffres, des tirets et des underscores.',
+                    ]),
+                ],
             ])
 
 
@@ -60,6 +96,15 @@ class RegistrationFormType extends AbstractType
                         'placeholder' => 'Votre email',
                     ],
                 'trim' => true, //Enleve les espaces  
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Email([
+                        'message' => 'Veuillez entrer une adresse email valide.',
+                    ]),
+                    new \Symfony\Component\Validator\Constraints\Length([
+                        'max' => 50,
+                        'maxMessage' => 'L\'adresse email ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
 
             ->add('password', RepeatedType::class, [

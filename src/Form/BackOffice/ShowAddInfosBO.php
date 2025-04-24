@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,6 +41,7 @@ class ShowAddInfosBO extends AbstractType
                 return !in_array($room->getId(), $usedRoomIds); // Exclure si l'ID de la salle est dans le tableau
                 },
             ])
+
             ->add('artistPhoto', FileType::class, [
                 'label' => 'Photo de l\'artiste',
                 'required' => true,
@@ -52,16 +54,24 @@ class ShowAddInfosBO extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('artistPhotoAlt', TextType::class, [
                 'label' => 'Description de la photo',
                 'required' => true,
+                'constraints' => [
+                    new Length([
+                        'max' => 255, 
+                        'maxMessage' => 'La description de la photo ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
+
             ->add('artistTextArt', TextareaType::class, [
                 'label' => 'Parcours artistique',
                 'required' => true,
-            ])            
-        ;
-    }
+                ])            
+            ;
+        }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

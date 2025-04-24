@@ -25,6 +25,13 @@ class ResetPasswordRequestFormType extends AbstractType
                     new NotBlank([ //Vérifie que le champ n'est pas vide
                         'message' => 'Veuillez entrer votre email afin de réinitialiser votre mot de passe.',
                     ]),
+                    new \Symfony\Component\Validator\Constraints\Email([
+                        'message' => 'Veuillez entrer une adresse email valide.',
+                    ]),
+                    new \Symfony\Component\Validator\Constraints\Length([
+                        'max' => 50, 
+                        'maxMessage' => 'L\'adresse email ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
                 ],
             ])
         ;

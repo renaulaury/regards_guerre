@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -46,31 +47,56 @@ class ExhibitAddEditBOType extends AbstractType
                         ]),
                     ],
                 ])
+
             ->add('mainImageAlt', TextType::class, [
                 'label' => 'Courte description de l\'image',
                 'required' => true,
+                'constraints' => [
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'La description de l\'image ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
+
             ->add('titleExhibit', TextType::class, [
                 'label' => 'Titre de l\'exposition',
                 'required' => true,
+                'constraints' => [
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le titre de l\'exposition ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
+
             ->add('subtitleExhibit', TextType::class, [
                 'label' => 'Sous-titre de l\'exposition',
                 'required' => true,
+                'constraints' => [
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le sous-titre de l\'exposition ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
+
             ->add('hookExhibit', TextType::class, [
                 'label' => 'Accroche de l\'exposition',
-                'required' => true,
+                'required' => true,                
             ])
+
             ->add('descriptionExhibit', TextareaType::class, [
                 'label' => 'Description de l\'exposition',
                 'required' => true,
             ])
+
             ->add('dateWarBegin', DateType::class, [
                 'label' => 'Début de la guerre',
                 'widget' => 'single_text',     
                 'required' => true,           
             ])
+
             ->add('dateWarEnd', DateType::class, [
                 'label' => 'Fin de la guerre',
                 'widget' => 'single_text',                
@@ -80,6 +106,7 @@ class ExhibitAddEditBOType extends AbstractType
                 'label' => 'Date de l\'exposition',
                 'widget' => 'single_text',                
             ])
+
             ->add('hourBegin', TimeType::class, [
                 'label' => 'Heure de début',
                 'widget' => 'single_text',
@@ -90,6 +117,7 @@ class ExhibitAddEditBOType extends AbstractType
                 'widget' => 'single_text',
                 'data' => new \DateTime('16:00')
             ])
+
             ->add('stockMax', IntegerType::class, [
                 'label' => 'Stock maximum',
                 'data' => 150, //200m2
@@ -98,12 +126,22 @@ class ExhibitAddEditBOType extends AbstractType
                         'value' => 150,
                         'message' => 'Le nombre maximum de tickets ne peut pas dépasser {{ compared_value }}.',
                     ]),
+                    new \Symfony\Component\Validator\Constraints\Positive([
+                        'message' => 'Le stock maximum doit être un nombre positif.',
+                    ]),
                 ],
             ])
+
             ->add('stockAlert', IntegerType::class, [
                 'label' => 'Stock d\'alerte',
                 'data' => 10,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\PositiveOrZero([
+                        'message' => 'Le stock d\'alerte doit être un nombre positif ou zéro.',
+                    ]),
+                ],
             ])
+            
             ->add('ticketPricings', CollectionType::class, [ //Pour edit
                 'entry_type' => TicketPricingType::class,
                 'label' => false,
@@ -133,13 +171,13 @@ class ExhibitAddEditBOType extends AbstractType
                     $ticketTitle = trim($ticket->getTitleTicket()); 
 
                     switch ($ticketTitle) {
-                        case 'Adulte dématérialisé':
+                        case 'Adulte':
                             $ticketPricing->setStandardPrice('10.00'); 
                             break;
-                        case 'Enfant dématérialisé':
+                        case 'Enfant':
                             $ticketPricing->setStandardPrice('8.00'); 
                             break;
-                        case 'Enfant -6ans dématérialisé':
+                        case 'Enfant -6ans':
                             $ticketPricing->setStandardPrice('0.00'); 
                             break;
                         default:

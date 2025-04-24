@@ -27,8 +27,15 @@ class UserEditEmailFormType extends AbstractType
                 'label' => 'Email',
                 'required' => false,
                 'trim' => true,                
-                'constraints' => [//Evite les doublons
-                    new Callback([$this, 'validateUniqueEmail']),
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Email([
+                        'message' => 'Veuillez entrer une adresse email valide.',
+                    ]),
+                    new \Symfony\Component\Validator\Constraints\Length([
+                        'max' => 50, 
+                        'maxMessage' => 'L\'adresse email ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Callback([$this, 'validateUniqueEmail']),//Evite les doublons
                 ],
             ])           
         ;
