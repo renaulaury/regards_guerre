@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OrderDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderDetailRepository::class)]
 class OrderDetail
@@ -15,12 +16,18 @@ class OrderDetail
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotBlank(message: 'Le prix unitaire est obligatoire.')]
+    #[Assert\PositiveOrZero(message: 'Le prix unitaire doit être un nombre positif ou zéro.')]    
     private ?string $unitPrice = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'La quantité est obligatoire.')]
+    #[Assert\Positive(message: 'La quantité doit être un nombre positif.')]
+    #[Assert\Type(type: 'integer', message: 'La quantité doit être un nombre entier.')]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderDetail')]
+    #[Assert\NotNull(message: 'La commande associée doit être définie.')]
     private ?Order $order_ = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderDetail')]
@@ -28,6 +35,7 @@ class OrderDetail
 
     #[ORM\ManyToOne(inversedBy: 'orderDetail')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: 'Le ticket associé doit être défini.')]
     private ?Ticket $ticket = null;
 
    public function getId(): ?int

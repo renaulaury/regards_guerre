@@ -11,10 +11,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER_EMAIL', fields: ['userEmail'])]
-#[UniqueEntity(fields: ['userEmail'], message: 'Ce pseudo ou cet email est déjà pris.')]
+#[UniqueEntity(fields: ['userEmail'], message: 'Cet email est déjà utilisé.')]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,6 +25,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'L\'adresse e-mail est obligatoire.')]
+    #[Assert\Email(message: 'L\'adresse e-mail n\'est pas valide.')]
+    #[Assert\Length(max: 180, message: 'L\'adresse e-mail ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $userEmail = null;
 
     /**
@@ -36,9 +40,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le mot de passe doit être défini.')]
     private ?string $password = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50, message: 'Le pseudo ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9_-]+$/',
+        message: 'Le pseudo ne peut contenir que des lettres, des chiffres, des tirets et des underscores.'
+    )]
     private ?string $userNickname = null;
 
     /**
@@ -60,12 +70,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $exhibitions;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(max: 500, message: 'La raison du changement de pseudo ne peut pas dépasser {{ limit }} caractères.')]    
     private ?string $ReasonNickname = null;
 
+    
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(message: 'Le nom est obligatoire.')]
+    #[Assert\Length(max: 50, message: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Zéèçàùïöë -]+$/i',
+        message: 'Le nom ne peut contenir que des lettres, des espaces et des tirets.'
+    )]
     private ?string $userName = null;
 
+    
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(message: 'Le prénom est obligatoire.')]
+    #[Assert\Length(max: 50, message: 'Le prénom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Zéèçàùïöë -]+$/i',
+        message: 'Le prénom ne peut contenir que des lettres, des espaces et des tirets.'
+    )]
     private ?string $userFirstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]

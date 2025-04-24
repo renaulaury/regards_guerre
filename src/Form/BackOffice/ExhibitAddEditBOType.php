@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -89,6 +90,17 @@ class ExhibitAddEditBOType extends AbstractType
             ->add('descriptionExhibit', TextareaType::class, [
                 'label' => 'Description de l\'exposition',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'La description de l\'exposition est obligatoire.',
+                    ]),
+                    new Length([
+                        'min' => 100,
+                        'minMessage' => 'La description de l\'exposition doit contenir au moins {{ limit }} caractères.',
+                        'max' => 400,
+                        'maxMessage' => 'La description de l\'exposition ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
 
             ->add('dateWarBegin', DateType::class, [

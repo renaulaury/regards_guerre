@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArtistAddEditBOType extends AbstractType
@@ -76,8 +75,19 @@ class ArtistAddEditBOType extends AbstractType
 
             ->add('artistBio', TextareaType::class, [
                 'label' => 'Biographie',
-            ]);
-    }
+                'constraints' => [
+                        new NotBlank([
+                            'message' => 'La biographie de l\'artiste est obligatoire.',
+                        ]),
+                        new Length([
+                            'min' => 100, 
+                            'minMessage' => 'La biographie doit contenir au moins {{ limit }} caractères.',
+                            'max' => 400, 
+                            'maxMessage' => 'La biographie ne peut pas dépasser {{ limit }} caractères.',
+                        ]),
+                    ],
+                ]);
+            }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

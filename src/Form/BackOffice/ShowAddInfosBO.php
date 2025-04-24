@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -69,9 +70,20 @@ class ShowAddInfosBO extends AbstractType
             ->add('artistTextArt', TextareaType::class, [
                 'label' => 'Parcours artistique',
                 'required' => true,
-                ])            
-            ;
-        }
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le parcours artistique est obligatoire.',
+                    ]),
+                    new Length([
+                        'min' => 100,
+                        'minMessage' => 'Le parcours artistique doit contenir au moins {{ limit }} caractères.',
+                        'max' => 400,
+                        'maxMessage' => 'Le parcours artistique ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
+            ])
+        ;
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

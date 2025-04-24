@@ -29,7 +29,7 @@ class ResetPasswordRequestFormType extends AbstractType
                         'message' => 'Veuillez entrer une adresse email valide.',
                     ]),
                     new \Symfony\Component\Validator\Constraints\Length([
-                        'max' => 50, 
+                        'max' => 180, 
                         'maxMessage' => 'L\'adresse email ne peut pas dépasser {{ limit }} caractères.',
                     ]),
                 ],

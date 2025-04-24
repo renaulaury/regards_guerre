@@ -6,8 +6,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -19,12 +19,17 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotNull(message: 'La date de création de la commande est obligatoire.')]
+    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de création de la commande doit être une date valide.')]
     private ?\DateTimeInterface $orderDateCreation = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le statut de la commande est obligatoire.')]
+    #[Assert\Length(max: 50, message: 'Le statut de la commande ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $orderStatus = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[Assert\NotNull(message: 'L\'utilisateur associé à la commande doit être défini.')]
     private ?User $user = null;
 
     /**

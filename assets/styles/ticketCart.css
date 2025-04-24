@@ -4,16 +4,6 @@
 }
 
 /************************** Ticket ****************************/
-.blockTickets {
-    display: none; /* Masque initialement tous les blocs */
-}
-
-:target {
-    display: block !important; /* Affiche le bloc ciblé par l'ancre */
-}
-
-
-/* --- */
 #exhibitionSelect {
     border: none;
     padding: 2%;

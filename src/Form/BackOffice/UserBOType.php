@@ -57,7 +57,7 @@ class UserBOType extends AbstractType
                     'required' => true,
                     'constraints' => [
                         new Length([
-                            'max' => 500, 
+                            'max' => 100, 
                             'maxMessage' => 'La raison du changement ne peut pas dépasser {{ limit }} caractères.',
                         ]),
                     ],

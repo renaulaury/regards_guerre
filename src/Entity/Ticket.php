@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -15,15 +16,22 @@ class Ticket
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le titre du ticket est obligatoire.')]
+    #[Assert\Length(max: 50, message: 'Le titre du ticket ne peut pas dépasser {{ limit }} caractères.')]    
     private ?string $titleTicket = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: true)]
+    #[Assert\Length(max: 255, message: 'Le slug du ticket ne peut pas dépasser {{ limit }} caractères.')]    
     private ?string $slug = null; // Propriété slug
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom du fichier image est obligatoire.')]
+    #[Assert\Length(max: 255, message: 'Le nom du fichier image ne peut pas dépasser {{ limit }} caractères.')]    
     private ?string $imageTicket = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La description alternative de l\'image est obligatoire.')]
+    #[Assert\Length(max: 255, message: 'La description alternative de l\'image ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $imageTicketAlt = null;
 
     /**
