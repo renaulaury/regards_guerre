@@ -5,48 +5,131 @@
     <meta charset="UTF-8">
     <title>Commande #{{ orderData.order.id }}</title>
     <style>
+        .sectionPdf {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .headerPdf {
+            width: 100%;                       
+        }
+
+        h1 {
+            font-size: 2em; 
+            text-align: center;
+            padding-bottom: 20px;  
+        }
+
+        .logoPdf {
+            width: 100px; 
+        }       
+
+        .invoiceTable {
+            width: 100%;
+            border-collapse: collapse; /*Ferme les bordures*/
+            margin-bottom: 20px;
+            font-family: sans-serif; 
+            font-size: 0.9em; 
+        }
+        
+        .invoiceTable th, .invoiceTable td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #944C43; 
+            text-align: left;
+        }
+        
+        .invoiceTable th {
+            background-color: #FFA07A; 
+            font-weight: bold;
+        }
+        
+        .invoiceTable tbody tr:nth-child(even) {
+            background-color: rgba(255, 160, 122, 0.15); /* even : Alternance des couleurs pour la lisibilité */
+        }
+        
+        .invoiceTable .textRight {
+            text-align: right;
+        }
+                
+        .invoiceTable tfoot tr td {
+            font-weight: bold;
+            border-top: 2px solid #944C43; /* Ligne supérieure plus épaisse pour le total */
+            border-bottom: none;
+        }
+           
+               
+        .invoiceTable {
+            border: 1px solid #944C43;
+        }
+        
+        .invoiceTable th,
+        .invoiceTable td {
+            border-right: 1px solid #944C43;
+        }
+        
+        .invoiceTable th:last-child,
+        .invoiceTable td:last-child {
+            border-right: none;
+        }
+
+        .footerPdf {
+            position: fixed; 
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 5px 0; 
+            background-color: rgba(255, 160, 122, 0.15);
+            font-size: 0.7em;           
+        }
+        
+        .footerPdf p {
+            margin: 0;            
+        }        
         
     </style>
 </head>
 <body>
 <section class="sectionPdf">
     <div class="headerPdf">
-        <p>Logo</p>
-        {# <img class="logoPdf" src="{{ absolute_url('images/logo.svg') }}" alt="Logo de l'association Regards de Guerre"> #}
+        <img class="logoPdf" src="{{ absolute_url(asset('images/logo.webp')) }}" alt="Logo de l'association Regards de Guerre">
+    
+        <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1>
     </div>
+    
 
-    <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1>
-
-    <h2>Détails de votre commande :</h2>
-
-    <table class="order-details-table">
+    <table class="invoiceTable">
         <thead>
             <tr>
                 <th>Exposition</th>
                 <th>Ticket</th>
-                <th>Quantité</th>
-                <th>Prix Unitaire</th>
-                <th>Prix Total</th>
+                <th>Qté</th>
+                <th class="textRight">Prix Unitaire</th>
+                <th class="textRight">Prix Total</th>
             </tr>
         </thead>
         <tbody>
             {% for exhibitionDetails in orderData.details %}
                 {% for ticketDetails in exhibitionDetails.tickets %}
-                    <tr>
+                    <tr class="product-row">
                         <td>{{ exhibitionDetails.exhibition }}</td>
                         <td>{{ ticketDetails.ticket }}</td>
-                        <td>{{ ticketDetails.quantity }}</td>
-                        <td>{{ ticketDetails.price }} €</td>
-                        <td>{{ (ticketDetails.quantity * ticketDetails.price) }}</td>
+                        <td class="textRight">{{ ticketDetails.quantity }}</td>
+                        <td class="textRight">{{ ticketDetails.price }} €</td>
+                        <td class="textRight">{{ (ticketDetails.quantity * ticketDetails.price) }} €</td>
                     </tr>
                 {% endfor %}
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="textRight strong">Total de la commande :</td>
+                <td class="textRight strong">{{ orderData.total }} €</td>
+            </tr>
+        </tfoot>
     </table>
-
-    <div class="total-section">
-        Total de la commande : {{ orderData.total }} €
-    </div>
 
     <div class="footerPdf">
         <p>Regards de guerre - Association loi 1901</p>

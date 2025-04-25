@@ -24,7 +24,7 @@ class PdfService
         // Configuration des options de Dompdf
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->set('isRemoteEnabled', true); // Use image
+        $pdfOptions->set('isRemoteEnabled', true); // Pour placer le logo
 
         $dompdf = new Dompdf($pdfOptions); // Création d'une instance de Dompdf avec les options
 
