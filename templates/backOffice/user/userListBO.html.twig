@@ -10,6 +10,7 @@
 
 
 {% block body %}
+<!-- UserController -->
 
 <h1>Back-Office</h1>
 <section>
@@ -80,13 +81,10 @@
             <div class="listMembers">
                 {% for user in users %}
                     {% if 'ROLE_DELETE' in user.roles and 'ROLE_ROOT' not in user.roles %}
-                        {{ user.userEmail }}
+                        {{ user.userName }} {{ user.userFirstname }}
 
                         <p>
                             <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': user.slug}) }}"><i class="fa-regular fa-folder-open"></i></a>
-                            <a class="iconsEdit" href="{{ path('userEditBO', {'slug': user.slug}) }}">
-                                <i class="fa-solid fa-pencil"></i>
-                            </a>
                             <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': user.slug}) }}">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>

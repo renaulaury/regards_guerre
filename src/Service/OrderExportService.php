@@ -39,8 +39,14 @@ class OrderExportService
         }
         
         $user = $order->getUser();
+        $email = $user->getUserEmail();
 
-        // Use OrderHistoryService regroupement commande
+        // Vérif rôle du user
+        if (in_array('ROLE_DELETE', $user->getRoles(), true)) {
+            $email = 'admin@regardsguerre.fr';
+        }
+
+        // Utilisation OrderHistoryService (regroupement commande)
         $groupedOrders = $this->orderHistoryService->getUserOrderHistory($user->getId());
 
         // Recherche de la commande spécifique dans le tableau regroupé
@@ -68,7 +74,7 @@ class OrderExportService
         ]);
 
         $this->emailService->sendEmail(
-            $user->getUserEmail(),
+            $email,
             'Votre commande',
             $body,
             $pdfContent,
