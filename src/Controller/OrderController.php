@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\OrderRepository;
-use App\Service\OrderService;
 use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +29,10 @@ final class OrderController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user,
         OrderHistoryService $orderHistoryService): Response
     {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         $groupedOrders = $orderHistoryService->getUserOrderHistory($user->getId());
 
