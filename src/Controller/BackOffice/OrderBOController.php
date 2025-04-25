@@ -14,12 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class OrderBOController extends AbstractController
 
 {    
-    private OrderService $orderService; 
-
-    public function __construct(OrderService $orderService)
-    {
-        $this->orderService = $orderService;
-    }
    
 /***************** Historique d'un user ***********************/
 /*********** Affiche l'historique de commande de l'utilisateur ************************/
@@ -28,6 +22,10 @@ public function userOrderBO(
     #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, 
     OrderHistoryService $orderHistoryService): Response
 {
+    // Vérif de l'accès
+    if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+        return $this->redirectToRoute('home');
+    }
 
     $groupedOrders = $orderHistoryService->getUserOrderHistory($user->getId());
 
@@ -46,6 +44,11 @@ public function userOrderBO(
         OrderExportService $orderExportService,
         OrderService $orderService): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         $orderExportService->exportOrder($orderId);
         
         $order = $orderService->findOrder($orderId); 

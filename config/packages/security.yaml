@@ -36,9 +36,14 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/root, roles: ROLE_ROOT }
+        - { path: ^/backOffice, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/profile, roles: ROLE_DELETE }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/orderHistory, roles: ROLE_USER }
+        # - { path: ^/profile, roles: ROLE_DELETE }
+        
+        
 
 when@test:
     security:

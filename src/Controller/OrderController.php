@@ -30,6 +30,10 @@ final class OrderController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user,
         OrderHistoryService $orderHistoryService): Response
     {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         $groupedOrders = $orderHistoryService->getUserOrderHistory($user->getId());
 

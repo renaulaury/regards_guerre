@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Form\UserEditEmailFormType;
 use App\Form\UserEditIdentityFormType;
 use App\Form\UserEditNicknameFormType;
@@ -25,7 +24,9 @@ final class UserController extends AbstractController
     /*********** Affiche l'accueil' de l'utilisateur ************************/
     #[Route('/profile', name: 'index')]
     public function index(): Response
-    {
+    {       
+        
+
         return $this->render('user/index.html.twig', [
 
         ]);
@@ -33,8 +34,15 @@ final class UserController extends AbstractController
 
 /*********** Affiche le profil de l'utilisateur ************************/
     #[Route('/profile/{slug}', name: 'profile')]
-    public function profile(): Response
+    public function profile(
+        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
+    ): Response
     {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('user/profile.html.twig', [
 
         ]);
@@ -47,6 +55,12 @@ final class UserController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager): Response
     {
+        
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
         //Création du formulaire
         $form = $this->createForm(UserEditIdentityFormType::class, $user);
         $form->handleRequest($request);
@@ -69,6 +83,11 @@ final class UserController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager): Response
     {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
         // Création du form
         $form = $this->createForm(UserEditEmailFormType::class, $user, ['entityManager' => $entityManager]);
 
@@ -97,6 +116,11 @@ final class UserController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager): Response
     {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
         // Création du form
         $form = $this->createForm(UserEditNicknameFormType::class, $user, ['entityManager' => $entityManager]);
 
@@ -126,22 +150,23 @@ final class UserController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher, 
         EntityManagerInterface $entityManager): Response
     {
-        // Vérification que l'utilisateur connecté est celui qu'il tente de modifier
+        // Vérif de l'accès
         if ($this->getUser() !== $user) {
-            $this->addFlash('error', 'ERREUR : Vous n\'êtes pas autorisé à modifier ce mot de passe.');
-            return $this->redirectToRoute('profile'); 
+            return $this->redirectToRoute('home');
         }
 
-
+        // Création du form de changement de mdp
         $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
-
+        // Vérif du form
         if ($form->isSubmitted() && $form->isValid()) {
             $oldPassword = $form->get('oldPassword')->getData();
             $newPassword = $form->get('password')->getData();
 
+            // Vérifie si le mot de passe actuel est valide
             if ($userPasswordHasher->isPasswordValid($user, $oldPassword)) {
+                // Si oui, on fait l'empreinte numérique et on le maj
                 $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
                 $user->setPassword($hashedPassword);
                 $entityManager->flush();
@@ -166,6 +191,11 @@ final class UserController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
     ): Response
     {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('user/userDeleteProfile.html.twig', [
             'user' => $user,
         ]);
@@ -179,12 +209,12 @@ final class UserController extends AbstractController
         EntityManagerInterface $entityManager,
         Security $security,
         RequestStack $requestStack
-        ): Response {
-
-      // Vérifie que l'utilisateur connecté est bien celui qui demande la suppression
-      if ($this->getUser() !== $user) {
-          throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer ce profil.');
-      }
+        ): Response 
+    {
+        // Vérif de l'accès
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
   
       // Si l'utilisateur a des commandes, on anonymise ses données
       if ($user->getOrders()->count() > 0) {

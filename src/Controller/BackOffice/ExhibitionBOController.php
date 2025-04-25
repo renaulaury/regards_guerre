@@ -24,6 +24,11 @@ final class ExhibitionBOController extends AbstractController
     #[Route('/backOffice/exhibitListBO', name: 'exhibitListBO')]
     public function exhibitListBO(ExhibitionShareRepository $exhibitionShareRepo): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+        
         $exhibitions = $exhibitionShareRepo->findAllNextExhibition();
 
         return $this->render('/backOffice/exhibition/exhibitListBO.html.twig', [
@@ -42,6 +47,10 @@ final class ExhibitionBOController extends AbstractController
         Security $security, 
         ImageService $imageService): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
 
         $isAdd = false; // Variable de contrôle - ajout/edit
         $oldDate = null; // Variable de contrôle - date de dossier
@@ -180,6 +189,11 @@ final class ExhibitionBOController extends AbstractController
     public function deleteExhibitBO(
         #[MapEntity(mapping: ['slugExhibit' => 'slug'])] ?Exhibition $exhibition = null): Response
     {          
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         // Render the confirmation template
         return $this->render('backOffice/exhibition/exhibitConfirmDeleteBO.html.twig', [
             'exhibition' => $exhibition,            
@@ -193,6 +207,10 @@ final class ExhibitionBOController extends AbstractController
         EntityManagerInterface $entityManager, 
         Filesystem $filesystem): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
 
         // Vérifie si l'exposition existe
         if ($exhibition) {

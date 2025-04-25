@@ -22,6 +22,11 @@ final class UserBOController extends AbstractController
     public function rolesBackOffice(
         UserBORepository $userBORepo): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+        
         $user = $this->getUser(); //User co
         $members = $userBORepo->findMembersByEmail(); //Membres de l'assoc
         $users = $userBORepo->findUsersByRole(); //Classement users par roles
@@ -40,6 +45,11 @@ final class UserBOController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         // Vérification des rôles de l'utilisateur connecté
         $root = $this->isGranted('ROLE_ROOT');
         $admin = $this->isGranted('ROLE_ADMIN');
@@ -103,7 +113,11 @@ final class UserBOController extends AbstractController
     public function userDeleteBO(
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, ): Response
     {
-        
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('backOffice/user/userDeleteBO.html.twig', [
             'user' => $user,
         ]);
@@ -115,6 +129,11 @@ final class UserBOController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, 
         EntityManagerInterface $entityManager): Response
     {    
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         // Si le user a des commandes on garde nom+prenom uniquement
         if ($user->getOrders()->count() > 0) {
             // L'utilisateur a des commandes, anonymisation
