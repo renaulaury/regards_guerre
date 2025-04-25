@@ -28,6 +28,11 @@ final class ShowController extends AbstractController
     #[Route('/show', name: 'show')]
     public function index(): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('show/index.html.twig', [
             'controller_name' => 'ShowController',
         ]);
@@ -43,6 +48,10 @@ final class ShowController extends AbstractController
         ExhibitionShareRepository $exhibitionShareRepo, 
         ShowRepository $showRepo): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
 
         //Récup tous les artistes associés à l'expo et ceux qui ne le sont pas
         $artists = $exhibitionShareRepo->findAll();
@@ -133,6 +142,10 @@ final class ShowController extends AbstractController
         EntityManagerInterface $entityManager, 
         ShowRepository $showRepo): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
         
         // Vérifie si l'exposition et l'artiste existent.
         if ($exhibition && $artist) {
@@ -211,7 +224,11 @@ final class ShowController extends AbstractController
         #[MapEntity(mapping: ['slugExhibit' => 'slug'])] ?Exhibition $exhibition = null,
         #[MapEntity(mapping: ['slugArtist' => 'slug'])] ?Artist $artist = null): Response
     {
-        
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('backOffice/exhibition/confirmRemoveArtistFromExhibitBO.html.twig', [
             'exhibition' => $exhibition,
             'artist' => $artist,
@@ -226,6 +243,11 @@ final class ShowController extends AbstractController
         ShowRepository $showRepo,
         EntityManagerInterface $entityManager): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+        
         //Vérifie si l'expo et l'artiste existent
         if ($exhibition && $artist) {
             $show = $showRepo->findOneBy([

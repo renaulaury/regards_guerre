@@ -3,7 +3,6 @@
 namespace App\Controller\BackOffice;
 
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\Share\ExhibitionShareRepository;
@@ -17,6 +16,10 @@ final class TicketBOController extends AbstractController
         ExhibitionShareRepository $exhibitionShareRepo, 
         string $filter = null): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
 
         // Récupérer la valeur du filtre depuis la requête
     // $filter = $request->query->get('filter');

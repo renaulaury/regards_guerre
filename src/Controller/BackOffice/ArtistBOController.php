@@ -19,6 +19,11 @@ final class ArtistBOController extends AbstractController
     #[Route('/backOffice/artistListBO', name: 'artistListBO')]
     public function artistListBO(ArtistBORepository $artistRepo): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+        
         $artists = $artistRepo->findArtists();
 
         return $this->render('backOffice/artist/artistListBO.html.twig', [
@@ -34,6 +39,11 @@ final class ArtistBOController extends AbstractController
         Request $request,         
         EntityManagerInterface $entityManager): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         $isAdd = false; // Variable de contrôle
 
         // Déterminer si nous sommes en mode ajout ou édition
@@ -77,6 +87,11 @@ final class ArtistBOController extends AbstractController
     #[Route('/backOffice/artistDeleteBO/{slug}', name: 'artistDeleteBO')]
     public function artistDeleteBO(#[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,): Response
     {       
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('backOffice/artist/artistDeleteBO.html.twig', [            
             'artist' => $artist,
         ]);
@@ -88,6 +103,11 @@ final class ArtistBOController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] ?Artist $artist = null,
         EntityManagerInterface $entityManager): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+        
         // Vérifier si l'artiste est lié à une exposition
         if (!$artist->getShows()->isEmpty()) {
             // Ajouter un message flash pour avertir l'utilisateur
