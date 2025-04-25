@@ -1,0 +1,56 @@
+/****** A propos ******/
+.blockAbout p {
+    padding: 3% 0;
+}
+
+/****** Espace boutique ******/
+.welcomeShop {
+    width: 45%;
+    height: 200px;   
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.coffeeShopContainer {
+    width: 100%;
+}
+
+.coffeeFlex {
+    width: 100%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.coffeeDisplay {
+    width: 45%;
+    margin: 0% 5% 5% 0%;
+}
+
+.coffeeDisplay {
+    width: 50%;
+}
+
+.coffeeText, .shopText {
+    padding: 0% 0% 10% 0%;
+}
+
+.shopFlex {
+    width: 100%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+}
+
+.shopDisplay {
+    width: 50%;
+    margin: 0% 0% 0% 5%;
+}
+
+.shopDisplay img {
+    width: 45%;
+}

@@ -20,7 +20,10 @@ import './styles/formExhibition.css';
 import './styles/stockManagement.css';
 
 import './styles/security.css';
+import './styles/aboutServices.css';
+
 import './styles/media.css';
+
 
 
 

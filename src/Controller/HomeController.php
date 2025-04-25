@@ -31,7 +31,7 @@ final class HomeController extends AbstractController
     public function privacyPolice(): Response
     {
 
-        return $this->render('legalTexts/privacyPolicy.html.twig', [
+        return $this->render('texts/privacyPolicy.html.twig', [
         ]);
     }
 
@@ -39,7 +39,23 @@ final class HomeController extends AbstractController
     public function legalNotices(): Response
     {
     
-        return $this->render('legalTexts/legalNotices.html.twig', [
+        return $this->render('texts/legalNotices.html.twig', [
+        ]);
+    }
+
+    #[Route('/about', name: 'about')]
+    public function about(): Response
+    {
+    
+        return $this->render('texts/about.html.twig', [
+        ]);
+    }
+
+    #[Route('/services', name: 'services')]
+    public function other(): Response
+    {
+    
+        return $this->render('texts/services.html.twig', [
         ]);
     }
 
