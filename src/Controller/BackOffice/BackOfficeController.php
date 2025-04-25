@@ -16,6 +16,11 @@ final class BackOfficeController extends AbstractController
         ExhibitionShareRepository $exhibitionShareRepo, 
         Security $security): Response
     {
+        // Vérif de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         $lastExhibitSoonSoldOut = null; //Stock d'alerte
         $lastExhibitSoldOut = null; //Stock épuisé
         
