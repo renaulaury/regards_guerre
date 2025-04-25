@@ -6,6 +6,7 @@ use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -16,6 +17,8 @@ class Room
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le titre de la salle est obligatoire.')]
+    #[Assert\Length(max: 50, message: 'Le titre de la salle ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $titleRoom = null;
 
     /**

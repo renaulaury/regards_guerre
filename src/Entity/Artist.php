@@ -51,9 +51,12 @@ class Artist
     private ?\DateTimeInterface $artistDeathDate = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Le métier de l\'artiste est obligatoire.')]
+    #[Assert\Length(max: 100, message: 'Le métier de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $artistJob = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'La biographie de l\'artiste est obligatoire.')]
     private ?string $artistBio = null;
 
     /**

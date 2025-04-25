@@ -104,9 +104,16 @@ class Exhibition
     private Collection $ticketPricings;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le stock maximum de tickets est obligatoire.')]
+    #[Assert\Positive(message: 'Le stock maximum de tickets doit être un nombre positif.')]
+    #[Assert\Type(type: 'integer', message: 'Le stock maximum de tickets doit être un nombre entier.')]
     private ?int $stockMax = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le seuil d\'alerte de stock est obligatoire.')]
+    #[Assert\PositiveOrZero(message: 'Le seuil d\'alerte de stock doit être un nombre positif ou zéro.')]
+    #[Assert\Type(type: 'integer', message: 'Le seuil d\'alerte de stock doit être un nombre entier.')]
+    #[Assert\LessThanOrEqual(propertyPath: 'stockMax', message: 'Le seuil d\'alerte doit être inférieur ou égal au stock maximum.')]
     private ?int $stockAlert = null;
 
     public function __construct()
