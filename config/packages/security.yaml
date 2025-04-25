@@ -39,7 +39,9 @@ security:
         - { path: ^/backOffice, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/profile, roles: ROLE_DELETE }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/orderHistory, roles: ROLE_USER }
+        # - { path: ^/profile, roles: ROLE_DELETE }
         
         
 
