@@ -146,6 +146,7 @@
     width: 100%;
     padding: 0% 5%;
     background: var(--backgroundColorPastel);
+    margin-bottom: 50px;
 }
 
 .exhibitAgenda {
@@ -202,7 +203,7 @@
 .blockVisitContainer {
     width: 100%;
     padding: 0% 5%;
-    background: var(--backgroundColorPastel);
+    /* background: var(--backgroundColorPastel); */
     padding-top: 5%;
 }
 
