@@ -87,53 +87,55 @@
 
                 {% if unPlanned is defined %}
                     {% for unPlannedArtist in unPlanned %}
-                        <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
-                            <i class="iconsEdit fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
-                        </div>
+                        {% if not unPlannedArtist.isIsAnonymized and unPlannedArtist.anonymizeAt is null %}
+                            <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
+                                <i class="iconsEdit fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
+                            </div>
                         {###################################### Ajout de l'artiste au show ######################################}
-                        <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
+                            <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">
 
-                            {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'slugExhibit': exhibition.slug, 'slugArtist': unPlannedArtist.slug}) }) }}
+                                {{ form_start(forms[unPlannedArtist.id], {'action': path('addArtistToExhibitBO', {'slugExhibit': exhibition.slug, 'slugArtist': unPlannedArtist.slug}) }) }}
 
-                            <div class="blockRoomImgExpo">
-                                <div>
-                                    <p class="label">
-                                        {{ form_label(forms[unPlannedArtist.id].artistPhoto) }}
-                                    </p>
+                                    <div class="blockRoomImgExpo">
+                                        <div>
+                                            <p class="label">
+                                                {{ form_label(forms[unPlannedArtist.id].artistPhoto) }}
+                                            </p>
 
-                                    {% if shows[unPlannedArtist.id] and shows[unPlannedArtist.id].artistPhoto is not empty %}
-                                        <img class="mainImgForm" src="{{ asset(shows[unPlannedArtist.id].artistPhoto) }}" alt="{{ forms[unPlannedArtist.id].artistPhotoAlt.vars.value }}">
-                                    {% endif %}
+                                            {% if shows[unPlannedArtist.id] and shows[unPlannedArtist.id].artistPhoto is not empty %}
+                                                <img class="mainImgForm" src="{{ asset(shows[unPlannedArtist.id].artistPhoto) }}" alt="{{ forms[unPlannedArtist.id].artistPhotoAlt.vars.value }}">
+                                            {% endif %}
 
-                                    <div class="input parcourir">
-                                        {{ form_widget(forms[unPlannedArtist.id].artistPhoto, {'label': false}) }}
-                                    </div>
-                                </div>
+                                            <div class="input parcourir">
+                                                {{ form_widget(forms[unPlannedArtist.id].artistPhoto, {'label': false}) }}
+                                            </div>
+                                        </div>
                             
 
-                                <div>
-                                    <p class="label">{{ form_label(forms[unPlannedArtist.id].room) }}</p>
-                                    <p class="input select">{{ form_widget(forms[unPlannedArtist.id].room) }}</p>
-                                </div>
+                                        <div>
+                                            <p class="label">{{ form_label(forms[unPlannedArtist.id].room) }}</p>
+                                            <p class="input select">{{ form_widget(forms[unPlannedArtist.id].room) }}</p>
+                                        </div>
+                                    </div>
+
+
+                                    <div>
+                                        <p class="label">{{ form_label(forms[unPlannedArtist.id].artistPhotoAlt) }}</p>
+                                        <p class="input">{{ form_widget(forms[unPlannedArtist.id].artistPhotoAlt) }}</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="label">{{ form_label(forms[unPlannedArtist.id].artistTextArt) }}</p>
+                                        <p class="input">{{ form_widget(forms[unPlannedArtist.id].artistTextArt) }}</p>
+                                    </div>
+
+                                    <div class="button blockBtn">
+                                        <button type="submit" class="btn btnSubmit">Ajouter</button>
+                                    </div>
+
+                                {{ form_end(forms[unPlannedArtist.id]) }}
                             </div>
-
-
-                            <div>
-                                <p class="label">{{ form_label(forms[unPlannedArtist.id].artistPhotoAlt) }}</p>
-                                <p class="input">{{ form_widget(forms[unPlannedArtist.id].artistPhotoAlt) }}</p>
-                            </div>
-
-                            <div>
-                                <p class="label">{{ form_label(forms[unPlannedArtist.id].artistTextArt) }}</p>
-                                <p class="input">{{ form_widget(forms[unPlannedArtist.id].artistTextArt) }}</p>
-                            </div>
-
-                            <div class="button blockBtn">
-                                <button type="submit" class="btn btnSubmit">Ajouter</button>
-                            </div>
-
-                            {{ form_end(forms[unPlannedArtist.id]) }}
-                        </div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             </div>

@@ -1,14 +1,14 @@
-.filter-dropdown {
+.filterStock {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
 }
 
-.filter-dropdown label {
+.filterStock label {
     margin-right: 10px;
 }
 
-.filter-dropdown select {
+.filterStock select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
