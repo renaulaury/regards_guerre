@@ -5,13 +5,16 @@ namespace App\Form\BackOffice;
 use App\Entity\Artist;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
 class ArtistAddEditBOType extends AbstractType
 {
@@ -56,12 +59,33 @@ class ArtistAddEditBOType extends AbstractType
             ->add('artistBirthDate', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
-            ])
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'La date de naissance est obligatoire.']),
+                    new Type(['type' => \DateTimeInterface::class, 'message' => 'Veuillez entrer une date valide.']),               
+                    new LessThanOrEqual([
+                        'value' => new \DateTime('today'),
+                        'message' => 'La date de naissance doit être antérieure à la date d\'aujourd\'hui.',
+                    ]),
+                ],
+            ])  
+
             ->add('artistDeathDate', DateType::class, [
                 'label' => 'Date de décès',
                 'widget' => 'single_text',
                 'required' => false,
-            ])
+                'constraints' => [
+                        new Type(['type' => \DateTimeInterface::class, 'message' => 'Veuillez entrer une date valide.']),
+                        new LessThanOrEqual([
+                            'value' => new \DateTime('today'),
+                            'message' => 'La date de décès doit être antérieure ou égale à la date d\'aujourd\'hui.',
+                        ]),
+                        new GreaterThan([
+                            'propertyPath' => 'parent.children[birthDate].data',
+                            'message' => 'La date de décès doit être postérieure à la date de naissance.',
+                        ]),
+                    ],
+                ])
 
             ->add('artistJob', TextType::class, [
                 'label' => 'Métier(s)',

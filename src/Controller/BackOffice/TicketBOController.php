@@ -13,16 +13,13 @@ final class TicketBOController extends AbstractController
     //Affiche la liste des expositions avec les niveaux de stocks
     #[Route('/backOffice/stockManagement/{filter?}', name: 'stockManagement')]
     public function ticketStockManagement(
-        ExhibitionShareRepository $exhibitionShareRepo, 
-        string $filter = null): Response
+        ExhibitionShareRepository $exhibitionShareRepo,
+        ?string $filter = null): Response
     {
         // Vérif de l'accès
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('home');
         }
-
-        // Récupérer la valeur du filtre depuis la requête
-    // $filter = $request->query->get('filter');
        
         $exhibitions = $exhibitionShareRepo->findAllNextExhibition();
         $stockSoldOut = [];//Stock épuisé

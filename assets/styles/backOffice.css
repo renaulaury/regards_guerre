@@ -89,6 +89,26 @@
 }
 
 /************ Page artists ***************/
+.filterArtist {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.filterArtist label {
+    margin-right: 10px;
+}
+
+.filterArtist select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#artistFilter {
+    background-color: var(--backgroundColorPastel);
+}
+
 .listArtists {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

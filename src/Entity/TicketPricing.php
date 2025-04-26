@@ -16,18 +16,14 @@ class TicketPricing
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2)]
-    #[Assert\NotBlank(message: 'Le prix standard est obligatoire.')]
-    #[Assert\Positive(message: 'Le prix standard doit être un nombre positif.')]    
     private ?string $standardPrice = null;
 
     #[ORM\ManyToOne(inversedBy: 'ticketPricings')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'Le ticket associé doit être défini.')]
     private ?Ticket $ticket = null;
 
     #[ORM\ManyToOne(inversedBy: 'ticketPricings')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'L\'exposition associée doit être définie.')]
     private ?Exhibition $exhibition = null;
 
     public function getId(): ?int

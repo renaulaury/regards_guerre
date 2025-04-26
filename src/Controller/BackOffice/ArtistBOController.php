@@ -16,18 +16,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class ArtistBOController extends AbstractController
 {
     /******************** Affichage liste des artistes *********************/
-    #[Route('/backOffice/artistListBO', name: 'artistListBO')]
-    public function artistListBO(ArtistBORepository $artistRepo): Response
+    #[Route('/backOffice/artistListBO/{filter?}', name: 'artistListBO')]
+    public function artistListBO(
+        ArtistBORepository $artistRepo,
+        ?string $filter): Response
     {
         // Vérif de l'accès
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('home');
         }
         
-        $artists = $artistRepo->findArtists();
+        $allArtists = $artistRepo->findArtists();
+        $artistsNonAnonymized = [];
+        $artistsAnonymized = [];
+
+        foreach ($allArtists as $artist) {
+            //Tous les artistes non anonymisés
+            if (!$artist->isIsAnonymized() && $artist->getAnonymizeAt() === null) {
+                $artistsNonAnonymized[] = $artist;
+
+            //Artistes anonymisés avec et sans date
+            } elseif ($artist->isIsAnonymized() || $artist->getAnonymizeAt() !== null) {
+                $artistsAnonymized[] = $artist;
+            }
+        }
+
+        // Filtres les artistes selon le filtre
+        $artistsToDisplay = match ($filter) {
+            'anonymized' => $artistsAnonymized,
+            'artists' => $artistsNonAnonymized,
+            default => $allArtists,
+        };
 
         return $this->render('backOffice/artist/artistListBO.html.twig', [
-            'artists' => $artists,
+            'artists' => $artistsToDisplay,
+            'currentFilter' => $filter,
         ]);
     }
 
@@ -107,23 +130,51 @@ final class ArtistBOController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('home');
         }
-        
-        // Vérifier si l'artiste est lié à une exposition
-        if (!$artist->getShows()->isEmpty()) {
-            // Ajouter un message flash pour avertir l'utilisateur
-            $this->addFlash('error', 'ERREUR : Impossible de supprimer cet artiste car il est affilié à une ou plusieurs expositions.');
-    
-            // Rediriger l'utilisateur vers la liste des artistes ou une autre page
-            return $this->redirectToRoute('artistListBO');
+
+        //Vérifier si l'artiste est lié à des expositions
+        if ($artist->getShows()->isEmpty()) {
+            // Si l'artiste n'est pas lié à une exposition -> suppr définitive
+            $entityManager->remove($artist);
+            $entityManager->flush();
+            $this->addFlash('success', 'SUCCES : '. $artist .' a été supprimé avec succès.');
+
+        } else { //Sinon anonymisation
+            $latestDateExhibit = null; //Récup
+            $now = new \DateTimeImmutable(); // Date du jour
+
+            foreach ($artist->getShows() as $show) {
+                $exhibition = $show->getExhibition();
+
+                //Vérif si expo existe avt de récup la dernière date de l'artiste
+                if ($exhibition && $exhibition->getDateExhibit() >= $now) {
+                    if ($latestDateExhibit === null || $exhibition->getDateExhibit() > $latestDateExhibit) {
+                        $latestDateExhibit = $exhibition->getDateExhibit();
+                    }
+                }
+            }
+
+            if ($latestDateExhibit) {
+                // Si une exposition future existe, en attente -> planifier l'anonymisation
+                $anonymizeAt = $latestDateExhibit->modify('+1 day');
+                $artist->setAnonymizeAt($anonymizeAt);
+                $artist->setIsAnonymized(false);
+                $entityManager->persist($artist);
+                $entityManager->flush();
+                $this->addFlash('warning', 'INFO : L\'anonymisation de '. $artist . 'a été planifiée pour le ' . $anonymizeAt->format('d/m/Y'));
+            } else {
+                // Si toutes les expo liées sont antérieures à aujourd'hui -> anonymisation
+                $artist->setArtistBirthDate(null);
+                $artist->setArtistDeathDate(null);
+                $artist->setArtistBio(null);
+                $artist->setIsAnonymized(true);
+
+                $entityManager->persist($artist);
+                $entityManager->flush();
+                $this->addFlash('success', 'SUCCES : '. $artist . 'a été anonymisé.');
+            }
         }
-    
-        // Si l'artiste n'est pas lié à une exposition, le supprimer
-        $entityManager->remove($artist);
-        $entityManager->flush();
-    
-        // Ajouter un message flash pour confirmer la suppression
-        $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
-    
+
         return $this->redirectToRoute('artistListBO');
     }
+            
 }

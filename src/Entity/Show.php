@@ -17,27 +17,21 @@ class Show
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'shows')]
-    #[Assert\NotNull(message: 'La salle doit être spécifiée.')]
     private ?Room $room = null;
 
     #[ORM\ManyToOne(inversedBy: 'shows')]
-    #[Assert\NotNull(message: 'L\'exposition doit être spécifiée.')]
     private ?Exhibition $exhibition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, message: 'Le nom du fichier photo de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $artistPhoto = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Le texte de présentation de l\'artiste est obligatoire.')]    
     private ?string $artistTextArt = null;
 
     #[ORM\ManyToOne(inversedBy: 'shows')]
-    #[Assert\NotNull(message: 'L\'artiste doit être spécifié.')]
     private ?Artist $artist = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, message: 'La description alternative de la photo de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $artistPhotoAlt = null;
 
     public function getId(): ?int

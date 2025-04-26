@@ -128,6 +128,24 @@ input::placeholder {
     margin-top: 30px;
     margin-bottom: 40px;
 }  
+
+/*Msg d'erreur*/
+.formErrors ul { 
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    list-style-type: none;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+}
+
+
+.formErrors ul li { 
+    margin-bottom: 3px;
+}
   
   
 

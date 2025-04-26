@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panier{% endblock %}
+{% block title %}Gestion des tickets{% endblock %}
 
 {% block description %}
 Consultez en un coup d'œil l'état de vos stocks : niveaux maximum, actuel et d'alerte. 
@@ -8,46 +8,16 @@ Identifiez rapidement les produits en rupture ou en seuil critique.
 Accédez également aux statistiques de vente pour une gestion optimale de votre inventaire.
 {% endblock %}
 
-{# {% block body %}
-<!-- TicketBOController -->
-
-<h1>Gestion des stocks <br> tickets</h1>
-
-<section>
-
-    
-    
-    {% for stockInfo in exhibitionStocks %}
-        <h2> 
-            {% if stockInfo.remaining <= 0 %}
-                <i class="iconDanger fa-solid fa-xmark"></i> 
-            {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
-                <i class="iconWarning fa-solid fa-triangle-exclamation"></i> 
-            {% endif %}
-                {{ stockInfo.exhibition }} ({{ stockInfo.exhibition.dateExhibitFr }})
-        </h2>
-
-        <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
-        <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}
-            <a href="{{ path('exhibitEditBO', {'slug': stockInfo.exhibition.slug}) }}">
-                <i class="iconsEdit fa-solid fa-pencil"></i>
-            </a>
-        </p>
-
-        <p>Réservés : {{ stockInfo.reserved }}</p>
-        <p>Reste : {{ stockInfo.remaining }}</p>
-    {% endfor %}
-</section>
-{% endblock %} #}
 
 {% block body %}
-    <h1>Gestion des stocks <br> tickets</h1>
+<!-- TicketBOController -->
+    <h1>Gestion des tickets</h1>
 
     <section>
         <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
 
 
-        <div class="filter-dropdown">
+        <div class="filterStock">
             <label for="stockFilter">Filtrer par :</label>
 
             <select id="stockFilter" onchange="window.location.href = this.value;">

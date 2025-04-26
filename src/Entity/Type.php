@@ -15,13 +15,10 @@ class Type
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: 'Le titre du type est obligatoire.')]
-    #[Assert\Length(max: 50, message: 'Le titre du type ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $titleType = null;
 
     #[ORM\ManyToOne(inversedBy: 'types')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'Le ticket associé doit être défini.')]
     private ?Ticket $ticket = null;
 
     public function getId(): ?int

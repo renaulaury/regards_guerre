@@ -8,56 +8,42 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\BackOffice\ArtistBORepository;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ArtistBORepository::class)]
-class Artist
+class Artist 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: 'Le nom de l\'artiste est obligatoire.')]
-    #[Assert\Length(max: 50, message: 'Le nom de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Zéèçàùïöë -]+$/i',
-        message: 'Le nom de l\'artiste ne peut contenir que des lettres, des espaces et des tirets.'
-    )]
+    #[ORM\Column(length: 50)]    
     private ?string $artistName = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: 'Le prénom de l\'artiste est obligatoire.')]
-    #[Assert\Length(max: 50, message: 'Le prénom de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Zéèçàùïöë -]+$/i',
-        message: 'Le prénom de l\'artiste ne peut contenir que des lettres, des espaces et des tirets.'
-    )]
+    #[ORM\Column(length: 50)]    
     private ?string $artistFirstname = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: true)]
-    #[Assert\Length(max: 255, message: 'Le slug de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $slug = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotNull(message: 'La date de naissance de l\'artiste est obligatoire.')]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de naissance de l\'artiste doit être une date valide.')]
-    private ?\DateTimeInterface $artistBirthDate = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+     private ?\DateTimeInterface $artistBirthDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de décès de l\'artiste doit être une date valide.')]
-    #[Assert\GreaterThan(propertyPath: 'artistBirthDate', message: 'La date de décès doit être postérieure à la date de naissance.')]
     private ?\DateTimeInterface $artistDeathDate = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'Le métier de l\'artiste est obligatoire.')]
-    #[Assert\Length(max: 100, message: 'Le métier de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $artistJob = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'La biographie de l\'artiste est obligatoire.')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $artistBio = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isAnonymized = false;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $anonymizeAt = null;
 
     /**
      * @var Collection<int, Show>
@@ -113,11 +99,10 @@ class Artist
 
     public function createSlugDateIdentityArtist(): string
     {
-        $slugify = new Slugify();
-        $datePart = $this->artistBirthDate ? $this->artistBirthDate->format('dmY') : '';
+        $slugify = new Slugify();        
         $namePart = $this->artistFirstname . ' ' . $this->artistName;
 
-        $slugSource = $datePart . '-' . $namePart;
+        $slugSource = $this->id . '-' . $namePart;
         return $slugify->slugify($slugSource);
     }
 
@@ -126,7 +111,7 @@ class Artist
         return $this->artistBirthDate;
     }
 
-    public function setArtistBirthDate(\DateTimeInterface $artistBirthDate): static
+    public function setArtistBirthDate(?\DateTimeInterface $artistBirthDate): static
     {
         $this->artistBirthDate = $artistBirthDate;
 
@@ -189,9 +174,35 @@ class Artist
         return $this->artistBio;
     }
 
-    public function setArtistBio(string $artistBio): static
+    public function setArtistBio(?string $artistBio): static  
     {
         $this->artistBio = $artistBio;
+
+        return $this;
+    }
+
+    //Gestion des artistes anonymisés
+    public function isIsAnonymized(): ?bool
+    {
+        return $this->isAnonymized;
+    }
+
+    public function setIsAnonymized(bool $isAnonymized): static
+    {
+        $this->isAnonymized = $isAnonymized;
+
+        return $this;
+    }
+
+    //Gestion des artistes anonymisés après leur prochaine expo
+    public function getAnonymizeAt(): ?\DateTimeImmutable
+    {
+        return $this->anonymizeAt;
+    }
+
+    public function setAnonymizeAt(?\DateTimeImmutable $anonymizeAt): self
+    {
+        $this->anonymizeAt = $anonymizeAt;
 
         return $this;
     }
