@@ -33,8 +33,8 @@ class Exhibition
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateWarEnd = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateExhibit = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $dateExhibit = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $hourBegin = null;
@@ -222,12 +222,12 @@ class Exhibition
          
     }
 
-    public function getDateExhibit(): ?\DateTimeInterface
+    public function getDateExhibit(): ?\DateTimeImmutable
     {
         return $this->dateExhibit;
     }
 
-    public function setDateExhibit(\DateTimeInterface $dateExhibit): static
+    public function setDateExhibit(\DateTimeImmutable $dateExhibit): static
     {
         $this->dateExhibit = $dateExhibit;
 

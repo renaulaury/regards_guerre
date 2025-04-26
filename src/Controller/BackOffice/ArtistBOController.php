@@ -108,54 +108,50 @@ final class ArtistBOController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Vérifier si l'artiste est lié à des expositions
-        // if ($artist->getShows()->isEmpty()) {
-        //     // Si l'artiste n'est pas lié à une exposition -> suppr définitive
-        //     $entityManager->remove($artist);
-        //     $entityManager->flush();
-        //     $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
-        // }else {
-        //     $canBeAnonymized = true;
-        //     foreach ($artist->getShows() as $show) {
-        //         if ($show->getDateExhibit() >= $dateTimeImmutable) {
-        //             // Si une exposition future est trouvée, on ne peut pas encore anonymiser complètement
-        //             $canBeAnonymized = false;
-        //             $this->addFlash('warning', 'ATTENTION : L\'artiste est lié à une ou plusieurs expositions futures. Aucune action n\'a été entreprise pour le moment.');
-        //             break;
-        //         }
-        //     }
+        //Vérifier si l'artiste est lié à des expositions
+        if ($artist->getShows()->isEmpty()) {
+            // Si l'artiste n'est pas lié à une exposition -> suppr définitive
+            $entityManager->remove($artist);
+            $entityManager->flush();
+            $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
 
-        //     if ($canBeAnonymized) {
-        //         // Si toutes les expositions liées sont antérieures à aujourd'hui, anonymiser l'artiste
-        //         $artist->setArtistBirthDate(null);
-        //         $artist->setArtistDeathDate(null);
-        //         // $artist->setArtistTextArt(null);
+        } else { //Sinon anonymisation
+            $latestDateExhibit = null; //Récup
+            $now = new \DateTimeImmutable(); // Date du jour
 
-        //         $entityManager->persist($artist);
-        //         $entityManager->flush();
-        //         $this->addFlash('success', 'SUCCES : L\'artiste a été anonymisé car toutes ses expositions sont passées.');
-        //     } else {
-        //         // Si une exposition future existe, on redirige sans rien faire pour l'instant (comme spécifié)
-        //         return $this->redirectToRoute('artistListBO');
-        //     }
-        // }
-        
-        // Vérifier si l'artiste est lié à une exposition
-        // if (!$artist->getShows()->isEmpty()) {
-        //     // Ajouter un message flash pour avertir l'utilisateur
-        //     $this->addFlash('error', 'ERREUR : Impossible de supprimer cet artiste car il est affilié à une ou plusieurs expositions.');
-    
-        //     // Rediriger l'utilisateur vers la liste des artistes ou une autre page
-        //     return $this->redirectToRoute('artistListBO');
-        // }
-    
-        // Si l'artiste n'est pas lié à une exposition, le supprimer
-        // $entityManager->remove($artist);
-        // $entityManager->flush();
-    
-        // // Ajouter un message flash pour confirmer la suppression
-        // $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
-    
+            foreach ($artist->getShows() as $show) {
+                $exhibition = $show->getExhibition();
+
+                //Vérif si expo existe avt de récup la dernière date de l'artiste
+                if ($exhibition && $exhibition->getDateExhibit() >= $now) {
+                    if ($latestDateExhibit === null || $exhibition->getDateExhibit() > $latestDateExhibit) {
+                        $latestDateExhibit = $exhibition->getDateExhibit();
+                    }
+                }
+            }
+
+            if ($latestDateExhibit) {
+                // Si une exposition future existe, en attente -> planifier l'anonymisation
+                $anonymizeAt = $latestDateExhibit->modify('+1 day');
+                $artist->setAnonymizeAt($anonymizeAt);
+                $artist->setIsAnonymized(false);
+                $entityManager->persist($artist);
+                $entityManager->flush();
+                $this->addFlash('info', 'INFO : L\'anonymisation de l\'artiste a été planifiée pour le ' . $anonymizeAt->format('d/m/Y'));
+            } else {
+                // Si toutes les expo liées sont antérieures à aujourd'hui -> anonymisation
+                $artist->setArtistBirthDate(null);
+                $artist->setArtistDeathDate(null);
+                $artist->setArtistBio(null);
+                $artist->setIsAnonymized(true);
+
+                $entityManager->persist($artist);
+                $entityManager->flush();
+                $this->addFlash('success', 'SUCCES : L\'artiste a été anonymisé car toutes ses expositions sont passées.');
+            }
+        }
+
         return $this->redirectToRoute('artistListBO');
     }
+            
 }
