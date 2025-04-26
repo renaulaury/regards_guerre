@@ -19,46 +19,30 @@ class Exhibition
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le titre de l\'exposition est obligatoire.')]
-    #[Assert\Length(max: 255, message: 'Le titre de l\'exposition ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $titleExhibit = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: true)]
-    #[Assert\Length(max: 255, message: 'Le slug de l\'exposition ne peut pas dépasser {{ limit }} caractères.')]
-    private ?string $slug = null; // Propriété slug
+   private ?string $slug = null; // Propriété slug
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, message: 'Le nom du fichier de l\'image principale ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $mainImage = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotNull(message: 'La date de début de la guerre est obligatoire.')]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de début de la guerre doit être une date valide.')]
     private ?\DateTimeInterface $dateWarBegin = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de fin de la guerre doit être une date valide.')]
-    #[Assert\GreaterThan(propertyPath: 'dateWarBegin', message: 'La date de fin de la guerre doit être postérieure à la date de début.')]
     private ?\DateTimeInterface $dateWarEnd = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotNull(message: 'La date de l\'exposition est obligatoire.')]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de l\'exposition doit être une date valide.')]
     private ?\DateTimeInterface $dateExhibit = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    #[Assert\NotNull(message: 'L\'heure de début est obligatoire.')]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'L\'heure de début doit être une heure valide.')]
     private ?\DateTimeInterface $hourBegin = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    #[Assert\NotNull(message: 'L\'heure de fin est obligatoire.')]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'L\'heure de fin doit être une heure valide.')]
-    #[Assert\GreaterThan(propertyPath: 'hourBegin', message: 'L\'heure de fin doit être postérieure à l\'heure de début.')]
     private ?\DateTimeInterface $hourEnd = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'La description de l\'exposition est obligatoire.')]
     private ?string $descriptionExhibit = null;
 
     /**
@@ -74,7 +58,6 @@ class Exhibition
     private Collection $shows;
 
     #[ORM\ManyToOne(inversedBy: 'exhibitions')]
-    #[Assert\NotNull(message: 'L\'utilisateur associé à l\'exposition doit être défini.')]
     private ?User $user = null;
 
     /**
@@ -84,17 +67,12 @@ class Exhibition
     private Collection $comments;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'La description alternative de l\'image principale est obligatoire.')]
-    #[Assert\Length(max: 255, message: 'La description alternative de l\'image principale ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $mainImageAlt = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'L\'accroche de l\'exposition est obligatoire.')]
     private ?string $hookExhibit = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le sous-titre de l\'exposition est obligatoire.')]
-    #[Assert\Length(max: 255, message: 'Le sous-titre de l\'exposition ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $subtitleExhibit = null;
 
     /**
@@ -104,17 +82,10 @@ class Exhibition
     private Collection $ticketPricings;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le stock maximum de tickets est obligatoire.')]
-    #[Assert\Positive(message: 'Le stock maximum de tickets doit être un nombre positif.')]
-    #[Assert\Type(type: 'integer', message: 'Le stock maximum de tickets doit être un nombre entier.')]
     private ?int $stockMax = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le seuil d\'alerte de stock est obligatoire.')]
-    #[Assert\PositiveOrZero(message: 'Le seuil d\'alerte de stock doit être un nombre positif ou zéro.')]
-    #[Assert\Type(type: 'integer', message: 'Le seuil d\'alerte de stock doit être un nombre entier.')]
-    #[Assert\LessThanOrEqual(propertyPath: 'stockMax', message: 'Le seuil d\'alerte doit être inférieur ou égal au stock maximum.')]
-    private ?int $stockAlert = null;
+   private ?int $stockAlert = null;
 
     public function __construct()
     {

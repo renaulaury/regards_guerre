@@ -107,22 +107,54 @@ final class ArtistBOController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('home');
         }
+
+        // Vérifier si l'artiste est lié à des expositions
+        // if ($artist->getShows()->isEmpty()) {
+        //     // Si l'artiste n'est pas lié à une exposition -> suppr définitive
+        //     $entityManager->remove($artist);
+        //     $entityManager->flush();
+        //     $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
+        // }else {
+        //     $canBeAnonymized = true;
+        //     foreach ($artist->getShows() as $show) {
+        //         if ($show->getDateExhibit() >= $dateTimeImmutable) {
+        //             // Si une exposition future est trouvée, on ne peut pas encore anonymiser complètement
+        //             $canBeAnonymized = false;
+        //             $this->addFlash('warning', 'ATTENTION : L\'artiste est lié à une ou plusieurs expositions futures. Aucune action n\'a été entreprise pour le moment.');
+        //             break;
+        //         }
+        //     }
+
+        //     if ($canBeAnonymized) {
+        //         // Si toutes les expositions liées sont antérieures à aujourd'hui, anonymiser l'artiste
+        //         $artist->setArtistBirthDate(null);
+        //         $artist->setArtistDeathDate(null);
+        //         // $artist->setArtistTextArt(null);
+
+        //         $entityManager->persist($artist);
+        //         $entityManager->flush();
+        //         $this->addFlash('success', 'SUCCES : L\'artiste a été anonymisé car toutes ses expositions sont passées.');
+        //     } else {
+        //         // Si une exposition future existe, on redirige sans rien faire pour l'instant (comme spécifié)
+        //         return $this->redirectToRoute('artistListBO');
+        //     }
+        // }
         
         // Vérifier si l'artiste est lié à une exposition
-        if (!$artist->getShows()->isEmpty()) {
-            // Ajouter un message flash pour avertir l'utilisateur
-            $this->addFlash('error', 'ERREUR : Impossible de supprimer cet artiste car il est affilié à une ou plusieurs expositions.');
+        // if (!$artist->getShows()->isEmpty()) {
+        //     // Ajouter un message flash pour avertir l'utilisateur
+        //     $this->addFlash('error', 'ERREUR : Impossible de supprimer cet artiste car il est affilié à une ou plusieurs expositions.');
     
-            // Rediriger l'utilisateur vers la liste des artistes ou une autre page
-            return $this->redirectToRoute('artistListBO');
-        }
+        //     // Rediriger l'utilisateur vers la liste des artistes ou une autre page
+        //     return $this->redirectToRoute('artistListBO');
+        // }
     
         // Si l'artiste n'est pas lié à une exposition, le supprimer
-        $entityManager->remove($artist);
-        $entityManager->flush();
+        // $entityManager->remove($artist);
+        // $entityManager->flush();
     
-        // Ajouter un message flash pour confirmer la suppression
-        $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
+        // // Ajouter un message flash pour confirmer la suppression
+        // $this->addFlash('success', 'SUCCES : L\'artiste a été supprimé avec succès.');
     
         return $this->redirectToRoute('artistListBO');
     }

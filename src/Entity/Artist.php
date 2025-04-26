@@ -18,45 +18,25 @@ class Artist
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: 'Le nom de l\'artiste est obligatoire.')]
-    #[Assert\Length(max: 50, message: 'Le nom de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Zéèçàùïöë -]+$/i',
-        message: 'Le nom de l\'artiste ne peut contenir que des lettres, des espaces et des tirets.'
-    )]
+    #[ORM\Column(length: 50)]    
     private ?string $artistName = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: 'Le prénom de l\'artiste est obligatoire.')]
-    #[Assert\Length(max: 50, message: 'Le prénom de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Zéèçàùïöë -]+$/i',
-        message: 'Le prénom de l\'artiste ne peut contenir que des lettres, des espaces et des tirets.'
-    )]
+    #[ORM\Column(length: 50)]    
     private ?string $artistFirstname = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: true)]
-    #[Assert\Length(max: 255, message: 'Le slug de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotNull(message: 'La date de naissance de l\'artiste est obligatoire.')]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de naissance de l\'artiste doit être une date valide.')]
-    private ?\DateTimeInterface $artistBirthDate = null;
+     private ?\DateTimeInterface $artistBirthDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\Type(type: \DateTimeInterface::class, message: 'La date de décès de l\'artiste doit être une date valide.')]
-    #[Assert\GreaterThan(propertyPath: 'artistBirthDate', message: 'La date de décès doit être postérieure à la date de naissance.')]
     private ?\DateTimeInterface $artistDeathDate = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'Le métier de l\'artiste est obligatoire.')]
-    #[Assert\Length(max: 100, message: 'Le métier de l\'artiste ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $artistJob = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'La biographie de l\'artiste est obligatoire.')]
     private ?string $artistBio = null;
 
     /**
