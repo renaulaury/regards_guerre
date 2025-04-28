@@ -51,7 +51,7 @@ class CartService
         // Vérifier si on a bien récupéré les informations nécessaires
         if ($ticketDetails) {
             // Fetch the entire exhibition entity
-            $exhibition = $this->exhibitionShareRepository->find($exhibitionId); // Modify this line
+            $exhibition = $this->exhibitionShareRepository->find($exhibitionId); 
             $price = $ticketDetails['price'];
 
             // Créer une clé unique combinant exhibitionId et ticketId
