@@ -26,9 +26,7 @@
                             <p>Bienvenue 
                                 <a href="{{ path('index', {'slug': app.user.slug} ) }}">
                                     {% if app.user.userFirstname %}
-                                        {{ app.user.userFirstname }}
-                                    {% elseif app.user.userNickname %}
-                                        {{ app.user.userNickname }}
+                                        {{ app.user.userFirstname }}                                    
                                     {% else %}
                                         {{ app.user.userEmail|split('@')[0] }}
                                     {% endif %}

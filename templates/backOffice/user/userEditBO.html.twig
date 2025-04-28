@@ -3,8 +3,6 @@
 {% block title %}Profil de  
     {% if user.userFirstname %}
         {{ user.userFirstname }}
-    {% elseif user.userNickname %}
-        {{ user.userNickname }}
     {% else %}
         {{ user.userEmail|split('@')[0] }}
     {% endif %}    
@@ -32,17 +30,13 @@
 
             <h2>Modification de l'utilisateur
                 {% if user.userFirstname %}
-                    {{ user.userFirstname }}
-                {% elseif user.userNickname %}
-                    {{ user.userNickname }}
+                    {{ user.userFirstname }}                
                 {% else %}
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %}
             </h2>            
 
-            <div class="listMbrs">
-                <p>Pseudo actuel: {{ user.userNickname }} </p>
-
+            <div class="listMbrs">              
                 <p>Mail: {{ user.userEmail }} </p>
             
 
@@ -67,28 +61,14 @@
                 <form method="post" action="{{ path('userEditBO', {slug: user.slug}) }}">
                     {{ form_start(form) }}
 
-                    {% if root %}
-                        <p class="label">{{ form_label(form.roles) }}</p>
-                        <p class="input">{{ form_widget(form.roles) }}</p>
+                        {% if root %}
+                            <p class="label">{{ form_label(form.roles) }}</p>
+                            <p class="input">{{ form_widget(form.roles) }}</p>
 
-                        <div class="button">   
-                            <button type="submit" class="btnSubmit" name="submitRoles">Modifier le rôle</button>
-                        </div>
-                    {% endif %}
-
-                    {% if admin %}
-                    <div class="listMbrs">
-                        <p class="label">{{ form_label(form.userNickname) }}</p>
-                        <p class="input">{{ form_widget(form.userNickname) }}</p>
-                        
-                    </div>
-                        <p class="label">{{ form_label(form.reasonNickname) }}</p>
-                        <p class="textarea">{{ form_widget(form.reasonNickname) }}</p>
-                        
-                        <div class="button">   
-                            <button type="submit" class="btnSubmit" name="submitNickname">Modifier le pseudo</button>
-                        </div>
-                    {% endif %}
+                            <div class="button">   
+                                <button type="submit" class="btnSubmit" name="submitRoles">Modifier le rôle</button>
+                            </div>
+                        {% endif %}                    
 
                     {{ form_end(form) }}
 

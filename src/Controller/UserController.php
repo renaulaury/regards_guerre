@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserEditEmailFormType;
 use App\Form\UserEditIdentityFormType;
-use App\Form\UserEditNicknameFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Form\Security\ChangePasswordFormType;
@@ -109,38 +108,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    /*********** Permet l'édition du pseudo de l'utilisateur ************************/
-    #[Route('/user/userEditNickname/{slug}', name: 'userEditNickname')]
-    public function userEditNickname(
-        #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
-        Request $request, 
-        EntityManagerInterface $entityManager): Response
-    {
-        // Vérif de l'accès
-        if ($this->getUser() !== $user) {
-            return $this->redirectToRoute('home');
-        }
-
-        // Création du form
-        $form = $this->createForm(UserEditNicknameFormType::class, $user, ['entityManager' => $entityManager]);
-
-        // Traiter la requête HTTP
-        $form->handleRequest($request);
-
-        // Vérif du formulaire
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Persister les modifications dans la base de données
-            $entityManager->flush();
-
-            // Rediriger vers la page de profil de l'utilisateur
-            return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
-        }
-
-        // Rendre le template avec le formulaire
-        return $this->render('user/userEditNickname.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
+    
 
 /*********** Permet l'édition du mdp l'utilisateur ************************/
     #[Route('/userEditPassword/{slug}', name: 'userEditPassword')]
@@ -219,10 +187,8 @@ final class UserController extends AbstractController
       // Si l'utilisateur a des commandes, on anonymise ses données
       if ($user->getOrders()->count() > 0) {
           $user->setUserEmail('utilisateur' . $user->getId() . '@supprime.fr');
-          $user->setUserNickname('Utilisateur' . $user->getId());
           $user->setRoles(['ROLE_DELETE']);
           $user->setPassword('');
-          $user->setReasonNickname(null);
       } else {
           // Sinon, on supprime l'utilisateur
           $entityManager->remove($user);

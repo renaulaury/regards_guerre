@@ -2,9 +2,7 @@
 
 {% block title %}Suppression 
     {% if user.userFirstname %}
-        {{ user.userFirstname }}
-    {% elseif user.userNickname %}
-        {{ user.userNickname }}
+        {{ user.userFirstname }}    
     {% else %}
         {{ user.userEmail|split('@')[0] }}
     {% endif %}  
@@ -29,9 +27,7 @@
         {% if is_granted('ROLE_ADMIN') %}
             <p class="marginTop textDelete">Etes vous sûr(e) de vouloir supprimer 
                 {% if user.userFirstname %}
-                    {{ user.userFirstname }}
-                {% elseif user.userNickname %}
-                    {{ user.userNickname }}
+                    {{ user.userFirstname }}                
                 {% else %}
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %} 

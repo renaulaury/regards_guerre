@@ -30,47 +30,13 @@ class UserBOType extends AbstractType
                 'multiple' => true,
             ]);
         }
-
-        // Admin -> raison du changement et modification du pseudo
-        if ($options['admin']) {
-            $builder
-                ->add('userNickname', TextType::class, [
-                    'label' => 'Pseudo',
-                    'required' => true,
-                    'trim' => true, 
-                    'constraints' => [
-                        new Length([
-                            'min' => 2,
-                            'max' => 50, 
-                            'minMessage' => 'Le pseudo doit contenir au moins {{ limit }} caractères.',
-                            'maxMessage' => 'Le pseudo ne peut pas dépasser {{ limit }} caractères.',
-                        ]),
-                        new Regex([
-                            'pattern' => '/^[a-zA-Z0-9_-]+$/',
-                            'message' => 'Le pseudo ne peut contenir que des lettres, des chiffres, des tirets et des underscores.',
-                        ]),
-                    ],
-                ])
-
-                ->add('reasonNickname', TextareaType::class, [
-                    'label' => 'Raison du changement',
-                    'required' => true,
-                    'constraints' => [
-                        new Length([
-                            'max' => 100, 
-                            'maxMessage' => 'La raison du changement ne peut pas dépasser {{ limit }} caractères.',
-                        ]),
-                    ],
-                ]);
-            }
-        }
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
             'root' => false,  // Option ROOT
-            'admin' => false, // Option ADMIN
         ]);
     }
 

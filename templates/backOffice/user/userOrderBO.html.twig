@@ -22,8 +22,6 @@
                 Historique de réservation de 
                 {% if user.userFirstname %}
                     {{ user.userFirstname }}
-                {% elseif user.userNickname %}
-                    {{ user.userNickname }}
                 {% else %}
                     {{ user.userEmail|split('@')[0] }}
                 {% endif %}

@@ -65,30 +65,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-
-
-            ->add('userNickname', TextType::class, [
-                'label' => 'Pseudo <sup>3</sup>',  
-                'label_html' => true, // Active l'interprétation HTML
-                'attr' => [
-                        'placeholder' => 'Votre pseudonyme',
-                    ],
-                'required' => false, 
-                'trim' => true, //Enleve les espaces
-                'constraints' => [
-                    new Length([
-                        'min' => 2,
-                        'max' => 50,
-                        'minMessage' => 'Votre pseudo doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Votre pseudo ne peut pas dépasser {{ limit }} caractères.',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^[a-zA-Z0-9_-]+$/',
-                        'message' => 'Votre pseudo ne peut contenir que des lettres, des chiffres, des tirets et des underscores.',
-                    ]),
-                ],
-            ])
-
+            
 
             ->add('userEmail', EmailType::class, [
                 'label' => 'Email',

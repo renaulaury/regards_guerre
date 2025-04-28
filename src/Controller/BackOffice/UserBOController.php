@@ -64,29 +64,8 @@ final class UserBOController extends AbstractController
         $form->handleRequest($request);
         
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {           
             
-            // Admin -> Gestion du changement de pseudo 
-            if ($admin && $request->request->get('submitNickname')) {
-
-                 // Vider les champs du formulaire avant de les afficher
-                $form->get('userNickname')->setData('');  
-                $form->get('reasonNickname')->setData(''); 
-
-                $newNickname = $form->get('userNickname')->getData();
-
-                // Vérif différence des 2 pseudos
-                if ($user->getUserNickname() !== $newNickname) {
-                    // Stockage de la raison du changement 
-                    $reasonNickname = $form->get('reasonNickname')->getData();
-
-                    // Mettre à jour le pseudo
-                    $user->setUserNickname($newNickname);
-                    // Stockage de la raison du changement en bdd
-                    $user->setReasonNickname($reasonNickname);
-                } 
-            }
-
             // Root -> Gestion du changement de rôle 
             if ($root && $request->request->get('submitRoles')) {
                 $user->setRoles([$form->get('roles')->getData()]);
@@ -138,15 +117,12 @@ final class UserBOController extends AbstractController
         if ($user->getOrders()->count() > 0) {
             // L'utilisateur a des commandes, anonymisation
             $anonymizedEmail = 'utilisateur' . $user->getId() . '@supprime.fr';
-            $anonymizedNickname = 'Utilisateur' . $user->getId();
 
             $user->setUserEmail($anonymizedEmail);
-            $user->setUserNickname($anonymizedNickname);
 
             // Vider les autres champs personnels
             $user->setRoles(['ROLE_DELETE']);
             $user->setPassword('');
-            $user->setReasonNickname(null);
 
             // Enregistrement des modifications
             $entityManager->flush();

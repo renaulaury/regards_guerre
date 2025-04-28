@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -33,6 +32,21 @@ class Order
     #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'order_')]
     private Collection $orderDetail;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $customerName = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $customerFirstname = null;
+
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $customerEmail = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 17, scale: 2, unique: true, nullable: true)]
+    private ?string $numberInvoice = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 17, scale: 2, nullable: true)]
+    private ?string $orderTotal = null;
+
     public function __construct()
     {
         $this->orderDetail = new ArrayCollection();
@@ -55,9 +69,9 @@ class Order
         return $this;
     }
 
-    public function getOrderDateCreationFr()
+    public function getOrderDateCreationFr(): ?string
     {
-        return $this->orderDateCreation->format('d-m-y');         
+        return $this->orderDateCreation?->format('d-m-y');
     }
 
     public function getOrderStatus(): ?string
@@ -114,10 +128,69 @@ class Order
         return $this;
     }
 
-    public function __toString()
+
+    public function getCustomerName(): ?string
     {
-        return $this->orderStatus;
+        return $this->customerName;
     }
 
-    
+    public function setCustomerName(?string $customerName): static
+    {
+        $this->customerName = $customerName;
+
+        return $this;
+    }
+
+    public function getCustomerFirstname(): ?string
+    {
+        return $this->customerFirstname;
+    }
+
+    public function setCustomerFirstname(?string $customerFirstname): static
+    {
+        $this->customerFirstname = $customerFirstname;
+
+        return $this;
+    }
+
+    public function getCustomerEmail(): ?string
+    {
+        return $this->customerEmail;
+    }
+
+    public function setCustomerEmail(?string $customerEmail): static
+    {
+        $this->customerEmail = $customerEmail;
+
+        return $this;
+    }
+
+    public function getNumberInvoice(): ?string
+    {
+        return $this->numberInvoice;
+    }
+
+    public function setNumberInvoice(?string $numberInvoice): static
+    {
+        $this->numberInvoice = $numberInvoice;
+
+        return $this;
+    }
+
+    public function getOrderTotal(): ?string
+    {
+        return $this->orderTotal;
+    }
+
+    public function setOrderTotal(?string $orderTotal): static
+    {
+        $this->orderTotal = $orderTotal;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getOrderDateCreationFr() . ' - ' . $this->id;
+    }
 }

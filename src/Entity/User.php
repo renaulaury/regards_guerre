@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
@@ -38,14 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50, nullable: true)]    
-    private ?string $userNickname = null;
-
-    /**
-     * @var Collection<int, Comment>
-     */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
-    private Collection $comments;
 
     /**
      * @var Collection<int, Order>
@@ -59,23 +50,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Exhibition::class, mappedBy: 'user')]
     private Collection $exhibitions;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $ReasonNickname = null;
-
-    
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $userName = null;
-
-    
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $userFirstname = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: true)]
     private ?string $slug = null;
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->exhibitions = new ArrayCollection();
     }
@@ -85,30 +65,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    
-    public function getUserName(): ?string
-    {
-        return $this->userName;
-    }
-
-    public function setUserName(?string $userName): static
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
-    public function getUserFirstname(): ?string
-    {
-        return $this->userFirstname;
-    }
-
-    public function setUserFirstname(?string $userFirstname): static
-    {
-        $this->userFirstname = $userFirstname;
-
-        return $this;
-    }
 
     public function getSlug(): ?string
     {
@@ -129,30 +85,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         $slugSource = $userSlug;
         return $slugify->slugify($slugSource);
-    }
-    
-    public function getUserNickname(): ?string
-    {
-        return $this->userNickname;
-    }
-
-    public function setUserNickname(?string $userNickname): static
-    {
-        $this->userNickname = $userNickname;
-
-        return $this;
-    }
-
-    public function getReasonNickname(): ?string
-    {
-        return $this->ReasonNickname;
-    }
-
-    public function setReasonNickname(?string $ReasonNickname): static
-    {
-        $this->ReasonNickname = $ReasonNickname;
-
-        return $this;
     }
 
     public function getUserEmail(): ?string
@@ -225,38 +157,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->password = null;
     }
 
-    
-
-   
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Order>
@@ -320,14 +220,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        if ($this->userNickname) {
-            return $this->userNickname;
-        }
-
-        if ($this->userFirstname && $this->userName) {
-            return $this->userFirstname . ' ' . $this->userName;
-        }
-    
         if ($this->userEmail) {
             $emailParts = explode('@', $this->userEmail);
             if (isset($emailParts[0]) && $emailParts[0] !== '') {
@@ -335,8 +227,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
-        return 'Utilisateur inconnu'; 
-    
+        return 'Utilisateur inconnu';
     }
 
 }

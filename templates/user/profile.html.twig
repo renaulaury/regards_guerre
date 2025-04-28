@@ -27,12 +27,7 @@ Gérez votre compte Regards de Guerre : mettez à jour vos informations personne
                     </p>
                 </div>
             {% endif %}
-        {% endif %}
-
-            <p>
-                Pseudo : {{ app.user.userNickname }}
-                <a href="{{ path('userEditNickname', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
-            </p>
+        {% endif %}            
 
             <p>
                 Email : {{ app.user.userEmail }}
