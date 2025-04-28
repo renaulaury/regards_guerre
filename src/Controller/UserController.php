@@ -191,9 +191,12 @@ final class UserController extends AbstractController
   
       // Si l'utilisateur a des commandes, on anonymise ses données
       if ($user->getOrders()->count() > 0) {
+          $user->setUserName(null);
+          $user->setUserFirstname(null);
           $user->setUserEmail('utilisateur' . $user->getId() . '@supprime.fr');
           $user->setRoles(['ROLE_DELETE']);
           $user->setPassword('');
+          $user->setSlug('utilisateur-' . $user->getId());
       } else {
           // Sinon, on supprime l'utilisateur
           $entityManager->remove($user);

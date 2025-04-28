@@ -168,6 +168,7 @@ final class ArtistBOController extends AbstractController
                 $artist->setArtistDeathDate(null);
                 $artist->setArtistBio(null);
                 $artist->setIsAnonymized(true);
+                $artist->setSlug('utilisateur-' . $artist->getId());
 
                 $entityManager->persist($artist);
                 $entityManager->flush();
