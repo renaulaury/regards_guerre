@@ -97,11 +97,15 @@ class Artist
         return $this;
     }
 
-    public function createSlugDateIdentityArtist(): string
+    public function createSlugArtist(): string
     {
-        $slugify = new Slugify();        
-        $namePart = $this->artistFirstname . ' ' . $this->artistName;
-
+        $slugify = new Slugify();
+        $namePart = '';
+    
+        if ($this->artistBirthDate) {
+            $namePart = $this->artistBirthDate->format('Y-m-d') . '-'; 
+        }
+        $namePart .=  $this->artistFirstname . '-' . $this->artistName ;
         $slugSource = $this->id . '-' . $namePart;
         return $slugify->slugify($slugSource);
     }

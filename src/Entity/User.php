@@ -91,7 +91,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $slugSource = '';
         
         if ($this->userFirstname && $this->userName) {
-            $slugSource = $this->userFirstname . '-' . $this->userName;
+            $slugSource = $this->userFirstname . '-' . $this->userName . '-' . $this->id;
         }
         
         elseif ($this->userEmail) {

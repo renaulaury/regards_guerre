@@ -65,10 +65,15 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Générer le nouveau slug
+            $slug = $user->createSlugUser();
+            $user->setSlug($slug);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('profile', ['slug' => $user->getSlug()]);
         }
+        
 
         return $this->render('user/userEditIdentity.html.twig', [
             'form' => $form->createView(),
