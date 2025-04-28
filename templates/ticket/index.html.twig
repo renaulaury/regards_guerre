@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tickets{% endblock %}
+{% block title %}Agenda Culturel{% endblock %}
 
 {% block description %}
-    Découvrez et réservez vos tickets pour les expositions Regards de Guerre. Consultez les tarifs, choisissez vos places et gérez votre panier en toute simplicité.
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }} {# appelle le bloc js de la base twig #}
-    <script src="{{ asset('js/tickets.js') }}"></script>
+    Découvrez l'agenda culturel des expositions Regards de Guerre.
 {% endblock %}
 
 {% block body %}
@@ -16,79 +11,55 @@
         <h1>Tickets</h1>
     </div>
 
-    <section>
-        <h2>Expositions</h2>
+    <section class="sectionListAgenda">
 
-        <!-- Liste d'expo -->
-        <select id="exhibitionSelect">
+        <div class="blockListAgendaContainer">
             {% for exhibition in exhibitions %}
-                <option value="{{ exhibition.id }}">
-                    {{ exhibition.dateExhibitFr }} - {{ exhibition.titleExhibit }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <!-- Liste des tickets correspondant à l'expo -->
-        {% for exhibition in exhibitions %}
-            <div id="exhibitionDetails-{{ exhibition.id }}" class="blockTickets" style="display: none;">
-
-                <!-- Si le stock est épuisé -->
-                {% if exhibition.ticketsRemaining == 0 %}
-                    <div class="blockImgTicketSoldOut">
-                        <img class="imgTicketSoldOut" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Épuisé">
+                <div class="blockListAgenda">
+                    <div class="imgExhibitListAgenda">
+                        <img  src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
                     </div>
 
-                    <!-- Si le stock est presque épuisé -->
-                    {% elseif exhibition.ticketsRemaining > 0 and exhibition.ticketsRemaining <= exhibition.stockAlert %}
-                        <div class="blockImgTicketStockAlert">
-                            <img class="imgTicketSoonSoldOut" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque Épuisé">
-                            <p>Il reste {{ exhibition.ticketsRemaining }} tickets.</p>
+                    <div class="exhibitListAgenda">
+                        <div class="blockDateListAgenda">
+                                <p><strong>{{ exhibition.dateExhibitFr }}</strong></p>
+                                <p>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</p>
+                                <p>
+                                    {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
+                                        <img class="imgTicketStock" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
+                                    {% elseif exhibition.ticketsRemaining <= 0 %}
+                                        <img class="imgTicketStock" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Épuisé">
+                                    {% endif %}
+                                </p>
                         </div>
-                {% endif %}
 
-                <!-- Si le stock est normal --> 
-                {% if exhibition.ticketsRemaining > 0 %}
-                    {% for priceByExhibits in priceByExhibit %}
-                        {% if priceByExhibits.id == exhibition.id %}
-                            <p>Ticket {{ priceByExhibits.titleTicket }} dématérialisé
-                                {# Utilisation d'une clé composite pour identifier le ticket dans le panier #}
-                                {% set cartKey = exhibition.id ~ '_' ~ priceByExhibits.ticketId %}
-                                {% if cart[cartKey] is defined %}
-                                    <span>({{ cart[cartKey].qty }})</span>
-                                {% else %}
-                                    <span></span>
-                                {% endif %}
+                        <div class="blockTitle">
+                            <p class="cgBold titleExhibitListAgenda">{{ exhibition.titleExhibit }}
+                                <span class="cgBold">({{ exhibition.dateWarBeginFr }} 
+                                    {% if exhibition.dateWarEndFr is null %}
+                                        à aujourd'hui
+                                    {% else %}
+                                        - {{ exhibition.dateWarEndFr }}
+                                    {% endif %}
+                                    )
+                                </span>
                             </p>
+                        </div>
 
-                            <div class="sectionBlockPrice">
-                                <img class="ticketImg" src="{{ priceByExhibits.imageTicket }}" alt="{{ priceByExhibits.imageTicketAlt }}">
-
-                                <div class="blockPrice">
-                                    <div class="blockQty">
-                                        {% if priceByExhibits.standardPrice == 0 %}
-                                            <p>Gratuit</p>
-                                        {% else %}
-                                            <p>{{ priceByExhibits.standardPrice }} € <span class="miniText">(PU<sup>*</sup>)</span></p>
-                                        {% endif %}
-                                    </div>
-
-                                    <div class="blockQty">
-                                        <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </a>                                        
-                                        <span class="qtyProduct">1</span>                                        
-                                        <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId' : priceByExhibits.ticketId, 'origin': 'ticket'}) }}">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
+                        {% if exhibition.ticketsRemaining > 0 %}
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Tickets </a>
+                        {% else %}
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Fiche détaillée </a>
                         {% endif %}
-                    {% endfor %}
-                    <p class="miniText blockNotaBene"><sup>*</sup> PU : Prix unitaire</p>
-                {% endif %}
+                    </div>
+
+                    
                 </div>
-        {% endfor %}
+
+                {% if not loop.last %}
+                        <hr>
+                    {% endif %}
+            {% endfor %}
+        </div>
     </section>
 {% endblock %}

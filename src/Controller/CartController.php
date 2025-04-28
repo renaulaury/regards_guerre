@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\Exhibition;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Service\EmailService;
@@ -10,6 +11,7 @@ use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,10 +59,14 @@ class CartController extends AbstractController
         TicketRepository $ticketRepo, 
         int $exhibitionId, 
         int $ticketId, 
-        string $origin): Response
+        string $origin,
+        ExhibitionShareRepository $exhibitionRepo): Response
     {
-        // Récupération du ticket via le repository
+        // Récup du ticket via le repository
         $ticket = $ticketRepo->find($ticketId);
+
+        // Récup de l'exposition via le repository en utilisant l'ID de la route
+        $exhibition = $exhibitionRepo->find($exhibitionId);
 
 
         // Ajout du ticket au panier via le service
@@ -68,7 +74,7 @@ class CartController extends AbstractController
 
         // Redirection en fonction de l'origine
         if ($origin === 'ticket') {
-            return $this->redirectToRoute('ticket', ['exhibition' => $exhibitionId]);
+            return $this->redirectToRoute('exhibition', ['slug' => $exhibition->getSlug()]);
         }
 
         // Redirection par défaut
