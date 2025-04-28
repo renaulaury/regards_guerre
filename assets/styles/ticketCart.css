@@ -4,87 +4,55 @@
 }
 
 /************************** Ticket ****************************/
-#exhibitionSelect {
-    border: none;
-    padding: 2%;
-    margin-bottom: 8%;
-    border-radius: 10px;
-    background: var(--backgroundColorPastelTitle);
-    color: var(--ftTitle);
-    font-weight: 500;
-    width: 95%;
-} 
-
-.blockImgTicketStockAlert {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 20px;
-}
-
-.blockImgTicketStockAlert p {
-    font-size: 0.8rem;
-}
-
-.imgTicketSoonSoldOut {
-    height: 30px;
-    width: auto;
-}
-
-.blockImgTicketSoldOut {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.imgTicketSoldOut {   
-    height: 150px;
-    width: auto;
-}
-
-.blockTickets {
-    padding-bottom: 10%;
-}
-
-.ticketImg {
-    margin: 3% 0%;
-    width: 50%;
-}
-
-.sectionBlockPrice {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 5%;
-    padding-bottom: 10%;
-}
-
-.blockPrice {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-}
-
-.blockQty{
+.blockListAgenda {
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 0;
+}
+
+.imgExhibitListAgenda {
+    width: 45%;
+    height: auto;
+}
+
+.imgExhibitListAgenda img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.exhibitListAgenda {
+    width: 55%;
+    padding: 5% 0%;
+}
+
+.blockDateListAgenda {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.imgTicketStock {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    max-width: 60px; 
+    max-height: auto; 
 }
 
-.qtyProduct {
-    padding: 0% 18px;
+.titleExhibitListAgenda {
+    padding: 10px 0;
 }
 
-.miniText {
-    font-size: 0.8rem;
-}
+
+
+
+
 
 
 /**************************** Cart *****************************/
