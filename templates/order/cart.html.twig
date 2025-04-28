@@ -80,9 +80,10 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                 {% if app.user %}
                     {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
                         {# <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post"> #}
-                        <form action="{{ path('paymentStripe', {id: app.user.id}) }}" method="post"></form>
-                            <button type="submit" class="btnSubmit" name="submitOrderValidation">Commander</button>
-                        </form>
+                        {# <form action="{{ path('paymentStripe', {id: app.user.id}) }}" method="post"></form> #}
+                        <a href="{{ path('paymentStripe') }}">Payer</a>
+                            {# <button type="submit" class="btnSubmit" name="submitOrderValidation">Commander</button> #}
+                        {# </form> #}
                     {% else %}
                         <p class="blockIdentityOrder">
                             Veuillez renseigner votre nom et prénom pour commander. 
