@@ -54,6 +54,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, unique: true, nullable: true)]
     private ?string $slug = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $userName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $userFirstname = null;
+
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -81,9 +88,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function createSlugUser(): string
     {
         $slugify = new Slugify();
-        $userSlug = 'utilisateur' . $this->id;
+        $slugSource = '';
+        
+        if ($this->userFirstname && $this->userName) {
+            $slugSource = $this->userFirstname . '-' . $this->userName;
+        }
+        
+        elseif ($this->userEmail) {
+            $emailParts = explode('@', $this->userEmail);
+            $slugSource = $emailParts[0];
+        }
 
-        $slugSource = $userSlug;
         return $slugify->slugify($slugSource);
     }
 
@@ -218,16 +233,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getUserName(): ?string
+    {
+        return $this->userName;
+    }
+
+    public function setUserName(?string $userName): static
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    public function getUserFirstName(): ?string
+    {
+        return $this->userFirstname;
+    }
+
+    public function setUserFirstName(?string $userFirstName): static
+    {
+        $this->userFirstname = $userFirstName;
+
+        return $this;
+    }
+
     public function __toString(): string
     {
-        if ($this->userEmail) {
-            $emailParts = explode('@', $this->userEmail);
-            if (isset($emailParts[0]) && $emailParts[0] !== '') {
-                return $emailParts[0];
-            }
+        if ($this->userFirstname && $this->userName) {
+            return $this->userFirstname . ' ' . $this->userName;
         }
-
-        return 'Utilisateur inconnu';
+        
+        // Sinon, forcément l'email
+        $emailParts = explode('@', $this->userEmail);
+        return $emailParts[0];
     }
 
 }
