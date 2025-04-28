@@ -8,7 +8,7 @@
 
 {% block body %}
     <div class="containH1">
-        <h1>Agenda</h1>
+        <h1>Tickets</h1>
     </div>
 
     <section class="sectionListAgenda">
@@ -22,31 +22,35 @@
 
                     <div class="exhibitListAgenda">
                         <div class="blockDateListAgenda">
+                                <p><strong>{{ exhibition.dateExhibitFr }}</strong></p>
+                                <p>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</p>
                                 <p>
-                                    <strong>{{ exhibition.dateExhibitFr }}</strong> - {{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}
+                                    {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
+                                        <img class="imgTicketStock" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
+                                    {% elseif exhibition.ticketsRemaining <= 0 %}
+                                        <img class="imgTicketStock" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Épuisé">
+                                    {% endif %}
                                 </p>
-
-                                {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
-                                    <img class="imgTicketStock" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
-                                {% elseif exhibition.ticketsRemaining <= 0 %}
-                                    <img class="imgTicketStock" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Épuisé">
-                                {% endif %}
                         </div>
 
                         <div class="blockTitle">
                             <p class="cgBold titleExhibitListAgenda">{{ exhibition.titleExhibit }}
-                                <span class="cgBold">({{ exhibition.dateWarBeginFr }} -
+                                <span class="cgBold">({{ exhibition.dateWarBeginFr }} 
                                     {% if exhibition.dateWarEndFr is null %}
                                         à aujourd'hui
                                     {% else %}
-                                        {{ exhibition.dateWarEndFr }}
+                                        - {{ exhibition.dateWarEndFr }}
                                     {% endif %}
                                     )
                                 </span>
                             </p>
                         </div>
 
-                        <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Fiche détaillée</a>
+                        {% if exhibition.ticketsRemaining > 0 %}
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Tickets </a>
+                        {% else %}
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Fiche détaillée </a>
+                        {% endif %}
                     </div>
 
                     
