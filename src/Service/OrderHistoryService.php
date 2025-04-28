@@ -17,6 +17,7 @@ class OrderHistoryService
         $this->orderService = $orderService;
     }
 
+    /******************** Récup de l'historique de commande d'un utilisateur ****************************/
     public function getUserOrderHistory(int $userId): array
     {
         // Récupération des commandes de l'utilisateur
