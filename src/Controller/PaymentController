@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Controller;
+
+
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use App\Repository\OrderRepository;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class PaymentController extends AbstractController
+{
+    private OrderRepository $orderRepo;
+
+    public function __construct(
+        OrderRepository $orderRepo)
+    {
+        $this->orderRepo = $orderRepo;
+    }
+
+    #[Route('/order/createSessionStripe/{id}', name: 'paymentStripe')]
+    public function stripeCheckout(int $id): RedirectResponse 
+    {   
+        $productStripe = [];
+
+        //Récup id de la cde
+        $order = $this->orderRepo->find($id);
+
+        //Si Cde n'existe pas
+        if(!$order){
+            return $this->redirectToRoute('/order/cart');
+        }
+
+        Stripe::setApiKey(apiKey: 'sk_test_51RIaLbPAGM5x0vlBhPwGUHtAt6zAlyeloSmOeuONgVEZ4EtEtFnA0HHxwKaMHq7nNBFiQqCX11XiM60b1jb5olax00V54TtPoO');
+
+        foreach ($order->getRecaoDetails()->getValues() as $product) {
+            dd($product);
+        }
+        // 12min
+        // foreach ($order->getRecapDetails()-> as $recapDetail) {
+        //     $productStripe[] = [
+        //         'price_data' => [
+        //             'currency' => 'eur',
+        //             'product_data' => [
+        //                 'name' => $recapDetail->getProduct()->getName(),
+        //                 'images' => [$recapDetail->getProduct()->getImage()],
+        //             ],
+        //             'unit_amount' => $recapDetail->getProduct()->getPrice() * 100,
+        //         ],
+        //         'quantity' => $recapDetail->getQuantity(),
+        //     ];
+        // }
+
+        
+        $checkoutSession = Session::create([
+            'line_items' => [[
+                
+            ]],
+            'mode' => 'payment',
+            'success_url' => $this->generateUrl('order/cart', [], 0),
+            'cancel_url' => $this->generateUrl('order/cart', [], 0),
+        ]);
+        
+        // Redirige l'utilisateur vers l'URL de paiement fournie par Stripe
+        return new RedirectResponse($checkoutSession->url);
+        
+    }
+
+}
