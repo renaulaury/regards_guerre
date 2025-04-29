@@ -10,6 +10,7 @@ use App\Repository\TicketPricingRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ExhibitionController extends AbstractController
@@ -32,6 +33,19 @@ final class ExhibitionController extends AbstractController
             'ticketPricings' => $ticketPricings,
             'exhibition' => $exhibition,
             'cart' => $cart, 
+        ]);
+    }
+
+    #[Route('/liste-des-expositions', name: 'listExhibitions')]
+    public function listExhibit(        
+        ExhibitionShareRepository $exhibitShareRepo): Response
+    {
+        //Récup uniquement les infos des prochaines expos
+        $exhibitions = $exhibitShareRepo->findAllNextExhibition();
+
+
+        return $this->render('exhibition/listExhibitions.html.twig', [            
+            'exhibitions' => $exhibitions,        
         ]);
     }
 }

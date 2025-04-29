@@ -20,7 +20,8 @@
         <header>
             <nav id="navbar">
                 <div id="leftBlock">
-                    <img class="logo" src="/images/logo.svg" alt="Logo de l'association Regards de Guerre">
+                    <a class="logo" href="{{ path('home') }}"><img  src="/images/logo.svg" alt="Logo de l'association Regards de Guerre"></a>
+
                     <div class="profile">
                         {% if app.user %}
                             <p>Bienvenue 
@@ -57,7 +58,7 @@
                                 <li><a href="{{ path('backOffice') }}">Back-Office</a></li>
                             {% endif %}
                         {% endif %}
-                        <li><a href="{{ path('ticket') }}">Tickets</a></li>
+                        <li><a href="{{ path('listExhibitions') }}">Expositions</a></li>
                         <li>
                             <a href="{{ path('cart') }}">Panier 
                     
