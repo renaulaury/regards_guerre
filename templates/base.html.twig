@@ -27,9 +27,9 @@
                             <p>Bienvenue 
                                 <a href="{{ path('index', {'slug': app.user.slug} ) }}">
                                     {% if app.user.userFirstname %}
-                                        {{ app.user.userFirstname }}                                    
+                                        <strong>{{ app.user.userFirstname }}   </strong>                                 
                                     {% else %}
-                                        {{ app.user.userEmail|split('@')[0] }}
+                                        <strong>{{ app.user.userEmail|split('@')[0] }}</strong>
                                     {% endif %}
                                     !
                                 </a>
@@ -58,6 +58,7 @@
                                 <li><a href="{{ path('backOffice') }}">Back-Office</a></li>
                             {% endif %}
                         {% endif %}
+                        <li><a href="{{ path('index', {'slug': app.user.slug} ) }}">Mon profil</a></li>
                         <li><a href="{{ path('listExhibitions') }}">Expositions</a></li>
                         <li>
                             <a href="{{ path('cart') }}">Panier 
