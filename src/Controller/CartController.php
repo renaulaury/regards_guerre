@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Service\EmailService;
 use App\Repository\TicketRepository;
+use App\Form\UserEditIdentityFormType;
+use App\Form\UserIdentityCartFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -36,17 +40,21 @@ class CartController extends AbstractController
 
      /************* Affiche les produits du panier ***************/
      #[Route('/order/cart', name: 'cart')]
-     public function showCart(): Response
+     public function showCart(?User $user): Response //Permet au user de voir son panier meme déco
      {
         // Récupérer le panier depuis le service
          $cart = $this->cartService->getCart();
          $total = $this->cartService->getTotal();
          $groupedCart = $this->cartService->groupCartByExhibition($cart);
+
+         //Obl pour commander
+         $form = $this->createForm(UserIdentityCartFormType::class);
          
          return $this->render('order/cart.html.twig', [
             'groupedCart' => $groupedCart,
              'cart' => $cart,
              'total' => $total,
+             'form' => $form->createView(),
          ]);
      }
  
@@ -141,11 +149,29 @@ class CartController extends AbstractController
 
 
 /********************** Valider la commande *****************/
-    #[Route('/order/cart/orderValidated/{id}', name: 'orderValidated')]
+    #[Route('/order/cart/orderValidated', name: 'orderValidated')]
     public function orderValidated(
         ExhibitionShareRepository $exhibitShareRepo, 
-        TicketRepository $ticketRepo): Response
-    {
+        TicketRepository $ticketRepo,
+        Request $request,
+        ?User $user,
+        EntityManagerInterface $entityManager): Response
+    {        
+        $form = $this->createForm(UserIdentityCartFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer la valeur de la case à cocher 'saveIdentity'
+            $saveIdentity = $form->get('saveIdentity')->getData();
+
+            // Si la case est cochée et qu'un utilisateur est connecté, on enregistre ses informations
+            if ($saveIdentity && $user) {
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Vos informations ont été enregistrées pour vos prochaines commandes.');
+            }
+        }
+
         $cart = $this->cartService->getCart();        
         $stockErrors = []; //Gestion des erreurs de stock/panier
         $soonOutStockExhibits = []; // Gestion des expo presque épuisées
@@ -188,6 +214,24 @@ class CartController extends AbstractController
         $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
         $order->setUser($this->getUser());
         $order->setOrderStatus('Envoyé'); 
+        dump($this->getUser());die;
+        dump($this->getUser()->getUserEmail());die;
+        $order->setCustomerEmail($this->getUser()->getUserEmail());
+
+        // Vérif si un user est co ET si son nom et prénom ne sont pas vides.
+        if ($this->getUser() && !empty($this->getUser()->getUserName()) && !empty($this->getUser()->getUserFirstname())) {// Récup le nom et prénom de l'utilisateur connecté dans la bdd
+            $order->setCustomerName($this->getUser()->getUserName());
+            $order->setCustomerFirstname($this->getUser()->getUserFirstname());
+        } else {
+            // Récup le nom et prénom du user dans le form
+            $order->setCustomerName($form->get('userName')->getData());
+            $order->setCustomerFirstname($form->get('userFirstname')->getData());
+        }
+
+        // Enregistrement du total de la commande
+        $cart = $this->cartService->getCart();
+        $total = $this->cartService->getTotal(); 
+        $order->setOrderTotal($total); 
         
         foreach ($cart as $item) {
             $orderDetail = new OrderDetail();

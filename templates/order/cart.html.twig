@@ -8,7 +8,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
 {% endblock %}
 
 {% block body %}
-
+<!-- CartController UserIdentityCartFormType -->
 <h1>Panier</h1>
 
 <section>
@@ -78,17 +78,36 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                 <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
             {% else %}
                 {% if app.user %}
+
                     {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
-                        
                         <a href="{{ path('paymentStripe') }}">
                             <button type="submit" class="btnCTA">Payer</button>
-                        </a>
+                        </a>                        
                         
                     {% else %}
                         <p class="blockIdentityOrder">
-                            Veuillez renseigner votre nom et prénom pour commander. 
-                            <a href="{{ path('profile', {slug: app.user.slug}) }}"><strong>Modifier mon profil</strong></a>
-                        </p>
+                            Veuillez renseigner votre nom et prénom pour commander. </p>
+                            
+                            
+                            {{ form_start(form, {'action': path('orderValidated'), 'method': 'POST'}) }}
+                                <p class="label">{{ form_label(form.userName) }}</p>
+                                <p class="input">{{ form_widget(form.userName) }}</p>
+                                {{ form_errors(form.userName) }}
+
+                                <p class="label">{{ form_label(form.userFirstname) }}</p>
+                                <p class="input">{{ form_widget(form.userFirstname) }}</p>
+                                {{ form_errors(form.userFirstname) }}
+                                
+                                <p>
+                                    {{ form_widget(form.saveIdentity) }}
+                                    {{ form_label(form.saveIdentity) }}
+                                </p>
+                            {{ form_end(form) }}
+
+                            <a href="{{ path('paymentStripe') }}">
+                                <button type="submit" class="btnCTA">Payer</button>
+                            </a>
+                        
                     {% endif %}
                 {% else %}
                     <p>Veuillez vous connecter pour passer une commande.</p>

@@ -57,8 +57,8 @@
                             {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
                                 <li><a href="{{ path('backOffice') }}">Back-Office</a></li>
                             {% endif %}
-                        {% endif %}
-                        <li><a href="{{ path('index', {'slug': app.user.slug} ) }}">Mon profil</a></li>
+                            <li><a href="{{ path('index', {'slug': app.user.slug} ) }}">Mon profil</a></li>
+                        {% endif %}                        
                         <li><a href="{{ path('listExhibitions') }}">Expositions</a></li>
                         <li>
                             <a href="{{ path('cart') }}">Panier 
