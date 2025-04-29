@@ -55,7 +55,7 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
 
                         <div class="blockQtyTicket">
 
-                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'ticket'}) }}">
+                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}">
                                 <i class="fa-solid fa-minus"></i>
                             </a>
 
@@ -71,7 +71,7 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
                                 {% endif %}
                             </div> 
 
-                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'ticket'}) }}">
+                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
@@ -79,10 +79,9 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
                     
                 </div>
             {% endfor %}
-            <div class="btnSubmit">
-                <a href="{{ path('cart') }}">Panier</a>
-            </div>
-        
+            <a href="{{ path('cart') }}">
+                <button type="submit" class="btnCTA">Panier</button>
+            </a>       
             
         {% endif %}
     </div>

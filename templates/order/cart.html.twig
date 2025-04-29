@@ -79,11 +79,11 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             {% else %}
                 {% if app.user %}
                     {% if app.user.userName is not empty and app.user.userFirstname is not empty %}
-                        {# <form action="{{ path('orderValidated', {id: app.user.id}) }}" method="post"> #}
-                        {# <form action="{{ path('paymentStripe', {id: app.user.id}) }}" method="post"></form> #}
-                        <a href="{{ path('paymentStripe') }}">Payer</a>
-                            {# <button type="submit" class="btnSubmit" name="submitOrderValidation">Commander</button> #}
-                        {# </form> #}
+                        
+                        <a href="{{ path('paymentStripe') }}">
+                            <button type="submit" class="btnCTA">Payer</button>
+                        </a>
+                        
                     {% else %}
                         <p class="blockIdentityOrder">
                             Veuillez renseigner votre nom et prénom pour commander. 
@@ -96,7 +96,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             {% endif %}
         </div>
 
-        <p class="marginTop">
+        <p class="marginTop">            
             <a href="{{ path('deleteCartConfirm') }}"><u>Vider le panier</u></a>
         </p>
     {% endif %}

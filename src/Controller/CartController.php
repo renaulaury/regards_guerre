@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\Exhibition;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Service\EmailService;
@@ -11,7 +10,6 @@ use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -73,7 +71,7 @@ class CartController extends AbstractController
         $this->cartService->addCart($ticket, $exhibitionId);
 
         // Redirection en fonction de l'origine
-        if ($origin === 'ticket') {
+        if ($origin === 'listExhibit') {
             return $this->redirectToRoute('exhibition', ['slug' => $exhibition->getSlug()]);
         }
 
@@ -87,20 +85,21 @@ class CartController extends AbstractController
         TicketRepository $ticketRepo, 
         int $exhibitionId, 
         int $ticketId, 
-        string $origin)
+        string $origin,
+        ExhibitionShareRepository $exhibitionRepo)
         // : Response
     {
-
          // Récupération du ticket via le repository
          $ticket = $ticketRepo->find($ticketId);
+
+         // Récup de l'exposition via le repository en utilisant l'ID de la route
+         $exhibition = $exhibitionRepo->find($exhibitionId);
 
         // Soustraction au panier via le service
         $this->cartService->removeCart($ticket, $exhibitionId);
 
-        if ($origin === 'ticket') { // Si l'origine est 'ticket', rediriger vers la page de ventes des tickets
-            return $this->redirectToRoute('ticket', [
-                'exhibition' => $exhibitionId
-            ]);
+        if ($origin === 'listExhibit') { // Si l'origine est 'listExhibit', rediriger vers la page de ventes des tickets
+            return $this->redirectToRoute('exhibition', ['slug' => $exhibition->getSlug()]);
         }
 
         if ($origin === 'cart') { // Si l'origine est 'cart', rediriger vers le panier
