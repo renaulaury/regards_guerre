@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Twig\Environment;
+use Symfony\Component\Mime\Attachment;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface ;
 
@@ -18,7 +19,7 @@ class EmailService
     }
 
 /********************* Envoi d'email *************************/
-    public function sendEmail(string $to, string $subject, string $body, string $attachmentContent = null, string $attachmentFilename = null): void
+    public function sendEmail(string $to, string $subject, string $body, array $attachments = []): void
     {
         $email = (new Email())
             ->from('noreply@regardsguerre.fr')
@@ -26,9 +27,11 @@ class EmailService
             ->subject($subject)
             ->html($body);
 
-        //Si PJ
-        if ($attachmentContent && $attachmentFilename) {
-            $email->attach($attachmentContent, $attachmentFilename, 'application/pdf');
+        // PJ
+        foreach ($attachments as $attachment) {
+            if (isset($attachment['content']) && isset($attachment['filename'])) {
+                $email->addAttachment($attachment['content'], $attachment['filename'], 'application/pdf'); 
+            }
         }
 
         //Envoi

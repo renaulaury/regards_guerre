@@ -58,16 +58,33 @@ class OrderExportService
             }
         }
         
-        // On génére le template 
-        $pdfContent = $this->pdfService->generatePdf(
+        // On génére le template de la facture
+        $pdfContentInvoice = $this->pdfService->generatePdf(
             'pdf/orderPdf.html.twig', 
+            ['orderData' => $orderData] // On passe les données de la facture 
+        );
+
+        // On génére le template de la commande 
+        $pdfContentOrder = $this->pdfService->generatePdf(
+            'pdf/etickets.html.twig', 
             ['orderData' => $orderData] // On passe les données de la commande 
         );
+
+        // Préparations des pj pour l'email
+        $attachments = [
+            [
+                'content' => $pdfContentInvoice,
+                'filename' => 'facture.pdf',
+            ],
+            [
+                'content' => $pdfContentOrder,
+                'filename' => 'commande.pdf',
+            ],
+        ];
         
 
-        //Envoie de l'email avec le pdf en pj
-        $body = $this->twig->render('emails/orderInvoiceEmail.html.twig', [ 
-            'filename' => 'commande.pdf',
+        //Envoie de l'email avec le pdf en pj (Facture + ????)
+        $body = $this->twig->render('emails/orderExportEmail.html.twig', [ 
             'user' => $user,
             'groupedOrder' => $orderData, 
             'total' => $orderData['total'] ?? null, 
@@ -75,10 +92,9 @@ class OrderExportService
 
         $this->emailService->sendEmail(
             $email,
-            'Votre commande',
+            'Votre commande et votre facture',  
             $body,
-            $pdfContent,
-            'commande.pdf'
+            $attachments  // Tabl des pj
         );
     }
 }
