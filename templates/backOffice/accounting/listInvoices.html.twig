@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comptabilité{% endblock %}
+
+{% block description %}
+     Gérez l'ensemble de la comptabilité de votre plateforme : factures clients{#, paiements, rapports financiers, et plus encore#}. Une section centralisée pour un suivi optimal.
+{% endblock %}
+
+
+{% block body %}
+
+<h1>Liste des Factures</h1>
+
+<section class="backOffice">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numéro de Facture</th>
+                <th>Date de Création</th>
+                <th>Client</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    {# <td>{{ invoice.id }}</td>
+                    <td>{{ invoice.createdAt|date('d/m/Y') }}</td> 
+                    <td>{{ invoice.user.email }}</td> 
+                    <td>{{ invoice.total }} €</td>  #}
+                    <td> Envoie par email
+                        {# <a href="{{ path('showInvoice', {'id': invoice.id}) }}" class="btn btn-sm btn-primary">Voir</a> #}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if invoices is empty %}
+        <p>Aucune facture n'a été trouvée.</p>
+    {% endif %}
+
+</section>
+
+{% endblock %}
+
