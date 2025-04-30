@@ -66,7 +66,7 @@ class OrderExportService
         
 
         //Envoie de l'email avec le pdf en pj
-        $body = $this->twig->render('emails/orderExportEmail.html.twig', [ 
+        $body = $this->twig->render('emails/orderInvoiceEmail.html.twig', [ 
             'filename' => 'commande.pdf',
             'user' => $user,
             'groupedOrder' => $orderData, 
