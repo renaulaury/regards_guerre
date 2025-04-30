@@ -41,7 +41,7 @@ class Order
     #[ORM\Column(length: 180, nullable: true)]
     private ?string $customerEmail = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 17, scale: 2, unique: true, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 20, unique: true, nullable: true)]
     private ?string $numberInvoice = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 17, scale: 2, nullable: true)]

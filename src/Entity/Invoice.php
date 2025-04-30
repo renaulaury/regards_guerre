@@ -15,8 +15,8 @@ class Invoice
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER, unique: true)]
-    private ?int $numberInvoice = null;
+    #[ORM\Column(type: Types::STRING, length: 20, unique: true, nullable: true)]
+    private ?string $numberInvoice = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $customerName = null;
@@ -28,7 +28,7 @@ class Invoice
     private ?string $customerEmail = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 17, scale: 2, nullable: true)]
-    private ?string $totalTTC = null;
+    private ?string $orderTotal = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateInvoice = null;
@@ -38,12 +38,12 @@ class Invoice
         return $this->id;
     }
 
-    public function getNumberInvoice(): ?int
+    public function getNumberInvoice(): ?string
     {
         return $this->numberInvoice;
     }
 
-    public function setNumberInvoice(?int $numberInvoice): static
+    public function setNumberInvoice(?string $numberInvoice): static
     {
         $this->numberInvoice = $numberInvoice;
 
@@ -86,14 +86,14 @@ class Invoice
         return $this;
     }
 
-    public function getTotalTTC(): ?string
+    public function getOrderTotal(): ?string
     {
-        return $this->totalTTC;
+        return $this->orderTotal;
     }
 
-    public function setTotalTTC(?string $totalTTC): static
+    public function setOrderTotal(?string $orderTotal): static
     {
-        $this->totalTTC = $totalTTC;
+        $this->orderTotal = $orderTotal;
 
         return $this;
     }

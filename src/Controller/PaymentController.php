@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
+use App\Entity\User;
 use App\Entity\Order;
+use App\Entity\Invoice;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use Stripe\Checkout\Session;
 use App\Service\EmailService;
 use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
+use App\Form\UserIdentityCartFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,6 +22,7 @@ use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class PaymentController extends AbstractController
 {
@@ -45,8 +50,34 @@ class PaymentController extends AbstractController
     public function stripeCheckout(
         UrlGeneratorInterface $urlGenerator,
         TicketRepository $ticketRepo,
-        ExhibitionShareRepository $exhibitionShareRepo): RedirectResponse 
+        ExhibitionShareRepository $exhibitionShareRepo,
+        Request $request): RedirectResponse|Response
     {   
+        $form = $this->createForm(UserIdentityCartFormType::class, $this->getUser());        
+
+        //Si nom prenom !bdd        
+        if (!$this->getUser()->getUserName() && !$this->getUser()->getUserFirstname()) {
+            // dump($this->getUser());die;
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                //Save en session car paiement non validé
+                $session = $this->requestStack->getCurrentRequest()->getSession();
+                $session->set('customerName', $form->get('userName')->getData());
+                $session->set('customerFirstname', $form->get('userFirstname')->getData());
+                $session->set('saveIdentity', $form->get('saveIdentity')->getData());
+
+            } else {
+                // Réafficher le form avec les erreurs
+                return $this->render('order/cart.html.twig', [                    
+                    'form' => $form->createView(),
+                    'groupedCart' => $this->cartService->groupCartByExhibition($this->cartService->getCart()),
+                    'cart' => $this->cartService->getCart(),
+                    'total' => $this->cartService->getTotal(),
+                ]);
+            }
+        }
+        
         $productStripe = [];
 
         $cart = $this->cartService->getCart();      
@@ -88,7 +119,7 @@ class PaymentController extends AbstractController
         return new RedirectResponse($checkoutSession->url, 303); //303 : On sort du site pour aller sur Stripe      
     }
 
-    //Erreur de paiement
+    /********************** Erreur de paiement ********************/
     #[Route('/order/error', name: 'paymentError')]
     public function stripeError(
         CartService $cartService,
@@ -99,18 +130,94 @@ class PaymentController extends AbstractController
         return $this->redirectToRoute('cart'); //
     }
 
-    //Succès de paiement
+    /********************** Succès de paiement ********************/
     #[Route('/order/success', name: 'paymentSuccess')]
     public function stripeSuccess(
         ExhibitionShareRepository $exhibitShareRepo, 
-        TicketRepository $ticketRepo
-    ): Response
+        TicketRepository $ticketRepo,
+        RequestStack $requestStack,
+        CartService $cartService,
+        EntityManagerInterface $entityManager,
+        EmailService $emailService): Response
     {
+        //Récup des infos du form stockés en session
+        $session = $requestStack->getCurrentRequest()->getSession();
+        $customerName = $session->get('customerName'); 
+        $customerFirstname = $session->get('customerFirstname'); 
+        $saveIdentity = $session->get('saveIdentity'); 
+
+        $user = $this->getUser(); //Récup user co
         
-        $cart = $this->cartService->getCart();        
+
+        //Si $saveIdentity = true alors enregistrement dans user
+        if ($saveIdentity && $user) {
+            $user->setUserName($customerName); 
+            $user->setUserFirstname($customerFirstname); 
+            $this->entityManager->persist($user); 
+            $this->entityManager->flush(); 
+            $this->addFlash('success', 'Vos informations ont été enregistrées pour vos prochaines commandes.');
+        }
+
+        $user = $this->getUser(); //Récup user co
+
+
+        $cart = $this->cartService->getCart(); //Récup panier   
+        
+        
+        // Vérif si un user est co ET si son nom et prénom ne sont pas vides
+        $order = new Order(); 
+        $order->setOrderDateCreation(new \DateTimeImmutable()); // //Avec une date immuable (const)
+        $order->setUser($this->getUser()); // Associe la commande au user co
+        $order->setOrderStatus('Envoyé'); 
+
+        // Récup le nom et prénom du client. Priorité à la session (formulaire), sinon BDD de l'utilisateur connecté.
+        $order->setCustomerName($customerName ?? $this->getUser()->getUserName() ?? 'Non renseigné');
+        $order->setCustomerFirstname($customerFirstname ?? $this->getUser()->getUserFirstname() ?? 'Non renseigné');
+
+        $order->setCustomerEmail($this->getUser()->getUserIdentifier()); // Enregistre l'email de l'utilisateur
+
+        // Enregistrement du total de la commande
+        $total = $cartService->getTotal(); // Récupère le total du panier
+        $order->setOrderTotal($total); // Enregistre le total dans la commande
+
+        // Persist de l'order AVANT de générer le numéro de facture
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        // Rafraîchir l'entité pour récupérer l'ID généré par la bdd
+        $this->entityManager->refresh($order);
+
+        // Génération du numéro de facture unique
+        // $orderId = $order->getId();
+        // $orderDate = $order->getOrderDateCreation()->format('Ymd');
+        // $invoiceNumber = sprintf('%s-%s', $orderDate, $orderId);
+        // $order->setNumberInvoice($invoiceNumber);
+
+        // Création de la facture
+        $invoice = new Invoice();
+        $invoice->setCustomerName($order->getCustomerName());
+        $invoice->setCustomerFirstname($order->getCustomerFirstname());
+        $invoice->setCustomerEmail($order->getCustomerEmail());
+        $invoice->setOrderTotal($order->getOrderTotal());
+        $invoice->setDateInvoice(new \DateTimeImmutable()); // Utilise une date immutable
+
+        
+
+        // Génération du numéro de facture unique
+        $orderId = $order->getId();
+        $orderDate = $order->getOrderDateCreation()->format('Ymd');
+        
+        $invoiceNumber = sprintf('%s-%s', $orderDate, $orderId);
+        $order->setNumberInvoice($invoiceNumber);
+        $invoice->setNumberInvoice($invoiceNumber);
+
+
+
+        //Gestion des stocks
         $stockErrors = []; //Gestion des erreurs de stock/panier
         $soonOutStockExhibits = []; // Gestion des expo presque épuisées
         $outOfStockExhibitions = []; // Gestion des expo épuisées
+
 
         // Vérification init du stock et collecte des erreurs de stock
         foreach ($cart as $item) {
@@ -144,12 +251,8 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('cart'); // Redirige vers le panier pour modification
         }
        
-        // Création d'une nouvelle commande
-        $order = new Order();
-        $order->setOrderDateCreation(new \DateTimeImmutable()); //Avec une date immuable (const)
-        $order->setUser($this->getUser());
-        $order->setOrderStatus('Envoyé'); 
-        
+
+        // Création des détails de la commande        
         foreach ($cart as $item) {
             $orderDetail = new OrderDetail();
             $orderDetail->setOrder($order);
@@ -173,6 +276,7 @@ class PaymentController extends AbstractController
         }
 
         $this->entityManager->persist($order);
+        $this->entityManager->persist($invoice);
         $this->entityManager->flush();
 
 
