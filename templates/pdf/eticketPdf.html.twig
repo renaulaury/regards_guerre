@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {# pdf/orderPdf.html.twig #}
+    <meta charset="UTF-8">
+    <title>Commande #{{ orderData.order.id }}</title>
+    <style>
+      
+        
+    </style>
+</head>
+<body>
+<section class="sectionPdf">
+    <div class="headerPdf">
+        <img class="logoPdf" src="{{ absolute_url(asset('images/logo.webp')) }}" alt="Logo de l'association Regards de Guerre">
+    
+        <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1>
+    </div>
+    
+
+    <table class="invoiceTable">
+        <thead>
+            <tr>
+                <th>Exposition</th>
+                <th>Ticket</th>
+                <th>Qté</th>
+                <th class="textRight">Prix Unitaire</th>
+                <th class="textRight">Prix Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exhibitionDetails in orderData.details %}
+                {% for ticketDetails in exhibitionDetails.tickets %}
+                    <tr class="product-row">
+                        <td>{{ exhibitionDetails.exhibition }}</td>
+                        <td>{{ ticketDetails.ticket }}</td>
+                        <td class="textRight">{{ ticketDetails.quantity }}</td>
+                        <td class="textRight">{{ ticketDetails.price }} €</td>
+                        <td class="textRight">{{ (ticketDetails.quantity * ticketDetails.price) }} €</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="textRight strong">Total de la commande :</td>
+                <td class="textRight strong">{{ orderData.total }} €</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="footerPdf">
+        <p>Regards de guerre - Association loi 1901</p>
+        <p>Rue de la paix - 75000 PARIS</p>
+    </div>
+</section>
+</body>
+</html>

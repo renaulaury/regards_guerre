@@ -187,11 +187,6 @@ class PaymentController extends AbstractController
         // Rafraîchir l'entité pour récupérer l'ID généré par la bdd
         $this->entityManager->refresh($order);
 
-        // Génération du numéro de facture unique
-        // $orderId = $order->getId();
-        // $orderDate = $order->getOrderDateCreation()->format('Ymd');
-        // $invoiceNumber = sprintf('%s-%s', $orderDate, $orderId);
-        // $order->setNumberInvoice($invoiceNumber);
 
         // Création de la facture
         $invoice = new Invoice();
