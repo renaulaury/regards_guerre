@@ -26,12 +26,12 @@
             {% for invoice in invoices %}
                 <tr>
                     {# <td>{{ invoice.id }}</td>
-                    <td>{{ invoice.createdAt|date('d/m/Y') }}</td> 
-                    <td>{{ invoice.user.email }}</td> 
-                    <td>{{ invoice.total }} €</td>  #}
-                    <td> Envoie par email
+                    <td>{{ invoice.createdAt|date('d/m/Y') }}</td> #}
+                    <td>{{ invoice.customerName }} {{ invoice.customerFirstname }}</td> 
+                    {#<td>{{ invoice.total }} €</td>  #}
+                    {# <td> Envoie par email #}
                         {# <a href="{{ path('showInvoice', {'id': invoice.id}) }}" class="btn btn-sm btn-primary">Voir</a> #}
-                    </td>
+                    {# </td> #}
                 </tr>
             {% endfor %}
         </tbody>
