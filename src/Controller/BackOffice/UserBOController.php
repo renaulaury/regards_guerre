@@ -18,23 +18,46 @@ final class UserBOController extends AbstractController
    
 
     /******************** Affiche les membres ***********************/
-    #[Route('/backOffice/userListBO', name: 'userListBO')]
+    #[Route('/backOffice/userListBO/{filter?}', name: 'userListBO')]
     public function rolesBackOffice(
-        UserBORepository $userBORepo): Response
+        UserBORepository $userBORepo,
+        ?string $filter): Response
     {
         // Vérif de l'accès
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('home');
         }
+
+        $allUsers = $userBORepo->findAll(); // Récupère tous les utilisateurs
+        $adminsList = [];
+        $usersList = [];
+
         
+        foreach ($allUsers as $user) {
+            if (in_array('ROLE_ADMIN', $user->getRoles()) && !in_array('ROLE_ROOT', $user->getRoles()) && !in_array('ROLE_DELETE', $user->getRoles())) {
+                $adminsList[] = $user;
+            } elseif (in_array('ROLE_USER', $user->getRoles()) && !in_array('ROLE_ROOT', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles()) && !in_array('ROLE_DELETE', $user->getRoles())) {
+                $usersList[] = $user;
+            }
+        }
+    
+        // Filtre les utilisateurs selon le filtre
+        $usersToDisplay = match ($filter) {
+            'administrators' => $adminsList,
+            'users' => $usersList,
+            default => $allUsers,
+        };
+
         $user = $this->getUser(); //User co
         $members = $userBORepo->findMembersByEmail(); //Membres de l'assoc
         $users = $userBORepo->findUsersByRole(); //Classement users par roles
         
+
         return $this->render('backOffice/user/userListBO.html.twig', [
             'user' => $user,
             'members' => $members,            
-            'users' => $users,
+            'users' => $users, //Liste filtrée
+            'currentFilter' => $filter,
         ]);
     }
 
@@ -57,7 +80,6 @@ final class UserBOController extends AbstractController
         // Création du formulaire avec les options pour conditionner les champs affichés
         $form = $this->createForm(UserBOType::class, $user, [
             'root' => $root,
-            'admin' => $admin,
         ]);
 
         // Traite la requête HTTP et hydrate le formulaire avec les données soumises
@@ -82,7 +104,6 @@ final class UserBOController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
             'root' => $root,
-            'admin' => $admin,
         ]);
     }
 

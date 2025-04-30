@@ -49,7 +49,7 @@ final class ArtistBOController extends AbstractController
         };
 
         return $this->render('backOffice/artist/artistListBO.html.twig', [
-            'artists' => $artistsToDisplay,
+            'artists' => $artistsToDisplay, //Liste filtrée
             'currentFilter' => $filter,
         ]);
     }

@@ -3,98 +3,135 @@
 {% block title %}Liste des utilisateurs{% endblock %}
 
 {% block description %}
-    Cette page permet de gérer les utilisateurs du back-office. 
-    Vous pouvez consulter et modifier les informations des administrateurs, des utilisateurs, ainsi que des utilisateurs supprimés.  
+    Cette page permet de gérer les utilisateurs du back-office.
+    Vous pouvez consulter et modifier les informations des administrateurs, des utilisateurs, ainsi que des utilisateurs supprimés.
     Seuls les administrateurs ont la possibilité d'effectuer des modifications ou des suppressions d'utilisateurs.
 {% endblock %}
 
 
 {% block body %}
-<!-- UserController -->
-
-<h1>Back-Office</h1>
-<section>
-
-    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
-
-    {% if app.user %}      
-        {% if is_granted('ROLE_ROOT') %}
-            <h2>Administrateurs</h2> 
-
-            <!-- Liste des administateurs -->
-            <div class="listMembers">
-            {# Affiche tous les membres sauf ceux avec le rôle ROLE_ROOT #}
-                {% for member in members %}
-                    {% if 'ROLE_ROOT' not in member.roles %} {# Root non affiché #}
-                        
-                        <p>{{ member.userEmail }}</p>
-
-                        <p>
-                            <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
-                                <i class="fa-solid fa-pencil"></i>
-                            </a>
-                            <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </p>
-                        
-                    {% endif %}
-                {% endfor %}
+    <h1>Back-Office</h1>
+    <section>
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+            <div class="filterUser">
+                <label for="userFilter">Filtrer par :</label>
+                <select id="userFilter" onchange="window.location.href = this.value;">
+                    <option value="{{ path('userListBO') }}" {% if currentFilter is null %}selected{% endif %}>
+                        Tout afficher
+                    </option>
+                    <option value="{{ path('userListBO', {'filter': 'administrators'}) }}" {% if currentFilter == 'administrators' %}selected{% endif %}>
+                        Administrateurs
+                    </option>
+                    <option value="{{ path('userListBO', {'filter': 'users'}) }}" {% if currentFilter == 'users' %}selected{% endif %}>
+                        Utilisateurs
+                    </option>
+                </select>
             </div>
 
-        {% elseif is_granted('ROLE_ADMIN') %}
-            <!-- Liste des administateurs -->
-            <h2>Administrateurs</h2>
+            <div>
+                {% if currentFilter is null %}
+                    <h2>Administrateurs</h2>
+                    <div class="adminUserList">
+                        {% for member in users %}
+                            {% if 'ROLE_ADMIN' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_DELETE' not in member.roles %}
+                                <p>{{ member.userEmail }}</p>
+                                <p>
+                                    {% if is_granted('ROLE_ROOT') %}
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
 
-            <div class="listMbrs">
-                {% for user in users %}
-                    {% if 'ROLE_ADMIN' in user.roles and 'ROLE_ROOT' not in user.roles %}
-                        <p>{{ user.userEmail }}</p>
-                    {% endif %}
-                {% endfor %}
-            </div>
+                    <h2>Utilisateurs</h2>
+                    <div class="adminUserList">
+                        {% for member in users %}
+                            {% if 'ROLE_USER' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_ADMIN' not in member.roles and 'ROLE_DELETE' not in member.roles %}
+                                <p>{{ member.userEmail }}</p>
+                                <p>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}">
+                                            <i class="fa-regular fa-folder-open"></i>
+                                        </a>
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
 
-            <!-- Liste des utilisateurs -->
-            <h2>Utilisateurs</h2>
-            <div class="listMembers">
-            {% for user in users %}
-                {% if 'ROLE_USER' in user.roles and 'ROLE_ROOT' not in user.roles and 'ROLE_ADMIN' not in user.roles and 'ROLE_DELETE' not in user.roles %}
-                    {{ user.userEmail }}
+                {% elseif currentFilter == 'administrators' %}
+                    {# Afficher uniquement les administrateurs (hors ROLE_ROOT) #}
+                    <div class="adminUserList">
+                        {% for member in users %}
+                            {% if 'ROLE_ADMIN' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_DELETE' not in member.roles %}
+                                <p>{{ member.userEmail }}</p>
+                                <p>
+                                    {% if is_granted('ROLE_ROOT') %}
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
 
-                    <p>
-                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': user.slug}) }}">
-                            <i class="fa-regular fa-folder-open"></i>
-                        </a>
-                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': user.slug}) }}">
-                            <i class="fa-solid fa-pencil"></i>
-                        </a>
-                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': user.slug}) }}">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </a>
-                    </p>
+                {% elseif currentFilter == 'users' %}
+                    {# Afficher uniquement les utilisateurs (hors ROLE_ROOT et ROLE_ADMIN et ROLE_DELETE) #}
+                    <div class="adminUserList">
+                        {% for member in users %}
+                            {% if 'ROLE_USER' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_ADMIN' not in member.roles and 'ROLE_DELETE' not in member.roles %}
+                                {{ member.userEmail }}
+                                <p>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}">
+                                            <i class="fa-regular fa-folder-open"></i>
+                                        </a>
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 {% endif %}
-            {% endfor %}
             </div>
 
-            <!-- Liste des utilisateurs supprimés -->
-            <h2>Utilisateurs supprimés</h2>
-            <div class="listMembers">
-                {% for user in users %}
-                    {% if 'ROLE_DELETE' in user.roles and 'ROLE_ROOT' not in user.roles %}
-                        {{ user.userName }} {{ user.userFirstname }}
-
+        {% elseif app.user %}
+            <div class="adminUserList">
+                {% for member in users %}
+                    {% if 'ROLE_USER' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_ADMIN' not in member.roles and 'ROLE_DELETE' not in member.roles %}
+                        {{ member.userEmail }}
                         <p>
-                            <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': user.slug}) }}"><i class="fa-regular fa-folder-open"></i></a>
-                            <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': user.slug}) }}">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}">
+                                <i class="fa-regular fa-folder-open"></i>
                             </a>
                         </p>
                     {% endif %}
+                {% else %}
+                    <p>Aucun utilisateur trouvé.</p>
                 {% endfor %}
             </div>
-            
         {% endif %}
-    {% endif %}
-</section>
+    </section>
 
 {% endblock %}

@@ -14,15 +14,13 @@
 
 <section class="backOffice">
     {% if app.user %}
-        <ol>
-            {% if is_granted('ROLE_ROOT') or is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('userListBO') }}">Utilisateurs</a></li>
-            {% endif %}
-
+        <ol>         
             {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li>
                 <li><a href="{{ path('artistListBO') }}">Artistes</a></li>
+                <li><a href="{{ path('listInvoices') }}">Comptabilité</a></li>
+                <li><a href="{{ path('exhibitListBO') }}">Expositions</a></li>                
                 <li><a href="{{ path('stockManagement') }}">Gestion des stocks</a></li>
+                <li><a href="{{ path('userListBO') }}">Utilisateurs</a></li>               
             {% endif %}
         </ol>
     {% endif %}

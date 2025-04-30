@@ -33,8 +33,40 @@
     list-style: none;
 }
 
+
+/************ Page artists /users ***************/
+.filterArtist, .filterUser {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.filterArtist label, .filterUser label {
+    margin-right: 10px;
+}
+
+.filterArtist select, .filterUser select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#artistFilter, #userFilter {
+    background-color: var(--backgroundColorPastel);
+}
+
+.listArtists, .filterUser {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+}
+
+
+
+
+
 /************ Liste des users ***************/
- .listMembers {
+.adminUserList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
@@ -42,7 +74,7 @@
     margin-bottom: 5%;
 } 
 
-.listMbrs {
+.listMbrs { /* Root co */
     display: grid;
     grid-template-rows: auto;
     row-gap: 5px;
@@ -88,29 +120,3 @@
     padding: 2%; 
 }
 
-/************ Page artists ***************/
-.filterArtist {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-}
-
-.filterArtist label {
-    margin-right: 10px;
-}
-
-.filterArtist select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#artistFilter {
-    background-color: var(--backgroundColorPastel);
-}
-
-.listArtists {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-}

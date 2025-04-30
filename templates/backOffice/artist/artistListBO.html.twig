@@ -11,9 +11,7 @@
         <h1>Artistes</h1>
     </div>
 
-    <section>
-        <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
-
+    <section>        
         {% if app.user and is_granted('ROLE_ADMIN') %}
             <div class="blockBtnAdd">
                 <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a>
