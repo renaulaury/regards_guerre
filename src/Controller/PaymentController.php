@@ -285,6 +285,7 @@ class PaymentController extends AbstractController
 
         // Envoi de l'email de confirmation de commande
         $this->emailService->sendOrderConfirmationEmail($this->getUser(), $cart, $total, $groupedCart);
+        
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
         $this->entityManager->refresh($exhibition); //raffraichit l'expo pour avoir la maj
