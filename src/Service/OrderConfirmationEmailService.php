@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Service\EmailService;
 use App\Service\OrderExportPdfService;
 
+
 /* Service qui envoie facture + tickets en PJ */
 
 class OrderConfirmationEmailService
@@ -12,21 +13,19 @@ class OrderConfirmationEmailService
     private EmailService $emailService;
     private OrderExportPdfService $orderExportPdfService;
 
-    
     public function __construct(EmailService $emailService, OrderExportPdfService $orderExportPdfService)
     {
         $this->emailService = $emailService;
         $this->orderExportPdfService = $orderExportPdfService;
     }
 
-    
-    public function sendOrderConfirmationEmailWithAttachments(int $orderId, $user, $cart, $total, $groupedCart): void
+    public function sendOrderConfirmationEmailWithAttachments(int $orderId, $user, $cart, $total, $groupedCart, string $recipientEmail = null): void
     {
         // Générer le PDF de la facture
         $invoicePdfData = $this->orderExportPdfService->generateInvoicePdf($orderId);
 
         // Générer les PDFs des e-tickets en utilisant le service dédié
-        $eTicketsPdfData = $this->orderExportPdfService->generateTicketsPdf($orderId, $groupedCart);
+        $eTicketsPdfData = $this->orderExportPdfService->generateTicketsPdf($orderId, $groupedCart); // Correction du nom de la méthode
 
         // Init tableau pj
         $attachments = [];
@@ -59,10 +58,13 @@ class OrderConfirmationEmailService
             'groupedCart' => $groupedCart,
         ]);
 
+        // Déterminer le destinataire de l'e-mail
+        $to = $recipientEmail ?? $user->getUserIdentifier();
+
         // Envoyer l'e-mail en utilisant le service d'envoi générique avec les pièces jointes
         $this->emailService->send(
-            $user->getUserIdentifier(),
-            'Confirmation de votre commande et vos documents',
+            $to,
+            'Confirmation de votre réservation et vos documents',
             $body,
             $attachments
         );

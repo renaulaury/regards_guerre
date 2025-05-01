@@ -22,6 +22,8 @@ use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\StockAlertEmailService;
+use App\Service\OrderConfirmationEmailService;
 
 
 class PaymentController extends AbstractController
@@ -30,6 +32,8 @@ class PaymentController extends AbstractController
     private CartService $cartService;
     private RequestStack $requestStack;
     private EmailService $emailService;
+    private StockAlertEmailService $stockAlertEmailService;
+    private OrderConfirmationEmailService $orderConfirmEmailService;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
@@ -37,13 +41,17 @@ class PaymentController extends AbstractController
         CartService $cartService, 
         RequestStack $requestStack,
         EmailService $emailService, 
-        EntityManagerInterface $entityManager)
+        EntityManagerInterface $entityManager,
+        StockAlertEmailService $stockAlertEmailService,
+        OrderConfirmationEmailService $orderConfirmEmailService)
     {
         $this->orderRepo = $orderRepo;
         $this->cartService = $cartService;
         $this->requestStack = $requestStack;
         $this->emailService = $emailService;
         $this->entityManager = $entityManager;
+        $this->stockAlertEmailService = $stockAlertEmailService;
+        $this->orderConfirmEmailService = $orderConfirmEmailService;
     }
 
     #[Route('/order/create-session-stripe', name: 'paymentStripe')]
@@ -283,8 +291,14 @@ class PaymentController extends AbstractController
         $total = $session->get('cartTotal'); //Récup total panier
         
 
-        // Envoi de l'email de confirmation de commande
-        $this->emailService->sendOrderConfirmationEmail($this->getUser(), $cart, $total, $groupedCart);
+       // Envoi de l'email de confirmation de commande
+        $this->orderConfirmEmailService->sendOrderConfirmationEmailWithAttachments(
+            $order->getId(),
+            $this->getUser(),
+            $cart,
+            $total,
+            $this->cartService->groupCartByExhibition($cart)
+        );
         
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
