@@ -40,7 +40,7 @@ final class OrderController extends AbstractController
         ]);
     }
 
-/***************** Envoi de la réservation en pdf ***********************/
+/***************** Upload de la commande en pdf ***********************/
     #[Route('/backOffice/user/userOrderExport/{orderId}', name: 'userOrderExport')]
     public function userOrderExport(
         int $orderId, 
