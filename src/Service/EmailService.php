@@ -2,66 +2,45 @@
 
 namespace App\Service;
 
-use Twig\Environment;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\MailerInterface ;
+use Twig\Environment;
 
 class EmailService
 {
-    private Environment $twig;    
     private MailerInterface $mailer;
+    private Environment $twig;
 
-    public function __construct(Environment $twig, MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, Environment $twig)
     {
-        $this->twig = $twig; 
-        $this->mailer = $mailer;     
+        $this->mailer = $mailer;
+        $this->twig = $twig;
     }
 
-/********************* Envoi d'email *************************/
-    public function sendEmail(string $to, string $subject, string $body, string $attachmentContent = null, string $attachmentFilename = null): void
+    public function send(
+        string $to, 
+        string $subject, 
+        string $body, 
+        array $attachments = [], 
+        string $from = 'noreply@regardsguerre.fr'): void
     {
         $email = (new Email())
-            ->from('noreply@regardsguerre.fr')
+            ->from($from)
             ->to($to)
             ->subject($subject)
             ->html($body);
 
-        //Si PJ
-        if ($attachmentContent && $attachmentFilename) {
-            $email->attach($attachmentContent, $attachmentFilename, 'application/pdf');
+        foreach ($attachments as $attachment) {
+            if (is_array($attachment) && isset($attachment['content'], $attachment['filename'])) {
+                $email->attach($attachment['content'], $attachment['filename'], $attachment['mimeType'] ?? null);
+            }
         }
 
-        //Envoi
         $this->mailer->send($email);
     }
 
-/********************* Envoie un email de confirmation de commande à un utilisateur *************************/
-    public function sendOrderConfirmationEmail($user, $cart, $total, $groupedCart): void
+    public function renderTemplate(string $templatePath, array $context = []): string
     {
-        //Contenu -> template
-        $body = $this->twig->render('emails/orderConfirmEmail.html.twig', [
-            'user' => $user,
-            'cart' => $cart,
-            'total' => $total,
-            'groupedCart' => $groupedCart,
-        ]);
-
-        //Envoi
-        $this->sendEmail($user->getUserIdentifier(), 'Confirmation de votre réservation', $body);
-        //permet d identifier le user par la clé unique mail
-    }
-
-/********************* Envoie un email d'alerte de stock à un root/admin *************************/
-
-    public function sendStockAlertEmail(array $soonOutStockExhibits, array $outOfStockExhibitions): void
-    {
-        //Contenu -> template
-        $body = $this->twig->render('emails/stockAlertEmail.html.twig', [
-        'soonOutStockExhibits' => $soonOutStockExhibits,
-            'outOfStockExhibitions' => $outOfStockExhibitions,
-        ]);
-
-        //Envoi
-        $this->sendEmail('alerte_stock@regardsguerre.fr', 'Alerte de stock', $body);
+        return $this->twig->render($templatePath, $context);
     }
 }

@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
-use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Invoice;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use Stripe\Checkout\Session;
-use App\Service\EmailService;
 use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
 use App\Form\UserIdentityCartFormType;
+use App\Service\StockAlertEmailService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\OrderConfirmationEmailService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,21 +29,24 @@ class PaymentController extends AbstractController
     private OrderRepository $orderRepo;
     private CartService $cartService;
     private RequestStack $requestStack;
-    private EmailService $emailService;
+    private StockAlertEmailService $stockAlertEmailService;
     private EntityManagerInterface $entityManager;
+    private OrderConfirmationEmailService $orderConfirmEmailService;
 
     public function __construct(
         OrderRepository $orderRepo,
         CartService $cartService, 
         RequestStack $requestStack,
-        EmailService $emailService, 
-        EntityManagerInterface $entityManager)
+        StockAlertEmailService $stockAlertEmailService, 
+        EntityManagerInterface $entityManager,
+        OrderConfirmationEmailService $orderConfirmEmailService )
     {
         $this->orderRepo = $orderRepo;
         $this->cartService = $cartService;
         $this->requestStack = $requestStack;
-        $this->emailService = $emailService;
+        $this->stockAlertEmailService = $stockAlertEmailService;
         $this->entityManager = $entityManager;
+        $this->orderConfirmEmailService = $orderConfirmEmailService;
     }
 
     #[Route('/order/create-session-stripe', name: 'paymentStripe')]
@@ -121,9 +124,7 @@ class PaymentController extends AbstractController
 
     /********************** Erreur de paiement ********************/
     #[Route('/order/error', name: 'paymentError')]
-    public function stripeError(
-        CartService $cartService,
-    ): Response
+    public function stripeError(): Response
     {
         $this->addFlash('danger', 'Une erreur est survenue lors du paiement. Veuillez réessayer..');
 
@@ -136,9 +137,7 @@ class PaymentController extends AbstractController
         ExhibitionShareRepository $exhibitShareRepo, 
         TicketRepository $ticketRepo,
         RequestStack $requestStack,
-        CartService $cartService,
-        EntityManagerInterface $entityManager,
-        EmailService $emailService): Response
+        CartService $cartService,): Response
     {
         //Récup des infos du form stockés en session
         $session = $requestStack->getCurrentRequest()->getSession();
@@ -283,8 +282,14 @@ class PaymentController extends AbstractController
         $total = $session->get('cartTotal'); //Récup total panier
         
 
-        // Envoi de l'email de confirmation de commande
-        $this->emailService->sendOrderConfirmationEmail($this->getUser(), $cart, $total, $groupedCart);
+        // Envoi de l'email de confirmation de commande (param de sendOrderConfirmationEmailWithAttachments)
+        $this->orderConfirmEmailService->sendOrderConfirmationEmailWithAttachments(
+            $order->getId(), 
+            $this->getUser(),
+            $cart,
+            $total,
+            $this->cartService->groupCartByExhibition($cart) 
+        );
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
         $this->entityManager->refresh($exhibition); //raffraichit l'expo pour avoir la maj
@@ -306,7 +311,7 @@ class PaymentController extends AbstractController
 
         // Envoi de l'email d'alerte de stock à l'admin
         if (!empty($soonOutStockExhibits) || !empty($outOfStockExhibitions)) {
-            $this->emailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
+            $this->stockAlertEmailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
         }
 
        

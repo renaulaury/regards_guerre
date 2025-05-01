@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\OrderConfirmationEmailService;
 use App\Repository\OrderRepository;
-use App\Service\OrderExportService;
-use App\Service\OrderHistoryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -27,7 +26,7 @@ final class OrderController extends AbstractController
     
     public function orderHistory(
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user,
-        OrderHistoryService $orderHistoryService): Response
+        InvoiceService $orderHistoryService): Response
     {
         // Vérif de l'accès
         if ($this->getUser() !== $user) {
@@ -45,7 +44,7 @@ final class OrderController extends AbstractController
     #[Route('/backOffice/user/userOrderExport/{orderId}', name: 'userOrderExport')]
     public function userOrderExport(
         int $orderId, 
-        OrderExportService $orderExportService,
+        OrderConfirmationEmailService  $orderConfirmationEmailService ,
         OrderRepository $orderRepo): Response
     {
         
@@ -57,7 +56,7 @@ final class OrderController extends AbstractController
         }
 
         
-        $orderExportService->exportOrder($orderId);
+        $orderConfirmationEmailService->sendOrderConfirmationEmailWithAttachments($orderId);
         
         
         $this->addFlash('success', 'Votre commande vous a été envoyée par mail.');

@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\Share\OrderShareRepository;
 
-class OrderHistoryService
+class InvoiceService
 {
     private OrderShareRepository $orderShareRepository;
     private OrderService $orderService;

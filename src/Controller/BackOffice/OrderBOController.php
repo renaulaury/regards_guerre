@@ -4,6 +4,8 @@ namespace App\Controller\BackOffice;
 
 use App\Entity\User;
 use App\Service\OrderService;
+use App\Service\InvoiceService;
+use App\Repository\OrderRepository;
 use App\Service\OrderExportService;
 use App\Service\OrderHistoryService;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,16 +20,16 @@ final class OrderBOController extends AbstractController
 /***************** Historique d'un user ***********************/
 /*********** Affiche l'historique de commande de l'utilisateur ************************/
 #[Route('/backOffice/user/userOrderBO/{slug}', name: 'userOrderBO')]        
-public function userOrderBO(
-    #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null, 
-    OrderHistoryService $orderHistoryService): Response
+public function userOrderBO(    
+    InvoiceService $invoiceService,
+    #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null): Response
 {
     // Vérif de l'accès
     if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
         return $this->redirectToRoute('home');
     }
 
-    $groupedOrders = $orderHistoryService->getUserOrderHistory($user->getId());
+    $groupedOrders = $invoiceService->getUserOrderHistory($user->getId());
 
     return $this->render('backOffice/user/userOrderBO.html.twig', [
         'groupedOrders' => $groupedOrders,
@@ -42,7 +44,7 @@ public function userOrderBO(
     public function userOrderExportBO(
         int $orderId, 
         OrderExportService $orderExportService,
-        OrderService $orderService): Response
+        OrderRepository $orderRepo): Response
     {
         // Vérif de l'accès
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
@@ -51,7 +53,7 @@ public function userOrderBO(
 
         $orderExportService->exportOrder($orderId);
         
-        $order = $orderService->findOrder($orderId); 
+        $order = $orderRepo->find($orderId); 
 
     if ($order && $order->getUser()) {
         return $this->redirectToRoute('userOrderBO', ['slug' => $order->getUser()->getSlug()]);

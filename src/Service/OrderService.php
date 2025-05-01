@@ -26,9 +26,5 @@ class OrderService
         return $total;
     }
 
-/************** Récupération d'une commande par son ID ***********************/
-    public function findOrder(int $orderId): ?Order
-    {
-        return $this->orderRepository->find($orderId);
-    }
+
 }
