@@ -2,71 +2,83 @@
 
 namespace App\Service;
 
-use App\Service\EmailService;
-use App\Service\OrderExportPdfService;
-
-
-/* Service qui envoie facture + tickets en PJ */
+use App\Entity\Order;
 
 class OrderConfirmationEmailService
 {
+    private PdfService $pdfService; 
     private EmailService $emailService;
-    private OrderExportPdfService $orderExportPdfService;
 
-    public function __construct(EmailService $emailService, OrderExportPdfService $orderExportPdfService)
-    {
+    public function __construct(
+        PdfService $pdfService,
+        EmailService $emailService
+    ) {
+        $this->pdfService = $pdfService;
         $this->emailService = $emailService;
-        $this->orderExportPdfService = $orderExportPdfService;
     }
+    
 
-    public function sendOrderConfirmationEmailWithAttachments(int $orderId, $user, $cart, $total, $groupedCart, string $recipientEmail = null): void
+    /************************  Génère le PDF des tickets à partir de l'entité order. *******************/
+    public function generateEticketPdf(Order $order): ?array
     {
-        // Générer le PDF de la facture
-        $invoicePdfData = $this->orderExportPdfService->generateInvoicePdf($orderId);
+        //// Init du tabl pour les commandes regroupées
+        $groupedOrderDetails = [];
 
-        // Générer les PDFs des e-tickets en utilisant le service dédié
-        $eTicketsPdfData = $this->orderExportPdfService->generateTicketsPdf($orderId, $groupedCart); // Correction du nom de la méthode
+        // Parcours des détails de la commande pour les regrouper par exposition
+        foreach ($order->getOrderDetails() as $orderDetail) {
+            $exhibitionId = $orderDetail->getExhibition()->getId();
 
-        // Init tableau pj
-        $attachments = [];
-
-        // Add facture
-        if ($invoicePdfData) {
-            $attachments[] = [
-                'content' => $invoicePdfData['content'],
-                'filename' => $invoicePdfData['filename'],
-                'mimeType' => 'application/pdf',
-            ];
-        }
-
-        // Add e-tickets
-        if ($eTicketsPdfData) {
-            foreach ($eTicketsPdfData as $eTicketData) {
-                $attachments[] = [
-                    'content' => $eTicketData['content'],
-                    'filename' => $eTicketData['filename'],
-                    'mimeType' => 'application/pdf',
+            if (!isset($groupedOrderDetails[$exhibitionId])) {
+                $groupedOrderDetails[$exhibitionId] = [
+                    'exhibition' => $orderDetail->getExhibition(),
+                    'orderDetails' => [],
                 ];
             }
+            // Ajoute le ticket à la liste
+            $groupedOrderDetails[$exhibitionId]['orderDetails'][] = $orderDetail;
         }
 
-        // Rendre le corps de l'e-mail en utilisant le template Twig
-        $body = $this->emailService->renderTemplate('emails/orderConfirmEmail.html.twig', [
-            'user' => $user,
-            'cart' => $cart,
-            'total' => $total,
-            'groupedCart' => $groupedCart,
-        ]);
 
-        // Déterminer le destinataire de l'e-mail
-        $to = $recipientEmail ?? $user->getUserIdentifier();
-
-        // Envoyer l'e-mail en utilisant le service d'envoi générique avec les pièces jointes
-        $this->emailService->send(
-            $to,
-            'Confirmation de votre réservation et vos documents',
-            $body,
-            $attachments
+        // Génère le contenu PDF (pdf service + template)
+        $pdfContent = $this->pdfService->generatePdf(
+            'pdf/eticketPdf.html.twig', 
+            [
+                'order' => $order,
+                'groupedOrderDetails' => $groupedOrderDetails,
+            ]
         );
+
+        // Retourne le contenu et le nom du fichier PDF
+        return [
+            'content' => $pdfContent,
+            'filename' => 'eticket.pdf',
+        ];
+    }
+
+
+    /* Envoie les tickets par email à l'utilisateur.*/     
+    public function sendTicketEmail(Order $order): void
+    {
+        //Génére le pdf de la facture
+        $orderPdf = $this->generateEticketPdf($order);        
+
+        if ($orderPdf) {
+            $attachment = [
+                'content' => $orderPdf['content'],
+                'filename' => $orderPdf['filename'],
+                'mimeType' => 'application/pdf',
+            ];
+
+            //Envoi l'email
+            $this->emailService->send(
+                $order->getCustomerEmail(),
+                'Vos tickets',
+                $this->emailService->renderTemplate(
+                    'emails/eticketEmail.html.twig',
+                    ['order' => $order]
+                ),
+                $attachment
+            );
+        }
     }
 }

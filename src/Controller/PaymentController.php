@@ -144,9 +144,7 @@ class PaymentController extends AbstractController
         ExhibitionShareRepository $exhibitShareRepo, 
         TicketRepository $ticketRepo,
         RequestStack $requestStack,
-        CartService $cartService,
-        EntityManagerInterface $entityManager,
-        EmailService $emailService): Response
+        CartService $cartService): Response
     {
         //Récup des infos du form stockés en session
         $session = $requestStack->getCurrentRequest()->getSession();
@@ -308,13 +306,7 @@ class PaymentController extends AbstractController
         
 
        // Envoi de l'email de confirmation de commande
-        $this->orderConfirmEmailService->sendOrderConfirmationEmailWithAttachments(
-            $order->getId(),
-            $this->getUser(),
-            $cart,
-            $total,
-            $this->cartService->groupCartByExhibition($cart)
-        );
+       $this->orderConfirmEmailService->sendTicketEmail($order);
         
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
@@ -337,7 +329,7 @@ class PaymentController extends AbstractController
 
         // Envoi de l'email d'alerte de stock à l'admin
         if (!empty($soonOutStockExhibits) || !empty($outOfStockExhibitions)) {
-            $this->emailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
+            $this->stockAlertEmailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
         }
 
        

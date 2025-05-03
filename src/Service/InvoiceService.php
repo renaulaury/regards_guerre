@@ -3,67 +3,20 @@
 namespace App\Service;
 
 use App\Entity\Invoice;
-use Doctrine\ORM\EntityManagerInterface;
 
 class InvoiceService
 {
-    private EntityManagerInterface $entityManager;
-    private PdfService $pdfService; // Injection de PdfService directement
+    private PdfService $pdfService; 
     private EmailService $emailService;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
         PdfService $pdfService,
         EmailService $emailService
     ) {
-        $this->entityManager = $entityManager;
         $this->pdfService = $pdfService;
         $this->emailService = $emailService;
     }
-
-    /**
-     * Crée et enregistre une entité Invoice à partir des données du panier.
-     *
-     * @param array $cart
-     * @param string $customerName
-     * @param string $customerFirstname
-     * @param string $customerEmail
-     * @param string $orderTotal
-     * @param string $invoiceNumber
-     * @return Invoice
-     */
-    public function createInvoice(
-        array $cart,
-        string $customerName,
-        string $customerFirstname,
-        string $customerEmail,
-        string $orderTotal,
-        string $invoiceNumber
-    ): Invoice {
-        $invoice = new Invoice();
-        $invoice->setNumberInvoice($invoiceNumber);
-        $invoice->setCustomerName($customerName);
-        $invoice->setCustomerFirstname($customerFirstname);
-        $invoice->setCustomerEmail($customerEmail);
-        $invoice->setOrderTotal($orderTotal);
-        $invoice->setDateInvoice(new \DateTimeImmutable());
-
-        $invoiceDetails = [];
-        foreach ($cart as $item) {
-            $invoiceDetails[] = [
-                'expositionTitle' => $item['exhibitionTitle'] ?? null,
-                'ticketTitle' => $item['ticketTitle'] ?? null,
-                'standardPrice' => $item['price'] ?? null,
-                'quantity' => $item['qty'] ?? null,
-            ];
-        }
-        $invoice->setInvoiceDetails($invoiceDetails);
-
-        $this->entityManager->persist($invoice);
-        $this->entityManager->flush();
-
-        return $invoice;
-    }
+    
 
     /* Génère le PDF de la facture à partir de l'entité Invoice.*/
     public function generateInvoicePdf(Invoice $invoice): ?array

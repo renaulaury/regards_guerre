@@ -112,7 +112,7 @@
         </thead>
         <tbody>
             {% for detail in invoice.invoiceDetails %}
-                <tr class="product-row">
+                <tr>
                     <td>{{ detail.expositionTitle }}</td>
                     <td>{{ detail.ticketTitle }}</td>
                     <td class="textRight">{{ detail.quantity }}</td>
@@ -123,8 +123,8 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" class="textRight strong">Total de la commande :</td>
-                <td class="textRight strong">{{ invoice.orderTotal }} €</td>
+                <td colspan="4" class="textRight">Total de la commande :</td>
+                <td class="textRight">{{ invoice.orderTotal }} €</td>
             </tr>
         </tfoot>
     </table>
