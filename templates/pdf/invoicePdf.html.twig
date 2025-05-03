@@ -3,7 +3,7 @@
 <head>
     {# pdf/orderPdf.html.twig #}
     <meta charset="UTF-8">
-    <title>Commande #{{ orderData.order.id }}</title>
+    <title>Commande # {{invoice }}</title>
     <style>
         .sectionPdf {
             display: flex;
@@ -96,7 +96,7 @@
     <div class="headerPdf">
         <img class="logoPdf" src="{{ absolute_url(asset('images/logo.webp')) }}" alt="Logo de l'association Regards de Guerre">
     
-        <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1>
+        <h1>Commande #{{ invoice }} du {{ invoice.dateInvoice|date('d/m/Y') }}</h1>
     </div>
     
 
@@ -111,22 +111,20 @@
             </tr>
         </thead>
         <tbody>
-            {% for exhibitionDetails in orderData.details %}
-                {% for ticketDetails in exhibitionDetails.tickets %}
-                    <tr class="product-row">
-                        <td>{{ exhibitionDetails.exhibition }}</td>
-                        <td>{{ ticketDetails.ticket }}</td>
-                        <td class="textRight">{{ ticketDetails.quantity }}</td>
-                        <td class="textRight">{{ ticketDetails.price }} €</td>
-                        <td class="textRight">{{ (ticketDetails.quantity * ticketDetails.price) }} €</td>
-                    </tr>
-                {% endfor %}
+            {% for detail in invoice.invoiceDetails %}
+                <tr>
+                    <td>{{ detail.expositionTitle }}</td>
+                    <td>{{ detail.ticketTitle }}</td>
+                    <td class="textRight">{{ detail.quantity }}</td>
+                    <td class="textRight">{{ detail.standardPrice }} €</td>
+                    <td class="textRight">{{ (detail.quantity * detail.standardPrice) }} €</td>
+                </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" class="textRight strong">Total de la commande :</td>
-                <td class="textRight strong">{{ orderData.total }} €</td>
+                <td colspan="4" class="textRight">Total de la commande :</td>
+                <td class="textRight">{{ invoice.orderTotal }} €</td>
             </tr>
         </tfoot>
     </table>

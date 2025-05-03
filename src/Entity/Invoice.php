@@ -6,7 +6,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\InvoiceRepository;
 
-
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 class Invoice
 {
@@ -32,6 +31,9 @@ class Invoice
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateInvoice = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $invoiceDetails = [];
 
     public function getId(): ?int
     {
@@ -110,9 +112,16 @@ class Invoice
         return $this;
     }
 
-    public function getDateInvoiceFr(): ?string
+    public function getInvoiceDetails(): ?array
     {
-        return $this->dateInvoice?->format('d-m-y');
+        return $this->invoiceDetails;
+    }
+
+    public function setInvoiceDetails(?array $invoiceDetails): static
+    {
+        $this->invoiceDetails = $invoiceDetails;
+
+        return $this;
     }
 
     public function __toString(): string

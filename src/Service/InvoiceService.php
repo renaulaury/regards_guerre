@@ -2,69 +2,62 @@
 
 namespace App\Service;
 
-use App\Entity\User;
-use App\Repository\Share\OrderShareRepository;
+use App\Entity\Invoice;
 
 class InvoiceService
 {
-    private OrderShareRepository $orderShareRepository;
-    private OrderService $orderService;
+    private PdfService $pdfService; 
+    private EmailService $emailService;
 
-/******************** Permet le regroupement des commandes -> historique de cde -> Emission de pdf cde ****************************/
-    public function __construct(OrderShareRepository $orderShareRepository, OrderService $orderService)
+    public function __construct(
+        PdfService $pdfService,
+        EmailService $emailService
+    ) {
+        $this->pdfService = $pdfService;
+        $this->emailService = $emailService;
+    }
+    
+
+    /* Génère le PDF de la facture à partir de l'entité Invoice.*/
+    public function generateInvoicePdf(Invoice $invoice): ?array
     {
-        $this->orderShareRepository = $orderShareRepository;
-        $this->orderService = $orderService;
+        // Génère le contenu PDF (pdf service + template)
+        $pdfContent = $this->pdfService->generatePdf(
+            'pdf/invoicePdf.html.twig', 
+            ['invoice' => $invoice]
+        );
+
+        // Retourne le contenu et le nom du fichier PDF
+        return [
+            'content' => $pdfContent,
+            'filename' => 'facture_' . $invoice->getNumberInvoice() . '.pdf',
+        ];
     }
 
-    /******************** Récup de l'historique de commande d'un utilisateur ****************************/
-    public function getUserOrderHistory(int $userId): array
+
+    /* Envoie la facture par email à l'utilisateur.*/     
+    public function sendInvoiceEmail(Invoice $invoice): void
     {
-        // Récupération des commandes de l'utilisateur
-        $orders = $this->orderShareRepository->findOrdersDetailByUser($userId);
+        //Génére le pdf de la facture
+        $invoicePdf = $this->generateInvoicePdf($invoice);        
 
-        // Initialisation du tableau pour les commandes regroupées
-        $groupedOrders = [];
-
-        // Parcours des commandes récupérées
-        foreach ($orders as $order) {
-            // Initialisation du tableau pour les détails de la commande regroupés par exposition
-            $groupedDetailsByExhibition = [];
-
-            // Calcul du total de la commande
-            $totalOrder = $this->orderService->orderTotal($order->getOrderDetails());
-
-            // Parcours des détails de la commande pour les regrouper par exposition
-            foreach ($order->getOrderDetails() as $detail) {
-                $exhibition = $detail->getExhibition();
-                $ticket = $detail->getTicket();
-                $quantity = $detail->getQuantity();
-                $exhibitionId = $exhibition->getId();
-
-                // Si l'exposition n'existe pas encore dans le tableau, on la crée
-                if (!isset($groupedDetailsByExhibition[$exhibitionId])) {
-                    $groupedDetailsByExhibition[$exhibitionId] = [
-                        'exhibition' => $exhibition,
-                        'tickets' => []
-                    ];
-                }
-
-                // Ajout du ticket à la liste des tickets de l'exposition
-                $groupedDetailsByExhibition[$exhibitionId]['tickets'][] = [
-                    'ticket' => $ticket,
-                    'quantity' => $quantity,
-                    'price' => $detail->getUnitPrice(),
-                ];
-            }
-
-            // Ajout de la commande complète et de ses détails regroupés
-            $groupedOrders[] = [
-                'order' => $order,
-                'details' => $groupedDetailsByExhibition,
-                'total' => $totalOrder,
+        if ($invoicePdf) {
+            $attachment = [
+                'content' => $invoicePdf['content'],
+                'filename' => $invoicePdf['filename'],
+                'mimeType' => 'application/pdf',
             ];
-        }
 
-        return $groupedOrders;
+            //Envoi l'email
+            $this->emailService->send(
+                $invoice->getCustomerEmail(),
+                'Votre facture #' . $invoice->getNumberInvoice(),
+                $this->emailService->renderTemplate(
+                    'emails/invoiceEmail.html.twig',
+                    ['invoice' => $invoice]
+                ),
+                $attachment
+            );
+        }
     }
 }

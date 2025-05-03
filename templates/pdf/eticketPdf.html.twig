@@ -1,58 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {# pdf/orderPdf.html.twig #}
     <meta charset="UTF-8">
-    <title>Commande #{{ orderData.order.id }}</title>
+    <title>Vos e-tickets - Commande #{{ order.id }}</title>
     <style>
-      
+        .sectionPdf {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }      
         
+        .headerPdf {
+            width: 100%;                     
+        }
+
+        .exposition {
+            page-break-before: always; /* Force chaque exposition à commencer sur une nouvelle page */
+        }
+    
+        
+        .exposition.first {
+            page-break-before: avoid;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .ticket {
+            border: 1px solid #ccc;
+            padding-left: 15px;
+            margin-bottom: 10px;
+        }
+
+        .strong {
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 2em; 
+            text-align: center; 
+        }
+
+        .logoPdf {
+            width: 100px; 
+        } 
+        
+        .footerPdf {
+            position: fixed; 
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 5px 0; 
+            background-color: rgba(255, 160, 122, 0.15);
+            font-size: 0.7em;           
+        }
+        
+        .footerPdf p {
+            margin: 0;            
+        } 
     </style>
 </head>
 <body>
-<section class="sectionPdf">
-    <div class="headerPdf">
-        <img class="logoPdf" src="{{ absolute_url(asset('images/logo.webp')) }}" alt="Logo de l'association Regards de Guerre">
-    
-        <h1>Commande #{{ orderData.order.id }} du {{ orderData.order.orderDateCreationFr }}</h1>
-    </div>
-    
+    <section class="sectionPdf">       
 
-    <table class="invoiceTable">
-        <thead>
-            <tr>
-                <th>Exposition</th>
-                <th>Ticket</th>
-                <th>Qté</th>
-                <th class="textRight">Prix Unitaire</th>
-                <th class="textRight">Prix Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for exhibitionDetails in orderData.details %}
-                {% for ticketDetails in exhibitionDetails.tickets %}
-                    <tr class="product-row">
-                        <td>{{ exhibitionDetails.exhibition }}</td>
-                        <td>{{ ticketDetails.ticket }}</td>
-                        <td class="textRight">{{ ticketDetails.quantity }}</td>
-                        <td class="textRight">{{ ticketDetails.price }} €</td>
-                        <td class="textRight">{{ (ticketDetails.quantity * ticketDetails.price) }} €</td>
-                    </tr>
-                {% endfor %}
+        
+        {% for exhibitionId, exhibitionData in groupedOrderDetails %}
+            <div class="exposition {% if loop.first %}first{% endif %}">
+                <div class="headerPdf">
+                    <img class="logoPdf" src="{{ absolute_url(asset('images/logo.webp')) }}" alt="Logo Regards de Guerre">
+                    <div>
+                        <h1>Vos e-tickets - Commande #{{ order.id }}</h1>
+                        <p class="center">Date de commande : {{ order.orderDateCreationFr }}</p>
+                    </div>  
+                </div>
+
+                <h2><span class="strong">Exposition :</span> {{ exhibitionData.exhibition.titleExhibit }}</h2>
+                <p><span class="strong">Valable uniquement le :</span> {{ exhibitionData.exhibition.dateExhibit|date('d/m/Y') }}</p>
+                <p><span class="strong">Ticket(s) réservé(s) au nom de : </span>{{ order.customerName }} {{ order.customerFirstname }}</p>
+        
+            {% for orderDetail in exhibitionData.orderDetails %}
+                <div class="ticket">
+                    <p class="ticketInfoPdf"><span class="strong">Ticket :</span> {{ orderDetail.ticket.titleTicket }}</p>
+                    <p class="ticketInfoPdf"><span class="strong">Quantité :</span> {{ orderDetail.quantity }}</p>
+                    <p class="ticketInfoPdf"><span class="strong">Prix unitaire :</span> {{ orderDetail.unitPrice }} €</p>
+                </div>
             {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" class="textRight strong">Total de la commande :</td>
-                <td class="textRight strong">{{ orderData.total }} €</td>
-            </tr>
-        </tfoot>
-    </table>
+            </div>
 
-    <div class="footerPdf">
-        <p>Regards de guerre - Association loi 1901</p>
-        <p>Rue de la paix - 75000 PARIS</p>
-    </div>
-</section>
+
+            <div class="footerPdf">
+                <p>Regards de guerre - Association loi 1901</p>
+                <p>Rue de la paix - 75000 PARIS</p>
+            </div>
+        {% endfor %}
+
+
+        <div class="footerPdf">
+            <p>Regards de guerre - Association loi 1901</p>
+            <p>Rue de la paix - 75000 PARIS</p>
+        </div>
+    </section>
 </body>
 </html>

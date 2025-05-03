@@ -65,7 +65,7 @@ class PaymentController extends AbstractController
 
         //Si nom prenom !bdd        
         if (!$this->getUser()->getUserName() && !$this->getUser()->getUserFirstname()) {
-            // dump($this->getUser());die;
+            
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -144,9 +144,7 @@ class PaymentController extends AbstractController
         ExhibitionShareRepository $exhibitShareRepo, 
         TicketRepository $ticketRepo,
         RequestStack $requestStack,
-        CartService $cartService,
-        EntityManagerInterface $entityManager,
-        EmailService $emailService): Response
+        CartService $cartService): Response
     {
         //Récup des infos du form stockés en session
         $session = $requestStack->getCurrentRequest()->getSession();
@@ -214,7 +212,23 @@ class PaymentController extends AbstractController
         $order->setNumberInvoice($invoiceNumber);
         $invoice->setNumberInvoice($invoiceNumber);
 
+        $invoiceDetails = []; //Détail de la commande
 
+        foreach ($cart as $item) {
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']);
+            $ticket = $ticketRepo->find($item['ticketId']);
+            $quantity = $item['qty'];
+            $price = $item['price'];
+    
+            $invoiceDetails[] = [
+                'expositionTitle' => $exhibition ? $exhibition->getTitleExhibit() : null,
+                'ticketTitle' => $ticket ? $ticket->getTitleTicket() : null,
+                'standardPrice' => $price,
+                'quantity' => $quantity,
+            ];
+        }
+    
+        $invoice->setInvoiceDetails($invoiceDetails);
 
         //Gestion des stocks
         $stockErrors = []; //Gestion des erreurs de stock/panier
@@ -292,13 +306,7 @@ class PaymentController extends AbstractController
         
 
        // Envoi de l'email de confirmation de commande
-        $this->orderConfirmEmailService->sendOrderConfirmationEmailWithAttachments(
-            $order->getId(),
-            $this->getUser(),
-            $cart,
-            $total,
-            $this->cartService->groupCartByExhibition($cart)
-        );
+       $this->orderConfirmEmailService->sendTicketEmail($order);
         
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
@@ -321,7 +329,7 @@ class PaymentController extends AbstractController
 
         // Envoi de l'email d'alerte de stock à l'admin
         if (!empty($soonOutStockExhibits) || !empty($outOfStockExhibitions)) {
-            $this->emailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
+            $this->stockAlertEmailService->sendStockAlertEmail(array_unique($soonOutStockExhibits), array_unique($outOfStockExhibitions));
         }
 
        

@@ -17,7 +17,7 @@ Consultez l'historique de vos commandes passées, incluant les expositions et le
     {% else %}
         {% for groupedOrder in groupedOrders %}
         <p>
-            <strong>Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} </strong> <a href="{{ path('userOrderExport', {'orderId': groupedOrder.order.id}) }}"><i class="fa-solid fa-file-export"></i></a>
+            <strong>Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} </strong> <a href="{{ path('userInvoiceExport', {'orderId': groupedOrder.order.id}) }}">Facture</a>
         </p>
 
             {% for exhibitionId, exhibitionData in groupedOrder.details %}
