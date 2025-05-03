@@ -65,7 +65,7 @@ class PaymentController extends AbstractController
 
         //Si nom prenom !bdd        
         if (!$this->getUser()->getUserName() && !$this->getUser()->getUserFirstname()) {
-            // dump($this->getUser());die;
+            
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -214,7 +214,23 @@ class PaymentController extends AbstractController
         $order->setNumberInvoice($invoiceNumber);
         $invoice->setNumberInvoice($invoiceNumber);
 
+        $invoiceDetails = []; //Détail de la commande
 
+        foreach ($cart as $item) {
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']);
+            $ticket = $ticketRepo->find($item['ticketId']);
+            $quantity = $item['qty'];
+            $price = $item['price'];
+    
+            $invoiceDetails[] = [
+                'expositionTitle' => $exhibition ? $exhibition->getTitleExhibit() : null,
+                'ticketTitle' => $ticket ? $ticket->getTitleTicket() : null,
+                'standardPrice' => $price,
+                'quantity' => $quantity,
+            ];
+        }
+    
+        $invoice->setInvoiceDetails($invoiceDetails);
 
         //Gestion des stocks
         $stockErrors = []; //Gestion des erreurs de stock/panier

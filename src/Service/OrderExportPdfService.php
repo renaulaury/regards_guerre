@@ -45,7 +45,7 @@ class OrderExportPdfService
 
         // Génère le contenu PDF (pdf service + template)
         $pdfContent = $this->pdfService->generatePdf(
-            'pdf/orderPdf.html.twig',
+            'pdf/invoicePdf.html.twig',
             ['orderData' => $orderData]
         );
 

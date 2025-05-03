@@ -21,7 +21,7 @@ class EmailService
         string $to,
         string $subject,
         string $body,
-        array $attachments = [],
+        ?array $attachment = null, 
         string $from = 'noreply@regardsguerre.fr'
     ): void
     {
@@ -31,11 +31,9 @@ class EmailService
             ->subject($subject)
             ->html($body);
 
-        foreach ($attachments as $attachment) {
             if (is_array($attachment) && isset($attachment['content'], $attachment['filename'])) {
                 $email->attach($attachment['content'], $attachment['filename'], $attachment['mimeType'] ?? null);
             }
-        }
 
         $this->mailer->send($email);
     }
