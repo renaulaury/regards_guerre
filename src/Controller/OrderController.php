@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\OrderConfirmationEmailService;
+use App\Service\InvoiceService;
 use App\Repository\OrderRepository;
+use App\Service\OrderHistoryService;
+use App\Repository\InvoiceRepository;
+use App\Service\OrderConfirmationEmailService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -26,7 +29,7 @@ final class OrderController extends AbstractController
     
     public function orderHistory(
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user,
-        InvoiceService $orderHistoryService): Response
+        OrderHistoryService $orderHistoryService): Response
     {
         // Vérif de l'accès
         if ($this->getUser() !== $user) {
@@ -40,27 +43,37 @@ final class OrderController extends AbstractController
         ]);
     }
 
-/***************** Upload de la commande en pdf ***********************/
-    #[Route('/backOffice/user/userOrderExport/{orderId}', name: 'userOrderExport')]
-    public function userOrderExport(
-        int $orderId, 
-        OrderConfirmationEmailService  $orderConfirmationEmailService ,
-        OrderRepository $orderRepo): Response
-    {
-        
-        $order = $orderRepo->find($orderId);
+/***************** Envoie de la commande en pdf ***********************/
+#[Route('/backOffice/user/userInvoiceExport/{orderId}', name: 'userInvoiceExport')]
+public function userInvoiceExport(
+    int $orderId,
+    OrderRepository $orderRepository,
+    InvoiceRepository $invoiceRepository,
+    InvoiceService $invoiceService
+): Response {
+    // Récupère l'entité Order à partir de l'ID.
+    $order = $orderRepository->find($orderId);
 
-        if (!$order || !$order->getUser()) {
-            $this->addFlash('error', 'Commande non trouvée.');
-            return $this->redirectToRoute('index');
-        }
-
-        
-        $orderConfirmationEmailService->sendOrderConfirmationEmailWithAttachments($orderId);
-        
-        
-        $this->addFlash('success', 'Votre commande vous a été envoyée par mail.');
+    // Vérifie si la commande existe et est associée à un utilisateur.
+    if (!$order || !$order->getUser()) {
+        $this->addFlash('error', 'Commande non trouvée.');
         return $this->redirectToRoute('orderHistory', ['slug' => $order->getUser()->getSlug()]);
     }
+
+    // Récupère l'entité Invoice associée à cette commande 
+    $invoice = $invoiceRepository->findOneBy(['numberInvoice' => $order->getNumberInvoice()]);
+
+    // Vérifie si la facture existe.
+    if (!$invoice) {
+        $this->addFlash('error', 'Facture non trouvée pour cette commande.');
+        return $this->redirectToRoute('orderHistory', ['slug' => $order->getUser()->getSlug()]);
+    }
+
+    // Envoie l'email de la facture à l'utilisateur.
+    $invoiceService->sendInvoiceEmail($invoice);
+
+    $this->addFlash('success', 'La facture de votre commande N°' . $invoice->getNumberInvoice() . ' vous a été envoyée par mail.');
+    return $this->redirectToRoute('orderHistory', ['slug' => $order->getUser()->getSlug()]);
+}
     
 }

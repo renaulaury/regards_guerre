@@ -86,10 +86,15 @@ class InvoiceService
     public function sendInvoiceEmail(Invoice $invoice): void
     {
         //Génére le pdf de la facture
-        $invoicePdf = $this->generateInvoicePdf($invoice);
-
+        $invoicePdf = $this->generateInvoicePdf($invoice);        
 
         if ($invoicePdf) {
+            $attachment = [
+                'content' => $invoicePdf['content'],
+                'filename' => $invoicePdf['filename'],
+                'mimeType' => 'application/pdf',
+            ];
+
             //Envoi l'email
             $this->emailService->send(
                 $invoice->getCustomerEmail(),
@@ -98,13 +103,7 @@ class InvoiceService
                     'emails/invoiceEmail.html.twig',
                     ['invoice' => $invoice]
                 ),
-                [
-                    [
-                        'content' => $invoicePdf['content'],
-                        'filename' => $invoicePdf['filename'],
-                        'mimeType' => 'application/pdf',
-                    ],
-                ]
+                $attachment
             );
         }
     }

@@ -32,6 +32,7 @@ class EmailService
             ->html($body);
 
             if (is_array($attachment) && isset($attachment['content'], $attachment['filename'])) {
+                
                 $email->attach($attachment['content'], $attachment['filename'], $attachment['mimeType'] ?? null);
             }
 
