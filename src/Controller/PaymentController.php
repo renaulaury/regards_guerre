@@ -221,7 +221,7 @@ class PaymentController extends AbstractController
             $price = $item['price'];
     
             $invoiceDetails[] = [
-                'expositionTitle' => $exhibition ? $exhibition->getTitleExhibit() : null,
+                'exhibitionTitle' => $exhibition ? $exhibition->getTitleExhibit() : null,
                 'ticketTitle' => $ticket ? $ticket->getTitleTicket() : null,
                 'standardPrice' => $price,
                 'quantity' => $quantity,

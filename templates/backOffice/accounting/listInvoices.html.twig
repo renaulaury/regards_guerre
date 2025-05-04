@@ -1,47 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comptabilité{% endblock %}
+{% block title %}Liste des Factures{% endblock %}
 
 {% block description %}
-     Gérez l'ensemble de la comptabilité de votre plateforme : factures clients{#, paiements, rapports financiers, et plus encore#}. Une section centralisée pour un suivi optimal.
+    Gérez l'ensemble des factures de clients. Une section centralisée pour un suivi optimal.
 {% endblock %}
-
 
 {% block body %}
+    <h1>Liste des Factures</h1>
 
-<h1>Liste des Factures</h1>
+    <section class="backOffice">
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+            <div class="filterUser">
+                <label for="letterFilter">Filtrer :</label>
+                <select id="letterFilter" onchange="window.location.href = this.value;">
+                    <option value="{{ path('listInvoices') }}" {% if selectedLetter is null %}selected{% endif %}>
+                        Tous
+                    </option>
+                    {% for letter in availableLetters %}
+                        <option value="{{ path('listInvoices', {'letter': letter }) }}" {% if selectedLetter == letter %}selected{% endif %}>
+                            {{ letter }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-<section class="backOffice">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Numéro de Facture</th>
-                <th>Date de Création</th>
-                <th>Client</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for invoice in invoices %}
-                <tr>
-                    {# <td>{{ invoice.id }}</td>
-                    <td>{{ invoice.createdAt|date('d/m/Y') }}</td> #}
-                    <td>{{ invoice.customerName }} {{ invoice.customerFirstname }}</td> 
-                    {#<td>{{ invoice.total }} €</td>  #}
-                    {# <td> Envoie par email #}
-                        {# <a href="{{ path('showInvoice', {'id': invoice.id}) }}" class="btn btn-sm btn-primary">Voir</a> #}
-                    {# </td> #}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {% if invoices is empty %}
-        <p>Aucune facture n'a été trouvée.</p>
-    {% endif %}
-
-</section>
-
+            <div class="invoiceList">
+                {% if uniqueCustomers is not empty %}
+                    {% for customer in uniqueCustomers %}
+                        <div class="invoiceItem">
+                            <p> {{ customer.name }} {{ customer.firstname }}</p>
+                            <p> {{ customer.email }} </p>
+                            <div>
+                                <a href="{{ path('invoicesUserBO', {'customerEmail': customer.email }) }}"><i class="fa-regular fa-folder-open"></i></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Aucun client n'a été trouvé.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+        {% endif %}
+    </section>
 {% endblock %}
-

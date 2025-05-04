@@ -60,4 +60,30 @@ class InvoiceService
             );
         }
     }
+
+    /* Envoie la facture par email à l'admin -> user delete*/     
+    public function sendInvoiceEmailBO(Invoice $invoice): void
+    {
+        //Génére le pdf de la facture
+        $invoicePdf = $this->generateInvoicePdf($invoice);        
+
+        if ($invoicePdf) {
+            $attachment = [
+                'content' => $invoicePdf['content'],
+                'filename' => $invoicePdf['filename'],
+                'mimeType' => 'application/pdf',
+            ];
+
+            //Envoi l'email
+            $this->emailService->send(
+                'noreply@regardsguerre.fr',
+                'Votre facture #' . $invoice->getNumberInvoice(),
+                $this->emailService->renderTemplate(
+                    'emails/invoiceEmail.html.twig',
+                    ['invoice' => $invoice]
+                ),
+                $attachment
+            );
+        }
+    }
 }

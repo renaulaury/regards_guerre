@@ -18,7 +18,7 @@ final class OrderBOController extends AbstractController
 {    
    
 /***************** Historique d'un user ***********************/
-/*********** Affiche l'historique de commande de l'utilisateur ************************/
+/*********** Affiche l'historique de commandes de l'utilisateur ************************/
 #[Route('/backOffice/user/userOrderBO/{slug}', name: 'userOrderBO')]        
 public function userOrderBO(    
     OrderHistoryService $orderHistoryService,

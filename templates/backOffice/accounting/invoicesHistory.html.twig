@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des factures{% endblock %}
+
+{% block description %}
+    Consultez l'historique des factures d'un utilisateur...
+{% endblock %}
+
+{% block body %}
+
+    <h1>Historique des factures de {{ firstInvoice.customerName }} {{ firstInvoice.customerFirstname }}</h1>
+
+    <section>
+        {% if invoices is empty %}
+            <p>Aucune facture trouvée pour ce client.</p>
+        {% else %}
+            <div class="invoiceList">
+                {% for invoice in invoices %}
+                    <div class="invoiceItem">
+                        <p>
+                            N°{{ invoice.numberInvoice }}
+                            <a href="{{ path('userInvoiceExportBO', {'invoiceId': invoice.id}) }}">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </a>
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+{% endblock %}
