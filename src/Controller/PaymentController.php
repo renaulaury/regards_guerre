@@ -202,8 +202,6 @@ class PaymentController extends AbstractController
         $invoice->setOrderTotal($order->getOrderTotal());
         $invoice->setDateInvoice(new \DateTimeImmutable()); // Utilise une date immutable
 
-        
-
         // Génération du numéro de facture unique
         $orderId = $order->getId();
         $orderDate = $order->getOrderDateCreation()->format('Ymd');
@@ -213,6 +211,15 @@ class PaymentController extends AbstractController
         $invoice->setNumberInvoice($invoiceNumber);
 
         $invoiceDetails = []; //Détail de la commande
+
+        // Génération du slug avec l'ID, le nom et le prénom de l'utilisateur
+        $userId = $order->getUser()->getId(); // Récupère l'ID de l'utilisateur à partir de l'entité $order
+        $userName = $invoice->getCustomerName(); 
+        $userFirstname = $invoice->getCustomerFirstname(); 
+
+        $slug = sprintf('%d-%s-%s', $userId, $userName, $userFirstname);
+        $invoice->setSlug($slug);
+
 
         foreach ($cart as $item) {
             $exhibition = $exhibitShareRepo->find($item['exhibitionId']);

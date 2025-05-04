@@ -35,6 +35,9 @@ class Invoice
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $invoiceDetails = [];
 
+    #[ORM\Column(length: 255, nullable: true)] 
+    private ?string $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Invoice
     public function setInvoiceDetails(?array $invoiceDetails): static
     {
         $this->invoiceDetails = $invoiceDetails;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

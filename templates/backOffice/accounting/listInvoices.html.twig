@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+<!-- InvoiceBOController -->
     <h1>Liste des Factures</h1>
 
     <section class="backOffice">
@@ -32,7 +33,7 @@
                             <p> {{ customer.name }} {{ customer.firstname }}</p>
                             <p> {{ customer.email }} </p>
                             <div>
-                                <a href="{{ path('invoicesUserBO', {'customerEmail': customer.email }) }}"><i class="fa-regular fa-folder-open"></i></a>
+                                <a href="{{ path('invoicesUserBO', {'slug': customer.slug }) }}"><i class="fa-regular fa-folder-open"></i></a>
                             </div>
                         </div>
                     {% endfor %}

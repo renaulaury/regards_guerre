@@ -49,6 +49,7 @@ final class InvoiceBOController extends AbstractController
                     'name' => $invoice->getCustomerName(),
                     'firstname' => $invoice->getCustomerFirstname(),
                     'email' => $customerEmail,
+                    'slug' => $invoice->getSlug(),
                 ];
             }
         }
@@ -75,10 +76,9 @@ final class InvoiceBOController extends AbstractController
 
 
 /*********** Affiche l'historique de factures de l'utilisateur ************************/
-    #[Route('/backOffice/comptabilite/factures-clients/{customerEmail}', name: 'invoicesUserBO')]            
+    #[Route('/backOffice/comptabilite/factures-clients/{slug}', name: 'invoicesUserBO')]            
     public function invoicesUserBO(
-        string $customerEmail,
-        Invoice $invoice,
+        string $slug,
         InvoiceBORepository $invoiceBORepo
     ): Response
     {
@@ -87,7 +87,7 @@ final class InvoiceBOController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $invoices = $invoiceBORepo->findBy(['customerEmail' => $customerEmail]);
+        $invoices = $invoiceBORepo->findBy(['slug' => $slug]);
 
         if (!$invoices) {
             throw $this->createNotFoundException('Aucune facture trouvée pour ce client.');
@@ -97,30 +97,31 @@ final class InvoiceBOController extends AbstractController
         return $this->render('backOffice/accounting/invoicesHistory.html.twig', [
             'invoices' => $invoices,
             'firstInvoice' => $invoices[0] ?? null, // Pour récupérer les infos du client
+            'slug' => $slug,
         ]);
     }
 
 /***************** Envoie de la facture en pdf ***********************/
-    #[Route('/backOffice/user/userInvoiceExport/{invoiceId}', name: 'userInvoiceExport')]
-    public function userInvoiceExportBO(
-        int $invoiceId,
+    #[Route('/backOffice/user/userInvoiceExport/{idInvoice}', name: 'userAccountingInvoiceExportBO')]
+    public function userAccountingInvoiceExportBO(
+        int $idInvoice,
         InvoiceRepository $invoiceRepository,
         InvoiceService $invoiceService
     ): Response {
-        // Récupère l'entité Invoice à partir de l'ID.
-        $invoice = $invoiceRepository->find($invoiceId);
+        // Récupère l'entité Invoice à partir de l'ID
+        $invoice = $invoiceRepository->find($idInvoice);
 
         // Vérifie si la facture existe.
-        // if (!$invoice) {
-        //     $this->addFlash('error', 'Facture non trouvée.');
-        //     return $this->redirectToRoute('invoicesUserBO', ['customerEmail' => $invoice->getCustomerEmail()]); 
-        // }
+        if (!$invoice) {
+            $this->addFlash('error', 'Facture non trouvée.');
+            return $this->redirectToRoute('invoicesUserBO');
+        }
 
-        // Envoie l'email de la facture à l'utilisateur.
+        // Envoie l'email de la facture à l'utilisateur
         $invoiceService->sendInvoiceEmailBO($invoice);
 
         $this->addFlash('success', 'La facture N°' . $invoice->getNumberInvoice() . ' vous a été envoyée par mail.');
-        return $this->redirectToRoute('invoicesUserBO', ['customerEmail' => $invoice->getCustomerEmail()]); 
+        return $this->redirectToRoute('invoicesUserBO', ['slug' => $invoice->getSlug()]); 
 
     }
 }
