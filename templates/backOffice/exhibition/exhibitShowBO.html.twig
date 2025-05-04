@@ -20,8 +20,9 @@
     <h1>Détail : <span class="longTitle">{{ exhibition }}</span></h1> 
 </div>
 
-<section>
-        
+<section>        
+    <p>blabla</p>
+
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
             <div class="blockArtistAvailable">
@@ -30,9 +31,15 @@
                 {% for show in exhibition.shows %}
                     <p>
                         {{ show.artist.artistFirstname }} {{ show.artist.artistName }}
-                        <i class="iconsEdit fa-solid fa-caret-down toggle-form" data-artist-id="{{ show.artist.id }}"></i>
+                        <i class="iconsEdit fa-solid fa-caret-down toggle-form"
+                            data-artist-id="{{ show.artist.id }}"
+                            aria-label="Afficher/Masquer les informations sur l'artiste {{ show.artist.artistFirstname }} {{ show.artist.artistName }}"
+                            title="Afficher/Masquer les informations sur l'artiste {{ show.artist.artistFirstname }} {{ show.artist.artistName }}">
+                        </i>
 
-                        <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'slugArtist': show.artist.slug, 'slugExhibit': exhibition.slug}) }}">
+                        <a href="{{ path('confirmRemoveArtistFromExhibitBO', {'slugArtist': show.artist.slug, 'slugExhibit': exhibition.slug}) }}"
+                        aria-label="{{ 'Supprimer l\'artiste ' ~ show.artist.artistFirstname ~ ' ' ~ show.artist.artistName ~ ' de l\'exposition ' ~ exhibition.titleExhibit }}"
+                        title="{{ 'Supprimer définitivement l\'artiste ' ~ show.artist.artistFirstname ~ ' ' ~ show.artist.artistName ~ ' de cette exposition' }}">
                             <i class="iconsEdit fa-solid fa-trash-can"></i>
                         </a>
                     </p>
@@ -88,7 +95,11 @@
                     {% for unPlannedArtist in unPlanned %}
                         {% if not unPlannedArtist.isIsAnonymized and unPlannedArtist.anonymizeAt is null %}
                             <div>{{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}
-                                <i class="iconsEdit fa-solid fa-caret-down toggle-form" data-artist-id="{{ unPlannedArtist.id }}"></i>
+                                <i class="iconsEdit fa-solid fa-caret-down toggle-form"
+                                    data-artist-id="{{ unPlannedArtist.id }}"
+                                    aria-label="Afficher plus d'informations sur l'artiste {{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}"
+                                    title="Afficher/Masquer les informations sur l'artiste {{ unPlannedArtist.artistFirstname }} {{ unPlannedArtist.artistName }}">
+                                </i>
                             </div>
                         {###################################### Ajout de l'artiste au show ######################################}
                             <div class="formShowArtist" id="form-{{ unPlannedArtist.id }}" style="display: none;">

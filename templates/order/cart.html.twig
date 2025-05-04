@@ -19,14 +19,13 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             <p>Merci de vous enregistrer ou de vous connecter pour commander.</p>
         {% endif %}
 
-        
 
         <div class="summaryCart marginTop">
             <div class="blockTicketCart">
                 {% for exhibitionId, exhibitionData in groupedCart %}
                     <div class="exhibition-group">
                         <h2>{{ exhibitionData.exhibition.titleExhibit }}</h2>
-                        
+
                         {% for ticketId, ticketData in exhibitionData.tickets %}
                             <div class="ticketCart">
                                 <div class="lineTicketCart">
@@ -35,20 +34,20 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                     <div class="blockQtyPrice">
                                         <div class="blockQty">
                                             <a href="{{ path('removeTicketFromCart', {
-                                                'exhibitionId': exhibitionId, 
-                                                'ticketId': ticketId, 
+                                                'exhibitionId': exhibitionId,
+                                                'ticketId': ticketId,
                                                 'origin': 'cart'
-                                            }) }}">
+                                            }) }}" aria-label="{{ 'Retirer un ticket ' ~ ticketData.ticket|lower ~ ' pour l\'exposition ' ~ exhibitionData.exhibition.titleExhibit }}" title="{{ 'Diminuer la quantité du ticket ' ~ ticketData.ticket ~ ' pour l\'exposition ' ~ exhibitionData.exhibition.titleExhibit }}">
                                                 <i class="fa-solid fa-minus"></i>
                                             </a>
 
                                             <span class="qtyProduct">{{ ticketData.quantity }}</span>
 
                                             <a href="{{ path('addTicketToCart', {
-                                                'exhibitionId': exhibitionId, 
-                                                'ticketId': ticketId, 
+                                                'exhibitionId': exhibitionId,
+                                                'ticketId': ticketId,
                                                 'origin': 'cart'
-                                            }) }}">
+                                            }) }}" aria-label="{{ 'Ajouter un ticket ' ~ ticketData.ticket|lower ~ ' pour l\'exposition ' ~ exhibitionData.exhibition.titleExhibit }}" title="{{ 'Augmenter la quantité du ticket ' ~ ticketData.ticket ~ ' pour l\'exposition ' ~ exhibitionData.exhibition.titleExhibit }}">
                                                 <i class="fa-solid fa-plus"></i>
                                             </a>
                                         </div>
@@ -62,7 +61,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                         </div>
 
                                         <p>
-                                            <a href="{{ path('removeProduct', {'id': exhibitionId ~ '_' ~ ticketData.ticket.id}) }}">
+                                            <a href="{{ path('removeProduct', {'id': exhibitionId ~ '_' ~ ticketData.ticket.id}) }}" aria-label="{{ 'Supprimer le ticket ' ~ ticketData.ticket|lower ~ ' pour l\'exposition ' ~ exhibitionData.exhibition.titleExhibit }}" title="{{ 'Retirer définitivement le ticket ' ~ ticketData.ticket ~ ' de votre panier pour l\'exposition ' ~ exhibitionData.exhibition.titleExhibit }}">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a>
                                         </p>
@@ -79,31 +78,31 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             {% if is_granted('ROLE_ADMIN') %}
                 <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
             {% else %}
-            
+
                 {% if app.user %}
-                    {% if app.user.userName is empty and app.user.userFirstname is  empty %}
+                    {% if app.user.userName is empty and app.user.userFirstname is empty %}
 
                         <p class="blockIdentityOrder">
                             Veuillez renseigner votre nom et prénom pour commander. </p>
-                                                        
-                            <form method="post" action="{{ path('paymentStripe') }}" id="userIdentityForm">
-                                <p class="label">{{ form_label(form.userName) }}</p>
-                                <p class="input">{{ form_widget(form.userName) }}</p>
-                                {{ form_errors(form.userName) }}
 
-                                <p class="label">{{ form_label(form.userFirstname) }}</p>
-                                <p class="input">{{ form_widget(form.userFirstname) }}</p>
-                                {{ form_errors(form.userFirstname) }}
-                                
-                                <p>
-                                    {{ form_widget(form.saveIdentity) }}
-                                    {{ form_label(form.saveIdentity) }}
-                                </p>
+                        <form method="post" action="{{ path('paymentStripe') }}" id="userIdentityForm">
+                            <p class="label">{{ form_label(form.userName) }}</p>
+                            <p class="input">{{ form_widget(form.userName) }}</p>
+                            {{ form_errors(form.userName) }}
 
-                                <button type="submit" class="btnCTA">Payer</button>
-                            {{ form_end(form) }}   
-                        </form>                         
-                        
+                            <p class="label">{{ form_label(form.userFirstname) }}</p>
+                            <p class="input">{{ form_widget(form.userFirstname) }}</p>
+                            {{ form_errors(form.userFirstname) }}
+
+                            <p>
+                                {{ form_widget(form.saveIdentity) }}
+                                {{ form_label(form.saveIdentity) }}
+                            </p>
+
+                            <button type="submit" class="btnCTA">Payer</button>
+                        {{ form_end(form) }}
+                        </form>
+
                     {% else %}
                         <a href="{{ path('paymentStripe') }}">
                             <button type="submit" class="btnCTA">Payer</button>
@@ -115,7 +114,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
             {% endif %}
         </div>
 
-        <p class="marginTop">            
+        <p class="marginTop">
             <a href="{{ path('deleteCartConfirm') }}"><u>Vider le panier</u></a>
         </p>
     {% endif %}

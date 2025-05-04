@@ -22,6 +22,10 @@
 
 <section>    
 
+    <p>Cette page vous permet de supprimer un utilisateur de la plateforme.  
+        Assurez-vous que cette action est bien intentionnelle, car une fois l'utilisateur supprimé, toutes ses données seront perdues de manière définitive.
+        Vous pouvez confirmer la suppression en cliquant sur le bouton "Supprimer" ci-dessous.</p>
+        
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
             <p class="marginTop textDelete">Etes vous sûr(e) de vouloir supprimer 

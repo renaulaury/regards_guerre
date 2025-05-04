@@ -13,6 +13,7 @@
 </div>
 
 <section class="sectionCenter">
+    <p>blabla</p>
     
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
@@ -20,7 +21,8 @@
             </p>
 
             <div class="button btnSubmit">
-                <a href="{{ path('removeArtistFromExhibitBO', {'slugArtist': artist.slug, 'slugExhibit': exhibition.slug}) }}">
+                <a href="{{ path('removeArtistFromExhibitBO', {'slugArtist': artist.slug, 'slugExhibit': exhibition.slug}) }}"
+                title="{{ 'Supprimer l\'artiste ' ~ artist.artistFirstname ~ ' ' ~ artist.artistName ~ ' de l\'exposition ' ~ exhibition.titleExhibit }}">
                     Supprimer
                 </a>
             </div>

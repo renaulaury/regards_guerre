@@ -3,8 +3,7 @@
 {% block title %}Back-Office{% endblock %}
 
 {% block description %}
-    Le back-office permet aux administrateurs de gérer les expositions, les artistes et les utilisateurs. 
-    Cette section contient des liens vers la gestion des utilisateurs, des expositions et des artistes selon les rôles.
+    Le back-office permet aux administrateurs de gérer les expositions, les artistes, les utilisateurs, la gestion des stocks et l'accès aux factures. 
 {% endblock %}
 
 
@@ -13,6 +12,8 @@
 <h1>Back-Office</h1>
 
 <section class="backOffice">
+    <p>Le back-office permet aux administrateurs de gérer les expositions, les artistes, les utilisateurs, la gestion des stocks et l'accès aux factures. </p>
+    
     {% if app.user %}
         <ol>         
             {% if is_granted('ROLE_ADMIN') %}

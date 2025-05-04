@@ -19,36 +19,42 @@
 <section class="listExhibit">
 
     {% if app.user %}
-        {% if 'ROLE_ADMIN' in app.user.roles %}
+        {% if is_granted('ROLE_ADMIN') %}
 
             <div class="blockBtnAdd">
                 <a class="btnAdd" href="{{ path('exhibitAddBO') }}">Ajouter une exposition</a>
             </div>
 
-            {% for exhibition in exhibitions %}                
-                <div class="blockListExhibit">  
+            {% for exhibition in exhibitions %}
+                <div class="blockListExhibit">
                     <p>
-                        {{ exhibition.dateExhibitFr }} - 
+                        {{ exhibition.dateExhibitFr }} -
 
-                        <a href="{{ path('exhibitEditBO', {'slug': exhibition.slug}) }}">
+                        <a href="{{ path('exhibitEditBO', {'slug': exhibition.slug}) }}"
+                        aria-label="{{ 'Modifier l\'exposition ' ~ exhibition.titleExhibit }}"
+                        title="{{ 'Modifier les informations de l\'exposition ' ~ exhibition.titleExhibit }}">
                             <i class="iconsEdit fa-solid fa-pencil"></i>
                         </a>
 
-                        <a href="{{ path('exhibitShowBO', {'slug': exhibition.slug}) }}">
+                        <a href="{{ path('exhibitShowBO', {'slug': exhibition.slug}) }}"
+                        aria-label="{{ 'Gérer les artistes de l\'exposition ' ~ exhibition.titleExhibit }}"
+                        title="{{ 'Ajouter, modifier ou supprimer les artistes de l\'exposition ' ~ exhibition.titleExhibit }}">
                             <i class="iconsEdit fa-solid fa-pen-to-square"></i>
                         </a>
-                        
+
                         {% if exhibition.orderDetails is empty %}
-                            <a href="{{ path('deleteExhibitBO', {'slugExhibit': exhibition.slug}) }}">
+                            <a href="{{ path('deleteExhibitBO', {'slugExhibit': exhibition.slug}) }}"
+                            aria-label="{{ 'Supprimer l\'exposition ' ~ exhibition.titleExhibit }}"
+                            title="{{ 'Supprimer définitivement l\'exposition ' ~ exhibition.titleExhibit }}">
                                 <i class="iconsEdit fa-solid fa-trash-can"></i>
                             </a>
                         {% endif %}
                     </p>
-                    
+
                     <p>{{ exhibition.titleExhibit }}</p>
-                </div>  
+                </div>
             {% endfor %}
-            
+
         {% endif %}
     {% endif %}
 </section>

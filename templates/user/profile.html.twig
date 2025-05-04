@@ -21,20 +21,32 @@ Gérez votre compte Regards de Guerre : mettez à jour vos informations personne
                 <div>
                     <p>
                         Nom - Prénom : {{ app.user.userName }} {{ app.user.userFirstname }}
-                        <a href="{{ path('userEditIdentity', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
+                        <a href="{{ path('userEditIdentity', {slug: app.user.slug}) }}"
+                           aria-label="{{ 'Modifier votre nom et prénom'|trans }}"
+                           title="{{ 'Modifier vos informations d\'identité'|trans }}">
+                            <i class="iconsEdit fa-solid fa-pencil"></i>
+                        </a>
                     </p>
                 </div>
             {% endif %}
         {% endif %}            
 
-            <p>
-                Email : {{ app.user.userEmail }}
-                <a href="{{ path('userEditEmail', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
-            </p>
+        <p>
+            Email : {{ app.user.userEmail }}
+            <a href="{{ path('userEditEmail', {slug: app.user.slug}) }}"
+               aria-label="{{ 'Modifier votre adresse email'|trans }}"
+               title="{{ 'Modifier votre adresse de messagerie'|trans }}">
+                <i class="iconsEdit fa-solid fa-pencil"></i>
+            </a>
+        </p>
 
             <p>
                 Mot de passe :
-                <a href="{{ path('userEditPassword', {slug: app.user.slug}) }}"><i class="iconsEdit fa-solid fa-pencil"></i></a>
+                <a href="{{ path('userEditPassword', {slug: app.user.slug}) }}"
+                    aria-label="{{ 'Modifier votre mot de passe'|trans }}"
+                    title="{{ 'Changer votre mot de passe'|trans }}">
+                        <i class="iconsEdit fa-solid fa-pencil"></i>
+                    </a>
             </p>
         </div>
 

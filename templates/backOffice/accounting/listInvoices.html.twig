@@ -11,6 +11,9 @@
     <h1>Liste des Factures</h1>
 
     <section class="backOffice">
+
+        <p>blabla</p>
+
         {% if app.user and is_granted('ROLE_ADMIN') %}
             <div class="filterUser">
                 <label for="letterFilter">Filtrer :</label>
@@ -33,7 +36,11 @@
                             <p> {{ customer.name }} {{ customer.firstname }}</p>
                             <p> {{ customer.email }} </p>
                             <div>
-                                <a href="{{ path('invoicesUserBO', {'slug': customer.slug }) }}"><i class="fa-regular fa-folder-open"></i></a>
+                                <a href="{{ path('invoicesUserBO', {'slug': customer.slug }) }}"
+                                aria-label="{{ 'Voir les factures de ' ~ customer.firstname ~ ' ' ~ customer.name }}"
+                                title="{{ 'Afficher l\'historique des factures de l\'utilisateur ' ~ customer.firstname ~ ' ' ~ customer.name }}">
+                                    <i class="fa-regular fa-folder-open"></i>
+                                </a>
                             </div>
                         </div>
                     {% endfor %}

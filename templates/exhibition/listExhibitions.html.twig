@@ -47,9 +47,15 @@
                         </div>
 
                         {% if exhibition.ticketsRemaining > 0 %}
-                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Tickets </a>
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"
+                            title="{{ 'Voir la page détaillée de l\'exposition et commander des tickets'|trans }}">
+                            > Tickets
+                            </a>
                         {% else %}
-                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"> > Fiche détaillée </a>
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"
+                            title="{{ 'Voir la page détaillée de l\'exposition'|trans }}">
+                            > Fiche détaillée
+                            </a>
                         {% endif %}
                     </div>
 

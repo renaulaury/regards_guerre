@@ -54,7 +54,9 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
 
                         <div class="blockQtyTicket">
 
-                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}">
+                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
+                               aria-label="{{ 'Retirer un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
+                               title="{{ 'Diminuer la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
                                 <i class="fa-solid fa-minus"></i>
                             </a>
 
@@ -70,7 +72,9 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
                                 {% endif %}
                             </div> 
 
-                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}">
+                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
+                               aria-label="{{ 'Ajouter un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
+                               title="{{ 'Augmenter la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>

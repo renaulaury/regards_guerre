@@ -19,7 +19,9 @@
                     <div class="invoiceItem">
                         <p>
                             N°{{ invoice.numberInvoice }}
-                            <a href="{{ path('userAccountingInvoiceExportBO', {'idInvoice': invoice.id}) }}">
+                            <a href="{{ path('userAccountingInvoiceExportBO', {'idInvoice': invoice.id}) }}"
+                            aria-label="{{ 'Télécharger la facture N°' ~ invoice.numberInvoice }}"
+                            title="{{ 'Envoi par mail de la facture N°' ~ invoice.numberInvoice ~ ' au format PDF' }}">
                                 <i class="fa-solid fa-envelope-open-text"></i>
                             </a>
                         </p>

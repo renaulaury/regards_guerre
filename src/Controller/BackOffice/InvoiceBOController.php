@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class InvoiceBOController extends AbstractController
 {
-    #[Route('/backOffice/comptabilite/factures-clients', name: 'listInvoices')]
+    #[Route('/backOffice/accounting/listInvoices', name: 'listInvoices')]
     public function listInvoices(
         InvoiceBORepository $invoiceBORepo,
         Request $request): Response
@@ -76,7 +76,7 @@ final class InvoiceBOController extends AbstractController
 
 
 /*********** Affiche l'historique de factures de l'utilisateur ************************/
-    #[Route('/backOffice/comptabilite/factures-clients/{slug}', name: 'invoicesUserBO')]            
+    #[Route('/backOffice/accounting/invoicesUserBO/{slug}', name: 'invoicesUserBO')]           
     public function invoicesUserBO(
         string $slug,
         InvoiceBORepository $invoiceBORepo
@@ -89,9 +89,6 @@ final class InvoiceBOController extends AbstractController
 
         $invoices = $invoiceBORepo->findBy(['slug' => $slug]);
 
-        if (!$invoices) {
-            throw $this->createNotFoundException('Aucune facture trouvée pour ce client.');
-        }
 
         // Passer les factures et la première facture (pour le nom du client)
         return $this->render('backOffice/accounting/invoicesHistory.html.twig', [

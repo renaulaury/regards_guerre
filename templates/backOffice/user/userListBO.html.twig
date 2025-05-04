@@ -11,7 +11,11 @@
 
 {% block body %}
     <h1>Back-Office</h1>
+
     <section>
+        <p>Cette page permet de gérer les utilisateurs du back-office.
+            Vous pouvez consulter et modifier les informations des administrateurs, des utilisateurs, ainsi que des utilisateurs supprimés.</p>
+
         {% if app.user and is_granted('ROLE_ADMIN') %}
             <div class="filterUser">
                 <label for="userFilter">Filtrer par :</label>
@@ -37,10 +41,15 @@
                                 <p>{{ member.userEmail }}</p>
                                 <p>
                                     {% if is_granted('ROLE_ROOT') %}
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     {% endif %}
@@ -56,13 +65,19 @@
                                 <p>{{ member.userEmail }}</p>
                                 <p>
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Voir les commandes de l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Afficher l\'historique des commandes de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-regular fa-folder-open"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     {% endif %}
@@ -79,10 +94,14 @@
                                 <p>{{ member.userEmail }}</p>
                                 <p>
                                     {% if is_granted('ROLE_ROOT') %}
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Modifier l\'administrateur ' ~ member.userEmail }}"
+                                        title="{{ 'Modifier les informations de l\'administrateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Supprimer l\'administrateur ' ~ member.userEmail }}"
+                                        title="{{ 'Supprimer l\'administrateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     {% endif %}
@@ -99,13 +118,19 @@
                                 {{ member.userEmail }}
                                 <p>
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Voir les commandes de l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Afficher l\'historique des commandes de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-regular fa-folder-open"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}">
+                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
+                                        title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     {% endif %}
@@ -122,7 +147,9 @@
                     {% if 'ROLE_USER' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_ADMIN' not in member.roles and 'ROLE_DELETE' not in member.roles %}
                         {{ member.userEmail }}
                         <p>
-                            <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}">
+                            <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
+                            aria-label="{{ 'Voir les commandes de l\'utilisateur ' ~ member.userEmail }}"
+                            title="{{ 'Afficher l\'historique des commandes de l\'utilisateur ' ~ member.userEmail }}">
                                 <i class="fa-regular fa-folder-open"></i>
                             </a>
                         </p>

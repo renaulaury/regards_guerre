@@ -11,7 +11,9 @@
         <h1>Artistes</h1>
     </div>
 
-    <section>        
+    <section>  
+        <p>Ajoutez, modifiez ou supprimez des artistes depuis cette page d'administration.</p>      
+
         {% if app.user and is_granted('ROLE_ADMIN') %}
             <div class="blockBtnAdd">
                 <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a>
@@ -45,13 +47,17 @@
                 
                 
                 {% if not artist.isIsAnonymized and artist.anonymizeAt is null %}
-                    <a href="{{ path('artistEditBO', {'slug': artist.slug}) }}">
+                <a href="{{ path('artistEditBO', {'slug': artist.slug}) }}"
+                    aria-label="{{ 'Modifier l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}"
+                    title="{{ 'Modifier les informations de l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}">
                         <i class="iconsEdit fa-solid fa-pencil"></i>
                     </a>
                     
-                    <a href="{{ path('artistDeleteBO', {'slug': artist.slug}) }}">
-                        <i class="iconsEdit fa-solid fa-trash-can"></i>
-                    </a>
+                    <a href="{{ path('artistDeleteBO', {'slug': artist.slug}) }}"
+                        aria-label="{{ 'Supprimer l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}"
+                        title="{{ 'Supprimer définitivement l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}">
+                            <i class="iconsEdit fa-solid fa-trash-can"></i>
+                        </a>
                 {% endif %}
             </p>
         </div>
