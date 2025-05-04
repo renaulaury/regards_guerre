@@ -20,8 +20,7 @@
 
 <h1>Back-Office</h1>
 
-<section>
-    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
+<section>    
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

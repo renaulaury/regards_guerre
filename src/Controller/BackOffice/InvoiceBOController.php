@@ -108,6 +108,12 @@ final class InvoiceBOController extends AbstractController
         InvoiceRepository $invoiceRepository,
         InvoiceService $invoiceService
     ): Response {
+        
+        // Vérification de l'accès
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ROOT')) {
+            return $this->redirectToRoute('home');
+        }
+
         // Récupère l'entité Invoice à partir de l'ID
         $invoice = $invoiceRepository->find($idInvoice);
 

@@ -16,8 +16,7 @@
 </div>
 
 <section>
-    <a class="comeBack" href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
-
+    
     {% if app.user %}
         {% if 'ROLE_ADMIN' in app.user.roles %} 
             <p class="marginTop textDelete">L'exposition <strong>{{ exhibition }}</strong> sera entièrement supprimée ainsi que les artistes programmés.</p>
