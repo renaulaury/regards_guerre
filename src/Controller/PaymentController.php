@@ -101,7 +101,6 @@ class PaymentController extends AbstractController
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => $ticket->getTitleTicket(),
-                        // 'images' => [$exhibition->getImage()],
                     ],
                     'unit_amount' => $price * 100, // Prix en centimes
                 ],
@@ -111,6 +110,7 @@ class PaymentController extends AbstractController
 
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
+        // Génération des URLs de succès et d'annulation du paiement
         $successUrl = $urlGenerator->generate('paymentSuccess', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $cancelUrl = $urlGenerator->generate('paymentError', [], UrlGeneratorInterface::ABSOLUTE_URL);
         
@@ -135,7 +135,7 @@ class PaymentController extends AbstractController
     {
         $this->addFlash('danger', 'Une erreur est survenue lors du paiement. Veuillez réessayer..');
 
-        return $this->redirectToRoute('cart'); //
+        return $this->redirectToRoute('cart'); 
     }
 
     /********************** Succès de paiement ********************/
@@ -164,8 +164,6 @@ class PaymentController extends AbstractController
             $this->addFlash('success', 'Vos informations ont été enregistrées pour vos prochaines commandes.');
         }
 
-        $user = $this->getUser(); //Récup user co
-
 
         $cart = $this->cartService->getCart(); //Récup panier   
         
@@ -185,6 +183,29 @@ class PaymentController extends AbstractController
         // Enregistrement du total de la commande
         $total = $cartService->getTotal(); // Récupère le total du panier
         $order->setOrderTotal($total); // Enregistre le total dans la commande
+
+        // Création des détails de la commande        
+        foreach ($cart as $item) {
+            $orderDetail = new OrderDetail();
+            $orderDetail->setOrder($order);
+            
+            // Charger l'objet Exhibition à partir de l'ID
+            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); 
+            if ($exhibition) {
+                $orderDetail->setExhibition($exhibition);
+            }
+
+            // Charger l'objet Ticket à partir de l'ID
+            $ticket = $ticketRepo->find($item['ticketId']); 
+            if ($ticket) {
+                $orderDetail->setTicket($ticket);
+            } 
+
+            $orderDetail->setQuantity($item['qty']);
+            $orderDetail->setUnitPrice($item['price']);
+
+            $this->entityManager->persist($orderDetail);
+        }
 
         // Persist de l'order AVANT de générer le numéro de facture
         $this->entityManager->persist($order);
@@ -220,7 +241,7 @@ class PaymentController extends AbstractController
         $slug = sprintf('%d-%s-%s', $userId, $userName, $userFirstname);
         $invoice->setSlug($slug);
 
-
+        //Récup les éléments du panier
         foreach ($cart as $item) {
             $exhibition = $exhibitShareRepo->find($item['exhibitionId']);
             $ticket = $ticketRepo->find($item['ticketId']);
@@ -274,30 +295,7 @@ class PaymentController extends AbstractController
 
             return $this->redirectToRoute('cart'); // Redirige vers le panier pour modification
         }
-       
-
-        // Création des détails de la commande        
-        foreach ($cart as $item) {
-            $orderDetail = new OrderDetail();
-            $orderDetail->setOrder($order);
-            
-            // Charger l'objet Exhibition à partir de l'ID
-            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); 
-            if ($exhibition) {
-                $orderDetail->setExhibition($exhibition);
-            }
-
-            // Charger l'objet Ticket à partir de l'ID
-            $ticket = $ticketRepo->find($item['ticketId']); 
-            if ($ticket) {
-                $orderDetail->setTicket($ticket);
-            } 
-
-            $orderDetail->setQuantity($item['qty']);
-            $orderDetail->setUnitPrice($item['price']);
-
-            $this->entityManager->persist($orderDetail);
-        }
+               
 
         $this->entityManager->persist($order);
         $this->entityManager->persist($invoice);
