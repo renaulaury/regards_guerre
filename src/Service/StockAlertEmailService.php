@@ -6,20 +6,20 @@ use App\Service\EmailService;
 
 class StockAlertEmailService
 {
-    private EmailService $emailSenderService;
+    private EmailService $emailService;
 
-    public function __construct(EmailService $emailSenderService)
+    public function __construct(EmailService $emailService)
     {
-        $this->emailSenderService = $emailSenderService;
+        $this->emailService = $emailService;
     }
 
     public function sendStockAlertEmail(array $soonOutStockExhibits, array $outOfStockExhibitions): void
     {
-        $body = $this->emailSenderService->renderTemplate('emails/stockAlertEmail.html.twig', [
+        $body = $this->emailService->renderTemplate('emails/stockAlertEmail.html.twig', [
             'soonOutStockExhibits' => $soonOutStockExhibits,
             'outOfStockExhibitions' => $outOfStockExhibitions,
         ]);
 
-        $this->emailSenderService->send('alerte_stock@regardsguerre.fr', 'Alerte de stock', $body);
+        $this->emailService->send('alerte_stock@regardsguerre.fr', 'Alerte de stock', $body);
     }
 }
