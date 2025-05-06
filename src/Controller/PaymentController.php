@@ -84,11 +84,50 @@ class PaymentController extends AbstractController
                     'total' => $this->cartService->getTotal(),
                 ]);
             }
-        }
-        
-        $productStripe = [];
+        }        
 
-        $cart = $this->cartService->getCart();      
+        //Récup panier pour vérif stock + préparation donnée pour Stripe
+        $cart = $this->cartService->getCart();  
+
+        //Vérif stock avant paiement
+        $stockErrors = []; //Gestion des erreurs de stock/panier
+
+        // Vérification init du stock et collecte des erreurs de stock
+        foreach ($cart as $item) {
+            $exhibition = $exhibitionShareRepo->find($item['exhibitionId']); //Récup id expo like id dans panier
+            if ($exhibition) { 
+                //Vérif si les tickets commandés sont dispos
+                $ticketsAvailable = $exhibition->getStockMax() - $exhibition->getTicketsReserved();
+                $qtyRequested = $item['qty']; //Qté demandée
+
+                if ($qtyRequested > $ticketsAvailable) {
+                    $stockErrors[] = [
+                        'exhibitionTitle' => $exhibition,
+                        'ticketsAvailable' => $ticketsAvailable,
+                    ];
+                }
+            }
+        }
+
+        if (!empty($stockErrors)) {
+            foreach ($stockErrors as $error) {
+                $this->addFlash(
+                    'danger',
+                    sprintf( //Permet concaténation string + variable
+                        'Stock insuffisant pour l\'exposition "%s". (%d restants).',
+                        $error['exhibitionTitle'],
+                        $error['ticketsAvailable']
+                    )
+                );
+            }
+
+            return $this->redirectToRoute('cart'); // Redirige vers le panier pour modification
+        }
+
+
+        /************** Prépare les informations nécessaire à envoyer à Stripe **************************/
+        $productStripe = [];
+            
         
         foreach ($cart as $product) {            
             $ticket = $ticketRepo->find($product['ticketId']);
@@ -107,6 +146,10 @@ class PaymentController extends AbstractController
                 'quantity' => $qty,
             ];
         }
+
+        
+
+        
 
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
@@ -175,8 +218,8 @@ class PaymentController extends AbstractController
         $order->setOrderStatus('Envoyé'); 
 
         // Récup le nom et prénom du client. Priorité à la session (formulaire), sinon BDD de l'utilisateur connecté.
-        $order->setCustomerName($customerName ?? $this->getUser()->getUserName() ?? 'Non renseigné');
-        $order->setCustomerFirstname($customerFirstname ?? $this->getUser()->getUserFirstname() ?? 'Non renseigné');
+        $order->setCustomerName($customerName);
+        $order->setCustomerFirstname($customerFirstname);
 
         $order->setCustomerEmail($this->getUser()->getUserIdentifier()); // Enregistre l'email de l'utilisateur
 
@@ -249,8 +292,8 @@ class PaymentController extends AbstractController
             $price = $item['price'];
     
             $invoiceDetails[] = [
-                'exhibitionTitle' => $exhibition ? $exhibition->getTitleExhibit() : null,
-                'ticketTitle' => $ticket ? $ticket->getTitleTicket() : null,
+                'exhibitionTitle' => $exhibition->getTitleExhibit(),
+                'ticketTitle' => $ticket->getTitleTicket(),
                 'standardPrice' => $price,
                 'quantity' => $quantity,
             ];
@@ -258,64 +301,30 @@ class PaymentController extends AbstractController
     
         $invoice->setInvoiceDetails($invoiceDetails);
 
-        //Gestion des stocks
-        $stockErrors = []; //Gestion des erreurs de stock/panier
-        $soonOutStockExhibits = []; // Gestion des expo presque épuisées
-        $outOfStockExhibitions = []; // Gestion des expo épuisées
-
-
-        // Vérification init du stock et collecte des erreurs de stock
-        foreach ($cart as $item) {
-            $exhibition = $exhibitShareRepo->find($item['exhibitionId']); //Récup id expo like id dans panier
-            if ($exhibition) { 
-                //Vérif si les tickets commandés sont dispos
-                $ticketsAvailable = $exhibition->getStockMax() - $exhibition->getTicketsReserved();
-                $qtyRequested = $item['qty']; //Qté demandée
-
-                if ($qtyRequested > $ticketsAvailable) {
-                    $stockErrors[] = [
-                        'exhibitionTitle' => $exhibition,
-                        'ticketsAvailable' => $ticketsAvailable,
-                    ];
-                }
-            }
-        }
-
-        if (!empty($stockErrors)) {
-            foreach ($stockErrors as $error) {
-                $this->addFlash(
-                    'danger',
-                    sprintf( //Permet concaténation string + variable
-                        'Stock insuffisant pour l\'exposition "%s". (%d restants).',
-                        $error['exhibitionTitle'],
-                        $error['ticketsAvailable']
-                    )
-                );
-            }
-
-            return $this->redirectToRoute('cart'); // Redirige vers le panier pour modification
-        }
-               
+                      
 
         $this->entityManager->persist($order);
         $this->entityManager->persist($invoice);
         $this->entityManager->flush();
-
-
-        /********* Envoi confirm commande au user ***********/
-        // Calcul de $total et $groupedCart
-        $groupedCart = $this->cartService->groupCartByExhibition($cart); //Regroupe les articles du panier
-        $this->cartService->updateCartTotal($cart); //Maj panier
-        $session = $this->requestStack->getCurrentRequest()->getSession(); 
-        $total = $session->get('cartTotal'); //Récup total panier
-        
+      
+                
 
        // Envoi de l'email de confirmation de commande
        $this->orderConfirmEmailService->sendTicketEmail($order);
         
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
+
+        $groupedCart = $this->cartService->groupCartByExhibition($cart); //Regroupe les articles du panier
+
         $this->entityManager->refresh($exhibition); //raffraichit l'expo pour avoir la maj
+
+
+         //Gestion des stocks
+        
+         $soonOutStockExhibits = []; // Gestion des expo presque épuisées
+         $outOfStockExhibitions = []; // Gestion des expo épuisées
+
         // Vérification des stocks APRÈS l'enregistrement de la commande en parcourant le groupedCart
         foreach ($groupedCart as $exhibitionId => $items) { //Parcours groupedCart (tabl AM)
             $exhibition = $exhibitShareRepo->find($exhibitionId);
