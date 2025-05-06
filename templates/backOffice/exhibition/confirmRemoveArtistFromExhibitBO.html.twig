@@ -13,7 +13,10 @@
 </div>
 
 <section class="sectionCenter">
-    <p>blabla</p>
+    <p class="noticeBO">
+        Cett page permet de confirmer la suppression d'un artiste.        
+        Cette action est définitive et ne peut pas être annulée.
+    </p>
     
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

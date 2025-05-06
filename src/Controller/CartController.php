@@ -81,8 +81,7 @@ class CartController extends AbstractController
         int $exhibitionId, 
         int $ticketId, 
         string $origin,
-        ExhibitionShareRepository $exhibitionRepo)
-        // : Response
+        ExhibitionShareRepository $exhibitionRepo) : Response
     {
          // Récupération du ticket via le repository
          $ticket = $ticketRepo->find($ticketId);
@@ -102,6 +101,9 @@ class CartController extends AbstractController
                 'exhibition' => $exhibitionId,
             ]);
         }
+
+        // Par défaut : rediriger vers le panier
+        return $this->redirectToRoute('cart');
     }
 
 

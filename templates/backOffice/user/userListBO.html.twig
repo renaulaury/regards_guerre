@@ -13,8 +13,11 @@
     <h1>Back-Office</h1>
 
     <section>
-        <p>Cette page permet de gérer les utilisateurs du back-office.
-            Vous pouvez consulter et modifier les informations des administrateurs, des utilisateurs, ainsi que des utilisateurs supprimés.</p>
+        <p class="noticeBO">
+            Filtrez l'affichage par type d'utilisateur grâce au menu déroulant.
+            Cette page permet de consulter et modifier les informations d'un utilisateur.
+            L'icone donne accès à l'historique de commande de l'utilisateur.(Les administrateurs ne peuvent pas passer de commande.)
+        </p>
 
         {% if app.user and is_granted('ROLE_ADMIN') %}
             <div class="filterUser">

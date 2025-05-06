@@ -22,7 +22,14 @@
 <!-- UserBOController -->
 
 <section>
-    <p>Cette page vous permet de consulter et de modifier les informations d'un utilisateur.</p>
+    <p class="noticeBO">
+        Cette page permet aux administrateurs de consulter et de modifier le profil de l'utilisateur affiché.
+        Vous pouvez visualiser son adresse email et son rôle actuel.
+        Si l'utilisateur a renseigné son nom et prénom, ils sont également affichés.
+        {% if is_granted('ROLE_ADMIN') %}   
+            Vous pouvez également modifier le rôle d'un utilisateur via le formulaire ci-dessous.
+        {% endif %}
+    </p>
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

@@ -26,7 +26,15 @@
 </div>
 
 <section class="sectionCenter">
-    <p>blabla</p>
+    <p class="noticeBO">
+        Cette page permet
+        {% if isAdd %}
+            d'ajouter une nouvelle exposition. Renseignez les informations générales (image, dates, horaires, titre, description), les tarifs des différents types de tickets et les seuils de stock maximum et d'alerte. Cliquez sur "Créer l'exposition" pour enregistrer.
+        {% else %}
+            de modifier l'exposition <strong>{{ exhibition }}</strong>. Vous pouvez mettre à jour les informations générales, les tarifs des tickets et les seuils de stock. Cliquez sur "Modifier" pour sauvegarder les changements.
+        {% endif %}
+        Un message d'erreur s'affiche si une exposition avec la date sélectionnée existe déjà.
+    </p>
     
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

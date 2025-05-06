@@ -17,6 +17,11 @@
 </div>
 
 <section class="listExhibit">
+    <p class="noticeBO">
+        Cette page liste toutes les expositions à venir.
+        Cliquez sur "Ajouter une exposition" pour en créer une nouvelle.
+        Pour chaque exposition, vous pouvez modifier les informations générales via l'icône <i class="iconsEdit fa-solid fa-pencil"></i>, gérer les artistes participants (ajouter, modifier, supprimer) via l'icône <i class="iconsEdit fa-solid fa-pen-to-square"></i>, et supprimer l'exposition (si aucune commande n'est associée) via l'icône <i class="iconsEdit fa-solid fa-trash-can"></i>.
+    </p>
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
