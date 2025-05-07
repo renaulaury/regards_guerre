@@ -14,9 +14,10 @@
         <div class="blockListAgendaContainer">
             {% for exhibition in exhibitions %}
                 <div class="blockListAgenda">
-                    <div class="imgExhibitListAgenda">
+                    
+                    {# <div class="imgExhibitListAgenda"> #}
                         <img  src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
-                    </div>
+                    {# </div> #}
 
                     <div class="exhibitListAgenda">
                         <div class="blockDateListAgenda">
@@ -33,7 +34,7 @@
 
                         <div class="blockTitle">
                             <p class="cgBold titleExhibitListAgenda">{{ exhibition.titleExhibit }}
-                                <span class="cgBold">({{ exhibition.dateWarBeginFr }} 
+                                <span class="longTitleDate">({{ exhibition.dateWarBeginFr }} 
                                     {% if exhibition.dateWarEndFr is null %}
                                         à aujourd'hui
                                     {% else %}
@@ -54,15 +55,9 @@
                             title="{{ 'Voir la page détaillée de l\'exposition'|trans }}">
                             > Fiche détaillée
                             </a>
-                        {% endif %}
+                        {% endif %}                        
                     </div>
-
-                    
-                </div>
-
-                {% if not loop.last %}
-                        <hr>
-                    {% endif %}
+                </div>                
             {% endfor %}
         </div>
     </section>

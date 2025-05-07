@@ -12,7 +12,7 @@ import './styles/navBurgerFooter.css';
 import './styles/home.css';
 import './styles/profile.css';
 import './styles/exhibition.css';
-import './styles/ticketCart.css';
+import './styles/listExhibit_Cart.css';
 
 
 import './styles/backOffice.css';

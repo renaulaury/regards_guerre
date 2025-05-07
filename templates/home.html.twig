@@ -64,13 +64,14 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
             {% for agendas in agenda %}
                 
 
-                <div class="blockAgenda">
-                    
+                <div class="blockAgenda">                    
                     
                     <div class="exhibitAgenda">
-                            <img class="imgAgenda" src="{{ agendas.mainImage }}" alt="{{ agendas.mainImageAlt }}">
-                        
-                        <div>
+                        <div class="imgAgendaContainer">
+                            <img class="imgAgenda" src="{{ agendas.mainImage }}" alt="{{ agendas.mainImageAlt }}">                        
+                        </div>
+
+                        <div class="infoAgendaContainer">
                             <div class="blockDateAgenda">
                                 <p><strong>{{ agendas.dateExhibitFr }}</strong> - {{ agendas.hourBeginFr }} à {{ agendas.hourEndFr }}</p>
                             </div>

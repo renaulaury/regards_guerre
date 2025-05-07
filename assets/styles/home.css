@@ -73,7 +73,6 @@ h2{
     font-size: 0.7em;
 }
 
-
 .carrouselH2 span {
     font-family: var(--cormorantGaramond);
     color: var(--ftTitle);
@@ -252,25 +251,31 @@ h2{
 
 
 /************************** Media query *********************/
+
 @media screen and (min-width: 800px) {
-    .exhibitAgenda {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 50px;
+    .infoAgendaContainer {
+        width: 70%;
     }
 
     .imgAgenda {
         display:block;
-        max-width: 20vw;
         object-fit: cover;
+        width: 100%;
     }
 
-    .imgAgenda img {
-        display:block;
-        width: 30vw;
-        object-fit: cover;
+    .imgAgendaContainer {
+        width: 30%;
     }
+    
+    .exhibitAgenda {
+        width: 100vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 50px;
+    }  
+
+    
 
     .blockPath {
         flex-direction: row;
@@ -284,5 +289,9 @@ h2{
 }
 
 @media screen and (min-width: 1200px) {
-    
+    /* .imgAgenda {
+        display:block;
+        max-width: 20vw;
+        object-fit: cover;
+    } */
 }

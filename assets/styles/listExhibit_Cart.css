@@ -1,0 +1,168 @@
+
+/************************** Liste des expos ****************************/
+.blockListAgendaContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.blockListAgenda {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 50px;
+}
+
+.blockListAgendaContainer img {
+    width: 200px;
+    height: auto;
+    object-fit: cover;
+}
+
+.exhibitListAgenda {
+    width: 200px;
+}
+
+.blockDateListAgenda {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.longTitleDate {
+    display: block;
+    font-family: var(--cormorantGaramond);
+}
+
+.imgTicketStock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 60px; 
+    max-height: auto; 
+}
+
+.titleExhibitListAgenda {
+    padding: 10px 0;
+    text-align: start;
+}
+
+
+ 
+/******************** Media query ********************/
+@media screen and (min-width: 800px) {     
+    .blockListAgendaContainer {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .blockListAgenda {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        padding-bottom: 50px;
+    }
+    
+    .blockListAgendaContainer img {
+        width: 300px;
+        height: auto;
+        object-fit: cover;
+    }
+    
+    .exhibitListAgenda {
+        width: 200px;
+    }
+    
+    .blockDateListAgenda {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .longTitleDate {
+        display: block;
+        font-family: var(--cormorantGaramond);
+    }
+    
+    .imgTicketStock {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 60px; 
+        max-height: auto; 
+    }
+    
+    .titleExhibitListAgenda {
+        padding: 10px 0;
+        text-align: start;
+    }
+}  
+   
+ 
+
+
+
+
+
+
+
+
+/**************************** Cart *****************************/
+.blockTicketCart {
+    padding-bottom: 5%;
+}
+
+.ticketCart {
+    padding-bottom: 5%;
+}
+
+.lineTicketCart {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blockQtyPrice {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.amountCart {
+    padding: 5% 5% 5% 0;
+}
+
+.amountCart span {
+    padding: 0 5%;
+}
+
+.blockIdentityOrder {
+    padding: 5% 0;
+}
+
+/**************************** Confirm delete cart *****************************/
+.confirmDeleteCart {
+    text-align: center;
+    padding-top: 5%;
+}
+
+.yesNoConfirmDeleteCart {
+    padding-top: 8%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/**************************** Media query *************************/

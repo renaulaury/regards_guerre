@@ -38,12 +38,6 @@
 
 /************************* Media query **********************/
   @media screen and (min-width: 655px) {
-    .test {
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 20px; 
-      }
-
       .lineDesktopOrder {
         display:block;
       }
