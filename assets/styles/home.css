@@ -1,6 +1,7 @@
 /* Commun */
-h2{    
+.homeH2 {    
     padding: 0 5% 30px 5%;
+    color: var(--ftTitle);
 }
 
 /* Carrousel */

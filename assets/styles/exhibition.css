@@ -1,7 +1,20 @@
 /************** Page exhibition **************/
-.pageExhibitH2{
+.sectionExhibit {
+    padding-top: 0;
+}
+
+.pageExhibitTitle {
+    color: var(--ftTitle);
+    font-family: var(--cormorantGaramond);
     text-align: center;
     padding: 20px 0;
+}
+
+.dateExhibitTitle {
+    color: var(--ftTitle);
+    font-family: var(--cormorantGaramond);
+    text-align: center;
+    /* font-size: medium; */
 }
 
 .dateHourPageExhibit {
@@ -16,15 +29,17 @@
 .blockImgExhibit {
     position: relative; 
     display: inline-block; 
-    padding-bottom: 15px;
 }
 
 .expoImg {
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
     border-radius: 10px;
-    margin-bottom: 30px;
+}
+
+.blockImgExhibit p {
+    padding-top: 30px;
 }
 
 .imgStockExhibit {
@@ -44,78 +59,27 @@
     margin-top: 10%;
 }
 
-.sectionIntroExhibit {
-    background-color: var(--backgroundColorPastel);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.sectionIntroExhibit p {
-    text-align: center;
-}
-
-.blockArtistPageExhibit {
-    width: 100%;
-}
-
-.blockArtistPageExhibit p {
-    padding-bottom: 5px;
-}
-
-.blockArtistPageExhibit img {
-    width: 70%;
-    height: auto;
-    border-radius: 10px;
-    display: block; 
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-.artistInfosPageExhibit, .artistImgPageExhibit {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-    margin-bottom: 20px; 
-}
-
-.artistTextPageExhibit {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.artistRoomPageExhibit {
-    font-weight: 600;
-    padding-top: 20px;
-    padding-bottom: 50px;
-}
-
 /***************** Partie ticket *******************/
 .ticketExhibit {
     width: 100%;
     display: flex;
     flex-direction: row;
+    padding-bottom: 20px;
 }
 
 .titleTicket {
     width: 45%;
 }
 
-.blockTicketsExhibit {
-    padding: 30px 0;
+.ticketH2 { 
+    padding-top: 30px;
+    padding-bottom: 15px;
 }
 
-.blockTicketsExhibit h3 {
-    padding-bottom: 15px;
+.ticketExhibit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .blockTitleQtyTicket {
@@ -138,4 +102,150 @@
 
 .nbCart {
     padding: 0 10px;
+}
+
+/************** intro ********************/
+.sectionIntroExhibit {
+    background-color: var(--backgroundColorPastel);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.sectionIntroExhibit p {
+    text-align: center;
+}
+
+/***************** Artist ***********************/
+.galerieH2 {
+    color: var(--ftTitle);
+}
+
+.blockArtistPageExhibit {
+    width: 100%;
+    padding-top: 30px;
+}
+
+.blockArtist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.blockArtist img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.artistContainer p {
+    padding-bottom: 30px;
+}
+
+.artistInfosPageExhibit p {
+    padding-bottom: 5px;
+}
+
+.artistInfosPageExhibit, .artistImgPageExhibit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 20px; 
+}
+
+.artistRoomPageExhibit {
+    font-weight: bold;
+}
+
+.artistDesktopNone {
+    display: none;
+}
+
+
+/************************* Media query *******************/
+@media screen and (min-width: 500px) {
+    .blockArtist {
+        flex-direction: row;
+        gap: 45px;
+    }
+
+    .blockArtistPageExhibit img {
+        width: 200px;
+    }
+
+    .loopEven-even {
+        flex-direction: row-reverse; 
+    }
+}
+
+
+
+@media screen and (min-width: 800px) { 
+    .artistContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 50px;
+        padding-top: 50px;
+    }
+
+    .loopEven-even {
+        flex-direction: row-reverse; 
+    }
+    
+
+    .artistImgPageExhibit {
+        width: 100%;
+    }
+
+    .blockArtist {
+        width: 50%;
+    }
+
+    .blockArtist img {
+        width: 300px;
+    }
+
+    .blockArtistText {
+        width: 50%;
+    }
+
+    .artistTabletNone {
+        display: none;
+    }
+
+    .artistDesktopNone {
+        display: block;
+    }
+
+    .artistInfosPageExhibit, .artistImgPageExhibit {
+        margin-bottom: 0; 
+    }
+
+}
+
+@media screen and (min-width: 1200px) { 
+    .artistContainer {
+        gap: 50px;
+    }
+
+    .blockArtist {
+        width: 20%;
+    }
+
+    .blockArtist img {
+        width: 200px;
+    }
+
+    .blockArtistText {
+        width: 70%;
+    }
 }

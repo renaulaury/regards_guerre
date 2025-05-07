@@ -9,13 +9,14 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
 {% block body %}
 <!-- ExhibitionController CartController -->
 
-<h1>Exposition</h1>
+<h1>Exposition : <span class="longTitle pageExhibitTitle">{{ exhibition.titleExhibit}}  
+    <span class="longTitle dateExhibitTitle">
+        ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})
+    </span>
+</span></h1>
 
-<section>    
+<section class="sectionExhibit">    
     
-    <h2 class="pageExhibitH2">{{ exhibition.titleExhibit}}  
-        ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})</h2>
-
     <div class="dateHourPageExhibit">
         <p>{{ exhibition.dateExhibitFr }}</p>
         <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
@@ -28,66 +29,75 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
         {% elseif exhibition.ticketsRemaining <= 10 %}
             <img class="imgStockExhibit" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Epuisé">
         {% endif %}
+
+        <p>{{ exhibition.descriptionExhibit }}</p>
     </div>
 
-    <p>{{ exhibition.descriptionExhibit }}</p>
+    
 
 
 {% if exhibition.ticketsRemaining > 0 %}
-    <div class="blockTicketsExhibit">
-        <h3>Tickets :</h3>
+    <div class="ticketsContainer">
+        <h2 class="ticketH2">Tickets :</h2>
 
-        {% if ticketPricings is not empty %}
-            {% for pricing in ticketPricings %}
+        <div class="ticketsExhibitContainer">
+            <div class="blockTicketExhibit">
+                {% if ticketPricings is not empty %}
+                
+                    {% for pricing in ticketPricings %}
+                        <div class="ticketExhibit">
+                            <p class="titleTicket">{{ pricing.ticket.titleTicket }}</p>                    
+                            
+                            <div class="blockTitleQtyTicket">
+                                <div class="blockPriceTicket">
+                                    {% if pricing.standardPrice > 0 %}
+                                        <p class="price">{{ pricing.standardPrice }} €</p>
+                                    {% else %}
+                                        <p class="price">Gratuit</p>
+                                    {% endif %}
+                                </div>
 
-                <div class="ticketExhibit">
-                    <p class="titleTicket">{{ pricing.ticket.titleTicket }}</p>                    
-                    
-                    <div class="blockTitleQtyTicket">
-                        <div class="blockPriceTicket">
-                             {% if pricing.standardPrice > 0 %}
-                                <p class="price">{{ pricing.standardPrice }} €</p>
-                            {% else %}
-                                <p class="price">Gratuit</p>
-                            {% endif %}
+                                <div class="blockQtyTicket">
+
+                                    <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
+                                    aria-label="{{ 'Retirer un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
+                                    title="{{ 'Diminuer la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </a>
+
+                                    <div class="qtyProduct">  
+                                        {# Crée une clé unique pour le ticket dans le panier (id expo + id ticket) #}                              
+                                        {% set cartKey = exhibition.id ~ '_' ~ pricing.ticket.id %}
+                                        
+                                        {# Vérifie si le ticket est déjà dans le panier #}
+                                        {% if cart[cartKey] is defined %} 
+                                            <span class="nbCart">{{ cart[cartKey].qty }}</span>
+                                        {% else %}
+                                            <span class="nbCart">0</span>
+                                        {% endif %}
+                                    </div> 
+
+                                    <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
+                                    aria-label="{{ 'Ajouter un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
+                                    title="{{ 'Augmenter la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+                    {% endfor %}  
+                {% endif %}
+            </div>          
 
-                        <div class="blockQtyTicket">
+            <div class="buttonTicket">
+                <a href="{{ path('cart') }}" class="btnCTA">Panier</a> 
+            </div>
+        </div>
 
-                            <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
-                               aria-label="{{ 'Retirer un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
-                               title="{{ 'Diminuer la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
-                                <i class="fa-solid fa-minus"></i>
-                            </a>
-
-                            <div class="qtyProduct">  
-                                {# Crée une clé unique pour le ticket dans le panier (id expo + id ticket) #}                              
-                                {% set cartKey = exhibition.id ~ '_' ~ pricing.ticket.id %}
-                                
-                                {# Vérifie si le ticket est déjà dans le panier #}
-                                {% if cart[cartKey] is defined %} 
-                                    <span class="nbCart">{{ cart[cartKey].qty }}</span>
-                                {% else %}
-                                    <span class="nbCart">0</span>
-                                {% endif %}
-                            </div> 
-
-                            <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
-                               aria-label="{{ 'Ajouter un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
-                               title="{{ 'Augmenter la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
-                                <i class="fa-solid fa-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                </div>
-            {% endfor %}
-            <a href="{{ path('cart') }}">
-                <button type="submit" class="btnCTA">Panier</button>
-            </a>       
-            
-        {% endif %}
+        
     </div>
+
+    
 {% endif %}
 </section>
 
@@ -103,31 +113,36 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
 </section>
 
 <section>
-    <h2>Galerie des artistes</h2>
+    <h2 class="galerieH2">Galerie des artistes</h2>
 
-    <div>
-
-        {% for show in exhibition.shows %}
-        
-        <div class="blockArtistPageExhibit">
-            <div class="artistInfosPageExhibit">
-                <p class="cormorantGaramond">{{ show.artist.artistFirstname }} {{ show.artist.artistName }} - {{ show.artist.artistJob }}</p>
-                <p class="cormorantGaramond">({{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }})</p>
-            </div>
-
-            <img class="artistImgPageExhibit" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">
-        </div>
-
-        <div class="artistTextPageExhibit">
-            <p>{{ show.artist.artistBio }} </p>
-            <p>{{ show.artistTextArt }} </p>
-        </div>
     
-         <p class="artistRoomPageExhibit">Salle {{ show.room.titleRoom }}</p> 
-    {% endfor %}
+    
+        {% for show in exhibition.shows %}
+            <div class="blockArtistPageExhibit">
 
-        
-    </div>
+                <div class="artistInfosPageExhibit">
+                    <p class="cormorantGaramond">{{ show.artist.artistFirstname }} {{ show.artist.artistName }} - {{ show.artist.artistJob }}</p>
+                    <p class="cormorantGaramond">({{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }})</p>
+                </div>
+
+                <div class="artistContainer loopEven-{% if loop.index is even %}even{% endif %}">
+                    <div class="blockArtist loopEven-{% if loop.index is even %}even{% endif %}"">
+                        <img class="artistImgPageExhibit" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">                 
+                       
+                        <p class="artistTabletNone">{{ show.artist.artistBio }} </p>
+                    </div>
+
+                    <div class="blockArtistText">
+                        <p class="artistDesktopNone">{{ show.artist.artistBio }} </p>
+                        <p>{{ show.artistTextArt }} </p>
+                    
+                
+                        <p class="artistRoomPageExhibit">Salle {{ show.room.titleRoom }}</p> 
+                    </div>
+                </div>
+            </div>
+        {% endfor %}        
+    
 </section>
 
 

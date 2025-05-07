@@ -54,14 +54,6 @@ h1 {
     height: 20px;
 }
 
-h2 {
-    font-family: var(--cormorantGaramond);
-    color: var(--ftTitle);
-    padding-top: 3%;
-    padding-bottom: 3%;
-    text-align: left;
-}
-
 a {
     list-style: none;
     text-decoration: none;
