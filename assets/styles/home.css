@@ -1,3 +1,8 @@
+/* Commun */
+h2{    
+    padding: 0 5% 30px 5%;
+}
+
 /* Carrousel */
 
 /* Filtrer pour tablette et ecran 
@@ -124,9 +129,11 @@
 .introHomeContainer {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5%;
+    padding: 50px 5% 50px 5%;
+    gap: 10px;
 }
 
 .introHome {
@@ -135,11 +142,7 @@
 
 /****** Agenda ******/
 .sectionAgenda {    
-    padding: 0%;
-}
-
-.sectionAgenda h2{    
-    padding: 5%;
+    padding: 50px 0% 0 0;
 }
 
 .blockAgendaContainer {
@@ -149,12 +152,16 @@
     margin-bottom: 50px;
 }
 
+.imgAgenda {
+    display:none;
+}
+
 .exhibitAgenda {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap:5px;
-    padding: 5% 0%;
+    padding: 50px 0%;
 }
 
 .blockDateAgenda {
@@ -181,11 +188,11 @@
 }
 
 .blockTextAgenda {
-    padding-bottom: 5%;
+    padding-bottom: 30px;
 }
 
 .hookAgenda {
-    padding-top: 3%;
+    padding-top: 30px;
 }
 
 
@@ -193,17 +200,13 @@
 
 /****** Accès *******/
 .sectionVisit {
-    padding: 0%;
+    padding: 0 0 50px 0;
 }
 
-.sectionVisit h2 {
-    padding: 5%;
-}
 
 .blockVisitContainer {
     width: 100%;
     padding: 0% 5%;
-    /* background: var(--backgroundColorPastel); */
     padding-top: 5%;
 }
 
@@ -227,26 +230,15 @@
     justify-content: center;    
     gap: 20px;
     width: 100%;
-    padding: 20px;
+    padding: 50px 0;
     box-sizing: border-box;
     margin: 0 auto;
-
-    
 }
 
-.visitCar, .visitTrain {
-    flex: 1;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-.visitTrain {
-    padding-bottom: 5%;
-}
-
-.visitCar h4, .visitTrain h4 {
+.pathTransport {
+    font-weight: bold;
     text-align: center;
-    margin-bottom: 10px;
+    padding-bottom: 20px;
 }
 
 .metroPath div {
@@ -257,4 +249,41 @@
     width: 20px;
     height: 20px;
     vertical-align: middle;
+}
+
+
+/************************** Media query *********************/
+@media screen and (min-width: 800px) {
+    .exhibitAgenda {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 50px;
+    }
+
+    .imgAgenda {
+        display:block;
+        max-width: 20vw;
+        object-fit: cover;
+    }
+
+    .imgAgenda img {
+        display:block;
+        width: 30vw;
+        object-fit: cover;
+    }
+
+    .blockPath {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-evenly;
+    }
+
+    .visitTrain, .visitCar {
+        width: 30vw;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    
 }

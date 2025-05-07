@@ -54,10 +54,7 @@
                         <li><a href="{{ path('home') }}">Accueil</a></li>
 
                         {# Apparait que si root ou admin #}
-                        {% if app.user %}
-                            {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
-                                <li><a href="{{ path('backOffice') }}">Back-Office</a></li>
-                            {% endif %}
+                        {% if app.user %}                            
                             <li><a href="{{ path('index', {'slug': app.user.slug} ) }}">Mon profil</a></li>
                         {% endif %}                        
                         <li><a href="{{ path('listExhibitions') }}">Expositions</a></li>
@@ -70,7 +67,19 @@
                                 {% endif %} 
                             </a>
                         </li>
+                        {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}  
+                            <hr class="burgerBO">   
+
+                            <li class="burgerBO">                                
+                                <a href="{{ path('backOffice') }}">Back-Office</a></li>
+                        {% endif %}
                     </ol>
+
+                    {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
+                        <div class="desktopBO">
+                            <a href="{{ path('backOffice') }}">Back-Office</a>
+                        </div>
+                    {% endif %}
 
                     <div class="burgerButton">
                         <div class="line"></div>
@@ -141,7 +150,7 @@
             </div>
 
             <div class="copyright">
-                <p>Association loi 1901 - Tous droits réservés.</p>
+                <p class="">Association loi 1901 - Tous droits réservés.</p>
                 <p>Copyright 2025 Regards de Guerre</p>
             </div>
             

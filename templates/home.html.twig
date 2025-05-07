@@ -12,48 +12,48 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 
     <h1>Accueil</h1>       
 
-<section>    
-    {% for exhibition in exhibitions %}    
-        <div class="blockCarrousel">
-            <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
-                <div class="imgContainHome">
-                    <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
-                    <div class="filterImg"></div>
-                </div>
-
-                <div class="carrouselBlockText">
-                    <div class="blockRight">
-                        <h2 class="carrouselH2">
-                            <span>{{ exhibition }}</span>
-                            <span class="spaceCarrousel dateWarCarrousel">
-                                {{ exhibition.dateWarBeginFr }} 
-
-                                {% if exhibition.dateWarEndFr is not null %}    
-                                        - {{ exhibition.dateWarEndFr }}
-                                    {% else %}à aujourd'hui
-                                {% endif %}
-                            </span>
-                        </h2>                    
-
-                        <div class="carrouselDate">
-                            <span><strong>{{ exhibition.dateExhibitFr }}</strong></span>
-                            <span><strong>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</strong></span>
-                        </div>
+    <section>    
+        {% for exhibition in exhibitions %}    
+            <div class="blockCarrousel">
+                <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
+                    <div class="imgContainHome">
+                        <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
+                        <div class="filterImg"></div>
                     </div>
 
-                    <div class="carrouselText">{{ exhibition.descriptionExhibit }}</div>
+                    <div class="carrouselBlockText">
+                        <div class="blockRight">
+                            <h2 class="carrouselH2">
+                                <span>{{ exhibition }}</span>
+                                <span class="spaceCarrousel dateWarCarrousel">
+                                    {{ exhibition.dateWarBeginFr }} 
 
-                    <button type="submit" class="btnCTA">Ticket</button>
-                </div>
-            </a>
-        </div>
-    {% endfor %}
-</section>   
+                                    {% if exhibition.dateWarEndFr is not null %}    
+                                            - {{ exhibition.dateWarEndFr }}
+                                        {% else %}à aujourd'hui
+                                    {% endif %}
+                                </span>
+                            </h2>                    
+
+                            <div class="carrouselDate">
+                                <span><strong>{{ exhibition.dateExhibitFr }}</strong></span>
+                                <span><strong>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="carrouselText">{{ exhibition.descriptionExhibit }}</div>
+
+                        <button type="submit" class="btnCTA">Ticket</button>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </section>   
     
     <div class="introHomeContainer">
-        <div class="introHome cormorantGaramond">
-            Explorez les conflits d'hier et d'aujourd'hui grâce à nos expositions éphémères. Plongez au cœur des guerres qui ont marqué notre histoire et façonné le monde. Chaque exposition offre une nouvelle perspective pour comprendre les enjeux d'ici et d'ailleurs.
-        </div>
+            <p class="introHome cormorantGaramond">Explorez les conflits d'hier et d'aujourd'hui grâce à nos expositions éphémères. </p>
+            <p class="introHome cormorantGaramond">Plongez au cœur des guerres qui ont marqué notre histoire et façonné le monde. </p>
+            <p class="introHome cormorantGaramond">Chaque exposition offre une nouvelle perspective pour comprendre les enjeux d'ici et d'ailleurs.</p>
     </div>
 
         
@@ -62,40 +62,48 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 
         <div class="blockAgendaContainer">
             {% for agendas in agenda %}
+                
+
                 <div class="blockAgenda">
+                    
+                    
                     <div class="exhibitAgenda">
-                        <div class="blockDateAgenda">
-                            <p><strong>{{ agendas.dateExhibitFr }}</strong> - {{ agendas.hourBeginFr }} à {{ agendas.hourEndFr }}</p>
-                        </div>
+                            <img class="imgAgenda" src="{{ agendas.mainImage }}" alt="{{ agendas.mainImageAlt }}">
+                        
+                        <div>
+                            <div class="blockDateAgenda">
+                                <p><strong>{{ agendas.dateExhibitFr }}</strong> - {{ agendas.hourBeginFr }} à {{ agendas.hourEndFr }}</p>
+                            </div>
 
-                        <div class="blockImgStockHome">
-                            {% if agendas.ticketsRemaining <= 10 and agendas.ticketsRemaining > 0 %}
-                                <img class="imgStockHome" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
-                            {% elseif agendas.ticketsRemaining <= 10 %}
-                                <img class="imgStockHome" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Epuisé">
-                            {% endif %}
-                        </div>
-
-                        <div class="blockTextAgenda">
-                            <p class="cgBold">{{ agendas.titleExhibit }}</p>
-                            <p class="cgBold">{{ agendas.subTitleExhibit }} ({{ agendas.dateWarBeginFr }} - 
-                                {% if agendas.dateWarEndFr is null %}
-                                    à aujourd'hui
-                                {% else %}
-                                    {{ agendas.dateWarEndFr }} 
+                            <div class="blockImgStockHome">
+                                {% if agendas.ticketsRemaining <= 10 and agendas.ticketsRemaining > 0 %}
+                                    <img class="imgStockHome" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
+                                {% elseif agendas.ticketsRemaining <= 10 %}
+                                    <img class="imgStockHome" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Epuisé">
                                 {% endif %}
-                                )
-                            </p>                 
+                            </div>
+
+                            <div class="blockTextAgenda">
+                                <p class="cgBold">{{ agendas.titleExhibit }}</p>
+                                <p class="cgBold">{{ agendas.subTitleExhibit }} ({{ agendas.dateWarBeginFr }} - 
+                                    {% if agendas.dateWarEndFr is null %}
+                                        à aujourd'hui
+                                    {% else %}
+                                        {{ agendas.dateWarEndFr }} 
+                                    {% endif %}
+                                    )
+                                </p>                 
+                            
+                                <p class="hookAgenda">{{ agendas.hookExhibit }}</p>
+                            </div>
                         
-                            <p class="hookAgenda">{{ agendas.hookExhibit }}</p>
+                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': agendas.slug}) }}"> > Fiche détaillée</a>
                         </div>
-                        
-                        <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': agendas.slug}) }}"> > Fiche détaillée</a>
                     </div>
 
                     {% if not loop.last %}
                         <hr>
-                    {% endif %}
+                    {% endif %}                   
                    
                 </div>
             {% endfor %}
@@ -113,7 +121,7 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
             <p>Rue de la paix - 75000 PARIS</p>
 
             <div class="disabledBlock">
-                <i class="fa-brands fa-accessible-icon"></i>
+                <i class="fa-brands fa-accessible-icon" aria-label="Icône d'accessibilité" title="Icône d'accessibilité"></i>
                 <p>
                     Nos locaux sont complétement accessibles pour les personnes en situation de handicap.
                 </p>
@@ -126,12 +134,13 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
                 style="border:0;" 
                 allowfullscreen="" 
                 loading="lazy" 
-                referrerpolicy="no-referrer-when-downgrade">
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Carte interactive de localisation de notre local">
             </iframe>
 
             <div class="blockPath">
                 <div class="visitCar">
-                    <h4>Par l'autoroute</h4>
+                    <p class="pathTransport">Par l'autoroute</p>
 
                     <div>
                         <p>- Via A1 : Bd Malesherbes Direction Rue Daunou</p>
@@ -142,30 +151,30 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
                 </div>
                 
                 <div class="visitTrain">
-                    <h4>Par les transports en commun</h4>
+                    <p class="pathTransport">Par les transports en commun</p>
 
                     <div class="metroPath">
                         <div>- Gare du Nord :
                             <img class="iconMetro" src="/images/accueil/logos_metro/metro.png" alt="Icone du metro">
-                            <img class="iconMetro" src="/images/accueil/logos_metro/metro7.png" alt="Icone du metro 7">
+                            <img class="iconMetro" src="/images/accueil/logos_metro/metro7.png" alt="Icone du metro 7" title="Icone du metro 7">
                         </div>
 
                         <div>- Gare de l'est :
                             <img class="iconMetro" src="/images/accueil/logos_metro/metro.png" alt="Icone du metro">
-                            <img class="iconMetro" src="/images/accueil/logos_metro/metro7.png" alt="Icone du metro 7">
+                            <img class="iconMetro" src="/images/accueil/logos_metro/metro7.png" alt="Icone du metro 7" title="Icone du metro 7">
                         </div>
 
                         <div>- Gare Montparnasse :
                             <img class="iconMetro" src="/images/accueil/logos_metro/metro.png" alt="Icone du metro">
-                            <img class="iconMetro" src="/images/accueil/logos_metro/metro12.png" alt="Icone du metro 12">
+                            <img class="iconMetro" src="/images/accueil/logos_metro/metro12.png" alt="Icone du metro 12" title="Icone du metro 12">
                                 ou
                             <img class="iconMetro" src="/images/accueil/logos_metro/metro.png" alt="Icone du metro">
-                            <img class="iconMetro" src="/images/accueil/logos_metro/metro13.png" alt="Icone du metro 13"> 
+                            <img class="iconMetro" src="/images/accueil/logos_metro/metro13.png" alt="Icone du metro 13" title="Icone du metro 13"> 
                         </div> 
 
                         <div>- Gare Saint Lazare :
                             <img class="iconMetro" src="/images/accueil/logos_metro/metro.png" alt="Icone du metro">
-                            <img class="iconMetro" src="/images/accueil/logos_metro/metro3.png" alt="Icone du metro 3">
+                            <img class="iconMetro" src="/images/accueil/logos_metro/metro3.png" alt="Icone du metro 3" title="Icone du metro 3">
                         </div>
                     </div>
                 </div>      

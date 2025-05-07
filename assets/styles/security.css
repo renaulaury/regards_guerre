@@ -81,3 +81,23 @@
 .resetError {
     padding-top: 2%;
 }
+
+
+/************************** Media query **************************/
+/* @media screen and (min-width: 800px) {
+    .secuForm {
+        width:70%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .secuForm {
+        width:50%;
+    }
+} */
+
+/* @media screen and (min-width: 1200px) {
+    .secuForm {
+        width:10%;
+    } */
+/* } */
