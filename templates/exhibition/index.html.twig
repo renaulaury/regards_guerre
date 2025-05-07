@@ -23,13 +23,14 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
     </div>
 
     <div class="blockImgExhibit">
-        <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
-        {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
-            <img class="imgStockExhibit" src="{{ asset('images/stocks/soon_out_of_stock.png') }}" alt="Presque épuisé">
-        {% elseif exhibition.ticketsRemaining <= 10 %}
-            <img class="imgStockExhibit" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Epuisé">
-        {% endif %}
-
+        <div class="imgExhibitContainer">
+            <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+            {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
+                <img class="imgStockExhibit" src="{{ asset('images/stocks/soon_out_of_stock.png') }}" alt="Presque épuisé">
+            {% elseif exhibition.ticketsRemaining <= 10 %}
+                <img class="imgStockExhibit" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Epuisé">
+            {% endif %}
+        </div>
         <p>{{ exhibition.descriptionExhibit }}</p>
     </div>
 
@@ -126,7 +127,7 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
                 </div>
 
                 <div class="artistContainer loopEven-{% if loop.index is even %}even{% endif %}">
-                    <div class="blockArtist loopEven-{% if loop.index is even %}even{% endif %}"">
+                    <div class="blockArtist loopEven-{% if loop.index is even %}even{% endif %}">
                         <img class="artistImgPageExhibit" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">                 
                        
                         <p class="artistTabletNone">{{ show.artist.artistBio }} </p>

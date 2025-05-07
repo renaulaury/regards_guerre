@@ -26,9 +26,8 @@
     padding-bottom: 20px;
 }
 
-.blockImgExhibit {
+.imgExhibitContainer {
     position: relative; 
-    display: inline-block; 
 }
 
 .expoImg {
@@ -186,7 +185,13 @@
 
 
 
-@media screen and (min-width: 800px) { 
+@media screen and (min-width: 800px) {   
+    .imgExhibitContainer {        
+       width: 50%;
+       margin-left: auto;
+        margin-right: auto;
+    }
+
     .artistContainer {
         width: 100%;
         display: flex;
@@ -233,6 +238,23 @@
 }
 
 @media screen and (min-width: 1200px) { 
+    .blockImgExhibit {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .expoImg {
+        width: 70%;
+    }
+
+    .blockImgExhibit p {
+        width: 50%;
+    }
+
+
     .artistContainer {
         gap: 50px;
     }
