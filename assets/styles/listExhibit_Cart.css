@@ -107,16 +107,29 @@
    
  
 
-
-
-
-
-
-
-
 /**************************** Cart *****************************/
+.cartH2 {
+    color: var(--ftTitle);
+    font-family: var(--cormorantGaramond);
+    padding-bottom: 10px;
+}
+
+.buttonClear {
+    padding-right: 30px;
+    display: flex;
+    margin-top: 100px;
+    justify-content: flex-end;
+}
+
 .blockTicketCart {
     padding-bottom: 5%;
+}
+
+.exhibitionGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .ticketCart {
@@ -124,15 +137,17 @@
 }
 
 .lineTicketCart {
-    width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
-.blockQtyPrice {
-    width: 50%;
+.lineTicketCart p {
+    text-align: start;
+}
+
+.blockQtyPrice {    
+    padding-top: 10px;
+    width: 300px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -140,15 +155,28 @@
 }
 
 .amountCart {
-    padding: 5% 5% 5% 0;
+    display: flex;
+    justify-content: end;
+}
+
+.amountContainer {
+    padding-top: 50px;
+}
+
+.amountCart {
+    padding-bottom: 50px;
 }
 
 .amountCart span {
-    padding: 0 5%;
+    padding: 0 30px;
 }
 
 .blockIdentityOrder {
     padding: 5% 0;
+}
+
+.saveId {
+    padding-top: 10px;
 }
 
 /**************************** Confirm delete cart *****************************/
@@ -166,3 +194,56 @@
 }
 
 /**************************** Media query *************************/
+@media screen and (min-width: 800px) {
+    .summaryCart {
+        display: flex;
+        flex-direction: row;
+        gap:30px;
+    }
+
+    .ticketPayment {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        gap:30px;
+    }
+
+    .blockFormPayment {
+        width: 50%;
+    }
+
+    .amountContainer {
+        padding-top: 30px;
+        width:100%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: end;
+    }
+
+    .amountCart {
+        width: 100%;
+        padding-top: 60px;
+    }
+
+    .btnCart {
+        width: 60%;
+    }
+
+    .amountContainer a {
+        width: 60%;
+    }
+
+}
+
+@media screen and (min-width: 1200px) {  
+    .summaryCart {
+        justify-content: center;
+        gap: 100px;
+       }
+    
+    .ticketPayment, .blockFormPayment {
+        width: 20%;
+    }
+
+}

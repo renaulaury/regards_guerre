@@ -93,9 +93,6 @@
                 </div>
             </nav>            
 
-            <div class="lineNav"></div> 
-        
-
             <div> {# Msg flash #}
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
@@ -105,6 +102,9 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+
+            <div class="lineNav"></div> 
+        
         </header>
         {% block body %}  {% endblock %}
 
