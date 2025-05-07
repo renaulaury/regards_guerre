@@ -13,11 +13,11 @@
     <h1>Back-Office</h1>
 
     <section>
-        <p class="noticeBO">
-            Filtrez l'affichage par type d'utilisateur grâce au menu déroulant.
-            Cette page permet de consulter et modifier les informations d'un utilisateur.
-            L'icone donne accès à l'historique de commande de l'utilisateur.(Les administrateurs ne peuvent pas passer de commande.)
-        </p>
+        <div class="noticeBO">
+            <p>L'icone <i class="fa-regular fa-folder-open" title="{{ 'Afficher l\'historique des commandes d\' un utilisateur' }}"></i> donne accès à l'historique de commande de l'utilisateur. (Les administrateurs ne peuvent pas passer de commande.)     </p>
+            <p>L'icone <i class="fa-solid fa-pencil" title="{{ 'Modifier les informations d\'un utilisateur ' }}"></i> permet de modifier certaines informations de l'utilisateur.</p>
+            <p>L'icone <i class="fa-solid fa-trash-can" title="{{ 'Supprimer un utilisateur ' }}"></i> permet de supprimer un utilisateur.</p>            
+        </div>
 
         {% if app.user and is_granted('ROLE_ADMIN') %}
             <div class="filterUser">

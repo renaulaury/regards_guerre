@@ -9,13 +9,10 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 
 {% block body %}  
 <!-- HomeController ExhibitionShareRepository -->
-<div class="containH1"> 
-    <h1>Accueil</h1>  
-</div> 
-     
 
-<section>
-    
+    <h1>Accueil</h1>       
+
+<section>    
     {% for exhibition in exhibitions %}    
         <div class="blockCarrousel">
             <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">

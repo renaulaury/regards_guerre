@@ -10,8 +10,7 @@
 
 
 {% block description %}
-    Cette page vous permet de consulter et de modifier les informations d'un utilisateur.  
-    Vous pouvez mettre à jour le rôle, le pseudo ou d'autres informations associées à l'utilisateur.  
+    Cette page vous permet de consulter les informations d'un utilisateur (rôle, mail).  
     Seuls les administrateurs peuvent effectuer des modifications.
 {% endblock %}
 
@@ -22,14 +21,12 @@
 <!-- UserBOController -->
 
 <section>
-    <p class="noticeBO">
-        Cette page permet aux administrateurs de consulter et de modifier le profil de l'utilisateur affiché.
-        Vous pouvez visualiser son adresse email et son rôle actuel.
-        Si l'utilisateur a renseigné son nom et prénom, ils sont également affichés.
-        {% if is_granted('ROLE_ADMIN') %}   
-            Vous pouvez également modifier le rôle d'un utilisateur via le formulaire ci-dessous.
+    <div class="noticeBO">
+        <p>Cette page permet de consulter les informations d'un utilisateur : rôle, mail, nom et prénom également, si renseignés.</p>
+        {% if is_granted('ROLE_ROOT') %}   
+            <p>Vous pouvez également modifier le rôle d'un utilisateur via le formulaire ci-dessous.</p>
         {% endif %}
-    </p>
+    </div>
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

@@ -7,12 +7,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="containH1">    
-    <h1>Artiste</h1>
-</div>
+    
+<h1>Artiste</h1>
 
 
-<section >    
+
+<section>    
+    <p class="noticeBO">        
+        Cette action est irréversible, une fois l'artiste supprimé, toutes ses données seront perdues de manière définitive.
+    </p>
 
     {% if app.user %}
     {% if is_granted('ROLE_ADMIN') %}

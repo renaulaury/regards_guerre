@@ -17,24 +17,15 @@
 {% block body %}
 <!-- ExhibitionBOController ExhibitAddEditBOType -->
 
-<div class="containH1">    
+   
     {% if isAdd %}
         <h1>Ajouter une exposition</h1>
     {% else %}
-        <h1>Modification : <span class="longTitle">{{ exhibition }}</span></h1>
+        <h1>Modification de l'exposition : <span class="longTitle">{{ exhibition }}</span></h1>
     {% endif %}
-</div>
 
-<section class="sectionCenter">
-    <p class="noticeBO">
-        Cette page permet
-        {% if isAdd %}
-            d'ajouter une nouvelle exposition. Renseignez les informations générales (image, dates, horaires, titre, description), les tarifs des différents types de tickets et les seuils de stock maximum et d'alerte. Cliquez sur "Créer l'exposition" pour enregistrer.
-        {% else %}
-            de modifier l'exposition <strong>{{ exhibition }}</strong>. Vous pouvez mettre à jour les informations générales, les tarifs des tickets et les seuils de stock. Cliquez sur "Modifier" pour sauvegarder les changements.
-        {% endif %}
-        Un message d'erreur s'affiche si une exposition avec la date sélectionnée existe déjà.
-    </p>
+
+<section class="sectionCenter">    
     
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

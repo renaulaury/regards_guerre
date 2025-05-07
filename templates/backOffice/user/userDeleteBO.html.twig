@@ -18,33 +18,28 @@
 
 {% block body %}
 
-<h1>Back-Office</h1>
+    <h1>Back-Office</h1>
 
-<section>    
-
-    <p class="noticeBO">
-        Cette page vous permet de confirmer la suppression d'un utilisateur de la plateforme.  
-        Assurez-vous que cette action est bien intentionnelle, car une fois l'utilisateur supprimé, toutes ses données seront perdues de manière définitive.
-    </p>
-        
-    {% if app.user %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <p class="marginTop textDelete">Etes vous sûr(e) de vouloir supprimer 
-                {% if user.userFirstname %}
-                    {{ user.userFirstname }}                
-                {% else %}
-                    {{ user.userEmail|split('@')[0] }}
-                {% endif %} 
-                ?
-            </p>
+    <section>       
             
-            <form method="post" action="{{ path('userConfirmDeleteBO', {slug: user.slug}) }}">
-                <div class="button">
-                    <button class="btnSubmit" type="submit" name="submitConfirmDeleteUser">Supprimer</button>
-                </div>
-            </form>
+        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <p class="marginTop textDelete">Etes vous sûr(e) de vouloir supprimer 
+                    {% if user.userFirstname %}
+                        {{ user.userFirstname }}                
+                    {% else %}
+                        {{ user.userEmail|split('@')[0] }}
+                    {% endif %} 
+                    ?
+                </p>
+                
+                <form method="post" action="{{ path('userConfirmDeleteBO', {slug: user.slug}) }}">
+                    <div class="button">
+                        <button class="btnSubmit" type="submit" name="submitConfirmDeleteUser">Supprimer</button>
+                    </div>
+                </form>
+            {% endif %}
         {% endif %}
-    {% endif %}
-</section>
+    </section>
 
 {% endblock %}

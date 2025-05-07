@@ -13,78 +13,78 @@
 {% endblock %}
 
 {% block body %}
-<div class="containH1">    
+   
     {% if isAdd %}
         <h1>Ajouter un artiste</h1>
     {% else %}
-        <h1>Modification de {{ artist }}</h1>
+        <h1>Modification de l'artiste : <span class="longTitle">{{ artist }}</span></h1>
     {% endif %}
-</div>
 
-<section>    
-    
-    {% if app.user %}
-        {% if is_granted('ROLE_ADMIN') %}
 
-        {{ form_start(form) }}
+    <section>    
+        
+        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
 
-                    <div class="label">{{ form_label(form.artistName) }}</div>
-                    <div class="formErrors">                        
-                        {{ form_errors(form.artistName) }} 
-                    </div>
-                    <div class="input">{{ form_widget(form.artistName) }}</div>
+            {{ form_start(form) }}
 
-                    <div class="label">{{ form_label(form.artistFirstname) }}</div>
-                    <div class="formErrors">
-                        {{ form_errors(form.artistFirstname) }} 
-                    </div>
-                    <div class="input">{{ form_widget(form.artistFirstname) }}</div>
+                        <div class="label">{{ form_label(form.artistName) }}</div>
+                        <div class="formErrors">                        
+                            {{ form_errors(form.artistName) }} 
+                        </div>
+                        <div class="input">{{ form_widget(form.artistName) }}</div>
 
-                    <div class="blockMini">
-                        <div class="mini">
-                            <div class="label">{{ form_label(form.artistBirthDate) }}</div>
-                            <div class="formErrors"> 
-                                {{ form_errors(form.artistBirthDate) }} 
+                        <div class="label">{{ form_label(form.artistFirstname) }}</div>
+                        <div class="formErrors">
+                            {{ form_errors(form.artistFirstname) }} 
+                        </div>
+                        <div class="input">{{ form_widget(form.artistFirstname) }}</div>
+
+                        <div class="blockMini">
+                            <div class="mini">
+                                <div class="label">{{ form_label(form.artistBirthDate) }}</div>
+                                <div class="formErrors"> 
+                                    {{ form_errors(form.artistBirthDate) }} 
+                                </div>
+                                <div class="input">{{ form_widget(form.artistBirthDate) }}</div>
                             </div>
-                            <div class="input">{{ form_widget(form.artistBirthDate) }}</div>
-                        </div>
 
-                        <div class="mini">
-                            <div class="label">{{ form_label(form.artistDeathDate) }}</div>
-                            <div class="formErrors"> 
-                                {{ form_errors(form.artistDeathDate) }} 
+                            <div class="mini">
+                                <div class="label">{{ form_label(form.artistDeathDate) }}</div>
+                                <div class="formErrors"> 
+                                    {{ form_errors(form.artistDeathDate) }} 
+                                </div>
+                                <div class="input">{{ form_widget(form.artistDeathDate) }}</div>
                             </div>
-                            <div class="input">{{ form_widget(form.artistDeathDate) }}</div>
                         </div>
-                    </div>
 
-                    <div class="label">{{ form_label(form.artistJob) }}</div>
-                    <div class="formErrors"> 
-                        {{ form_errors(form.artistJob) }} 
-                    </div>
-                    <div class="input">{{ form_widget(form.artistJob) }}</div>
-
-                    <div class="label">{{ form_label(form.artistBio) }}</div>
-                    <div class="formErrors"> 
-                        {{ form_errors(form.artistBio) }}
-                    </div>
-                    <div class="input">{{ form_widget(form.artistBio) }}</div>
-
-                    {% if isAdd %}
-                        <div class="button">
-                            <button type="submit" class="btn btnSubmit">Créer l'artiste</button>
+                        <div class="label">{{ form_label(form.artistJob) }}</div>
+                        <div class="formErrors"> 
+                            {{ form_errors(form.artistJob) }} 
                         </div>
-                    {% else %}
-                        <div class="button">
-                            <button type="submit" class="btn btnSubmit">Modifier</button>
+                        <div class="input">{{ form_widget(form.artistJob) }}</div>
+
+                        <div class="label">{{ form_label(form.artistBio) }}</div>
+                        <div class="formErrors"> 
+                            {{ form_errors(form.artistBio) }}
                         </div>
-                    {% endif %}
+                        <div class="input">{{ form_widget(form.artistBio) }}</div>
 
-                {{ form_end(form) }}
+                        {% if isAdd %}
+                            <div class="button">
+                                <button type="submit" class="btn btnSubmit">Créer l'artiste</button>
+                            </div>
+                        {% else %}
+                            <div class="button">
+                                <button type="submit" class="btn btnSubmit">Modifier</button>
+                            </div>
+                        {% endif %}
 
+                    {{ form_end(form) }}
+
+            {% endif %}
         {% endif %}
-    {% endif %}
-</section>
+    </section>
 {% endblock %}
 
 

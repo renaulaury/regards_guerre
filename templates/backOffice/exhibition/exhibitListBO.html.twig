@@ -11,17 +11,20 @@
 
 {% block body %}
 <!-- ExhibitionController -->
-
-<div class="containH1">    
-    <h1>Expositions</h1>
-</div>
+   
+<h1>Liste des expositions</h1>
 
 <section class="listExhibit">
-    <p class="noticeBO">
-        Cette page liste toutes les expositions à venir.
-        Cliquez sur "Ajouter une exposition" pour en créer une nouvelle.
-        Pour chaque exposition, vous pouvez modifier les informations générales via l'icône <i class="iconsEdit fa-solid fa-pencil"></i>, gérer les artistes participants (ajouter, modifier, supprimer) via l'icône <i class="iconsEdit fa-solid fa-pen-to-square"></i>, et supprimer l'exposition (si aucune commande n'est associée) via l'icône <i class="iconsEdit fa-solid fa-trash-can"></i>.
-    </p>
+    <div class="noticeBO">
+        <p>L'icône <i class="iconsEdit fa-solid fa-pencil" title="{{ 'Modifier les informations de l\'exposition'}}"></i>
+             permet de modifier les informations d'une exposition.</p>
+        <p>L'icône <i class="iconsEdit fa-solid fa-pen-to-square" title="{{ 'Ajouter, modifier ou supprimer les artistes d\'une exposition'}}"></i> 
+             permet de modifier ou supprimer les artistes d'une exposition.
+        </p>
+        <p>L'icône <i class="iconsEdit fa-solid fa-trash-can" title="{{ 'Supprimer définitivement l\'exposition' }}"></i>
+             permet de supprimer une exposition et les artistes associés. Une exposition peut être supprimée que si aucune commande n'a été effectuée.
+        </p>        
+    </div>
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

@@ -7,62 +7,69 @@
 {% endblock %}
 
 {% block body %}
-    <div class="containH1">
-        <h1>Artistes</h1>
+   
+<h1>Liste des artistes</h1>
+
+
+<section>  
+    <div class="noticeBO">
+        <p>L'icône <i class="iconsEdit fa-solid fa-pencil" title="{{ 'Modifier les informations d\'un artiste'}}"></i>
+             permet de modifier les informations d'un artiste.</p>        
+        <p>L'icône <i class="iconsEdit fa-solid fa-trash-can" title="{{ 'Supprimer définitivement l\'artiste' }}"></i>
+             permet de supprimer un artiste. 
+        </p>        
     </div>
 
-    <section>  
-        <p>Ajoutez, modifiez ou supprimez des artistes depuis cette page d'administration.</p>      
-
-        {% if app.user and is_granted('ROLE_ADMIN') %}
-            <div class="blockBtnAdd">
-                <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a>
-            </div>
-
-            <div class="filterArtist">
-                <label for="artistFilter">Filtrer par :</label>
-                <select id="artistFilter" onchange="window.location.href = this.value;">
-                    <option value="{{ path('artistListBO') }}" {% if currentFilter is null %}selected{% endif %}>
-                        Tout afficher
-                    </option>
-                    <option value="{{ path('artistListBO', {'filter': 'artists'}) }}" {% if currentFilter == 'artists' %}selected{% endif %}>
-                        Artistes
-                    </option>
-                    <option value="{{ path('artistListBO', {'filter': 'anonymized'}) }}" {% if currentFilter == 'anonymized' %}selected{% endif %}>
-                        Artistes anonymisés
-                    </option>
-                </select>
-            </div>
-
-            {% if artists is empty %}
-    <p>Aucun artiste trouvé.</p>
-{% else %}
-    {% for artist in artists %}
-        <div class="blockListExhibit">
-            <p>
-                {{ artist.artistName }} {{ artist.artistFirstname }}
-
-                {% if artist.anonymizeAt is not null %} (Sera anonymisé le {{ artist.anonymizeAt|date('d/m/Y') }})
-                {% endif %} 
-                
-                
-                {% if not artist.isIsAnonymized and artist.anonymizeAt is null %}
-                <a href="{{ path('artistEditBO', {'slug': artist.slug}) }}"
-                    aria-label="{{ 'Modifier l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}"
-                    title="{{ 'Modifier les informations de l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}">
-                        <i class="iconsEdit fa-solid fa-pencil"></i>
-                    </a>
-                    
-                    <a href="{{ path('artistDeleteBO', {'slug': artist.slug}) }}"
-                        aria-label="{{ 'Supprimer l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}"
-                        title="{{ 'Supprimer définitivement l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}">
-                            <i class="iconsEdit fa-solid fa-trash-can"></i>
-                        </a>
-                {% endif %}
-            </p>
+    {% if app.user and is_granted('ROLE_ADMIN') %}
+        <div class="blockBtnAdd">
+            <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a>
         </div>
-    {% endfor %}
-{% endif %}
+
+        <div class="filterArtist">
+            <label for="artistFilter">Filtrer par :</label>
+            <select id="artistFilter" onchange="window.location.href = this.value;">
+                <option value="{{ path('artistListBO') }}" {% if currentFilter is null %}selected{% endif %}>
+                    Tout afficher
+                </option>
+                <option value="{{ path('artistListBO', {'filter': 'artists'}) }}" {% if currentFilter == 'artists' %}selected{% endif %}>
+                    Artistes
+                </option>
+                <option value="{{ path('artistListBO', {'filter': 'anonymized'}) }}" {% if currentFilter == 'anonymized' %}selected{% endif %}>
+                    Artistes anonymisés
+                </option>
+            </select>
+        </div>
+
+        {% if artists is empty %}
+        <p>Aucun artiste trouvé.</p>
+
+        {% else %}
+            {% for artist in artists %}
+                <div class="blockListExhibit">
+                    <p>
+                        {{ artist.artistName }} {{ artist.artistFirstname }}
+
+                        {% if artist.anonymizeAt is not null %} (Sera anonymisé le {{ artist.anonymizeAt|date('d/m/Y') }})
+                        {% endif %} 
+                        
+                        
+                        {% if not artist.isIsAnonymized and artist.anonymizeAt is null %}
+                        <a href="{{ path('artistEditBO', {'slug': artist.slug}) }}"
+                            aria-label="{{ 'Modifier l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}"
+                            title="{{ 'Modifier les informations de l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}">
+                                <i class="iconsEdit fa-solid fa-pencil"></i>
+                            </a>
+                            
+                            <a href="{{ path('artistDeleteBO', {'slug': artist.slug}) }}"
+                                aria-label="{{ 'Supprimer l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}"
+                                title="{{ 'Supprimer définitivement l\'artiste %firstname% %lastname%'|trans({'%firstname%': artist.artistFirstname, '%lastname%': artist.artistName}) }}">
+                                    <i class="iconsEdit fa-solid fa-trash-can"></i>
+                                </a>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
         {% endif %}
-    </section>
+    {% endif %}
+</section>
 {% endblock %}

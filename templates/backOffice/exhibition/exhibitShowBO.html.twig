@@ -15,17 +15,18 @@
 
 {% block body %}
 <!-- BackOffice/ExhibitionController -->
-
-<div class="containH1">    
-    <h1>Détail : <span class="longTitle">{{ exhibition }}</span></h1> 
-</div>
+   
+    <h1>Artistes pour l'exposition : <span class="longTitle">{{ exhibition }}</span></h1> 
 
 <section>        
-    <p class="noticeBO">
-        Cette page présente les informations détaillées d'une exposition.
-        La section "Artistes inscrits" liste les artistes participant à cette exposition. Utilisez l'icône <i class="iconsEdit fa-solid fa-caret-down"></i> pour afficher/modifier les détails de leur participation (photo, salle, texte) et l'icône <i class="iconsEdit fa-solid fa-trash-can"></i> pour les retirer de l'exposition.
-        La section "Artistes" affiche les artistes disponibles qui peuvent être ajoutés à cette exposition. Cliquez sur l'icône <i class="iconsEdit fa-solid fa-caret-down"></i> pour afficher le formulaire d'ajout et renseigner les informations de leur participation.
-    </p>
+    <div class="noticeBO">
+        <p>L'icône <i class="iconsEdit fa-solid fa-caret-down toggle-form" title="Afficher/Masquer les informations sur l'artiste"></i>
+             permet d'afficher/masquer les informations sur l'artiste.
+        </p>
+
+        <p>L'icône <i class="iconsEdit fa-solid fa-trash-can" title="{{ 'Supprimer définitivement l\'artiste de cette exposition' }}"></i> permet de supprimer définitivement l'artiste de cette exposition.
+        </p>
+    </div>
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

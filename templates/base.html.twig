@@ -80,21 +80,19 @@
                 </div>
             </nav>            
 
-            <div class="containH1">   
-                <h1></h1>   
+            <div class="lineNav"></div> 
+        
+
+            <div> {# Msg flash #}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </header>
-
-        <div> {# Msg flash #}
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-        
         {% block body %}  {% endblock %}
 
         <footer>

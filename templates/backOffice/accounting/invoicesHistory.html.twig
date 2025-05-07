@@ -8,9 +8,15 @@
 
 {% block body %}
 <!-- InvoiceBOController -->
-    <h1>Historique des factures de {{ firstInvoice.customerName }} {{ firstInvoice.customerFirstname }}</h1>
+    <h1>Historique des factures de : <span class="longTitle">{{ firstInvoice.customerName }} {{ firstInvoice.customerFirstname }}</span></h1>
 
     <section>
+        <div class="noticeBO">
+            <p>L'icône <i class="fa-solid fa-envelope-open-text" title="{{ 'Envoi par mail de la facture au format PDF' }}"></i>
+                 permet d'envoyer la facture sur le mail administrateur. Il faudra alors le transfèrer sur le mail de l'utilisateur.
+            </p>            
+        </div>
+
         {% if invoices is empty %}
             <p>Aucune facture trouvée pour ce client.</p>
         {% else %}
