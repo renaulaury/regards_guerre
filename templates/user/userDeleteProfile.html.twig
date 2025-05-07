@@ -9,20 +9,24 @@ Confirmez la suppression définitive de votre compte Regards de Guerre. Cette ac
 {% block body %}
 <!-- UserController -->
 
-<div class="containH1">    
+ 
     <h1>Mon compte</h1>
-</div>
 
-<section class="sectionCenter">
 
-    <div class="blockDel">
-        <p>Confirmez-vous la suppression de votre profil ?</p>
-
-        <div class="button">
-            <a class="btnSubmit" href="{{ path('userDeleteConfirmProfile', {slug: app.user.slug}) }}">Je confirme</a>
+    <section class="sectionCenter">
+        <div class="noticeBO">        
+            <p>Cette action est irréversible.</p>
+            <p>Une fois votre compte supprimé, vous ne pourrez plus vous reconnecter.</p>
         </div>
-    </div>
 
-</section>
+        <div class="blockDel">
+            <p>Confirmez-vous la suppression de votre profil ?</p>
+
+            <div class="button">
+                <a class="btnSubmit" href="{{ path('userDeleteConfirmProfile', {slug: app.user.slug}) }}">Je confirme</a>
+            </div>
+        </div>
+
+    </section>
 
 {% endblock %}

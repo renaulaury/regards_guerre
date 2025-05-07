@@ -18,3 +18,42 @@
     text-align: center;
     padding-top: 5%;
 }
+
+/* Historique de commande */
+.blockOrder {
+    padding-bottom: 50px 0;
+}
+
+.blockOrderContainer {
+    display: flex; 
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 10px; 
+  }
+
+  .lineDesktopOrder {
+    display:none;
+  }
+
+
+/************************* Media query **********************/
+  @media screen and (min-width: 655px) {
+    .test {
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 20px; 
+      }
+
+      .lineDesktopOrder {
+        display:block;
+      }
+
+      .lineMobileOrder {
+        display:none;
+      }
+      
+      .blockOrder {    
+        border: 1px solid #ccc; 
+        padding: 15px;   
+      }
+  }

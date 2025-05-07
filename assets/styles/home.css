@@ -147,7 +147,7 @@ h2{
 
 .blockAgendaContainer {
     width: 100%;
-    padding: 0% 5%;
+    padding: 50px 5%;
     background: var(--backgroundColorPastel);
     margin-bottom: 50px;
 }
@@ -161,7 +161,6 @@ h2{
     flex-direction: column;
     justify-content: space-between;
     gap:5px;
-    padding: 50px 0%;
 }
 
 .blockDateAgenda {

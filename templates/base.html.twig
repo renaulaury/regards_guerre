@@ -67,20 +67,24 @@
                                 {% endif %} 
                             </a>
                         </li>
-                        {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}  
-                            <hr class="burgerBO">   
+                        {% if app.user %}
+                            {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}  
+                                <hr class="burgerBO">   
 
-                            <li class="burgerBO">                                
-                                <a href="{{ path('backOffice') }}">Back-Office</a></li>
+                                <li class="burgerBO">                                
+                                    <a href="{{ path('backOffice') }}">Back-Office</a></li>
+                            {% endif %}
                         {% endif %}
                     </ol>
-
-                    {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
-                        <div class="desktopBO">
-                            <a href="{{ path('backOffice') }}">Back-Office</a>
-                        </div>
-                    {% endif %}
-
+                    
+                    {% if app.user %}
+                        {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
+                            <div class="desktopBO">
+                                <a href="{{ path('backOffice') }}">Back-Office</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}   
+                
                     <div class="burgerButton">
                         <div class="line"></div>
                         <div class="line"></div>

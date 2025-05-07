@@ -9,49 +9,54 @@ Gérez votre compte Regards de Guerre : mettez à jour vos informations personne
 {% block body %}
 <!-- UserController -->
 
-<div class="containH1">    
-    <h1>Mon compte</h1>
-</div>
+  
+    <h1>Mon profil</h1>
 
-<section class="sectionProfile sectionCenter">
-    
-    <div class="infosProfile">
-        {% if app.user %}
-            {% if not is_granted('ROLE_ROOT') and not is_granted('ROLE_ADMIN') %}
-                <div>
-                    <p>
-                        Nom - Prénom : {{ app.user.userName }} {{ app.user.userFirstname }}
-                        <a href="{{ path('userEditIdentity', {slug: app.user.slug}) }}"
-                           aria-label="{{ 'Modifier votre nom et prénom'|trans }}"
-                           title="{{ 'Modifier vos informations d\'identité'|trans }}">
-                            <i class="iconsEdit fa-solid fa-pencil"></i>
-                        </a>
-                    </p>
-                </div>
-            {% endif %}
-        {% endif %}            
 
-        <p>
-            Email : {{ app.user.userEmail }}
-            <a href="{{ path('userEditEmail', {slug: app.user.slug}) }}"
-               aria-label="{{ 'Modifier votre adresse email'|trans }}"
-               title="{{ 'Modifier votre adresse de messagerie'|trans }}">
-                <i class="iconsEdit fa-solid fa-pencil"></i>
-            </a>
-        </p>
+    <section class="sectionProfile sectionCenter">
+        <div class="noticeBO">
+            <p>L'icône <i class="iconsEdit fa-solid fa-pencil" title="{{ 'Modification de votre identité et de vos coordonnées' }}"></i>
+                 vous permet de modifier votre identité et vos coordonnées.
+            </p>            
+        </div>
+        
+        <div class="infosProfile">
+            {% if app.user %}
+                {% if not is_granted('ROLE_ROOT') and not is_granted('ROLE_ADMIN') %}
+                    <div>
+                        <p>
+                            Nom - Prénom : {{ app.user.userName }} {{ app.user.userFirstname }}
+                            <a href="{{ path('userEditIdentity', {slug: app.user.slug}) }}"
+                            aria-label="{{ 'Modifier votre nom et prénom'|trans }}"
+                            title="{{ 'Modifier vos informations d\'identité'|trans }}">
+                                <i class="iconsEdit fa-solid fa-pencil"></i>
+                            </a>
+                        </p>
+                    </div>
+                {% endif %}
+            {% endif %}            
 
             <p>
-                Mot de passe :
-                <a href="{{ path('userEditPassword', {slug: app.user.slug}) }}"
-                    aria-label="{{ 'Modifier votre mot de passe'|trans }}"
-                    title="{{ 'Changer votre mot de passe'|trans }}">
-                        <i class="iconsEdit fa-solid fa-pencil"></i>
-                    </a>
+                Email : {{ app.user.userEmail }}
+                <a href="{{ path('userEditEmail', {slug: app.user.slug}) }}"
+                aria-label="{{ 'Modifier votre adresse email'|trans }}"
+                title="{{ 'Modifier votre adresse de messagerie'|trans }}">
+                    <i class="iconsEdit fa-solid fa-pencil"></i>
+                </a>
             </p>
-        </div>
 
-        <p><a href="{{ path('userDeleteProfile', {slug: app.user.slug}) }}">Supprimer mon profil</a></p>
-    
-</section>
+                <p>
+                    Mot de passe :
+                    <a href="{{ path('userEditPassword', {slug: app.user.slug}) }}"
+                        aria-label="{{ 'Modifier votre mot de passe'|trans }}"
+                        title="{{ 'Changer votre mot de passe'|trans }}">
+                            <i class="iconsEdit fa-solid fa-pencil"></i>
+                        </a>
+                </p>
+            </div>
+
+            <p><a href="{{ path('userDeleteProfile', {slug: app.user.slug}) }}">Supprimer mon profil</a></p>
+        
+    </section>
 
 {% endblock %}
