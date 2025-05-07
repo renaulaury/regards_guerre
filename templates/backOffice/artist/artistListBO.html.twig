@@ -21,31 +21,36 @@
     </div>
 
     {% if app.user and is_granted('ROLE_ADMIN') %}
-        <div class="blockBtnAdd">
-            <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a>
-        </div>
+        <div class="headerArtists">
 
-        <div class="filterArtist">
-            <label for="artistFilter">Filtrer par :</label>
-            <select id="artistFilter" onchange="window.location.href = this.value;">
-                <option value="{{ path('artistListBO') }}" {% if currentFilter is null %}selected{% endif %}>
-                    Tout afficher
-                </option>
-                <option value="{{ path('artistListBO', {'filter': 'artists'}) }}" {% if currentFilter == 'artists' %}selected{% endif %}>
-                    Artistes
-                </option>
-                <option value="{{ path('artistListBO', {'filter': 'anonymized'}) }}" {% if currentFilter == 'anonymized' %}selected{% endif %}>
-                    Artistes anonymisés
-                </option>
-            </select>
+            <div class="blockBtnAdd">
+                <a class="btnAdd" href="{{ path('artistAddBO') }}">Ajouter un artiste</a>
+            </div>
+
+            <div class="filterArtist">
+                <label for="artistFilter">Filtrer par :</label>
+                <select id="artistFilter" onchange="window.location.href = this.value;">
+                    <option value="{{ path('artistListBO') }}" {% if currentFilter is null %}selected{% endif %}>
+                        Tout afficher
+                    </option>
+                    <option value="{{ path('artistListBO', {'filter': 'artists'}) }}" {% if currentFilter == 'artists' %}selected{% endif %}>
+                        Artistes
+                    </option>
+                    <option value="{{ path('artistListBO', {'filter': 'anonymized'}) }}" {% if currentFilter == 'anonymized' %}selected{% endif %}>
+                        Artistes anonymisés
+                    </option>
+                </select>
+            </div>
+
         </div>
 
         {% if artists is empty %}
         <p>Aucun artiste trouvé.</p>
 
         {% else %}
+        <div class="blockListArtist">
             {% for artist in artists %}
-                <div class="blockListExhibit">
+                
                     <p>
                         {{ artist.artistName }} {{ artist.artistFirstname }}
 
@@ -67,8 +72,9 @@
                                 </a>
                         {% endif %}
                     </p>
-                </div>
+                
             {% endfor %}
+        </div>
         {% endif %}
     {% endif %}
 </section>

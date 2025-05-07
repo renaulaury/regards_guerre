@@ -28,18 +28,25 @@
 
             {{ form_start(form) }}
 
+                <div class="blockMediaMini">
+                    <div class="miniMedia">
                         <div class="label">{{ form_label(form.artistName) }}</div>
                         <div class="formErrors">                        
                             {{ form_errors(form.artistName) }} 
                         </div>
                         <div class="input">{{ form_widget(form.artistName) }}</div>
+                    </div>
 
+                    <div class="miniMedia">
                         <div class="label">{{ form_label(form.artistFirstname) }}</div>
                         <div class="formErrors">
                             {{ form_errors(form.artistFirstname) }} 
                         </div>
                         <div class="input">{{ form_widget(form.artistFirstname) }}</div>
-
+                    </div>
+                </div>
+                
+                
                         <div class="blockMini">
                             <div class="mini">
                                 <div class="label">{{ form_label(form.artistBirthDate) }}</div>

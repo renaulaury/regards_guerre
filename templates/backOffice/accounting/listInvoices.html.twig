@@ -31,15 +31,16 @@
                 {% if uniqueCustomers is not empty %}
                     {% for customer in uniqueCustomers %}
                         <div class="invoiceItem">
-                            <p> {{ customer.name }} {{ customer.firstname }}</p>
-                            <p> {{ customer.email }} </p>
-                            <div>
+                            <p> 
+                                {{ customer.name }} {{ customer.firstname }}
                                 <a href="{{ path('invoicesUserBO', {'slug': customer.slug }) }}"
                                 aria-label="{{ 'Voir les factures de ' ~ customer.firstname ~ ' ' ~ customer.name }}"
                                 title="{{ 'Afficher l\'historique des factures de l\'utilisateur ' ~ customer.firstname ~ ' ' ~ customer.name }}">
                                     <i class="fa-regular fa-folder-open"></i>
                                 </a>
-                            </div>
+                            </p>
+
+                            <p> {{ customer.email }} </p>
                         </div>
                     {% endfor %}
                 {% else %}

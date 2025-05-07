@@ -45,9 +45,11 @@
 
 /************ Page artists /users ***************/
 .filterArtist, .filterUser {
-    margin-bottom: 15px;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
 }
 
 .filterArtist label, .filterUser label {
@@ -60,16 +62,28 @@
     border-radius: 5px;
 }
 
-#artistFilter, #userFilter {
+#artistFilter, #userFilter, #letterFilter {
     background-color: var(--backgroundColorPastel);
 }
 
-.listArtists, .filterUser {
+.listArtists {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
 }
 
+.filterArtist {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.blockListArtist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 
 
@@ -99,13 +113,6 @@
     padding-bottom: 3%;
 }
 
-
-
-
-
-
-
-
 /************ Liste d'expositions ***************/
 .blockListExhibit {
     padding-bottom: 10px;
@@ -129,4 +136,7 @@
     padding: 2%; 
 }
 
-/**************************** Media query ***********************/
+/******************* Factures ******************/
+.invoiceItem {
+    padding-bottom: 10px;
+}

@@ -4,9 +4,13 @@
     padding-bottom: 5%;
 }
 
+.secuLogin {
+    align-items: center;
+}
+
 .secuForm {
     padding: 5% 0%;
-    width: 100%;    
+    width: 500px;    
     display: flex;
     flex-direction: column;
     align-items: center;
