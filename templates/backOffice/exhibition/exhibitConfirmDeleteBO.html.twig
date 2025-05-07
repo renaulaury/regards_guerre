@@ -16,7 +16,10 @@
 </div>
 
 <section>
-    <p>blabla</p>
+    <p class="noticeBO">
+        Cette page de confirmation permet de supprimer définitivement l'exposition ainsi que tous les artistes qui y sont associés.
+        Cette action est irréversible. 
+    </p>
     
     {% if app.user %}
         {% if 'ROLE_ADMIN' in app.user.roles %} 

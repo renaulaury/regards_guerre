@@ -14,7 +14,8 @@
 <h1>Back-Office</h1>
 
 <section>
-    <p>blabla</p>
+    <p class="noticeBO">Consultez ici l'historique détaillé des commandes de l'utilisateur sélectionné.
+        L'icône vous permet d'exporter et d'envoyer la facture PDF directement sur l'email de l'utilisateur.</p>
     
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

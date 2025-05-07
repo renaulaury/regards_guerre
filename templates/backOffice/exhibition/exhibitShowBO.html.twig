@@ -21,7 +21,11 @@
 </div>
 
 <section>        
-    <p>blabla</p>
+    <p class="noticeBO">
+        Cette page présente les informations détaillées d'une exposition.
+        La section "Artistes inscrits" liste les artistes participant à cette exposition. Utilisez l'icône <i class="iconsEdit fa-solid fa-caret-down"></i> pour afficher/modifier les détails de leur participation (photo, salle, texte) et l'icône <i class="iconsEdit fa-solid fa-trash-can"></i> pour les retirer de l'exposition.
+        La section "Artistes" affiche les artistes disponibles qui peuvent être ajoutés à cette exposition. Cliquez sur l'icône <i class="iconsEdit fa-solid fa-caret-down"></i> pour afficher le formulaire d'ajout et renseigner les informations de leur participation.
+    </p>
 
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}

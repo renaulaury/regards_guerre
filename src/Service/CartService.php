@@ -5,19 +5,22 @@ namespace App\Service;
 use App\Entity\Ticket;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Repository\Share\ExhibitionShareRepository; // Add this line
+use App\Repository\Share\ExhibitionShareRepository; 
 
 class CartService 
 {
   private TicketRepository $ticketRepository; //privée car uniquement nécessaire ici
   private RequestStack $requestStack;
-  private ExhibitionShareRepository $exhibitionShareRepository; // Add this line
+  private ExhibitionShareRepository $exhibitionShareRepository; 
 
-  public function __construct(RequestStack $requestStack, TicketRepository $ticketRepo, ExhibitionShareRepository $exhibitionShareRepo) // Modify this line
+  public function __construct(
+    RequestStack $requestStack, 
+    TicketRepository $ticketRepo, 
+    ExhibitionShareRepository $exhibitionShareRepo) 
   {  
     $this->ticketRepository = $ticketRepo;
     $this->requestStack = $requestStack;
-    $this->exhibitionShareRepository = $exhibitionShareRepo; // Add this line
+    $this->exhibitionShareRepository = $exhibitionShareRepo; 
   }
 
   private function getSession()
