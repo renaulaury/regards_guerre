@@ -50,6 +50,13 @@
     text-align: start;
 }
 
+.buttonClear {
+    padding-top: 100px;
+    padding-right: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
 
  
 /******************** Media query ********************/
@@ -114,12 +121,7 @@
     padding-bottom: 10px;
 }
 
-.buttonClear {
-    padding-right: 30px;
-    display: flex;
-    margin-top: 100px;
-    justify-content: flex-end;
-}
+
 
 .blockTicketCart {
     padding-bottom: 5%;
@@ -198,18 +200,13 @@
     .summaryCart {
         display: flex;
         flex-direction: row;
-        gap:30px;
+        gap: 100px;
     }
 
     .ticketPayment {
-        width: 50%;
         display: flex;
         flex-direction: row;
         gap:30px;
-    }
-
-    .blockFormPayment {
-        width: 50%;
     }
 
     .amountContainer {
@@ -239,11 +236,8 @@
 @media screen and (min-width: 1200px) {  
     .summaryCart {
         justify-content: center;
-        gap: 100px;
+        gap: 50px;
        }
     
-    .ticketPayment, .blockFormPayment {
-        width: 20%;
-    }
 
 }

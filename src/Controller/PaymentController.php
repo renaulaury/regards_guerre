@@ -3,14 +3,11 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
-use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Invoice;
 use App\Entity\OrderDetail;
 use App\Service\CartService;
 use Stripe\Checkout\Session;
-use App\Service\EmailService;
-use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
 use App\Form\UserIdentityCartFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,34 +25,28 @@ use App\Service\OrderConfirmationEmailService;
 
 class PaymentController extends AbstractController
 {
-    private OrderRepository $orderRepo;
     private CartService $cartService;
     private RequestStack $requestStack;
-    private EmailService $emailService;
     private StockAlertEmailService $stockAlertEmailService;
     private OrderConfirmationEmailService $orderConfirmEmailService;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
-        OrderRepository $orderRepo,
         CartService $cartService, 
-        RequestStack $requestStack,
-        EmailService $emailService, 
+        RequestStack $requestStack, 
         EntityManagerInterface $entityManager,
         StockAlertEmailService $stockAlertEmailService,
         OrderConfirmationEmailService $orderConfirmEmailService)
     {
-        $this->orderRepo = $orderRepo;
         $this->cartService = $cartService;
         $this->requestStack = $requestStack;
-        $this->emailService = $emailService;
         $this->entityManager = $entityManager;
         $this->stockAlertEmailService = $stockAlertEmailService;
         $this->orderConfirmEmailService = $orderConfirmEmailService;
     }
 
     #[Route('/order/create-session-stripe', name: 'paymentStripe')]
-    public function stripeCheckout(
+    public function stripeCheckout(        
         UrlGeneratorInterface $urlGenerator,
         TicketRepository $ticketRepo,
         ExhibitionShareRepository $exhibitionShareRepo,
@@ -76,9 +67,15 @@ class PaymentController extends AbstractController
                 $session->set('saveIdentity', $form->get('saveIdentity')->getData());
 
             } else {
+                // Ajouter un message flash d'erreur
+                $this->addFlash(
+                    'error',
+                    'Veuillez renseigner votre nom et prénom pour continuer la commande.'
+                );
+            
                 // Réafficher le form avec les erreurs
-                return $this->render('order/cart.html.twig', [                    
-                    'form' => $form->createView(),
+                return $this->render('order/cart.html.twig', [
+                    'form' => $form->createView(), //Converti l'objet form en format Twig
                     'groupedCart' => $this->cartService->groupCartByExhibition($this->cartService->getCart()),
                     'cart' => $this->cartService->getCart(),
                     'total' => $this->cartService->getTotal(),
@@ -109,6 +106,7 @@ class PaymentController extends AbstractController
             }
         }
 
+        //Si différence de stock alors msg d'erreur
         if (!empty($stockErrors)) {
             foreach ($stockErrors as $error) {
                 $this->addFlash(
@@ -126,6 +124,7 @@ class PaymentController extends AbstractController
 
 
         /************** Prépare les informations nécessaire à envoyer à Stripe **************************/
+
         $productStripe = [];
             
         
@@ -148,12 +147,12 @@ class PaymentController extends AbstractController
         }
 
         
-
-        
+        // Configure la clé API de Stripe pour l'authentification.
 
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
         // Génération des URLs de succès et d'annulation du paiement
+
         $successUrl = $urlGenerator->generate('paymentSuccess', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $cancelUrl = $urlGenerator->generate('paymentError', [], UrlGeneratorInterface::ABSOLUTE_URL);
         
@@ -167,6 +166,7 @@ class PaymentController extends AbstractController
         ]);
         
         // Redirige l'utilisateur vers l'URL de paiement fournie par Stripe
+
         return new RedirectResponse($checkoutSession->url, 303); //303 : On sort du site pour aller sur Stripe      
     }
 
@@ -176,7 +176,7 @@ class PaymentController extends AbstractController
         CartService $cartService,
     ): Response
     {
-        $this->addFlash('danger', 'Une erreur est survenue lors du paiement. Veuillez réessayer..');
+        $this->addFlash('danger', 'Une erreur est survenue lors du paiement. Veuillez réessayer.');
 
         return $this->redirectToRoute('cart'); 
     }
@@ -274,7 +274,6 @@ class PaymentController extends AbstractController
         $order->setNumberInvoice($invoiceNumber);
         $invoice->setNumberInvoice($invoiceNumber);
 
-        $invoiceDetails = []; //Détail de la commande
 
         // Génération du slug avec l'ID, le nom et le prénom de l'utilisateur
         $userId = $order->getUser()->getId(); // Récupère l'ID de l'utilisateur à partir de l'entité $order
@@ -283,6 +282,9 @@ class PaymentController extends AbstractController
 
         $slug = sprintf('%d-%s-%s', $userId, $userName, $userFirstname);
         $invoice->setSlug($slug);
+
+
+        $invoiceDetails = []; //Détail de la commande
 
         //Récup les éléments du panier
         foreach ($cart as $item) {
@@ -315,13 +317,11 @@ class PaymentController extends AbstractController
 
         /********* Envoi de l'email d'alerte de stock à l'admin/root ***********/
 
-        $groupedCart = $this->cartService->groupCartByExhibition($cart); //Regroupe les articles du panier
+        $groupedCart = $this->cartService->groupCartByExhibition($cart); //Regroupe les articles du panier        
 
         $this->entityManager->refresh($exhibition); //raffraichit l'expo pour avoir la maj
 
-
-         //Gestion des stocks
-        
+         //Gestion des stocks        
          $soonOutStockExhibits = []; // Gestion des expo presque épuisées
          $outOfStockExhibitions = []; // Gestion des expo épuisées
 
