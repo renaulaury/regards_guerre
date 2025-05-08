@@ -117,15 +117,17 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                         <a href="{{ path('paymentStripe') }}">
                                             <button type="submit" class="btnCTA btnCartType">Payer</button>
                                         </a>
+
+                                        <div class="buttonClear">
+                                            <a href="{{ path('deleteCartConfirm') }}"><u>Vider le panier</u></a>
+                                        </div>
                                     </div>
 
                                 {{ form_end(form) }}
                                 </form>
 
                             {% endif %}
-                            <div class="buttonClear">
-                                <a href="{{ path('deleteCartConfirm') }}"><u>Vider le panier</u></a>
-                            </div>
+                            
 
                         {% else %}
                             <p>Veuillez vous connecter pour passer une commande.</p>

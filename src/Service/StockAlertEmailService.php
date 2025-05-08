@@ -20,6 +20,6 @@ class StockAlertEmailService
             'outOfStockExhibitions' => $outOfStockExhibitions,
         ]);
 
-        $this->emailService->send('alerte_stock@regardsguerre.fr', 'Alerte de stock', $body);
+        $this->emailService->send('admin@regardsguerre.fr', 'Alerte de stock', $body);
     }
 }

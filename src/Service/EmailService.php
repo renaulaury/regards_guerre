@@ -18,10 +18,7 @@ class EmailService
     }
 
     public function send(
-        string $to,
-        string $subject,
-        string $body,
-        ?array $attachment = null, 
+        string $to, string $subject, string $body, ?array $attachment = null, 
         string $from = 'noreply@regardsguerre.fr'
     ): void
     {
@@ -31,6 +28,7 @@ class EmailService
             ->subject($subject)
             ->html($body);
 
+            //Si le mail a des PJ alors on rajoute au mail
             if (is_array($attachment) && isset($attachment['content'], $attachment['filename'])) {
                 
                 $email->attach($attachment['content'], $attachment['filename'], $attachment['mimeType'] ?? null);
@@ -38,6 +36,8 @@ class EmailService
 
         $this->mailer->send($email);
     }
+
+    //Génére le contenu HTML a partir d'un template
 
     public function renderTemplate(string $templatePath, array $context = []): string
     {
