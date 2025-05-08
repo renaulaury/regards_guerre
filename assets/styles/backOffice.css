@@ -43,8 +43,9 @@
 }
 
 
+
 /************ Page artists /users ***************/
-.filterArtist, .filterUser {
+.filterArtist, .filterUser, .filterStock {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -86,23 +87,34 @@
 }
 
 
-
-
 /************ Liste des users ***************/
+.userBOH2 {
+    padding-bottom: 10px;
+}
 .adminUserList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
     gap: 5px 15px;
-    margin-bottom: 5%;
+    margin-bottom: 50px;
 } 
 
 .listMbrs { /* Root co */
     display: grid;
     grid-template-rows: auto;
     row-gap: 5px;
-    margin-bottom: 5%;
+    margin-bottom: 50px;
 }
+
+.adminUserBlock {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.iconsEditUserList {
+    padding: 0;
+}
+
 
 /************ Edit orders users ***************/
 .blockOrderUser {
@@ -111,6 +123,18 @@
 
 .infosOrder {
     padding-bottom: 3%;
+}
+
+.historyBOH2, .userH2 {
+    padding-bottom: 30px;
+}
+
+.totalOrder {
+    padding-top: 10px;
+}
+
+.orderTitle {
+    padding-bottom: 10px;
 }
 
 /************ Liste d'expositions ***************/
@@ -136,7 +160,27 @@
     padding: 2%; 
 }
 
+.artistShowH2 {
+    padding-bottom: 30px;
+}
+
+
+
 /******************* Factures ******************/
 .invoiceItem {
     padding-bottom: 10px;
 }
+
+
+/***************** Stocks ***************/
+.stockH2, .dateExhibitStock {
+    display: block;
+    color:var(--ftTitle);
+    font-family: var(--cormorantGaramond);
+    padding-bottom: 10px;
+}
+
+.stockContainer {
+    padding-bottom: 30px;
+}
+

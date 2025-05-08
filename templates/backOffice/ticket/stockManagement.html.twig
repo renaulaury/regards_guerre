@@ -48,28 +48,33 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
         {% if exhibitionStocks is empty %}
             <p>Aucun stock concerné.</p>
         {% else %}
+
+        <div class="blockStock">
             {% for stockInfo in exhibitionStocks %}
-                <h2>
-                    {% if stockInfo.remaining <= 0 %}
-                        <i class="iconDanger fa-solid fa-xmark" aria-label="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
-                    {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
-                        <i class="iconWarning fa-solid fa-triangle-exclamation" aria-label="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
-                    {% endif %}
-                    {{ stockInfo.exhibition }} ({{ stockInfo.exhibition.dateExhibitFr }})
-                </h2>
+                <div class="stockContainer">
+                    <h2 class="stockH2">
+                        {% if stockInfo.remaining <= 0 %}
+                            <i class="iconDanger fa-solid fa-xmark" aria-label="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
+                        {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
+                            <i class="iconWarning fa-solid fa-triangle-exclamation" aria-label="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
+                        {% endif %}
+                        {{ stockInfo.exhibition }} <span class="dateExhibitStock">({{ stockInfo.exhibition.dateExhibitFr }})</span>
+                    </h2>
 
-                <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
-                <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}
-                    <a href="{{ path('exhibitEditBO', {'slug': stockInfo.exhibition.slug}) }}"
-                       aria-label="{{ 'Modifier l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}"
-                       title="{{ 'Modifier les informations de l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}">
-                        <i class="iconsEdit fa-solid fa-pencil"></i>
-                    </a>
-                </p>
+                    <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
+                    <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}
+                        <a href="{{ path('exhibitEditBO', {'slug': stockInfo.exhibition.slug}) }}"
+                        aria-label="{{ 'Modifier l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}"
+                        title="{{ 'Modifier les informations de l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}">
+                            <i class="iconsEdit fa-solid fa-pencil"></i>
+                        </a>
+                    </p>
 
-                <p>Réservés : {{ stockInfo.reserved }}</p>
-                <p>Reste : {{ stockInfo.remaining }}</p>
+                    <p>Réservés : {{ stockInfo.reserved }}</p>
+                    <p>Reste : {{ stockInfo.remaining }}</p>
+                </div>
             {% endfor %}
+        </div>
         {% endif %}
     </section>
 {% endblock %}

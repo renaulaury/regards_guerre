@@ -16,8 +16,8 @@ import './styles/listExhibit_Cart.css';
 
 
 import './styles/backOffice.css';
-import './styles/formExhibition.css';
-import './styles/formArtist.css';
+import './styles/forms.css';
+import './styles/formsMedia.css';
 import './styles/stockManagement.css';
 
 import './styles/security.css';

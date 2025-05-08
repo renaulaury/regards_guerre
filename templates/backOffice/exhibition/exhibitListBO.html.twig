@@ -33,35 +33,37 @@
                 <a class="btnAdd" href="{{ path('exhibitAddBO') }}">Ajouter une exposition</a>
             </div>
 
-            {% for exhibition in exhibitions %}
-                <div class="blockListExhibit">
-                    <p>
-                        {{ exhibition.dateExhibitFr }} -
+            <div class="listExhibitContainer">
+                {% for exhibition in exhibitions %}
+                    <div class="blockListExhibit">
+                        <p>
+                            {{ exhibition.dateExhibitFr }} -
 
-                        <a href="{{ path('exhibitEditBO', {'slug': exhibition.slug}) }}"
-                        aria-label="{{ 'Modifier l\'exposition ' ~ exhibition.titleExhibit }}"
-                        title="{{ 'Modifier les informations de l\'exposition ' ~ exhibition.titleExhibit }}">
-                            <i class="iconsEdit fa-solid fa-pencil"></i>
-                        </a>
-
-                        <a href="{{ path('exhibitShowBO', {'slug': exhibition.slug}) }}"
-                        aria-label="{{ 'Gérer les artistes de l\'exposition ' ~ exhibition.titleExhibit }}"
-                        title="{{ 'Ajouter, modifier ou supprimer les artistes de l\'exposition ' ~ exhibition.titleExhibit }}">
-                            <i class="iconsEdit fa-solid fa-pen-to-square"></i>
-                        </a>
-
-                        {% if exhibition.orderDetails is empty %}
-                            <a href="{{ path('deleteExhibitBO', {'slugExhibit': exhibition.slug}) }}"
-                            aria-label="{{ 'Supprimer l\'exposition ' ~ exhibition.titleExhibit }}"
-                            title="{{ 'Supprimer définitivement l\'exposition ' ~ exhibition.titleExhibit }}">
-                                <i class="iconsEdit fa-solid fa-trash-can"></i>
+                            <a href="{{ path('exhibitEditBO', {'slug': exhibition.slug}) }}"
+                            aria-label="{{ 'Modifier l\'exposition ' ~ exhibition.titleExhibit }}"
+                            title="{{ 'Modifier les informations de l\'exposition ' ~ exhibition.titleExhibit }}">
+                                <i class="iconsEdit fa-solid fa-pencil"></i>
                             </a>
-                        {% endif %}
-                    </p>
 
-                    <p>{{ exhibition.titleExhibit }}</p>
-                </div>
-            {% endfor %}
+                            <a href="{{ path('exhibitShowBO', {'slug': exhibition.slug}) }}"
+                            aria-label="{{ 'Gérer les artistes de l\'exposition ' ~ exhibition.titleExhibit }}"
+                            title="{{ 'Ajouter, modifier ou supprimer les artistes de l\'exposition ' ~ exhibition.titleExhibit }}">
+                                <i class="iconsEdit fa-solid fa-pen-to-square"></i>
+                            </a>
+
+                            {% if exhibition.orderDetails is empty %}
+                                <a href="{{ path('deleteExhibitBO', {'slugExhibit': exhibition.slug}) }}"
+                                aria-label="{{ 'Supprimer l\'exposition ' ~ exhibition.titleExhibit }}"
+                                title="{{ 'Supprimer définitivement l\'exposition ' ~ exhibition.titleExhibit }}">
+                                    <i class="iconsEdit fa-solid fa-trash-can"></i>
+                                </a>
+                            {% endif %}
+                        </p>
+
+                        <p>{{ exhibition.titleExhibit }}</p>
+                    </div>
+                {% endfor %}
+            </div>
 
         {% endif %}
     {% endif %}

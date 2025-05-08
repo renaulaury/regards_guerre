@@ -31,7 +31,7 @@
     {% if app.user %}
         {% if is_granted('ROLE_ADMIN') %}
 
-            <h2>Modification de l'utilisateur
+            <h2 class="userH2">Modification de l'utilisateur
                 {% if user.userFirstname %}
                     {{ user.userFirstname }}                
                 {% else %}

@@ -25,7 +25,7 @@ Consultez l'historique de vos commandes passées, incluant les expositions et le
             <div class="blockOrderContainer">
                 {% for groupedOrder in groupedOrders %}
                     <div class="blockOrder">
-                        <p>
+                        <p class="orderTitle">
                             <strong>Commande N°{{ groupedOrder.order.id }} du {{ groupedOrder.order.orderDateCreationFr }} </strong>
                             <a href="{{ path('userInvoiceExport', {'orderId': groupedOrder.order.id}) }}"
                             aria-label="{{ 'Envoi par mail de la facture de la commande N°' ~ groupedOrder.order.id }}"
@@ -41,7 +41,7 @@ Consultez l'historique de vos commandes passées, incluant les expositions et le
                                 <p>Ticket : {{ ticketData.ticket }} x {{ ticketData.quantity }}</p>
                             {% endfor %}
 
-                            <p>Total de la commande : {{ groupedOrder.total }} €</p>
+                            <p class="totalOrder">Total de la commande : {{ groupedOrder.total }} €</p>
                             
                         {% endfor %}     
                             {% if not loop.last %}

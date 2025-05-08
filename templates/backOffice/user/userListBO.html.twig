@@ -35,22 +35,24 @@
                 </select>
             </div>
 
-            <div>
+            <div class="adminUserBlock">
                 {% if currentFilter is null %}
-                    <h2>Administrateurs</h2>
+                <div class="adminUserContainer">
+                    <h2 class="userBOH2">Administrateurs</h2>
+
                     <div class="adminUserList">
                         {% for member in users %}
                             {% if 'ROLE_ADMIN' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_DELETE' not in member.roles %}
                                 <p>{{ member.userEmail }}</p>
                                 <p>
                                     {% if is_granted('ROLE_ROOT') %}
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userEditBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
                                         title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
 
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
                                         title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
@@ -60,33 +62,37 @@
                             {% endif %}
                         {% endfor %}
                     </div>
+                </div>
 
-                    <h2>Utilisateurs</h2>
-                    <div class="adminUserList">
-                        {% for member in users %}
-                            {% if 'ROLE_USER' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_ADMIN' not in member.roles and 'ROLE_DELETE' not in member.roles %}
-                                <p>{{ member.userEmail }}</p>
-                                <p>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
-                                        aria-label="{{ 'Voir les commandes de l\'utilisateur ' ~ member.userEmail }}"
-                                        title="{{ 'Afficher l\'historique des commandes de l\'utilisateur ' ~ member.userEmail }}">
-                                            <i class="fa-regular fa-folder-open"></i>
-                                        </a>
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
-                                        aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
-                                        title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
-                                        aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
-                                        title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    {% endif %}
-                                </p>
-                            {% endif %}
-                        {% endfor %}
+                    <div class="adminUserContainer">
+                        <h2 class="userBOH2">Utilisateurs</h2>
+
+                        <div class="adminUserList">
+                            {% for member in users %}
+                                {% if 'ROLE_USER' in member.roles and 'ROLE_ROOT' not in member.roles and 'ROLE_ADMIN' not in member.roles and 'ROLE_DELETE' not in member.roles %}
+                                    <p>{{ member.userEmail }}</p>
+                                    <p>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <a class="iconsEditUserList" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
+                                            aria-label="{{ 'Voir les commandes de l\'utilisateur ' ~ member.userEmail }}"
+                                            title="{{ 'Afficher l\'historique des commandes de l\'utilisateur ' ~ member.userEmail }}">
+                                                <i class="fa-regular fa-folder-open"></i>
+                                            </a>
+                                            <a class="iconsEditUserList" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                            aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
+                                            title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </a>
+                                            <a class="iconsEditUserList" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                            aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
+                                            title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
 
                 {% elseif currentFilter == 'administrators' %}
@@ -97,12 +103,12 @@
                                 <p>{{ member.userEmail }}</p>
                                 <p>
                                     {% if is_granted('ROLE_ROOT') %}
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userEditBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Modifier l\'administrateur ' ~ member.userEmail }}"
                                         title="{{ 'Modifier les informations de l\'administrateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Supprimer l\'administrateur ' ~ member.userEmail }}"
                                         title="{{ 'Supprimer l\'administrateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
@@ -121,17 +127,17 @@
                                 {{ member.userEmail }}
                                 <p>
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="iconsEdit" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userOrderBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Voir les commandes de l\'utilisateur ' ~ member.userEmail }}"
                                         title="{{ 'Afficher l\'historique des commandes de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-regular fa-folder-open"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userEditBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userEditBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Modifier l\'utilisateur ' ~ member.userEmail }}"
                                         title="{{ 'Modifier les informations de l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
-                                        <a class="iconsEdit" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
+                                        <a class="iconsEditUserList" href="{{ path('userDeleteBO', {'slug': member.slug}) }}"
                                         aria-label="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}"
                                         title="{{ 'Supprimer l\'utilisateur ' ~ member.userEmail }}">
                                             <i class="fa-solid fa-trash-can"></i>
@@ -143,6 +149,7 @@
                     </div>
                 {% endif %}
             </div>
+            
 
         {% elseif app.user %}
             <div class="adminUserList">

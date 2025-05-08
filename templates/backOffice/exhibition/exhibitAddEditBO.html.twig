@@ -108,17 +108,14 @@
                 </div>               
                 
 
-                <h2>Tickets : tarifs et stocks</h2>
+                <h2 class="formH2">Tickets : tarifs et stocks</h2>
 
-                <div>
-
+                <div class="priceTickets">
                     {% for ticketPricing in form.ticketPricings %}
-                        <div>                            
                             <div>
                                 <p>{{ ticketPricing.vars.data.ticket.titleTicket }}</p>
                                 <p class="inputMini">{{ form_widget(ticketPricing.standardPrice) }}</p>
                             </div>
-                        </div>
                     {% endfor %}
                 </div>
 

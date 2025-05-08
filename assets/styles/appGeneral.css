@@ -19,7 +19,7 @@ body {
     background-color: var(--background);    
 }
 
-.cormorantGaramond{
+.cormorantGaramond {
     font-family: var(--cormorantGaramond);
     font-size: larger;
 }
