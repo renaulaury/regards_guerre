@@ -9,142 +9,142 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
 {% block body %}
 <!-- ExhibitionController CartController -->
 
-<h1>Exposition : <span class="longTitle pageExhibitTitle">{{ exhibition.titleExhibit}}  
-    <span class="longTitle dateExhibitTitle">
-        ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})
-    </span>
-</span></h1>
+    <h1>Exposition : <span class="longTitle pageExhibitTitle">{{ exhibition.titleExhibit}}  
+        <span class="longTitle dateExhibitTitle">
+            ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})
+        </span>
+    </span></h1>
 
-<section class="sectionExhibit">    
-    
-    <div class="dateHourPageExhibit">
-        <p>{{ exhibition.dateExhibitFr }}</p>
-        <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
-    </div>
-
-    <div class="blockImgExhibit">
-        <div class="imgExhibitContainer">
-            <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
-            {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
-                <img class="imgStockExhibit" src="{{ asset('images/stocks/soon_out_of_stock.png') }}" alt="Presque épuisé">
-            {% elseif exhibition.ticketsRemaining <= 10 %}
-                <img class="imgStockExhibit" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Epuisé">
-            {% endif %}
+    <section class="sectionExhibit">    
+        
+        <div class="dateHourPageExhibit">
+            <p>{{ exhibition.dateExhibitFr }}</p>
+            <p>{{ exhibition.hourBeginFr }} - {{ exhibition.hourEndFr }}</p>
         </div>
-        <p>{{ exhibition.descriptionExhibit }}</p>
-    </div>
 
-    
+        <div class="blockImgExhibit">
+            <div class="imgExhibitContainer">
+                <img class="expoImg" src="{{ exhibition.mainImage }}" alt="{{ exhibition.mainImageAlt }}">
+                {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
+                    <img class="imgStockExhibit" src="{{ asset('images/stocks/soon_out_of_stock.png') }}" alt="Presque épuisé">
+                {% elseif exhibition.ticketsRemaining <= 10 %}
+                    <img class="imgStockExhibit" src="{{ asset('images/stocks/out_of_stock.png') }}" alt="Epuisé">
+                {% endif %}
+            </div>
+
+            <div class="blockTextPriceExhibit">
+                <p>{{ exhibition.descriptionExhibit }}</p>
+                {# ----------- #}
 
 
-{% if exhibition.ticketsRemaining > 0 %}
-    <div class="ticketsContainer">
-        <h2 class="ticketH2">Tickets :</h2>
+                {% if exhibition.ticketsRemaining > 0 %}
+                    <div class="ticketsContainer">
+                        <h2 class="ticketH2">Tickets :</h2>
 
-        <div class="ticketsExhibitContainer">
-            <div class="blockTicketExhibit">
-                {% if ticketPricings is not empty %}
-                
-                    {% for pricing in ticketPricings %}
-                        <div class="ticketExhibit">
-                            <p class="titleTicket">{{ pricing.ticket.titleTicket }}</p>                    
-                            
-                            <div class="blockTitleQtyTicket">
-                                <div class="blockPriceTicket">
-                                    {% if pricing.standardPrice > 0 %}
-                                        <p class="price">{{ pricing.standardPrice }} €</p>
-                                    {% else %}
-                                        <p class="price">Gratuit</p>
-                                    {% endif %}
-                                </div>
+                        <div class="ticketsExhibitContainer">
+                            <div class="blockTicketExhibit">
+                                {% if ticketPricings is not empty %}
+                                
+                                    {% for pricing in ticketPricings %}
+                                        <div class="ticketExhibit">
+                                            <p class="titleTicket">{{ pricing.ticket.titleTicket }}</p>                    
+                                            
+                                            <div class="blockTitleQtyTicket">
+                                                <div class="blockPriceTicket">
+                                                    {% if pricing.standardPrice > 0 %}
+                                                        <p class="price">{{ pricing.standardPrice }} €</p>
+                                                    {% else %}
+                                                        <p class="price">Gratuit</p>
+                                                    {% endif %}
+                                                </div>
 
-                                <div class="blockQtyTicket">
+                                                <div class="blockQtyTicket">
 
-                                    <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
-                                    aria-label="{{ 'Retirer un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
-                                    title="{{ 'Diminuer la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </a>
+                                                    <a href="{{ path('removeTicketFromCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
+                                                    aria-label="{{ 'Retirer un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
+                                                    title="{{ 'Diminuer la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </a>
 
-                                    <div class="qtyProduct">  
-                                        {# Crée une clé unique pour le ticket dans le panier (id expo + id ticket) #}                              
-                                        {% set cartKey = exhibition.id ~ '_' ~ pricing.ticket.id %}
-                                        
-                                        {# Vérifie si le ticket est déjà dans le panier #}
-                                        {% if cart[cartKey] is defined %} 
-                                            <span class="nbCart">{{ cart[cartKey].qty }}</span>
-                                        {% else %}
-                                            <span class="nbCart">0</span>
-                                        {% endif %}
-                                    </div> 
+                                                    <div class="qtyProduct">  
+                                                        {# Crée une clé unique pour le ticket dans le panier (id expo + id ticket) #}                              
+                                                        {% set cartKey = exhibition.id ~ '_' ~ pricing.ticket.id %}
+                                                        
+                                                        {# Vérifie si le ticket est déjà dans le panier #}
+                                                        {% if cart[cartKey] is defined %} 
+                                                            <span class="nbCart">{{ cart[cartKey].qty }}</span>
+                                                        {% else %}
+                                                            <span class="nbCart">0</span>
+                                                        {% endif %}
+                                                    </div> 
 
-                                    <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
-                                    aria-label="{{ 'Ajouter un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
-                                    title="{{ 'Augmenter la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </a>
-                                </div>
+                                                    <a href="{{ path('addTicketToCart', {'exhibitionId': exhibition.id, 'ticketId': pricing.ticket.id, 'origin': 'listExhibit'}) }}"
+                                                    aria-label="{{ 'Ajouter un ticket ' ~ pricing.ticket.titleTicket|lower ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}"
+                                                    title="{{ 'Augmenter la quantité du ticket ' ~ pricing.ticket.titleTicket ~ ' pour l\'exposition ' ~ exhibition.titleExhibit }}">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}  
+                                {% endif %}
+                            </div>          
+
+                            <div class="buttonTicket">
+                                <a href="{{ path('cart') }}" class="btnCTA">Panier</a> 
                             </div>
                         </div>
-                    {% endfor %}  
+                    
+                    </div>           
                 {% endif %}
-            </div>          
-
-            <div class="buttonTicket">
-                <a href="{{ path('cart') }}" class="btnCTA">Panier</a> 
             </div>
         </div>
+    </section>
+
+
+    <section class="sectionIntroExhibit">
+            <p class="cormorantGaramond"> 
+                Regards de Guerre rassemble des artistes aux horizons variés, offrant, à travers un regard neuf, une exploration des conflits d'ici et d'ailleurs. 
+            </p>
+
+            <p class="cormorantGaramond">
+                Chaque salle vous immerge dans leur univers unique, proposant une perspective inédite sur ces événements marquants.
+            </p>
+    </section>
+
+
+    <section>
+        <h2 class="galerieH2">Galerie des artistes</h2>
 
         
-    </div>
+        
+            {% for show in exhibition.shows %}
+                <div class="blockArtistPageExhibit">
 
-    
-{% endif %}
-</section>
-
-
-<section class="sectionIntroExhibit">
-        <p class="cormorantGaramond"> 
-            Regards de Guerre rassemble des artistes aux horizons variés, offrant, à travers un regard neuf, une exploration des conflits d'ici et d'ailleurs. 
-        </p>
-
-        <p class="cormorantGaramond">
-            Chaque salle vous immerge dans leur univers unique, proposant une perspective inédite sur ces événements marquants.
-        </p>
-</section>
-
-<section>
-    <h2 class="galerieH2">Galerie des artistes</h2>
-
-    
-    
-        {% for show in exhibition.shows %}
-            <div class="blockArtistPageExhibit">
-
-                <div class="artistInfosPageExhibit">
-                    <p class="cormorantGaramond">{{ show.artist.artistFirstname }} {{ show.artist.artistName }} - {{ show.artist.artistJob }}</p>
-                    <p class="cormorantGaramond">({{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }})</p>
-                </div>
-
-                <div class="artistContainer loopEven-{% if loop.index is even %}even{% endif %}">
-                    <div class="blockArtist loopEven-{% if loop.index is even %}even{% endif %}">
-                        <img class="artistImgPageExhibit" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">                 
-                       
-                        <p class="artistTabletNone">{{ show.artist.artistBio }} </p>
+                    <div class="artistInfosPageExhibit">
+                        <p class="cormorantGaramond">{{ show.artist.artistFirstname }} {{ show.artist.artistName }} - {{ show.artist.artistJob }}</p>
+                        <p class="cormorantGaramond">({{ show.artist.artistBirthDateFr }} - {{ show.artist.artistDeathDateFr }})</p>
                     </div>
 
-                    <div class="blockArtistText">
-                        <p class="artistDesktopNone">{{ show.artist.artistBio }} </p>
-                        <p>{{ show.artistTextArt }} </p>
+                    <div class="artistContainer loopEven-{% if loop.index is even %}even{% endif %}">
+                        <div class="blockArtist loopEven-{% if loop.index is even %}even{% endif %}">
+                            <img class="artistImgPageExhibit" src="{{ show.artistPhoto }}" alt="{{ show.artistPhotoAlt }}">                 
+                        
+                            <p class="artistTabletNone">{{ show.artist.artistBio }} </p>
+                        </div>
+
+                        <div class="blockArtistText">
+                            <p class="artistDesktopNone">{{ show.artist.artistBio }} </p>
+                            <p>{{ show.artistTextArt }} </p>
+                        
                     
-                
-                        <p class="artistRoomPageExhibit">Salle {{ show.room.titleRoom }}</p> 
+                            <p class="artistRoomPageExhibit">Salle {{ show.room.titleRoom }}</p> 
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}        
-    
-</section>
+            {% endfor %}        
+        
+    </section>
 
 
 {% endblock %}
