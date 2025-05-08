@@ -39,11 +39,11 @@ class CartService
     $this->getSession()->set('cart', $cart);  
   }
 
-    /************* Ajouter un produit au panier ****************/
 
+    /************* Ajouter un produit au panier ****************/
     public function addCart(Ticket $ticket, int $exhibitionId, int $qty = 1)
 {
-    // Récupérer le panier depuis la session
+    // Récupérer le panier depuis la session    
     $cart = $this->getCart();
 
     if ($ticket) {
@@ -57,7 +57,7 @@ class CartService
             $exhibition = $this->exhibitionShareRepository->find($exhibitionId); 
             $price = $ticketDetails['price'];
 
-            // Créer une clé unique combinant exhibitionId et ticketId
+            // Créer une clé unique (dans $cart) combinant exhibitionId et ticketId
             $cartKey = $exhibitionId.'_'.$ticketId;
 
             // Si le ticket est déjà dans le panier pour cette exposition, on met à jour la quantité
@@ -87,23 +87,24 @@ class CartService
 
 
 
- /************* Soustraire un produit ****************/
-  
+ /************* Soustraire un ticket ****************/  
  public function removeCart(Ticket $ticket, int $exhibitionId, int $qty = 1)
 {
-    $cart = $this->getCart();
-    $ticketId = $ticket->getId();
-    $cartKey = $exhibitionId.'_'.$ticketId;
+    $cart = $this->getCart(); // Récup le contenu actuel du panier depuis la session
+    $ticketId = $ticket->getId(); // Récup de l'id unique du ticket à suppr
+    $cartKey = $exhibitionId.'_'.$ticketId; // Reconstruit la clé unique du ticket dans le panier en utilisant l'ID de l'expo et l'ID du ticket
 
+    // Vérif si le ticket est présent dans le panier
     if (isset($cart[$cartKey])) {
         $cart[$cartKey]['qty'] -= $qty;
 
+        //Suppression totale du ticket <= 0
         if ($cart[$cartKey]['qty'] <= 0) {
             unset($cart[$cartKey]);
         }
     }
 
-    $this->setCart($cart);
+    $this->setCart($cart); //Maf panier
 }
 
    /************* Supprime le panier complet ****************/
@@ -113,13 +114,14 @@ class CartService
     }
 
 
- /***************************** Retirer un article du panier ***************/
+ /***************************** Retirer un article (ligne) du panier ***************/
     public function removeProduct(string $cartKey): void
     {
         $cart = $this->getCart();
         
+        //Vérif du produit dans le panier
         if (isset($cart[$cartKey])) {
-            unset($cart[$cartKey]);
+            unset($cart[$cartKey]); //Suppression
         }
         
         $this->setCart($cart);

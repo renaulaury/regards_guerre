@@ -27,7 +27,7 @@ class CartController extends AbstractController
 
      /************* Affiche les produits du panier ***************/
      #[Route('/order/cart', name: 'cart')]
-     public function showCart(?User $user): Response //Permet au user de voir son panier meme déco
+     public function showCart(?User $user): Response     //Permet au user de voir son panier meme déco
      {
         // Récupérer le panier depuis le service
          $cart = $this->cartService->getCart();
@@ -48,18 +48,18 @@ class CartController extends AbstractController
 
     /************* Ajoute un ticket au panier  ***************/
     #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
-    public function addTicketToCart(
+    public function addTicketToCart(              
         TicketRepository $ticketRepo, 
         int $exhibitionId, 
         int $ticketId, 
         string $origin,
-        ExhibitionShareRepository $exhibitionRepo): Response
+        ExhibitionShareRepository $exhibitionShareRepo): Response
     {
         // Récup du ticket via le repository
         $ticket = $ticketRepo->find($ticketId);
 
         // Récup de l'exposition via le repository en utilisant l'ID de la route
-        $exhibition = $exhibitionRepo->find($exhibitionId);
+        $exhibition = $exhibitionShareRepo->find($exhibitionId);
 
 
         // Ajout du ticket au panier via le service
@@ -76,18 +76,18 @@ class CartController extends AbstractController
 
 /************* Soustrait un produit au panier ***************/
     #[Route('/ticket/{exhibitionId}/removeTicketFromCart/{ticketId}/{origin}', name: 'removeTicketFromCart')]
-    public function removeTicketFromCart(
+    public function removeTicketFromCart(        
         TicketRepository $ticketRepo, 
         int $exhibitionId, 
         int $ticketId, 
         string $origin,
-        ExhibitionShareRepository $exhibitionRepo) : Response
+        ExhibitionShareRepository $exhibitionShareRepo) : Response
     {
          // Récupération du ticket via le repository
          $ticket = $ticketRepo->find($ticketId);
 
          // Récup de l'exposition via le repository en utilisant l'ID de la route
-         $exhibition = $exhibitionRepo->find($exhibitionId);
+         $exhibition = $exhibitionShareRepo->find($exhibitionId);
 
         // Soustraction au panier via le service
         $this->cartService->removeCart($ticket, $exhibitionId);
@@ -126,7 +126,7 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart'); // Redirige vers la page du panier
     }
 
-/********************** Retirer un article du panier *****************/
+/********************** Retirer un article (ligne) du panier *****************/
     #[Route('/order/cart/remove/{id}', name: 'removeProduct')]
     public function removeProductToCart(
         string $id): Response
@@ -136,10 +136,4 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart'); 
     }
 
-/********************** Commande validée *****************/
-    #[Route('/orderSuccess', name: 'orderSuccess')]
-    public function orderSuccess(): Response
-    {
-        return $this->render('order/orderSuccess.html.twig');
-    }
 }
