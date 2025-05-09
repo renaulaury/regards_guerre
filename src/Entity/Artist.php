@@ -99,15 +99,12 @@ class Artist
 
     public function createSlugArtist(): string
     {
-        $slugify = new Slugify();
-        $namePart = '';
+       $slugify = new Slugify();
     
-        if ($this->artistBirthDate) {
-            $namePart = $this->artistBirthDate->format('Y-m-d') . '-'; 
-        }
-        $namePart .=  $this->artistFirstname . '-' . $this->artistName ;
-        $slugSource = $this->id . '-' . $namePart;
-        return $slugify->slugify($slugSource);
+    // Construction du slug à partir de l'ID, du prénom et du nom
+    $slugSource = $this->id . '-' . $this->artistFirstname . '-' . $this->artistName;
+    
+    return $slugify->slugify($slugSource);
     }
 
     public function getArtistBirthDate(): ?\DateTimeInterface

@@ -26,6 +26,7 @@
         {% if app.user %}
             {% if is_granted('ROLE_ADMIN') %}
 
+            <form method="post" action="{{ path('artistAddBO') }}">
             {{ form_start(form) }}
 
                 <div class="blockMediaMini">
@@ -88,7 +89,7 @@
                         {% endif %}
 
                     {{ form_end(form) }}
-
+                </form>
             {% endif %}
         {% endif %}
     </section>

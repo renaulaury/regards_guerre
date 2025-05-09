@@ -58,7 +58,7 @@ final class ExhibitionBOController extends AbstractController
 
         // Déterminer si nous sommes en mode ajout ou édition
         if (!$exhibition) { // Si l'exposition n'existe pas
-            $exhibition = new Exhibition(); // Créer un nouveau formulaire
+            $exhibition = new Exhibition(); // Créer une nouvelle instance de l'entité Exhibition
             $isAdd = true; // Définir le mode ajout
         } else {
             $oldDate = $exhibition->getDateExhibit(); // Stocker l'ancienne date de dossier
@@ -153,18 +153,6 @@ final class ExhibitionBOController extends AbstractController
             foreach ($exhibition->getTicketPricings() as $ticketPricing) {
                 $ticketPricing->setExhibition($exhibition);
                 $entityManager->persist($ticketPricing);
-            }
-
-            // Supprimer les TicketPricing supprimés
-            $originalTicketPricings = new ArrayCollection();
-            foreach ($exhibition->getTicketPricings() as $ticketPricing) {
-                $originalTicketPricings->add($ticketPricing);
-            }
-
-            foreach ($originalTicketPricings as $ticketPricing) {
-                if (false === $exhibition->getTicketPricings()->contains($ticketPricing)) {
-                    $entityManager->remove($ticketPricing);
-                }
             }
 
             // Persister les modifications dans la base de données
