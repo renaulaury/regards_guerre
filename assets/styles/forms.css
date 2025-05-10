@@ -20,6 +20,14 @@
     width: 45%;
 }
 
+.priceTickets {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        gap: 20px;
+    }
+
+  
 .mainImgForm {
     width: 100%;
 }
@@ -55,7 +63,7 @@ textarea {
 .inputMini input{
     padding: 2%;
     border-radius: 10px;
-    width: 30%;
+    width: 40%;
 }
 
 .formH2 {

@@ -50,6 +50,8 @@
         grid-template-rows: auto;
     }
 
+    
+
     /***************** Show **************/
     .artistShowContainer {
         display: flex;    

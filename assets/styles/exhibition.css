@@ -28,6 +28,7 @@
 
 .imgExhibitContainer {
     position: relative; 
+    padding-bottom: 50px;
 }
 
 .expoImg {
@@ -65,7 +66,10 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding-bottom: 20px;
+}
+
+.blockTicketExhibit {
+    padding-bottom: 50px;
 }
 
 .titleTicket {
@@ -202,7 +206,6 @@
 
     .ticketsContainer {
         width: 500px;
-        padding-top: 80px;
     }
 
     .buttonTicket {
@@ -258,12 +261,19 @@
 }
 
 @media screen and (min-width: 1200px) { 
+    .imgExhibitContainer {
+        margin-left: 0;
+        margin-right: 0;
+        width: 30%;
+    }
+
     .blockImgExhibit {
         width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        gap: 50px;
     }
 
     .blockTextPriceExhibit {
@@ -272,10 +282,7 @@
         flex-direction: column;
         
     }
-
-    .expoImg {
-        width: 70%;
-    }    
+    
 
     .artistContainer {
         gap: 50px;
