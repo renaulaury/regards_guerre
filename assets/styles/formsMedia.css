@@ -44,11 +44,7 @@
         gap: 0 100px;
     }   
 
-    .priceTickets {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: auto;
-    }
+    
 
     
 
