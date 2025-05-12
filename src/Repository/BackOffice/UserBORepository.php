@@ -45,8 +45,9 @@ class UserBORepository extends ServiceEntityRepository
        
 
         $queryBuilder->select('u')
-            ->from('App\Entity\User', 'u');
-
+            ->from('App\Entity\User', 'u')
+            ->orderBy('u.userEmail', 'ASC');
+            
         //Renvoie du résultat
         // getQuery() retourne l'objet Query Doctrine qui permet d'exécuter la requête construite
         // getResult() exécute la requête et retourne les résultats sous forme d'un tableau d'entités
