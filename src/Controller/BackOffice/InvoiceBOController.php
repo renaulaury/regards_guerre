@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class InvoiceBOController extends AbstractController
 {
+    /* Affiche la liste des clients possédant une facture */
     #[Route('/backOffice/accounting/listInvoices', name: 'listInvoices')]
     public function listInvoices(
         InvoiceBORepository $invoiceBORepo,
@@ -87,7 +88,7 @@ final class InvoiceBOController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $invoices = $invoiceBORepo->findBy(['slug' => $slug]);
+        $invoices = $invoiceBORepo->findInvoicesByYear(['slug' => $slug]);
 
 
         // Passer les factures et la première facture (pour le nom du client)
