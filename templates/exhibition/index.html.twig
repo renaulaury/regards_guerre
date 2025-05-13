@@ -11,7 +11,11 @@ Plongez dans l'univers de l'exposition "{{ exhibition.titleExhibit }}" ! Découv
 
     <h1>Exposition : <span class="longTitle pageExhibitTitle">{{ exhibition.titleExhibit}}  
         <span class="longTitle dateExhibitTitle">
-            ({{ exhibition.dateWarBeginFr }} - {{ exhibition.dateWarEndFr }})
+            ({{ exhibition.dateWarBeginFr }} 
+                {% if exhibition.dateWarEndFr is not null %}    
+                        - {{ exhibition.dateWarEndFr }}
+                    {% else %} à aujourd'hui
+                {% endif %})
         </span>
     </span></h1>
 

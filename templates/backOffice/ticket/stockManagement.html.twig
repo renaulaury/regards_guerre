@@ -18,13 +18,13 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
             <p>Cette page offre une vue d'ensemble des stocks de tickets pour chaque exposition.</p>
             <p>L'icone 
                 <i class="iconDanger fa-solid fa-xmark" aria-label="Stock épuisé pour l'exposition"></i> 
-                signifie que les tickets sont épuisés
+                signifie que les tickets sont épuisés.
             </p>
             <p>L'icone 
                 <i class="iconWarning fa-solid fa-triangle-exclamation" aria-label="Stock presque épuisé pour l'exposition"></i>
-                 signifie que les tickets sont presque épuisés</p>
+                 signifie que les tickets sont presque épuisés.</p>
             <p>Cliquez sur l'icône 
-                <i class="iconsEdit fa-solid fa-pencil" title="{{ 'Modifier les informations de l\'exposition' }}"></i> 
+                <i class="iconsEdit fa-solid fa-pencil" aria-label="{{ 'Modifier les informations de l\'exposition' }}"></i> 
                 pour modifier le stock de tickets d'une exposition.</p>
             
         </div>
@@ -54,9 +54,13 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
                 <div class="stockContainer">
                     <h2 class="stockH2">
                         {% if stockInfo.remaining <= 0 %}
-                            <i class="iconDanger fa-solid fa-xmark" aria-label="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
+                            <i class="iconDanger fa-solid fa-xmark" 
+                            aria-label="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"
+                             title="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
                         {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
-                            <i class="iconWarning fa-solid fa-triangle-exclamation" aria-label="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
+                            <i class="iconWarning fa-solid fa-triangle-exclamation" 
+                            aria-label="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"
+                            title="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
                         {% endif %}
                         {{ stockInfo.exhibition }} <span class="dateExhibitStock">({{ stockInfo.exhibition.dateExhibitFr }})</span>
                     </h2>

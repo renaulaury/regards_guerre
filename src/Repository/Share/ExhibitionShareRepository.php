@@ -50,7 +50,7 @@ class ExhibitionShareRepository extends ServiceEntityRepository
 
         $queryBuilder->select('e')
             ->from('App\Entity\Exhibition', 'e')
-            ->where('e.dateExhibit > :now') //now() ne fonctionne pas seul, il faut setParameter
+            ->where('e.dateExhibit > :now') 
             ->setParameter('now', new \DateTime()) 
             ->orderBy('e.dateExhibit', 'ASC');
 
