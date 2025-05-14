@@ -12,7 +12,7 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 
     <h1>Accueil</h1>       
 
-    <section>    
+    <section class="sectionCarrousel">    
         {% for exhibition in exhibitions %}    
             <div class="blockCarrousel">
                 <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
