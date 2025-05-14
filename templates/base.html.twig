@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,7 @@
         <header>
             <nav id="navbar">
                 <div id="leftBlock">
-                    <a class="logo" href="{{ path('home') }}"><img  src="/images/logo.svg" alt="Logo de l'association Regards de Guerre" title="Retour à la page d'accueil"></a>
+                    <a class="logo" href="{{ path('home') }}"><img  src="/images/logo.webp" alt="Logo de l'association Regards de Guerre" title="Retour à la page d'accueil"></a>
                     
 
                     <div class="profile">
@@ -110,7 +110,7 @@
 
         <footer>
 
-            <div class="blockFooter contactNetworks">
+            <div class="blockFooter">
 
                 <div class="blockContact">
                     <div class="titleContact">Nous contacter</div>
@@ -128,35 +128,30 @@
                     <div class="titleContact">Nous suivre</div>
                 
                     <div class="footerIcon">
-                        <div>
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Notre page Facebook" title="Suivez-nous sur Facebook (nouvelle fenêtre)">
-                                <i class="iconNetworks fa-brands fa-square-facebook"></i>
-                            </a>
-                        </div>
-                
-                        <div>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page Instagram" title="Suivez-nous sur Instagram (nouvelle fenêtre)">
-                                <i class="iconNetworks fa-brands fa-square-instagram"></i>
-                            </a>
-                        </div>
-                
-                        <div>
-                            <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page X" title="Suivez-nous sur X (nouvelle fenêtre)">
-                                <i class="iconNetworks fa-brands fa-square-x-twitter"></i>
-                            </a>
-                        </div>
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Notre page Facebook" title="Suivez-nous sur Facebook (nouvelle fenêtre)">
+                            <i class="iconNetworks fa-brands fa-square-facebook"></i>
+                        </a>
+            
+                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page Instagram" title="Suivez-nous sur Instagram (nouvelle fenêtre)">
+                            <i class="iconNetworks fa-brands fa-square-instagram"></i>
+                        </a>
+            
+                        <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" aria-label="Visitez notre page X" title="Suivez-nous sur X (nouvelle fenêtre)">
+                            <i class="iconNetworks fa-brands fa-square-x-twitter"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
+            
 
-            <div class="blockFooter legalTexts">
-                <p><a href="{{ path('privacyPolicy') }}">Politique de confidentialité</a></p>
-                <p><a href="{{ path('legalNotices') }}">Mentions légales</a></p>        
-            </div>
+                <div class="texts">
+                    <p><a href="{{ path('privacyPolicy') }}">Politique de confidentialité</a></p>
+                    <p><a href="{{ path('legalNotices') }}">Mentions légales</a></p>        
+                </div>
 
-            <div class="blockFooter legalTexts">
-                <p><a href="{{ path('about') }}">A propos</a></p>
-                <p><a href="{{ path('services') }}">Boutique et restauration</a></p>        
+                <div class="texts">
+                    <p><a href="{{ path('about') }}">A propos</a></p>
+                    <p><a href="{{ path('services') }}">Boutique et restauration</a></p>        
+                </div>
             </div>
 
             <div class="copyright">
