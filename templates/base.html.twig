@@ -26,7 +26,7 @@
                     <div class="profile">
                         {% if app.user %}
                             <p>Bienvenue 
-                                <a href="{{ path('index', {'slug': app.user.slug} ) }}">
+                                <a class="textHover" href="{{ path('index', {'slug': app.user.slug} ) }}">
                                     {% if app.user.userFirstname %}
                                         <strong>{{ app.user.userFirstname }}   </strong>                                 
                                     {% else %}
@@ -36,11 +36,11 @@
                                 </a>
                             </p>
 
-                            <p><a href="{{ path('logout') }}">Se déconnecter</a></p>
+                            <p><a class="textHover" href="{{ path('logout') }}">Se déconnecter</a></p>
                         {% else %}
                             <p>                            
-                                <a href="{{ path('register') }}">S'inscrire</a> /
-                                <a href="{{ path('login') }}">Se connecter</a>
+                                <a class="textHover" href="{{ path('register') }}">S'inscrire</a> /
+                                <a class="textHover" href="{{ path('login') }}">Se connecter</a>
                             </p>
                         {% endif %} 
                     </div>
@@ -51,15 +51,15 @@
                 <div id="rightBlock">
                     
                     <ol>
-                        <li><a href="{{ path('home') }}">Accueil</a></li>
+                        <li><a class="textHover" href="{{ path('home') }}">Accueil</a></li>
 
                         {# Apparait que si root ou admin #}
                         {% if app.user %}                            
-                            <li><a href="{{ path('index', {'slug': app.user.slug} ) }}">Mon profil</a></li>
+                            <li><a class="textHover" href="{{ path('index', {'slug': app.user.slug} ) }}">Mon profil</a></li>
                         {% endif %}                        
-                        <li><a href="{{ path('listExhibitions') }}">Expositions</a></li>
+                        <li><a class="textHover" href="{{ path('listExhibitions') }}">Expositions</a></li>
                         <li>
-                            <a href="{{ path('cart') }}">Panier 
+                            <a class="textHover" href="{{ path('cart') }}">Panier 
                     
                                 {# Affiche le compteur seulement s'il y a un produit #}
                                 {% if productCounter() > 0 %}
@@ -72,7 +72,7 @@
                                 <hr class="burgerBO">   
 
                                 <li class="burgerBO">                                
-                                    <a href="{{ path('backOffice') }}">Back-Office</a></li>
+                                    <a class="textHover" href="{{ path('backOffice') }}">Back-Office</a></li>
                             {% endif %}
                         {% endif %}
                     </ol>
@@ -80,7 +80,7 @@
                     {% if app.user %}
                         {% if 'ROLE_ROOT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles %}
                             <div class="desktopBO">
-                                <a href="{{ path('backOffice') }}">Back-Office</a>
+                                <a class="textHover" href="{{ path('backOffice') }}">Back-Office</a>
                             </div>
                         {% endif %}
                     {% endif %}   
@@ -144,18 +144,18 @@
             
 
                 <div class="texts">
-                    <p><a href="{{ path('privacyPolicy') }}">Politique de confidentialité</a></p>
-                    <p><a href="{{ path('legalNotices') }}">Mentions légales</a></p>        
+                    <p><a class="textHover" href="{{ path('privacyPolicy') }}">Politique de confidentialité</a></p>
+                    <p><a class="textHover" href="{{ path('legalNotices') }}">Mentions légales</a></p>        
                 </div>
 
                 <div class="texts">
-                    <p><a href="{{ path('about') }}">A propos</a></p>
-                    <p><a href="{{ path('services') }}">Boutique et restauration</a></p>        
+                    <p><a class="textHover" href="{{ path('about') }}">A propos</a></p>
+                    <p><a class="textHover" href="{{ path('services') }}">Boutique et restauration</a></p>        
                 </div>
             </div>
 
             <div class="copyright">
-                <p class="">Association loi 1901 - Tous droits réservés.</p>
+                <p>Association loi 1901 - Tous droits réservés.</p>
                 <p>Copyright 2025 Regards de Guerre</p>
             </div>
             

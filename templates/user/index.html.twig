@@ -15,10 +15,10 @@ Accédez à votre compte Regards de Guerre : consultez votre profil et votre his
 
 <section>
 
-    <p><a href="{{ path('profile', {slug: app.user.slug}) }}">Mon profil</a></p>
+    <p><a class="textHover" href="{{ path('profile', {slug: app.user.slug}) }}">Mon profil</a></p>
 
     {% if is_granted('ROLE_USER') and not is_granted('ROLE_ROOT') and not is_granted('ROLE_ADMIN') %}
-    <p><a href="{{ path('orderHistory', {slug: app.user.slug}) }}">Mon historique de commandes</a></p>
+    <p><a class="textHover" href="{{ path('orderHistory', {slug: app.user.slug}) }}">Mon historique de commandes</a></p>
 {% endif %}
 
 </section>

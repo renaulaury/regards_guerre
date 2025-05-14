@@ -46,12 +46,12 @@
                         </div>
 
                         {% if exhibition.ticketsRemaining > 0 %}
-                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"
+                            <a class="parkinsanBrown textHover" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"
                             title="{{ 'Voir la page détaillée de l\'exposition et commander des tickets'|trans }}">
                             > Tickets
                             </a>
                         {% else %}
-                            <a class="parkinsanBrown" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"
+                            <a class="parkinsanBrown textHover" href="{{ path('exhibition', {'slug': exhibition.slug}) }}"
                             title="{{ 'Voir la page détaillée de l\'exposition'|trans }}">
                             > Fiche détaillée
                             </a>
