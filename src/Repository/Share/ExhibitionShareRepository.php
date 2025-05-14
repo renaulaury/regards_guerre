@@ -16,7 +16,7 @@ class ExhibitionShareRepository extends ServiceEntityRepository
         parent::__construct($registry, Exhibition::class);
     }
 
-    /******************** Sélectionne les 3 dernières expositions prévues ********************/
+    /******************** Sélectionne les 4 dernières expositions prévues ********************/
     public function findNextExhibition() {
         // Récupération de l'EntityManager pour interagir avec la base de données
         $entityManager = $this->getEntityManager();
@@ -26,10 +26,10 @@ class ExhibitionShareRepository extends ServiceEntityRepository
 
         $queryBuilder->select('e')
             ->from('App\Entity\Exhibition', 'e')
-            ->where('e.dateExhibit > :now') //now() ne fonctionne pas seul, il faut setParameter
+            ->where('e.dateExhibit > :now') 
             ->setParameter('now', new \DateTime()) 
             ->orderBy('e.dateExhibit', 'DESC')
-            ->setMaxResults(3);  //Limit en sql
+            ->setMaxResults(4);  //Limit en sql
 
         //Renvoie du résultat
         // getQuery() retourne l'objet Query Doctrine qui permet d'exécuter la requête construite

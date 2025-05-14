@@ -10,44 +10,51 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 {% block body %}  
 <!-- HomeController ExhibitionShareRepository -->
 
-    <h1>Accueil</h1>       
+    <h1>Accueil</h1>     
+    
 
-    <section class="sectionCarrousel">    
-        {% for exhibition in exhibitions %}    
-            <div class="blockCarrousel">
-                <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
-                    <div class="imgContainHome">
-                        <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
-                        <div class="filterImg"></div>
-                    </div>
+    
 
-                    <div class="carrouselBlockText">
-                        <div class="blockRight">
-                            <h2 class="homeH2 carrouselH2">
-                                <span>{{ exhibition }}</span>
-                                <span class="spaceCarrousel dateWarCarrousel">
-                                    {{ exhibition.dateWarBeginFr }} 
+    <section>        
+       <h2 class="titleCarrousel">Dernières expositions programmées :</h2>
 
-                                    {% if exhibition.dateWarEndFr is not null %}    
-                                            - {{ exhibition.dateWarEndFr }}
-                                        {% else %}à aujourd'hui
-                                    {% endif %}
-                                </span>
-                            </h2>                    
-
-                            <div class="carrouselDate">
-                                <span><strong>{{ exhibition.dateExhibitFr }}</strong></span>
-                                <span><strong>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</strong></span>
-                            </div>
+        <div class="sectionCarrousel">
+            {% for exhibition in exhibitions %}    
+                <div class="blockCarrousel">
+                    <a href="{{ path('exhibition', {'slug':exhibition.slug}) }}">
+                        <div class="imgContainHome">
+                            <img class="carrouselImg" src="{{ asset(exhibition.mainImage) }}" alt="{{ exhibition.mainImageAlt }}">
+                            <div class="filterImg"></div>
                         </div>
 
-                        <div class="carrouselText">{{ exhibition.descriptionExhibit }}</div>
+                        <div class="carrouselBlockText"> 
+                            <div class="blockRight">
+                                <h2 class="homeH2 carrouselH2">
+                                    <span>{{ exhibition }}</span>
+                                    <span class="spaceCarrousel dateWarCarrousel">
+                                        {{ exhibition.dateWarBeginFr }} 
 
-                        <button type="submit" class="btnCTA">Ticket</button>
-                    </div>
-                </a>
-            </div>
-        {% endfor %}
+                                        {% if exhibition.dateWarEndFr is not null %}    
+                                                - {{ exhibition.dateWarEndFr }}
+                                            {% else %}à aujourd'hui
+                                        {% endif %}
+                                    </span>
+                                </h2>                    
+
+                                <div class="carrouselDate">
+                                    <span><strong>{{ exhibition.dateExhibitFr }}</strong></span>
+                                    <span><strong>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</strong></span>
+                                </div>
+                            </div>
+
+                            <div class="carrouselText">{{ exhibition.descriptionExhibit }}</div>
+
+                            <button type="submit" class="btnCTA">Ticket</button>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </section>   
     
     <div class="introHomeContainer">
