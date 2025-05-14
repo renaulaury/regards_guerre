@@ -40,6 +40,10 @@ class ResetPasswordRequestFormType extends AbstractType
     //Permettrait d'ajouter des options par défaut comme une entité associée
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'csrf_protection' => true,
+            'csrf_field_name' => 'tokenCSRF',
+            'csrf_token_id'   => 'task_item'
+        ]);
     }
 }

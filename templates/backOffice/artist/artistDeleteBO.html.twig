@@ -22,7 +22,7 @@
 
         <p class="marginTop textDelete">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
 
-        <form method="post" action="{{ path('artistConfirmDeleteBO', {slug: artist.slug}) }}">
+        {# <form method="post" action="{{ path('artistConfirmDeleteBO', {slug: artist.slug}) }}"> #}
             {{ form_start(form) }}
                 <div class="button"> 
                     <button class="btnSubmit" type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
