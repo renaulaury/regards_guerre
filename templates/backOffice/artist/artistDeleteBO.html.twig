@@ -18,20 +18,17 @@
     </p>
 
     {% if app.user %}
-    {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
 
-        <p class="marginTop textDelete">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
+            <p class="marginTop textDelete">Etes vous sûrs de vouloir supprimer {{ artist }} ?</p>
 
-        {# <form method="post" action="{{ path('artistConfirmDeleteBO', {slug: artist.slug}) }}"> #}
-            {{ form_start(form) }}
-                <div class="button"> 
-                    <button class="btnSubmit" type="submit" name="submitConfirmDeleteArtist">Je confirme</button>
-                </div>
-            {{ form_end(form) }}
-        </form>
-
+            <div class="button">
+                <a class="btnSubmit" href="{{ path('artistConfirmDeleteBO', {slug: artist.slug}) }}">
+                    Je confirme
+                </a>
+            </div>
+        {% endif %}
     {% endif %}
-{% endif %}
 </section>
 {% endblock %}
 
