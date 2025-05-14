@@ -7,8 +7,10 @@
     gap: 10px;
 }
 
-.logo {
+
+.logo img {
     width: 85px;
+    height: auto;
 }
 
 #leftBlock {
@@ -110,81 +112,64 @@
 
 
 /***************** Footer *****************/
- footer {
+footer {
     width: 100%;
     padding: 50px 5%;
     background-color: var(--footer);
 }
 
 .blockFooter {
-    padding-bottom: 10px;
-    width: 100%;
-} 
-
-
-/****** Réseaux *****/
- .contactNetworks {  
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-} 
-
-.footerIcon {
-    padding-top: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     align-items: center;
     justify-content: center;
-    gap: 10px; 
-} 
-
-.titleContact {
-    text-align: center;
+    gap: 20px;
 }
 
-.blockContact, .blockNetworks {
-    width: 45%;
-}
 
-.iconNetworks {
-    color: var(--iconFooter);
-    font-size: 2rem;
-}
-
-/****** Textes Légaux *****/
-.blockLegaux {
-    display: flex;
-    justify-content: space-between;
-    gap: 5%;
-}
-
-.listLegal {
-    list-style: none;
-    padding-left: 5%;
-}
-
-.legalTexts {
-    width:100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-} 
-
-.legalTexts p {
-    width: 50%;
-    text-align: center;
-}
-
-/****** Copyright *****/
-.copyright {
+.blockContact, .blockNetworks, .texts {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap:10px;
+    justify-content: center;
+    gap: 15px;
 }
 
+
+.footerIcon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.iconNetworks {
+    font-size: 2rem;
+    color: var(--iconFooter);
+}
+
+.copyright {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+} 
+
+
+
+
 /********************************* Media Query **************************/
+@media screen and (min-width: 600px) {
+/***** Footer *****/
+    .blockFooter {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+}
+
 @media screen and (min-width: 800px) {
 /**** Burger ****/
 .burgerButton {
@@ -218,6 +203,8 @@
     gap: 30px;
     padding: 0;
     }
+
+
 }
 
 
