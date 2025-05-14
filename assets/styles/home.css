@@ -315,6 +315,10 @@
     .sectionCarrousel .blockCarrousel {
         width: calc(33.33% - 10px);
     }
+
+    .blockCarrousel {
+    height: 340px;
+    }
 }
 
 @media screen and (min-width: 1500px) {
@@ -324,5 +328,9 @@
 
    .sectionCarrousel .blockCarrousel {
         width: calc(25% - 10px);
+    }
+
+    .blockCarrousel {
+    height: 350px;
     }
 }

@@ -84,7 +84,7 @@ class ExhibitAddEditBOType extends AbstractType
 
             ->add('hookExhibit', TextType::class, [
                 'label' => 'Accroche de l\'exposition',
-                'required' => true,                
+                'required' => true,           
             ])
 
             ->add('descriptionExhibit', TextareaType::class, [
@@ -97,7 +97,7 @@ class ExhibitAddEditBOType extends AbstractType
                     new Length([
                         'min' => 100,
                         'minMessage' => 'La description de l\'exposition doit contenir au moins {{ limit }} caractères.',
-                        'max' => 400,
+                        'max' => 230,
                         'maxMessage' => 'La description de l\'exposition ne peut pas dépasser {{ limit }} caractères.',
                     ]),
                 ],
