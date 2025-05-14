@@ -75,6 +75,9 @@ class ChangePasswordFormType extends AbstractType
     {
         $resolver->setDefaults([
             'reset' => false,
+            'csrf_protection' => true,
+            'csrf_field_name' => 'tokenCSRF',
+            'csrf_token_id'   => 'task_item'
         ]);
     }
 }

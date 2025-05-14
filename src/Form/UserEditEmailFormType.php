@@ -44,7 +44,10 @@ class UserEditEmailFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => User::class, 
+            'csrf_protection' => true,
+            'csrf_field_name' => 'tokenCSRF',
+            'csrf_token_id'   => 'task_item'
         ]);
         $resolver->setDefined(['entityManager']); //Autorisation spéciale de entityManager
     }

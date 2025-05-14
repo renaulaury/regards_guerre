@@ -32,12 +32,13 @@
                     {% endif %} 
                     ?
                 </p>
+
+                <div class="button">
+                    <a class="btnSubmit" href="{{ path('userConfirmDeleteBO', {slug: user.slug}) }}">
+                        Supprimer
+                    </a>
+                </div>
                 
-                <form method="post" action="{{ path('userConfirmDeleteBO', {slug: user.slug}) }}">
-                    <div class="button">
-                        <button class="btnSubmit" type="submit" name="submitConfirmDeleteUser">Supprimer</button>
-                    </div>
-                </form>
             {% endif %}
         {% endif %}
     </section>
