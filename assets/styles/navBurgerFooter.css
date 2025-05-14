@@ -7,8 +7,10 @@
     gap: 10px;
 }
 
-.logo {
+
+.logo img {
     width: 85px;
+    height: auto;
 }
 
 #leftBlock {
