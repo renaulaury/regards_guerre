@@ -26,7 +26,7 @@ class Invoice
     #[ORM\Column(length: 180, nullable: true)]
     private ?string $customerEmail = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 17, scale: 2, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2, nullable: true)]
     private ?string $orderTotal = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

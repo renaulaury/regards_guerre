@@ -14,71 +14,76 @@ Accédez également aux statistiques de vente pour une gestion optimale de votre
     <h1>Gestion des tickets</h1>
 
     <section>
-        <div class="noticeBO">
-            <p>Cette page offre une vue d'ensemble des stocks de tickets pour chaque exposition.</p>
-            <p>L'icone 
-                <i class="iconDanger fa-solid fa-xmark" aria-label="Stock épuisé pour l'exposition"></i> 
-                signifie que les tickets sont épuisés.
-            </p>
-            <p>L'icone 
-                <i class="iconWarning fa-solid fa-triangle-exclamation" aria-label="Stock presque épuisé pour l'exposition"></i>
-                 signifie que les tickets sont presque épuisés.</p>
-            <p>Cliquez sur l'icône 
-                <i class="iconsEdit fa-solid fa-pencil" aria-label="{{ 'Modifier les informations de l\'exposition' }}"></i> 
-                pour modifier le stock de tickets d'une exposition.</p>
+        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
             
-        </div>
-
-        <div class="filterStock">
-            <label for="stockFilter">Filtrer par :</label>
-
-            <select id="stockFilter" onchange="window.location.href = this.value;">
-                <option value="{{ path('stockManagement') }}" {% if currentFilter is null ? 'active' : '' %}selected{% endif %}>
-                    Tout afficher
-                </option>
-                <option value="{{ path('stockManagement', {'filter': 'epuise'}) }}" {% if currentFilter == 'epuise' %}selected{% endif %}>
-                    Stock épuisé
-                </option>
-                <option value="{{ path('stockManagement', {'filter': 'presque-epuise'}) }}" {% if currentFilter == 'presque-epuise' %}selected{% endif %}>
-                    Stock presque épuisé
-                </option>
-            </select>
-        </div>
-
-        {% if exhibitionStocks is empty %}
-            <p>Aucun stock concerné.</p>
-        {% else %}
-
-        <div class="blockStock">
-            {% for stockInfo in exhibitionStocks %}
-                <div class="stockContainer">
-                    <h2 class="stockH2">
-                        {% if stockInfo.remaining <= 0 %}
-                            <i class="iconDanger fa-solid fa-xmark" 
-                            aria-label="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"
-                             title="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
-                        {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
-                            <i class="iconWarning fa-solid fa-triangle-exclamation" 
-                            aria-label="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"
-                            title="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
-                        {% endif %}
-                        {{ stockInfo.exhibition }} <span class="dateExhibitStock">({{ stockInfo.exhibition.dateExhibitFr }})</span>
-                    </h2>
-
-                    <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
-                    <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}
-                        <a href="{{ path('exhibitEditBO', {'slug': stockInfo.exhibition.slug}) }}"
-                        aria-label="{{ 'Modifier l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}"
-                        title="{{ 'Modifier les informations de l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}">
-                            <i class="iconsEdit fa-solid fa-pencil"></i>
-                        </a>
+                <div class="noticeBO">
+                    <p>Cette page offre une vue d'ensemble des stocks de tickets pour chaque exposition.</p>
+                    <p>L'icone 
+                        <i class="iconDanger fa-solid fa-xmark" aria-label="Stock épuisé pour l'exposition"></i> 
+                        signifie que les tickets sont épuisés.
                     </p>
-
-                    <p>Réservés : {{ stockInfo.reserved }}</p>
-                    <p>Reste : {{ stockInfo.remaining }}</p>
+                    <p>L'icone 
+                        <i class="iconWarning fa-solid fa-triangle-exclamation" aria-label="Stock presque épuisé pour l'exposition"></i>
+                        signifie que les tickets sont presque épuisés.</p>
+                    <p>Cliquez sur l'icône 
+                        <i class="iconsEdit fa-solid fa-pencil" aria-label="{{ 'Modifier les informations de l\'exposition' }}"></i> 
+                        pour modifier le stock de tickets d'une exposition.</p>
+                    
                 </div>
-            {% endfor %}
-        </div>
+
+                <div class="filterStock">
+                    <label for="stockFilter">Filtrer par :</label>
+
+                    <select id="stockFilter" onchange="window.location.href = this.value;">
+                        <option value="{{ path('stockManagement') }}" {% if currentFilter is null ? 'active' : '' %}selected{% endif %}>
+                            Tout afficher
+                        </option>
+                        <option value="{{ path('stockManagement', {'filter': 'epuise'}) }}" {% if currentFilter == 'epuise' %}selected{% endif %}>
+                            Stock épuisé
+                        </option>
+                        <option value="{{ path('stockManagement', {'filter': 'presque-epuise'}) }}" {% if currentFilter == 'presque-epuise' %}selected{% endif %}>
+                            Stock presque épuisé
+                        </option>
+                    </select>
+                </div>
+
+                {% if exhibitionStocks is empty %}
+                    <p>Aucun stock concerné.</p>
+                {% else %}
+
+                <div class="blockStock">
+                    {% for stockInfo in exhibitionStocks %}
+                        <div class="stockContainer">
+                            <h2 class="stockH2">
+                                {% if stockInfo.remaining <= 0 %}
+                                    <i class="iconDanger fa-solid fa-xmark" 
+                                    aria-label="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"
+                                    title="Stock épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
+                                {% elseif stockInfo.remaining <= stockInfo.exhibition.stockAlert %}
+                                    <i class="iconWarning fa-solid fa-triangle-exclamation" 
+                                    aria-label="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"
+                                    title="Stock presque épuisé pour l'exposition {{ stockInfo.exhibition.titleExhibit }}"></i>
+                                {% endif %}
+                                {{ stockInfo.exhibition }} <span class="dateExhibitStock">({{ stockInfo.exhibition.dateExhibitFr }})</span>
+                            </h2>
+
+                            <p>Stock : {{ stockInfo.exhibition.stockMax }}</p>
+                            <p>Stock d'alerte : {{ stockInfo.exhibition.stockAlert }}
+                                <a href="{{ path('exhibitEditBO', {'slug': stockInfo.exhibition.slug}) }}"
+                                aria-label="{{ 'Modifier l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}"
+                                title="{{ 'Modifier les informations de l\'exposition ' ~ stockInfo.exhibition.titleExhibit }}">
+                                    <i class="iconsEdit fa-solid fa-pencil"></i>
+                                </a>
+                            </p>
+
+                            <p>Réservés : {{ stockInfo.reserved }}</p>
+                            <p>Reste : {{ stockInfo.remaining }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endif %}
         {% endif %}
     </section>
 {% endblock %}

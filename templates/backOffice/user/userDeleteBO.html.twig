@@ -23,7 +23,7 @@
     <section>       
             
         {% if app.user %}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
                 <p class="marginTop textDelete">Etes vous sûr(e) de vouloir supprimer 
                     {% if user.userFirstname %}
                         {{ user.userFirstname }}                

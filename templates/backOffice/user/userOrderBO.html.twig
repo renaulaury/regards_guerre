@@ -19,7 +19,7 @@
     </p>
     
     {% if app.user %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
             <h2 class="historyBOH2">
                 Historique de commande de 
                 {% if user.userFirstname %}

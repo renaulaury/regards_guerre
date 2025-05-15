@@ -28,7 +28,7 @@
     </div>
 
     {% if app.user %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
 
             <div class="blockBtnAdd">
                 <a class="btnAdd" href="{{ path('exhibitAddBO') }}">Ajouter une exposition</a>

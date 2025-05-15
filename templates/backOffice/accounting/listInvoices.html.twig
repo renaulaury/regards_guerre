@@ -12,7 +12,7 @@
 
     <section class="backOffice">
 
-        {% if app.user and is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
             <div class="filterUser">
                 <label for="letterFilter">Filtrer :</label>
                 <select id="letterFilter" onchange="window.location.href = this.value;">

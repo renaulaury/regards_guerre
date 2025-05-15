@@ -18,7 +18,7 @@
     </p>
     
     {% if app.user %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
             <p class="marginTop">Vous êtes sur le point de supprimer l'artiste <strong>{{ artist }}</strong> de l'exposition <strong>{{ exhibition }}</strong> ?
             </p>
 

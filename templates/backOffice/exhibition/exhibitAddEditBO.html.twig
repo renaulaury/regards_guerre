@@ -28,7 +28,7 @@
 <section class="sectionCenter">    
     
     {% if app.user %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
 
             {{ form_start(form) }}
 

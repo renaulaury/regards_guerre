@@ -75,7 +75,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
 
 
                 
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
                         <p>En tant qu'administrateur, vous ne pouvez pas passer de commande.</p>
                     {% else %}
         
