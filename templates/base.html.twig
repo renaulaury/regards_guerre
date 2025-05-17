@@ -144,13 +144,15 @@
             
 
                 <div class="texts">
+                    <p><a class="textHover" href="{{ path('about') }}">A propos</a></p>
                     <p><a class="textHover" href="{{ path('privacyPolicy') }}">Politique de confidentialité</a></p>
-                    <p><a class="textHover" href="{{ path('legalNotices') }}">Mentions légales</a></p>        
+                    <p><a class="textHover" href="{{ path('cgv') }}">Conditions Générales de Vente</a></p>
                 </div>
 
-                <div class="texts">
-                    <p><a class="textHover" href="{{ path('about') }}">A propos</a></p>
-                    <p><a class="textHover" href="{{ path('services') }}">Boutique et restauration</a></p>        
+                <div class="texts">                    
+                    <p><a class="textHover" href="{{ path('services') }}">Boutique et restauration</a></p>  
+                    <p><a class="textHover" href="{{ path('legalNotices') }}">Mentions légales</a></p> 
+                    {# <p><a class="textHover" href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a></p>        #}
                 </div>
             </div>
 

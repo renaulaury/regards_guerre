@@ -17,7 +17,7 @@ final class HomeController extends AbstractController
     public function index(ExhibitionShareRepository $exhibitShareRepo): Response
     {
     
-        $exhibitions = $exhibitShareRepo->findNextExhibition(); //3 dernières expos programmées
+        $exhibitions = $exhibitShareRepo->findNextExhibition(); //4 dernières expos programmées
         $agenda = $exhibitShareRepo->findAllNextExhibition(); //agenda des expos
 
 
@@ -58,6 +58,22 @@ final class HomeController extends AbstractController
         return $this->render('texts/services.html.twig', [
         ]);
     }
+
+    #[Route('/cgv', name: 'cgv')]
+    public function cgv(): Response
+    {
+    
+        return $this->render('texts/cgv.html.twig', [
+        ]);
+    }
+
+    // #[Route('/cgu', name: 'cgu')]
+    // public function cgu(): Response
+    // {
+    
+    //     return $this->render('texts/cgu.html.twig', [
+    //     ]);
+    // }
 
     
 

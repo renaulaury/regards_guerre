@@ -24,7 +24,7 @@ class CartController extends AbstractController
     {    
         $this->cartService = $cartService;
     }
-
+    
      /************* Affiche les produits du panier ***************/
      #[Route('/order/cart', name: 'cart')]
      public function showCart(?User $user): Response     //Permet au user de voir son panier meme déco
@@ -44,7 +44,7 @@ class CartController extends AbstractController
              'form' => $form->createView(),
          ]);
      }
- 
+     
 
     /************* Ajoute un ticket au panier  ***************/
     #[Route('/ticket/{exhibitionId}/addTicketToCart/{ticketId}/{origin}', name: 'addTicketToCart')]
