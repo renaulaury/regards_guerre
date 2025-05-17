@@ -1,0 +1,20 @@
+.legalTextsH2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 30px 0;
+  color: var(--ftTitle);
+}
+
+.introLegalTexts {
+    padding-top: 20px;
+    text-align: center;
+}
+
+ol {
+    padding: 10px 0 10px 80px;
+}
+
+.warningLegal {
+    padding-top: 20px;
+}
+
