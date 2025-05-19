@@ -4,13 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\CartService;
-use App\Service\EmailService;
 use App\Repository\TicketRepository;
 use App\Form\UserIdentityCartFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\Share\ExhibitionShareRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
