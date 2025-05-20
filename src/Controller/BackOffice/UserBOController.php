@@ -86,11 +86,16 @@ final class UserBOController extends AbstractController
         $form->handleRequest($request);
         
 
+        
+
         if ($form->isSubmitted() && $form->isValid()) {           
-            
+            // $data = $form->getData();
+            // $role = $data['roles'];
+
             // Root -> Gestion du changement de rôle 
             if ($root && $request->request->get('submitRoles')) {
-                $user->setRoles([$form->get('roles')->getData()]);
+                $user->setRoles($form->get('roles')->getData());
+
             }
 
             

@@ -44,9 +44,9 @@
             
 
                 <p> Rôle actuel :
-                    {% if user.roles[0] == 'ROLE_USER' %}
+                    {% if 'ROLE_USER' in user.roles %}
                         Utilisateur
-                    {% elseif user.roles[0] == 'ROLE_ADMIN' %}
+                    {% elseif 'ROLE_ADMIN' in user.roles %}
                         Administrateur
                     {% endif %}
                 </p>
@@ -60,15 +60,15 @@
             {% endif %}
 
             
-                {# Affichage du formulaire #}
-                <form method="post" action="{{ path('userEditBO', {slug: user.slug}) }}">
+                {# Affichage du formulaire de role #}
+                <form class="rootRoles" method="post" action="{{ path('userEditBO', {slug: user.slug}) }}">
                     {{ form_start(form) }}
 
                         {% if root %}
                             <p class="label">{{ form_label(form.roles) }}</p>
-                            <p class="input">{{ form_widget(form.roles) }}</p>
+                            <p class="input inputRoles">{{ form_widget(form.roles) }}</p>
 
-                            <div class="button">   
+                            <div class="button btnRoles">   
                                 <button type="submit" class="btnSubmit" name="submitRoles">Modifier le rôle</button>
                             </div>
                         {% endif %}                    

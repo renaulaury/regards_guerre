@@ -70,5 +70,18 @@ textarea {
     padding: 30px 0;
 }
 
+.rootRoles {
+    margin: 0;
+}
+
+
+/*** Form dans root ***/
+.btnRoles {
+    justify-content: flex-start;
+}
+
+.inputRoles select {
+    width: 150px;
+}
 
 
