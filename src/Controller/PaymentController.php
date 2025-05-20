@@ -172,9 +172,7 @@ class PaymentController extends AbstractController
 
     /********************** Erreur de paiement ********************/
     #[Route('/order/error', name: 'paymentError')]
-    public function stripeError(
-        CartService $cartService,
-    ): Response
+    public function stripeError(): Response
     {
         $this->addFlash('danger', 'Une erreur est survenue lors du paiement. Veuillez réessayer.');
 
@@ -352,6 +350,14 @@ class PaymentController extends AbstractController
         $this->cartService->clearCart();
 
         return $this->redirectToRoute('orderSuccess');
+    }
+
+    
+    #[Route('/order/success/confirmation', name: 'orderSuccess')]
+    public function orderSuccess(): Response
+    {
+        
+        return $this->render('order/orderSuccess.html.twig');
     }
 
 }

@@ -44,7 +44,7 @@ final class OrderController extends AbstractController
     }
 
 /***************** Envoie de la commande en pdf ***********************/
-#[Route('/backOffice/user/userInvoiceExport/{orderId}', name: 'userInvoiceExport')]
+#[Route('/profile/user/userInvoiceExport/{orderId}', name: 'userInvoiceExport')]
 public function userInvoiceExport(
     int $orderId,
     OrderRepository $orderRepository,
