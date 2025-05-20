@@ -41,7 +41,6 @@ REPLACE INTO `artist` (`id`, `artist_name`, `artist_firstname`, `artist_birth_da
 	(5, 'Khaman', 'Mohammed', '1930-03-14', '1991-05-04', 'Peintre', 'Peintre algérien majeur, connu pour sa contribution à l\'art contemporain algérien et son engagement dans la représentation de la décolonisation et de l\'identité post-coloniale. ', '5-mohammed-khaman', 0, NULL),
 	(6, 'Amine', 'Yasmina', '1975-05-20', NULL, 'Réalisatrice', 'Réalisatrice franco-algérienne, connue pour son exploration de la guerre d\'Algérie et de ses mémoires à travers des documentaires.', '6-1975-05-20-yasmina-amine', 0, NULL),
 	(20, 'Takeda', 'Hiroshi', '1957-06-03', NULL, 'Calligraphe', 'Né à Kyoto, il a grandi dans une famille d’artisans spécialisés dans la fabrication de kimonos traditionnels. Passionné par l’histoire et l’esthétique zen, il a voyagé à travers le Japon pour étudier l’art de la calligraphie et la peinture sur soie.', '20-hiroshi-takeda', 0, NULL),
-	(21, 'Morita', 'Aïko', '1983-09-12', NULL, 'Photographe, Vidéaste', 'Diplômée d’une école d’art de Tokyo, il a rapidement trouvé sa place dans le monde du photojournalisme avant de se tourner vers une approche plus contemplative de l’image.', '21-aiko-morita', 0, NULL),
 	(22, 'Nemura', 'Kévin', '1975-12-08', NULL, 'Sculteur', 'Issu d’une famille de pêcheurs d’Hokkaido, il a toujours été fasciné par la transformation des matières naturelles. Il a étudié l’art du bois et du métal à Osaka avant de se spécialiser dans la sculpture monumentale.', '22-kevin-nemura', 0, NULL),
 	(23, 'Shimizu', 'Miyako', '1921-07-15', '2015-03-02', 'Peintre', 'Née avant la Seconde Guerre mondiale, elle a traversé les bouleversements du XXe siècle, ce qui a profondément marqué son œuvre. Fervente pacifiste, elle s’est engagée dans des associations pour la mémoire des bombardements d’Hiroshima et Nagasaki.', '23-miyako-shimizu', 0, NULL),
 	(24, 'Ivanenko', 'Oleh', '1965-11-25', NULL, 'Graveur', 'Né à Kharkiv, il a grandi en plein cœur de l’effondrement de l’URSS, ce qui a influencé son regard critique sur l’histoire et l’identité ukrainienne.', '24-oleh-ivanenko', 0, NULL),
@@ -92,17 +91,15 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
   UNIQUE KEY `UNIQ_B8353389989D9B62` (`slug`),
   KEY `IDX_B8353389A76ED395` (`user_id`),
   CONSTRAINT `FK_B8353389A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.exhibition : ~7 rows (environ)
+-- Listage des données de la table regardsguerre.exhibition : ~5 rows (environ)
 REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `main_image_alt`, `date_war_begin`, `date_war_end`, `date_exhibit`, `hour_begin`, `hour_end`, `description_exhibit`, `hook_exhibit`, `subtitle_exhibit`, `stock_max`, `stock_alert`, `slug`) VALUES
-	(1, 17, 'Les camps d\'Algérie', '/images/events/20250509/00_main_image.webp', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', '1954-11-01', '1962-03-19', '2025-05-25', '09:00:00', '16:00:00', 'Les camps d\'Algérie, créés pendant la guerre d\'indépendance, sont devenus des symboles de l\'exil, de la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'Sujet sensible encore aujourd’hui, ils font désormais partie d\'une mémoire collective partagée entre les Algériens et les Français.', 'Lieux de souffrance et de résistance', 150, 10, '09052025-les-camps-d-algerie'),
-	(3, 17, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902/00_main_image.webp', 'Troupes de femmes militaires palestiniennes', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, militantes, journalistes, soignantes ou résistantes. elles s’engagent activement, que ce soit à travers des mouvements de résistance, des actions humanitaires ou des témoignages dénonçant les souffrances du peuple palestinien. Beaucoup deviennent des symboles de résilience.', 'Les femmes palestiniennes, actrices essentielles du conflit, s\'engagent activement à travers divers rôles, devenant des symboles de résilience face aux souffrances de leur peuple.', 'Mères, militantes, symboles de courage : les femmes palestiniennes face à l\'adversité', 150, 10, '15112025-les-femmes-palestiniennes-et-leur-engagement'),
-	(4, 20, 'L\'incident de Kyujo', '/images/events/20250812/00_main_image.webp', 'Photo d\'un accord passé dans le bureau principal', '1945-08-14', '1945-08-15', '2025-08-12', '09:00:00', '16:00:00', 'Lorsque des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher l’empereur Hirohito d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. Leur tentative a échoué, et le message de capitulation a été diffusé le matin du 15 août 1945, mettant officiellement fin au conflit.', 'Des officiers japonais ont tenté un coup d\'État raté pour empêcher la reddition du Japon, mais l\'annonce de la capitulation a été diffusée le 15 août 1945, mettant fin à la Seconde Guerre mondiale.', 'Le coup d\'État avorté de l\'armée impériale', 150, 10, '12082025-l-incident-de-kyujo'),
+	(1, 17, 'Les camps d\'Algérie', '/images/events/20250509/00_main_image.webp', 'Photo du déplacement entre les camps pendant la guerre d\'Algérie.', '1954-11-01', '1962-03-19', '2025-05-25', '09:00:00', '16:00:00', 'Ces camps devenus des symboles de l\'exil, \r\nde la souffrance et du déracinement, où les conditions de vie des populations déplacées étaient marquées par l\'humiliation et l\'abandon.', 'Sujet sensible encore aujourd’hui, ils font désormais partie d\'une mémoire collective partagée entre les Algériens et les Français.', 'Lieux de souffrance et de résistance', 150, 10, '09052025-les-camps-d-algerie'),
+	(3, 17, 'Les femmes palestiniennes et leur engagement', '/images/events/20250902/00_main_image.webp', 'Troupes de femmes militaires palestiniennes', '1987-12-09', '1993-09-13', '2025-11-15', '09:00:00', '16:00:00', 'Les femmes palestiniennes jouent un rôle central dans ce conflit, que ce soit comme mères, \r\nmilitantes, journalistes, soignantes ou résistantes. \r\nBeaucoup deviennent des symboles de résilience.', 'Les femmes palestiniennes, actrices essentielles du conflit, s\'engagent activement à travers divers rôles, devenant des symboles de résilience face aux souffrances de leur peuple.', 'Mères, militantes, symboles de courage : les femmes palestiniennes face à l\'adversité', 150, 10, '15112025-les-femmes-palestiniennes-et-leur-engagement'),
+	(4, 20, 'L\'incident de Kyujo', '/images/events/20250812/00_main_image.webp', 'Photo d\'un accord passé dans le bureau principal', '1945-08-14', '1945-08-15', '2025-08-12', '09:00:00', '16:00:00', 'Des officiers de l’armée impériale japonaise ont tenté un coup d’État pour empêcher d’annoncer la reddition du Japon à la fin de la Seconde Guerre mondiale. \r\nLeur tentative a échoué, et le matin du 15 août 1945 le conflit était officiellement fini.\r\n', 'Des officiers japonais ont tenté un coup d\'État raté pour empêcher la reddition du Japon, mais l\'annonce de la capitulation a été diffusée le 15 août 1945, mettant fin à la Seconde Guerre mondiale.', 'Le coup d\'État avorté de l\'armée impériale', 150, 10, '12082025-l-incident-de-kyujo'),
 	(23, 34, 'L’exode afro-américaine', '/images/events/20250913/00_main_image.webp', 'Photo d\'une famille fuyant la ségrégation', '1916-01-01', '1920-12-31', '2025-09-13', '09:00:00', '16:00:00', 'Cette migration a transformé le paysage démographique et culturel des États-Unis, contribuant à l\'essor des communautés afro-américaines urbaines et influençant profondément la musique, la littérature et la politique américaines.', 'Conflit déterminant dans l\'histoire des États-Unis, aboutissant à l\'abolition de l\'esclavage et à la préservation de l\'unité nationale.', 'Conflit pour la liberté', 150, 10, '13092025-l-exode-afro-americaine'),
-	(25, 34, 'L\'Ukraine en résistance', '/images/events/20250603/00_main_image.webp', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', '2022-02-24', NULL, '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 avec l\'annexion de la Crimée et s\'est transformée en une invasion totale de l\'Ukraine par la Russie le 24 février 2022. Ce conflit a provoqué des milliers de victimes, des déplacements massifs et une crise géopolitique majeure en Europe.', 'L\'invasion russe a déclenché un conflit majeur en Europe, bouleversant l\'équilibre géopolitique et provoquant une crise humanitaire de grande ampleur.', 'Chronique d\'une guerre : l\'Ukraine au cœur d\'une crise européenne', 150, 10, '03062025-l-Ukraine-en-resistance'),
-	(45, 34, 'dddddddddddddddddddddd', 'images/events/20240210/00_main_image.webp', 'dddddddddddddddddddddddddddd', '2023-01-01', NULL, '2024-02-10', '09:00:00', '16:00:00', 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', 'dddddddddddd', 'ddddddddddddddddd', 150, 10, '10022024-dddddddddddddddddddddd'),
-	(46, 26, 'Les camps d\'Algérie', '/images/events/20240210/00_main_image.webp', 'rrrr', '2025-04-28', NULL, '2025-11-28', '09:00:00', '21:01:08', 'fff', 'ffff', 'fff', 150, 15, '10022024-camps');
+	(25, 34, 'L\'Ukraine en résistance', '/images/events/20250603/00_main_image.webp', 'Photo de l\'oeuvre de Bansky sur un mur en Ukraine ou une petite fille marche sur des chars tenant fièrement son drapeau', '2022-02-24', NULL, '2025-06-03', '09:00:00', '16:00:00', 'La guerre russo-ukrainienne a commencé en 2014 et s\'est transformée en une invasion totale. \r\nCe conflit a provoqué des milliers de victimes et une crise géopolitique majeure en Europe.', 'L\'invasion russe a déclenché un conflit majeur en Europe, bouleversant l\'équilibre géopolitique et provoquant une crise humanitaire de grande ampleur.', 'Chronique d\'une guerre : l\'Ukraine au cœur d\'une crise européenne', 150, 10, '03062025-l-Ukraine-en-resistance');
 
 -- Listage de la structure de table regardsguerre. invoice
 CREATE TABLE IF NOT EXISTS `invoice` (
@@ -111,22 +108,29 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `customer_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_firstname` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_email` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_total` decimal(17,2) DEFAULT NULL,
+  `order_total` decimal(15,2) DEFAULT NULL,
   `date_invoice` date NOT NULL,
   `invoice_details` json DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_90651744E7F723D1` (`number_invoice`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.invoice : ~6 rows (environ)
+-- Listage des données de la table regardsguerre.invoice : ~13 rows (environ)
 REPLACE INTO `invoice` (`id`, `number_invoice`, `customer_name`, `customer_firstname`, `customer_email`, `order_total`, `date_invoice`, `invoice_details`, `slug`) VALUES
 	(23, '20250503-165', 'Lou', 'Foque', 'maxLaMenace@gmail.com', 20.00, '2025-05-03', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "Les camps d\'Algérie"}]', '30-lou-foque'),
 	(24, '20250503-166', 'Lou', 'Foque', 'maxLaMenace@gmail.com', 40.00, '2025-05-03', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "Les camps d\'Algérie"}]', '30-lou-foque'),
 	(25, '20250503-167', 'Lou', 'Foque', 'maxLaMenace@gmail.com', 40.00, '2025-05-03', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "Les camps d\'Algérie"}]', '30-lou-foque'),
 	(65, '20250504-207', 'Cra', 'Moisi', 'cramoisi@gmail.com', 54.00, '2025-05-04', '[{"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "expositionTitle": "L\'Ukraine en résistance"}, {"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "L\'Ukraine en résistance"}]', '31-crade-moilisi'),
 	(66, '20250504-208', 'Lou', 'Foque', 'marouan@gmail.com', 44.00, '2025-05-04', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "L’exode afro-américaine"}, {"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "expositionTitle": "L’exode afro-américaine"}]', '50-lou-foque'),
-	(67, '20250504-210', 'crade', 'moilisi', 'cramoisi@gmail.com', 50.00, '2025-05-04', '[{"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '31-crade-moilisi');
+	(67, '20250504-210', 'crade', 'moilisi', 'cramoisi@gmail.com', 50.00, '2025-05-04', '[{"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '31-crade-moilisi'),
+	(71, '20250507-214', 'Maxine', 'Olympe', 'maxLaMenace@gmail.com', 188.00, '2025-05-07', '[{"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}, {"quantity": 11, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'Ukraine en résistance"}, {"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}, {"quantity": 5, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '30-Maxine-Olympe'),
+	(72, '20250509-215', 'Dam', 'Midoux', 'damidoux@gmail.com', 20.00, '2025-05-09', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '35-Dam-Midoux'),
+	(73, '20250520-216', 'Lily', 'Reb', 'lily@gmail.com', 68.00, '2025-05-20', '[{"quantity": 6, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 1, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-Lily-Reb'),
+	(74, '20250520-217', 'Lily', 'Reb', 'lily@gmail.com', 68.00, '2025-05-20', '[{"quantity": 6, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 1, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-Lily-Reb'),
+	(75, '20250520-218', 'drgr', 'rgrger', 'lily@gmail.com', 30.00, '2025-05-20', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-drgr-rgrger'),
+	(76, '20250520-219', 'fff', 'fff', 'lily@gmail.com', 32.00, '2025-05-20', '[{"quantity": 4, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'incident de Kyujo"}]', '29-fff-fff'),
+	(77, '20250520-220', 'ddd', 'ddd', 'lily@gmail.com', 34.00, '2025-05-20', '[{"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}, {"quantity": 1, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}]', '29-ddd-ddd');
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -160,9 +164,9 @@ CREATE TABLE IF NOT EXISTS `order` (
   UNIQUE KEY `UNIQ_F5299398E7F723D1` (`number_invoice`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
   CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.order : ~41 rows (environ)
+-- Listage des données de la table regardsguerre.order : ~13 rows (environ)
 REPLACE INTO `order` (`id`, `user_id`, `customer_name`, `customer_firstname`, `order_date_creation`, `order_status`, `customer_email`, `number_invoice`, `order_total`) VALUES
 	(165, 30, 'lou', 'foque', '2025-05-03', 'Envoyé', 'maxLaMenace@gmail.com', '20250503-165', 20.00),
 	(166, 30, 'lou', 'foque', '2025-05-03', 'Envoyé', 'maxLaMenace@gmail.com', '20250503-166', 40.00),
@@ -170,7 +174,14 @@ REPLACE INTO `order` (`id`, `user_id`, `customer_name`, `customer_firstname`, `o
 	(207, 31, 'Cra', 'Moisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', '20250504-207', 54.00),
 	(208, 50, 'Lou', 'Foque', '2025-05-04', 'Envoyé', 'marouan@gmail.com', '20250504-208', 44.00),
 	(209, 31, 'crade', 'moilisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', NULL, 50.00),
-	(210, 31, 'crade', 'moilisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', '20250504-210', 50.00);
+	(210, 31, 'crade', 'moilisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', '20250504-210', 50.00),
+	(214, 30, 'Maxine', 'Olympe', '2025-05-07', 'Envoyé', 'maxLaMenace@gmail.com', '20250507-214', 188.00),
+	(215, 35, 'Dam', 'Midoux', '2025-05-09', 'Envoyé', 'damidoux@gmail.com', '20250509-215', 20.00),
+	(216, 29, 'Lily', 'Reb', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-216', 68.00),
+	(217, 29, 'Lily', 'Reb', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-217', 68.00),
+	(218, 29, 'drgr', 'rgrger', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-218', 30.00),
+	(219, 29, 'fff', 'fff', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-219', 32.00),
+	(220, 29, 'ddd', 'ddd', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-220', 34.00);
 
 -- Listage de la structure de table regardsguerre. order_detail
 CREATE TABLE IF NOT EXISTS `order_detail` (
@@ -181,15 +192,15 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   `unit_price` decimal(10,2) NOT NULL,
   `quantity` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_ED896F46251A8A50` (`order__id`),
   KEY `IDX_ED896F462A7D4494` (`exhibition_id`),
   KEY `IDX_ED896F46700047D2` (`ticket_id`),
+  KEY `IDX_ED896F46251A8A50` (`order__id`) USING BTREE,
   CONSTRAINT `FK_ED896F46251A8A50` FOREIGN KEY (`order__id`) REFERENCES `order` (`id`),
   CONSTRAINT `FK_ED896F462A7D4494` FOREIGN KEY (`exhibition_id`) REFERENCES `exhibition` (`id`),
   CONSTRAINT `FK_ED896F46700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=339 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.order_detail : ~97 rows (environ)
+-- Listage des données de la table regardsguerre.order_detail : ~21 rows (environ)
 REPLACE INTO `order_detail` (`id`, `order__id`, `exhibition_id`, `ticket_id`, `unit_price`, `quantity`) VALUES
 	(212, 165, 1, 1, 10.00, 2),
 	(213, 166, 1, 1, 10.00, 4),
@@ -198,7 +209,20 @@ REPLACE INTO `order_detail` (`id`, `order__id`, `exhibition_id`, `ticket_id`, `u
 	(319, 207, 25, 1, 10.00, 3),
 	(320, 208, 23, 1, 10.00, 2),
 	(321, 208, 23, 2, 8.00, 3),
-	(322, 210, 25, 1, 10.00, 5);
+	(322, 210, 25, 1, 10.00, 5),
+	(326, 214, 1, 1, 10.00, 150),
+	(327, 214, 25, 2, 8.00, 11),
+	(328, 214, 25, 1, 10.00, 5),
+	(329, 214, 25, 3, 0.00, 5),
+	(330, 215, 25, 1, 10.00, 2),
+	(331, 216, 4, 1, 10.00, 6),
+	(332, 216, 25, 2, 8.00, 1),
+	(333, 217, 4, 1, 10.00, 6),
+	(334, 217, 25, 2, 8.00, 1),
+	(335, 218, 25, 1, 10.00, 3),
+	(336, 219, 4, 2, 8.00, 4),
+	(337, 220, 3, 2, 8.00, 3),
+	(338, 220, 3, 1, 10.00, 1);
 
 -- Listage de la structure de table regardsguerre. reset_password_request
 CREATE TABLE IF NOT EXISTS `reset_password_request` (
@@ -235,11 +259,10 @@ CREATE TABLE IF NOT EXISTS `room` (
 
 -- Listage des données de la table regardsguerre.room : ~5 rows (environ)
 REPLACE INTO `room` (`id`, `title_room`) VALUES
-	(1, 'Nicolas'),
+	(1, 'Elise'),
 	(2, 'Joséphine'),
-	(3, 'Elise'),
 	(4, 'Sabandra'),
-	(5, 'Luciano');
+	(5, 'Nicolas');
 
 -- Listage de la structure de table regardsguerre. show
 CREATE TABLE IF NOT EXISTS `show` (
@@ -264,8 +287,7 @@ REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_phot
 	(3, 2, 1, 6, '/images/events/20250509/Amine_Yasmina.webp', 'Affiche du court métrage "Les guerrières d\'Algérie"', 'Elle se concentre particulièrement sur les récits souvent oubliés des harkis, comme dans son documentaire "La fin des Harkis", qui donne une voix aux témoins de cette histoire silencieuse. Elle utilise le cinéma pour questionner la mémoire collective, le traumatisme de l\'exil et la réconciliation entre les différentes communautés liées au conflit.'),
 	(4, 4, 1, 4, '/images/events/20250509/Moribon_Jean.webp', 'Jeune femme prise en photo', 'Son travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.'),
 	(22, 5, 1, 5, '/images/events/20250509/Khaman_Mohammed.webp', 'Oeuvre peinturale abstraite', 'Influencé par le cubisme et le surréalisme, il abordait les souffrances de la guerre d\'Algérie et l\'impact de l\'exil, utilisant des formes géométriques et des couleurs puissantes pour symboliser la fracture et la reconstruction de l\'Algérie  tout en cherchant à réconcilier les mémoires et à reconstruire visuellement l’âme du pays.'),
-	(53, 1, 1, 38, '/images/events/20250509/Garrigue_Anna.webp', 'Image des poèmes de l\'artiste', 'Son travail poétique est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.'),
-	(55, 1, 45, 41, 'images/events/20240210/dd_ddddd.webp', 'dddddddddddddd', 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+	(53, 1, 1, 38, '/images/events/20250509/Garrigue_Anna.webp', 'Image des poèmes de l\'artiste', 'Son travail poétique est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.');
 
 -- Listage de la structure de table regardsguerre. ticket
 CREATE TABLE IF NOT EXISTS `ticket` (
@@ -295,9 +317,9 @@ CREATE TABLE IF NOT EXISTS `ticket_pricing` (
   KEY `IDX_E93DF5612A7D4494` (`exhibition_id`),
   CONSTRAINT `FK_E93DF5612A7D4494` FOREIGN KEY (`exhibition_id`) REFERENCES `exhibition` (`id`),
   CONSTRAINT `FK_E93DF561700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket_pricing : ~18 rows (environ)
+-- Listage des données de la table regardsguerre.ticket_pricing : ~15 rows (environ)
 REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_price`) VALUES
 	(1, 1, 1, 10.00),
 	(2, 2, 1, 8.00),
@@ -313,11 +335,7 @@ REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_pri
 	(12, 3, 4, 0.00),
 	(13, 1, 23, 10.00),
 	(14, 2, 23, 8.00),
-	(15, 3, 23, 0.00),
-	(73, 1, 45, 10.00),
-	(74, 2, 45, 8.00),
-	(75, 3, 45, 0.00),
-	(76, 1, 46, 15.00);
+	(15, 3, 23, 0.00);
 
 -- Listage de la structure de table regardsguerre. type
 CREATE TABLE IF NOT EXISTS `type` (
@@ -351,20 +369,20 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Listage des données de la table regardsguerre.user : ~14 rows (environ)
 REPLACE INTO `user` (`id`, `user_email`, `user_name`, `user_firstname`, `password`, `roles`, `slug`) VALUES
-	(17, 'l.renau@regardsguerre.fr', NULL, NULL, '$2y$13$1/2dfTzLs1bO7LiabfFzOebgy8aghEfdHxG4xOIpZnkABzdS/s7Su', '["ROLE_ADMIN"]', 'utilisateur17'),
-	(19, 'm.murmann@regardsguerre.fr', NULL, NULL, '$2y$13$4TvTKYXjIjtU3fNipC5SO.Xrb7bFH.k7e/4w/4afTKXXLbO5WMDZq', '["ROLE_ADMIN"]', 'utilisateur19'),
-	(20, 'y.ruffo@regardsguerre.fr', NULL, NULL, '$2y$13$MzopDX0AJsIOKRzQ5Fomze1Xkpp7jzgnBdrbStTVQ8ig9sTn634JG', '["ROLE_ADMIN"]', 'utilisateur20'),
+	(17, 'l.renau@regardsguerre.fr', NULL, NULL, '$2y$13$1/2dfTzLs1bO7LiabfFzOebgy8aghEfdHxG4xOIpZnkABzdS/s7Su', '["ROLE_ADMIN"]', '17-laury-renau'),
+	(19, 'm.murmann@regardsguerre.fr', NULL, NULL, '$2y$13$4TvTKYXjIjtU3fNipC5SO.Xrb7bFH.k7e/4w/4afTKXXLbO5WMDZq', '["ROLE_ADMIN"]', '19-micka-murrmann'),
+	(20, 'y.ruffo@regardsguerre.fr', NULL, NULL, '$2y$13$MzopDX0AJsIOKRzQ5Fomze1Xkpp7jzgnBdrbStTVQ8ig9sTn634JG', '["ROLE_ADMIN"]', '20-yofer-ruffo'),
 	(21, 'utilisateur21@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', 'utilisateur21'),
-	(26, 'r.root@regardsguerre.fr', NULL, NULL, '$2y$13$jlt8xiVmva0v/lKHHGw64eRcC4JWflNi9A0l/KcmWbL1t2pquIXae', '["ROLE_ROOT"]', 'utilisateur26'),
-	(29, 'lily@gmail.com', NULL, NULL, '$2y$13$mtcVAofqugOSCWycO9obzuQt789V.JE6Q15Fja8lMQdLyUQ7MW4Eq', '["ROLE_USER"]', 'utilisateur29'),
-	(30, 'maxLaMenace@gmail.com', 'lou', 'foque', '$2y$13$/ACNqc7g7xa6XQMp5T6RJ.JRVO4CkIDMoK.LJFjvzpNeRFwrrbvn2', '["ROLE_USER"]', 'utilisateur30'),
-	(31, 'cramoisi@gmail.com', NULL, NULL, '$2y$13$fcu18YDp6kYuhETi1H27i.6rVgfxNOVqmRo676vwxJxLu92Y3Rqaq', '["ROLE_USER"]', 'utilisateur31'),
-	(34, 'a.dupont@regardsguerre.fr', NULL, NULL, '$2y$13$nsmVPEUMPNESCxz5C1GdAOLGeRL5QJ.S0ago9qbls/VdThj.6CMrK', '["ROLE_ADMIN"]', 'utilisateur34'),
-	(35, 'damidoux@gmail.com', NULL, NULL, '$2y$13$YFmulZbmiaOmjWWfyWprO.3UURraNKC7yAOi88rDBcZU.f9WzpIA2', '["ROLE_USER"]', 'utilisateur35'),
-	(42, 'lisouu@gmail.com', NULL, NULL, '$2y$13$ivWfE9ZRUHDG8t.QVVq9ouMg6hDN0GIojMKd.xv2/rRJtNQkcvKNO', '["ROLE_USER"]', 'utilisateur42'),
-	(48, 'bob&alice@gmail.com', 'Bob', 'truc', '$2y$13$W.7RR7jhpM2o9i9iQZ0OO.nREUaJ16gSfJJpxaMDEE7Kpq/U2.MFS', '["ROLE_USER"]', 'truc-bob-48'),
+	(26, 'r.root@regardsguerre.fr', NULL, NULL, '$2y$13$jlt8xiVmva0v/lKHHGw64eRcC4JWflNi9A0l/KcmWbL1t2pquIXae', '["ROLE_ROOT"]', '26-r-root'),
+	(29, 'lily@gmail.com', NULL, NULL, '$2y$13$mtcVAofqugOSCWycO9obzuQt789V.JE6Q15Fja8lMQdLyUQ7MW4Eq', '["ROLE_USER"]', '29-lily'),
+	(30, 'maxOly@gmail.com', 'Maxine', 'Olympe', '$2y$13$/ACNqc7g7xa6XQMp5T6RJ.JRVO4CkIDMoK.LJFjvzpNeRFwrrbvn2', '["ROLE_USER"]', '30-maxOly'),
+	(31, 'cramoisi@gmail.com', NULL, NULL, '$2y$13$fcu18YDp6kYuhETi1H27i.6rVgfxNOVqmRo676vwxJxLu92Y3Rqaq', '["ROLE_USER"]', '31-cramoisi'),
+	(34, 'a.dupont@regardsguerre.fr', NULL, NULL, '$2y$13$nsmVPEUMPNESCxz5C1GdAOLGeRL5QJ.S0ago9qbls/VdThj.6CMrK', '["ROLE_ADMIN"]', '34-artus-dupont'),
+	(35, 'utilisateur35@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', '35-utilisateur'),
+	(42, 'lisouu@gmail.com', NULL, NULL, '$2y$13$ivWfE9ZRUHDG8t.QVVq9ouMg6hDN0GIojMKd.xv2/rRJtNQkcvKNO', '["ROLE_USER"]', '42-lisouuu'),
+	(48, 'bob&alice@gmail.com', '', '', '$2y$13$W.7RR7jhpM2o9i9iQZ0OO.nREUaJ16gSfJJpxaMDEE7Kpq/U2.MFS', '{"1": "ROLE_USER"}', '48-bob-alice'),
 	(49, 'utilisateur49@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', 'utilisateur-49'),
-	(50, 'marouan@gmail.com', 'Lou', 'Foque', '$2y$13$v1Krtvy015VD9IR0BKJ1NuS/s/i5hof3EVXzbfLXQzecnZ1mMjTTK', '["ROLE_USER"]', 'foque-lou-50');
+	(50, 'marouan@gmail.com', 'Lou', 'Foque', '$2y$13$v1Krtvy015VD9IR0BKJ1NuS/s/i5hof3EVXzbfLXQzecnZ1mMjTTK', '["ROLE_USER"]', '80-foque-lou');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
