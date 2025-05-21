@@ -48,7 +48,7 @@ final class TicketBOController extends AbstractController
             if ($ticketsRemaining <= 0) {
                 $stockSoldOut[] = $stockInfo;
             } elseif ($ticketsRemaining <= $stockAlert && $ticketsRemaining > 0) {
-                $almostExhaustedStocks[] = $stockInfo;
+                $stockSoonSoldOut[] = $stockInfo;
             }
         }
 
