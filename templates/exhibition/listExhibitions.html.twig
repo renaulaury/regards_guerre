@@ -25,9 +25,9 @@
                                 <p>{{ exhibition.hourBeginFr }} à {{ exhibition.hourEndFr }}</p>
                                 <p>
                                     {% if exhibition.ticketsRemaining <= 10 and exhibition.ticketsRemaining > 0 %}
-                                        <img class="imgTicketStock" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
+                                        <img class="imgSoonOutOfStock" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
                                     {% elseif exhibition.ticketsRemaining <= 0 %}
-                                        <img class="imgTicketStock" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Épuisé">
+                                        <img class="imgOutOfStock" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Épuisé">
                                     {% endif %}
                                 </p>
                         </div>

@@ -37,11 +37,19 @@
     font-family: var(--cormorantGaramond);
 }
 
-.imgTicketStock {
+.imgOutOfStock {
     display: flex;
     align-items: center;
     justify-content: center;
     max-width: 60px; 
+    max-height: auto; 
+}
+
+.imgSoonOutOfStock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 120px; 
     max-height: auto; 
 }
 
@@ -96,14 +104,6 @@
     .longTitleDate {
         display: block;
         font-family: var(--cormorantGaramond);
-    }
-    
-    .imgTicketStock {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        max-width: 60px; 
-        max-height: auto; 
     }
     
     .titleExhibitListAgenda {
