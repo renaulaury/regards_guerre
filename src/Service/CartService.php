@@ -53,7 +53,7 @@ class CartService
 
         // Vérifier si on a bien récupéré les informations nécessaires
         if ($ticketDetails) {
-            // Fetch the entire exhibition entity
+            // Récup l'expo associé
             $exhibition = $this->exhibitionShareRepository->find($exhibitionId); 
             $price = $ticketDetails['price'];
 
