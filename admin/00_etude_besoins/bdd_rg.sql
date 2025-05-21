@@ -26,16 +26,16 @@ CREATE TABLE IF NOT EXISTS `artist` (
   `artist_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `artist_birth_date` date DEFAULT NULL,
   `artist_death_date` date DEFAULT NULL,
-  `artist_job` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_job` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `artist_bio` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_anonymized` tinyint(1) NOT NULL,
   `anonymize_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1599687989D9B62` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.artist : ~20 rows (environ)
+-- Listage des données de la table regardsguerre.artist : ~19 rows (environ)
 REPLACE INTO `artist` (`id`, `artist_name`, `artist_firstname`, `artist_birth_date`, `artist_death_date`, `artist_job`, `artist_bio`, `slug`, `is_anonymized`, `anonymize_at`) VALUES
 	(4, 'Moribon', 'Jean', '1925-09-13', '2018-11-03', 'Photographe', 'Photographe suisse humaniste, reconnu pour ses reportages poignants sur les conflits et les crises sociales, notamment la guerre d\'Algérie.', '4-jean-moribon', 0, NULL),
 	(5, 'Khaman', 'Mohammed', '1930-03-14', '1991-05-04', 'Peintre', 'Peintre algérien majeur, connu pour sa contribution à l\'art contemporain algérien et son engagement dans la représentation de la décolonisation et de l\'identité post-coloniale. ', '5-mohammed-khaman', 0, NULL),
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table regardsguerre.doctrine_migration_versions : ~0 rows (environ)
+-- Listage des données de la table regardsguerre.doctrine_migration_versions : ~1 rows (environ)
 REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20250212135443', '2025-02-12 13:57:46', 962);
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
   `subtitle_exhibit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `stock_max` int NOT NULL,
   `stock_alert` int NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_B8353389989D9B62` (`slug`),
   KEY `IDX_B8353389A76ED395` (`user_id`),
@@ -104,33 +104,26 @@ REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `main
 -- Listage de la structure de table regardsguerre. invoice
 CREATE TABLE IF NOT EXISTS `invoice` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `number_invoice` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_firstname` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_email` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number_invoice` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_total` decimal(15,2) DEFAULT NULL,
   `date_invoice` date NOT NULL,
   `invoice_details` json DEFAULT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_90651744E7F723D1` (`number_invoice`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.invoice : ~13 rows (environ)
+-- Listage des données de la table regardsguerre.invoice : ~6 rows (environ)
 REPLACE INTO `invoice` (`id`, `number_invoice`, `customer_name`, `customer_firstname`, `customer_email`, `order_total`, `date_invoice`, `invoice_details`, `slug`) VALUES
-	(23, '20250503-165', 'Lou', 'Foque', 'maxLaMenace@gmail.com', 20.00, '2025-05-03', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "Les camps d\'Algérie"}]', '30-lou-foque'),
-	(24, '20250503-166', 'Lou', 'Foque', 'maxLaMenace@gmail.com', 40.00, '2025-05-03', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "Les camps d\'Algérie"}]', '30-lou-foque'),
-	(25, '20250503-167', 'Lou', 'Foque', 'maxLaMenace@gmail.com', 40.00, '2025-05-03', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "Les camps d\'Algérie"}]', '30-lou-foque'),
-	(65, '20250504-207', 'Cra', 'Moisi', 'cramoisi@gmail.com', 54.00, '2025-05-04', '[{"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "expositionTitle": "L\'Ukraine en résistance"}, {"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "L\'Ukraine en résistance"}]', '31-crade-moilisi'),
-	(66, '20250504-208', 'Lou', 'Foque', 'marouan@gmail.com', 44.00, '2025-05-04', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "expositionTitle": "L’exode afro-américaine"}, {"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "expositionTitle": "L’exode afro-américaine"}]', '50-lou-foque'),
-	(67, '20250504-210', 'crade', 'moilisi', 'cramoisi@gmail.com', 50.00, '2025-05-04', '[{"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '31-crade-moilisi'),
-	(71, '20250507-214', 'Maxine', 'Olympe', 'maxLaMenace@gmail.com', 188.00, '2025-05-07', '[{"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}, {"quantity": 11, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'Ukraine en résistance"}, {"quantity": 5, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}, {"quantity": 5, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '30-Maxine-Olympe'),
-	(72, '20250509-215', 'Dam', 'Midoux', 'damidoux@gmail.com', 20.00, '2025-05-09', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '35-Dam-Midoux'),
-	(73, '20250520-216', 'Lily', 'Reb', 'lily@gmail.com', 68.00, '2025-05-20', '[{"quantity": 6, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 1, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-Lily-Reb'),
-	(74, '20250520-217', 'Lily', 'Reb', 'lily@gmail.com', 68.00, '2025-05-20', '[{"quantity": 6, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 1, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-Lily-Reb'),
-	(75, '20250520-218', 'drgr', 'rgrger', 'lily@gmail.com', 30.00, '2025-05-20', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-drgr-rgrger'),
-	(76, '20250520-219', 'fff', 'fff', 'lily@gmail.com', 32.00, '2025-05-20', '[{"quantity": 4, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'incident de Kyujo"}]', '29-fff-fff'),
-	(77, '20250520-220', 'ddd', 'ddd', 'lily@gmail.com', 34.00, '2025-05-20', '[{"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}, {"quantity": 1, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}]', '29-ddd-ddd');
+	(78, '20250521-221', 'Norbert', 'Bertno', 'cramoisi@gmail.com', 1052.00, '2025-05-21', '[{"quantity": 66, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}, {"quantity": 49, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "Les camps d\'Algérie"}, {"quantity": 28, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "Les camps d\'Algérie"}]', '31-Norbert-Bertno'),
+	(79, '20250521-222', 'Norbert', 'Bertno', 'cramoisi@gmail.com', 1008.00, '2025-05-21', '[{"quantity": 68, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 41, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 41, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L\'incident de Kyujo"}]', '31-Norbert-Bertno'),
+	(80, '20250521-223', 'Lily', 'Renau', 'lily@gmail.com', 30.00, '2025-05-21', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}, {"quantity": 1, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '29-Lily-Renau'),
+	(81, '20250521-224', 'Lily', 'Renau', 'lily@gmail.com', 64.00, '2025-05-21', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}, {"quantity": 3, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}, {"quantity": 3, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "Les femmes palestiniennes et leur engagement"}]', '29-Lily-Renau'),
+	(82, '20250521-225', 'Julien', 'Vautier', 'lily@gmail.com', 56.00, '2025-05-21', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L’exode afro-américaine"}, {"quantity": 2, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L’exode afro-américaine"}, {"quantity": 2, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L’exode afro-américaine"}]', '29-Julien-Vautier'),
+	(83, '20250521-226', 'Lily', 'fff', 'cramoisi@gmail.com', 30.00, '2025-05-21', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '31-Lily-fff');
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -156,32 +149,24 @@ CREATE TABLE IF NOT EXISTS `order` (
   `customer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_date_creation` date NOT NULL,
-  `order_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_email` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `number_invoice` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number_invoice` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_total` decimal(17,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F5299398E7F723D1` (`number_invoice`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
   CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.order : ~13 rows (environ)
+-- Listage des données de la table regardsguerre.order : ~6 rows (environ)
 REPLACE INTO `order` (`id`, `user_id`, `customer_name`, `customer_firstname`, `order_date_creation`, `order_status`, `customer_email`, `number_invoice`, `order_total`) VALUES
-	(165, 30, 'lou', 'foque', '2025-05-03', 'Envoyé', 'maxLaMenace@gmail.com', '20250503-165', 20.00),
-	(166, 30, 'lou', 'foque', '2025-05-03', 'Envoyé', 'maxLaMenace@gmail.com', '20250503-166', 40.00),
-	(167, 30, 'lou', 'foque', '2025-05-03', 'Envoyé', 'maxLaMenace@gmail.com', '20250503-167', 40.00),
-	(207, 31, 'Cra', 'Moisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', '20250504-207', 54.00),
-	(208, 50, 'Lou', 'Foque', '2025-05-04', 'Envoyé', 'marouan@gmail.com', '20250504-208', 44.00),
-	(209, 31, 'crade', 'moilisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', NULL, 50.00),
-	(210, 31, 'crade', 'moilisi', '2025-05-04', 'Envoyé', 'cramoisi@gmail.com', '20250504-210', 50.00),
-	(214, 30, 'Maxine', 'Olympe', '2025-05-07', 'Envoyé', 'maxLaMenace@gmail.com', '20250507-214', 188.00),
-	(215, 35, 'Dam', 'Midoux', '2025-05-09', 'Envoyé', 'damidoux@gmail.com', '20250509-215', 20.00),
-	(216, 29, 'Lily', 'Reb', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-216', 68.00),
-	(217, 29, 'Lily', 'Reb', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-217', 68.00),
-	(218, 29, 'drgr', 'rgrger', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-218', 30.00),
-	(219, 29, 'fff', 'fff', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-219', 32.00),
-	(220, 29, 'ddd', 'ddd', '2025-05-20', 'Envoyé', 'lily@gmail.com', '20250520-220', 34.00);
+	(221, 31, 'Norbert', 'Bertno', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-221', 1052.00),
+	(222, 31, 'Norbert', 'Bertno', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-222', 1008.00),
+	(223, 29, 'Lily', 'Renau', '2025-05-21', 'Envoyé', 'lily@gmail.com', '20250521-223', 30.00),
+	(224, 29, 'Lily', 'Renau', '2025-05-21', 'Envoyé', 'lily@gmail.com', '20250521-224', 64.00),
+	(225, 29, 'Julien', 'Vautier', '2025-05-21', 'Envoyé', 'lily@gmail.com', '20250521-225', 56.00),
+	(226, 31, 'Lily', 'fff', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-226', 30.00);
 
 -- Listage de la structure de table regardsguerre. order_detail
 CREATE TABLE IF NOT EXISTS `order_detail` (
@@ -198,31 +183,25 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   CONSTRAINT `FK_ED896F46251A8A50` FOREIGN KEY (`order__id`) REFERENCES `order` (`id`),
   CONSTRAINT `FK_ED896F462A7D4494` FOREIGN KEY (`exhibition_id`) REFERENCES `exhibition` (`id`),
   CONSTRAINT `FK_ED896F46700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=339 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=354 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.order_detail : ~21 rows (environ)
+-- Listage des données de la table regardsguerre.order_detail : ~15 rows (environ)
 REPLACE INTO `order_detail` (`id`, `order__id`, `exhibition_id`, `ticket_id`, `unit_price`, `quantity`) VALUES
-	(212, 165, 1, 1, 10.00, 2),
-	(213, 166, 1, 1, 10.00, 4),
-	(214, 167, 1, 1, 10.00, 4),
-	(318, 207, 25, 2, 8.00, 3),
-	(319, 207, 25, 1, 10.00, 3),
-	(320, 208, 23, 1, 10.00, 2),
-	(321, 208, 23, 2, 8.00, 3),
-	(322, 210, 25, 1, 10.00, 5),
-	(326, 214, 1, 1, 10.00, 150),
-	(327, 214, 25, 2, 8.00, 11),
-	(328, 214, 25, 1, 10.00, 5),
-	(329, 214, 25, 3, 0.00, 5),
-	(330, 215, 25, 1, 10.00, 2),
-	(331, 216, 4, 1, 10.00, 6),
-	(332, 216, 25, 2, 8.00, 1),
-	(333, 217, 4, 1, 10.00, 6),
-	(334, 217, 25, 2, 8.00, 1),
-	(335, 218, 25, 1, 10.00, 3),
-	(336, 219, 4, 2, 8.00, 4),
-	(337, 220, 3, 2, 8.00, 3),
-	(338, 220, 3, 1, 10.00, 1);
+	(339, 221, 1, 1, 10.00, 66),
+	(340, 221, 1, 2, 8.00, 49),
+	(341, 221, 1, 3, 0.00, 28),
+	(342, 222, 4, 1, 10.00, 68),
+	(343, 222, 4, 2, 8.00, 41),
+	(344, 222, 4, 3, 0.00, 41),
+	(345, 223, 25, 1, 10.00, 3),
+	(346, 223, 25, 3, 0.00, 1),
+	(347, 224, 3, 1, 10.00, 4),
+	(348, 224, 3, 2, 8.00, 3),
+	(349, 224, 3, 3, 0.00, 3),
+	(350, 225, 23, 1, 10.00, 4),
+	(351, 225, 23, 2, 8.00, 2),
+	(352, 225, 23, 3, 0.00, 2),
+	(353, 226, 25, 1, 10.00, 3);
 
 -- Listage de la structure de table regardsguerre. reset_password_request
 CREATE TABLE IF NOT EXISTS `reset_password_request` (
@@ -257,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.room : ~5 rows (environ)
+-- Listage des données de la table regardsguerre.room : ~4 rows (environ)
 REPLACE INTO `room` (`id`, `title_room`) VALUES
 	(1, 'Elise'),
 	(2, 'Joséphine'),
@@ -282,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `show` (
   CONSTRAINT `FK_320ED901B7970CF8` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.show : ~6 rows (environ)
+-- Listage des données de la table regardsguerre.show : ~4 rows (environ)
 REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_photo`, `artist_photo_alt`, `artist_text_art`) VALUES
 	(3, 2, 1, 6, '/images/events/20250509/Amine_Yasmina.webp', 'Affiche du court métrage "Les guerrières d\'Algérie"', 'Elle se concentre particulièrement sur les récits souvent oubliés des harkis, comme dans son documentaire "La fin des Harkis", qui donne une voix aux témoins de cette histoire silencieuse. Elle utilise le cinéma pour questionner la mémoire collective, le traumatisme de l\'exil et la réconciliation entre les différentes communautés liées au conflit.'),
 	(4, 4, 1, 4, '/images/events/20250509/Moribon_Jean.webp', 'Jeune femme prise en photo', 'Son travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.'),
@@ -295,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `title_ticket` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_ticket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_ticket_alt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_97A0ADA3989D9B62` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -347,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `type` (
   CONSTRAINT `FK_8CDE5729700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.type : ~2 rows (environ)
+-- Listage des données de la table regardsguerre.type : ~3 rows (environ)
 REPLACE INTO `type` (`id`, `ticket_id`, `title_type`) VALUES
 	(1, 2, 'Ticket'),
 	(2, 1, 'Ticket'),
@@ -358,30 +337,26 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_firstname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`),
   UNIQUE KEY `UNIQ_8D93D649989D9B62` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.user : ~14 rows (environ)
+-- Listage des données de la table regardsguerre.user : ~10 rows (environ)
 REPLACE INTO `user` (`id`, `user_email`, `user_name`, `user_firstname`, `password`, `roles`, `slug`) VALUES
 	(17, 'l.renau@regardsguerre.fr', NULL, NULL, '$2y$13$1/2dfTzLs1bO7LiabfFzOebgy8aghEfdHxG4xOIpZnkABzdS/s7Su', '["ROLE_ADMIN"]', '17-laury-renau'),
 	(19, 'm.murmann@regardsguerre.fr', NULL, NULL, '$2y$13$4TvTKYXjIjtU3fNipC5SO.Xrb7bFH.k7e/4w/4afTKXXLbO5WMDZq', '["ROLE_ADMIN"]', '19-micka-murrmann'),
 	(20, 'y.ruffo@regardsguerre.fr', NULL, NULL, '$2y$13$MzopDX0AJsIOKRzQ5Fomze1Xkpp7jzgnBdrbStTVQ8ig9sTn634JG', '["ROLE_ADMIN"]', '20-yofer-ruffo'),
-	(21, 'utilisateur21@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', 'utilisateur21'),
 	(26, 'r.root@regardsguerre.fr', NULL, NULL, '$2y$13$jlt8xiVmva0v/lKHHGw64eRcC4JWflNi9A0l/KcmWbL1t2pquIXae', '["ROLE_ROOT"]', '26-r-root'),
 	(29, 'lily@gmail.com', NULL, NULL, '$2y$13$mtcVAofqugOSCWycO9obzuQt789V.JE6Q15Fja8lMQdLyUQ7MW4Eq', '["ROLE_USER"]', '29-lily'),
 	(30, 'maxOly@gmail.com', 'Maxine', 'Olympe', '$2y$13$/ACNqc7g7xa6XQMp5T6RJ.JRVO4CkIDMoK.LJFjvzpNeRFwrrbvn2', '["ROLE_USER"]', '30-maxOly'),
 	(31, 'cramoisi@gmail.com', NULL, NULL, '$2y$13$fcu18YDp6kYuhETi1H27i.6rVgfxNOVqmRo676vwxJxLu92Y3Rqaq', '["ROLE_USER"]', '31-cramoisi'),
 	(34, 'a.dupont@regardsguerre.fr', NULL, NULL, '$2y$13$nsmVPEUMPNESCxz5C1GdAOLGeRL5QJ.S0ago9qbls/VdThj.6CMrK', '["ROLE_ADMIN"]', '34-artus-dupont'),
-	(35, 'utilisateur35@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', '35-utilisateur'),
 	(42, 'lisouu@gmail.com', NULL, NULL, '$2y$13$ivWfE9ZRUHDG8t.QVVq9ouMg6hDN0GIojMKd.xv2/rRJtNQkcvKNO', '["ROLE_USER"]', '42-lisouuu'),
-	(48, 'bob&alice@gmail.com', '', '', '$2y$13$W.7RR7jhpM2o9i9iQZ0OO.nREUaJ16gSfJJpxaMDEE7Kpq/U2.MFS', '{"1": "ROLE_USER"}', '48-bob-alice'),
-	(49, 'utilisateur49@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', 'utilisateur-49'),
 	(50, 'marouan@gmail.com', 'Lou', 'Foque', '$2y$13$v1Krtvy015VD9IR0BKJ1NuS/s/i5hof3EVXzbfLXQzecnZ1mMjTTK', '["ROLE_USER"]', '80-foque-lou');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
