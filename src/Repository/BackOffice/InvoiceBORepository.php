@@ -35,7 +35,7 @@ class InvoiceBORepository extends ServiceEntityRepository
     }
 
 /************** Liste total des factures par date ********************/
-    public function findInvoicesByYear() {
+    public function findInvoicesByYear(string $slug) {
         // Récupération de l'EntityManager pour interagir avec la base de données
         $entityManager = $this->getEntityManager();
         // Création du QueryBuilder (spécifique Symfony) pour construire la requête DQL

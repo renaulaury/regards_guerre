@@ -88,7 +88,7 @@ final class InvoiceBOController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $invoices = $invoiceBORepo->findInvoicesByYear(['slug' => $slug]);
+        $invoices = $invoiceBORepo->findInvoicesByYear($slug);
 
 
         // Passer les factures et la première facture (pour le nom du client)
