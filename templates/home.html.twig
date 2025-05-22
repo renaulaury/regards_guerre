@@ -85,9 +85,9 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
 
                             <div class="blockImgStockHome">
                                 {% if agendas.ticketsRemaining <= 10 and agendas.ticketsRemaining > 0 %}
-                                    <img class="imgStockHome" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
+                                    <img class="imgSoonOutOfStock" src="{{ asset('images/stocks/soon_out_of_stock_hor.png') }}" alt="Presque épuisé">
                                 {% elseif agendas.ticketsRemaining <= 10 %}
-                                    <img class="imgStockHome" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Epuisé">
+                                    <img class="imgOutOfStock" src="{{ asset('images/stocks/out_of_stock_hor.png') }}" alt="Epuisé">
                                 {% endif %}
                             </div>
 
@@ -105,7 +105,13 @@ explorez la boutique sur place et localisez-nous facilement grâce à notre cart
                                 <p class="hookAgenda">{{ agendas.hookExhibit }}</p>
                             </div>
                         
-                            <a class="parkinsanBrown textHover" href="{{ path('exhibition', {'slug': agendas.slug}) }}"> > Fiche détaillée</a>
+                            <a class="parkinsanBrown textHover" href="{{ path('exhibition', {'slug': agendas.slug}) }}">
+                                {% if agendas.ticketsRemaining > 0 %}                                    
+                                    > Tickets
+                                {% else %}
+                                    > Fiche détaillée
+                                {% endif %}   
+                            </a>
                         </div>
                     </div>
 

@@ -75,6 +75,13 @@
         flex-wrap: wrap;
         gap: 20px;
     }
+
+    .buttonClear {
+        padding-top: 100px;
+        padding-right: 30px;
+        display: flex;
+        justify-content: flex-end;
+    }
     
     .blockListAgenda {
         display: flex;
@@ -227,7 +234,7 @@
         width: 60%;
     }
 
-    .amountContainer a {
+    .btnCartType {
         width: 60%;
     }
 

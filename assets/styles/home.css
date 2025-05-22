@@ -179,14 +179,6 @@
     padding-bottom: 1%; 
 }
 
-.imgStockHome {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 100px; 
-    max-height: auto; 
-}
-
 .blockTextAgenda {
     padding-bottom: 30px;
 }

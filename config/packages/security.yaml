@@ -37,15 +37,13 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
-        - { path: ^/root, roles: ROLE_ROOT }
-        - { path: ^/backOffice, roles: [ROLE_ADMIN, ROLE_ROOT]  }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+    access_control:       
+        - { path: ^/backOffice, roles: [ROLE_ADMIN, ROLE_ROOT]  }        
         - { path: ^/profile, roles: ROLE_USER }  
-        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_USER }        
+        # - { path: ^/root, roles: ROLE_ROOT }   
+        # - { path: ^/admin, roles: ROLE_ADMIN }
         
-        
-
 when@test:
     security:
         password_hashers:

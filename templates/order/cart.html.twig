@@ -85,7 +85,7 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                     <div class="amountContainer">
                                         <div class="amountCart">Montant total : <span>{{ total }} €</span></div>
                                         <a href="{{ path('paymentStripe') }}">
-                                            <button type="submit" class="btnCTA btnCartType">Payer</button>
+                                            <button type="submit" class="btnCTA">Payer</button>
                                         </a>
                                     </div>
 
@@ -112,8 +112,8 @@ Assurez-vous que vos informations personnelles sont complètes pour finaliser vo
                                 </div>
                                     <div class="amountContainer">
                                         <div class="amountCart">Montant total : <span>{{ total }} €</span></div>
-                                        <a href="{{ path('paymentStripe') }}">
-                                            <button type="submit" class="btnCTA btnCartType">Payer</button>
+                                        <a class="btnCartType" href="{{ path('paymentStripe') }}">
+                                            <button type="submit" class="btnCTA">Payer</button>
                                         </a>
 
                                         <div class="buttonClear">
