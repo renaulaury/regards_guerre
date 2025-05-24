@@ -32,7 +32,7 @@ class OrderShareRepository extends ServiceEntityRepository
             ->innerJoin('od.ticket', 't')
             ->where('o.user = :userId')
             ->setParameter('userId', $userId)
-            ->orderBy('e.dateExhibit', 'ASC');
+            ->orderBy('o.orderDateCreation', 'DESC');
 
         //Renvoie du résultat
         // getQuery() retourne l'objet Query Doctrine qui permet d'exécuter la requête construite

@@ -273,13 +273,17 @@ class PaymentController extends AbstractController
         $invoice->setNumberInvoice($invoiceNumber);
 
 
-        // Génération du slug avec l'ID, le nom et le prénom de l'utilisateur
-        $userId = $order->getUser()->getId(); // Récupère l'ID de l'utilisateur à partir de l'entité $order
-        $userName = $invoice->getCustomerName(); 
-        $userFirstname = $invoice->getCustomerFirstname(); 
+        // Récup de l'email
+        $userEmail = $order->getUser()->getUserIdentifier();
+        $emailBegin = strstr($userEmail, '@', true); // strstr() récupère tout avant le "@"
 
-        $slug = sprintf('%d-%s-%s', $userId, $userName, $userFirstname);
+        // Générer le slug avec l'ID de l'utilisateur et la partie avant l'@
+        $userId = $order->getUser()->getId();
+        $slug = sprintf('%d-%s', $userId, $emailBegin);
+
+        // Affecter le slug à la facture
         $invoice->setSlug($slug);
+
 
 
         $invoiceDetails = []; //Détail de la commande

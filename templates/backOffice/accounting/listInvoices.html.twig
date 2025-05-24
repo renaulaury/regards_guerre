@@ -11,6 +11,10 @@
     <h1>Liste des factures clients</h1>
 
     <section class="backOffice">
+        <div class="noticeBO">            
+            <p>Le filtre permet de rechercher selon un nom de famille.</p>
+            <p>Une adresse mail peut contenir plusieurs noms de clients.</p>
+        </div>
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ROOT') %}
             <div class="filterUser">
@@ -31,16 +35,22 @@
                 {% if uniqueCustomers is not empty %}
                     {% for customer in uniqueCustomers %}
                         <div class="invoiceItem">
-                            <p> 
-                                {{ customer.name }} {{ customer.firstname }}
+                            <p> {{ customer.email }} 
                                 <a href="{{ path('invoicesUserBO', {'slug': customer.slug }) }}"
-                                aria-label="{{ 'Voir les factures de ' ~ customer.firstname ~ ' ' ~ customer.name }}"
-                                title="{{ 'Afficher l\'historique des factures de l\'utilisateur ' ~ customer.firstname ~ ' ' ~ customer.name }}">
+                                aria-label="{{ 'Voir les factures de ' ~ customer.names|first }}"
+                                title="{{ 'Afficher l\'historique des factures de l\'utilisateur ' ~ customer.names|first }}">
                                     <i class="fa-regular fa-folder-open"></i>
                                 </a>
                             </p>
 
-                            <p> {{ customer.email }} </p>
+                            <p> 
+                                {% for name in customer.names %}
+                                    {{ name }}<br>  
+                                {% endfor %}
+                                
+                            </p>
+
+                            
                         </div>
                     {% endfor %}
                 {% else %}

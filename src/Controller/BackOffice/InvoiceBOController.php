@@ -45,13 +45,20 @@ final class InvoiceBOController extends AbstractController
         $uniqueCustomers = [];
         foreach ($invoices as $invoice) {
             $customerEmail = $invoice->getCustomerEmail();
+            
+            // Si l'email n'est pas déjà dans le tableau, on l'ajoute
             if (!isset($uniqueCustomers[$customerEmail])) {
                 $uniqueCustomers[$customerEmail] = [
-                    'name' => $invoice->getCustomerName(),
-                    'firstname' => $invoice->getCustomerFirstname(),
                     'email' => $customerEmail,
+                    'names' => [], // Tableau pour stocker les noms distincts
                     'slug' => $invoice->getSlug(),
                 ];
+            }
+            
+            // Ajouter le nom de ce client à la liste des noms s'il n'est pas déjà dedans
+            $fullName = $invoice->getCustomerFirstname() . ' ' . $invoice->getCustomerName();
+            if (!in_array($fullName, $uniqueCustomers[$customerEmail]['names'])) {
+                $uniqueCustomers[$customerEmail]['names'][] = $fullName;
             }
         }
 
