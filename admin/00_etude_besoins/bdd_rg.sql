@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `artist` (
   UNIQUE KEY `UNIQ_1599687989D9B62` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.artist : ~18 rows (environ)
+-- Listage des données de la table regardsguerre.artist : ~5 rows (environ)
 REPLACE INTO `artist` (`id`, `artist_name`, `artist_firstname`, `artist_birth_date`, `artist_death_date`, `artist_job`, `artist_bio`, `slug`, `is_anonymized`, `anonymize_at`) VALUES
 	(4, 'Moribon', 'Jean', '1925-09-13', '2018-11-03', 'Photographe', 'Photographe suisse humaniste, reconnu pour ses reportages poignants sur les conflits et les crises sociales, notamment la guerre d\'Algérie.', '4-jean-moribon', 0, NULL),
 	(5, 'Khaman', 'Mohammed', '1930-03-14', '1991-05-04', 'Peintre', 'Peintre algérien majeur, connu pour sa contribution à l\'art contemporain algérien et son engagement dans la représentation de la décolonisation et de l\'identité post-coloniale. ', '5-mohammed-khaman', 0, NULL),
@@ -71,7 +71,7 @@ REPLACE INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution
 -- Listage de la structure de table regardsguerre. exhibition
 CREATE TABLE IF NOT EXISTS `exhibition` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   `title_exhibit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `main_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `main_image_alt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `exhibition` (
   `subtitle_exhibit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `stock_max` int NOT NULL,
   `stock_alert` int NOT NULL,
-  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_B8353389989D9B62` (`slug`),
   KEY `IDX_B8353389A76ED395` (`user_id`),
@@ -104,13 +104,13 @@ REPLACE INTO `exhibition` (`id`, `user_id`, `title_exhibit`, `main_image`, `main
 CREATE TABLE IF NOT EXISTS `invoice` (
   `id` int NOT NULL AUTO_INCREMENT,
   `number_invoice` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_total` decimal(15,2) NOT NULL,
+  `customer_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_firstname` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_email` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_total` decimal(15,2) DEFAULT NULL,
   `date_invoice` date NOT NULL,
-  `invoice_details` json NOT NULL,
-  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoice_details` json DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_90651744E7F723D1` (`number_invoice`)
 ) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -148,14 +148,14 @@ CREATE TABLE IF NOT EXISTS `messenger_messages` (
 -- Listage de la structure de table regardsguerre. order
 CREATE TABLE IF NOT EXISTS `order` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `customer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `customer_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_firstname` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_date_creation` date NOT NULL,
   `order_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_email` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `number_invoice` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_total` decimal(17,2) NOT NULL,
+  `order_total` decimal(17,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F5299398E7F723D1` (`number_invoice`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
@@ -178,9 +178,9 @@ REPLACE INTO `order` (`id`, `user_id`, `customer_name`, `customer_firstname`, `o
 -- Listage de la structure de table regardsguerre. order_detail
 CREATE TABLE IF NOT EXISTS `order_detail` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `order__id` int NOT NULL,
-  `exhibition_id` int NOT NULL,
-  `ticket_id` int NOT NULL,
+  `order__id` int DEFAULT NULL,
+  `exhibition_id` int DEFAULT NULL,
+  `ticket_id` int DEFAULT NULL,
   `unit_price` decimal(10,2) NOT NULL,
   `quantity` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -257,9 +257,9 @@ REPLACE INTO `room` (`id`, `title_room`) VALUES
 -- Listage de la structure de table regardsguerre. show
 CREATE TABLE IF NOT EXISTS `show` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `room_id` int NOT NULL,
-  `exhibition_id` int NOT NULL,
-  `artist_id` int NOT NULL,
+  `room_id` int DEFAULT NULL,
+  `exhibition_id` int DEFAULT NULL,
+  `artist_id` int DEFAULT NULL,
   `artist_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `artist_photo_alt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `artist_text_art` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `show` (
   CONSTRAINT `FK_320ED901B7970CF8` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.show : ~13 rows (environ)
+-- Listage des données de la table regardsguerre.show : ~4 rows (environ)
 REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_photo`, `artist_photo_alt`, `artist_text_art`) VALUES
 	(3, 2, 1, 6, '/images/events/20250509/Amine_Yasmina.webp', 'Affiche du court métrage "Les guerrières d\'Algérie"', 'Elle se concentre particulièrement sur les récits souvent oubliés des harkis, comme dans son documentaire "La fin des Harkis", qui donne une voix aux témoins de cette histoire silencieuse. Elle utilise le cinéma pour questionner la mémoire collective, le traumatisme de l\'exil et la réconciliation entre les différentes communautés liées au conflit.'),
 	(4, 4, 1, 4, '/images/events/20250509/Moribon_Jean.webp', 'Jeune femme prise en photo', 'Son travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.'),
@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `title_ticket` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_ticket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_ticket_alt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_97A0ADA3989D9B62` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
