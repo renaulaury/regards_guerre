@@ -39,8 +39,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:       
         - { path: ^/backOffice, roles: [ROLE_ADMIN, ROLE_ROOT]  }        
-        - { path: ^/profile, roles: ROLE_USER }  
-        - { path: ^/user, roles: ROLE_USER }        
+        - { path: ^/profile, roles: ROLE_USER } 
+        # - { path: ^/user, roles: ROLE_USER }        
         # - { path: ^/root, roles: ROLE_ROOT }   
         # - { path: ^/admin, roles: ROLE_ADMIN }
         

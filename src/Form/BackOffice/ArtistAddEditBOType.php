@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
@@ -79,10 +78,6 @@ class ArtistAddEditBOType extends AbstractType
                         new LessThanOrEqual([
                             'value' => new \DateTime('today'),
                             'message' => 'La date de décès doit être antérieure ou égale à la date d\'aujourd\'hui.',
-                        ]),
-                        new GreaterThan([
-                            'propertyPath' => 'parent.children[birthDate].data',
-                            'message' => 'La date de décès doit être postérieure à la date de naissance.',
                         ]),
                     ],
                 ])

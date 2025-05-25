@@ -83,6 +83,12 @@ final class ArtistBOController extends AbstractController
 
         // Vérif du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            // Si ajout, flush une première fois pour avoir l'ID
+            if ($isAdd) {
+                $entityManager->persist($artist);
+                $entityManager->flush(); // L'ID défini
+            }
+
             //Générer le nouveau slug
             $slug = $artist->createSlugArtist();
             $artist->setSlug($slug);

@@ -28,34 +28,33 @@ CREATE TABLE IF NOT EXISTS `artist` (
   `artist_death_date` date DEFAULT NULL,
   `artist_job` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `artist_bio` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_anonymized` tinyint(1) NOT NULL,
   `anonymize_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1599687989D9B62` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.artist : ~19 rows (environ)
+-- Listage des données de la table regardsguerre.artist : ~18 rows (environ)
 REPLACE INTO `artist` (`id`, `artist_name`, `artist_firstname`, `artist_birth_date`, `artist_death_date`, `artist_job`, `artist_bio`, `slug`, `is_anonymized`, `anonymize_at`) VALUES
 	(4, 'Moribon', 'Jean', '1925-09-13', '2018-11-03', 'Photographe', 'Photographe suisse humaniste, reconnu pour ses reportages poignants sur les conflits et les crises sociales, notamment la guerre d\'Algérie.', '4-jean-moribon', 0, NULL),
 	(5, 'Khaman', 'Mohammed', '1930-03-14', '1991-05-04', 'Peintre', 'Peintre algérien majeur, connu pour sa contribution à l\'art contemporain algérien et son engagement dans la représentation de la décolonisation et de l\'identité post-coloniale. ', '5-mohammed-khaman', 0, NULL),
-	(6, 'Amine', 'Yasmina', '1975-05-20', NULL, 'Réalisatrice', 'Réalisatrice franco-algérienne, connue pour son exploration de la guerre d\'Algérie et de ses mémoires à travers des documentaires.', '6-1975-05-20-yasmina-amine', 0, NULL),
+	(6, 'Amine', 'Yasmina', '1975-05-20', NULL, 'Réalisatrice', 'Réalisatrice franco-algérienne, connue pour son exploration de la guerre d\'Algérie et de ses mémoires à travers des documentaires.', '6-yasmina-amine', 0, NULL),
 	(20, 'Takeda', 'Hiroshi', '1957-06-03', NULL, 'Calligraphe', 'Né à Kyoto, il a grandi dans une famille d’artisans spécialisés dans la fabrication de kimonos traditionnels. Passionné par l’histoire et l’esthétique zen, il a voyagé à travers le Japon pour étudier l’art de la calligraphie et la peinture sur soie.', '20-hiroshi-takeda', 0, NULL),
 	(22, 'Nemura', 'Kévin', '1975-12-08', NULL, 'Sculteur', 'Issu d’une famille de pêcheurs d’Hokkaido, il a toujours été fasciné par la transformation des matières naturelles. Il a étudié l’art du bois et du métal à Osaka avant de se spécialiser dans la sculpture monumentale.', '22-kevin-nemura', 0, NULL),
 	(23, 'Shimizu', 'Miyako', '1921-07-15', '2015-03-02', 'Peintre', 'Née avant la Seconde Guerre mondiale, elle a traversé les bouleversements du XXe siècle, ce qui a profondément marqué son œuvre. Fervente pacifiste, elle s’est engagée dans des associations pour la mémoire des bombardements d’Hiroshima et Nagasaki.', '23-miyako-shimizu', 0, NULL),
 	(24, 'Ivanenko', 'Oleh', '1965-11-25', NULL, 'Graveur', 'Né à Kharkiv, il a grandi en plein cœur de l’effondrement de l’URSS, ce qui a influencé son regard critique sur l’histoire et l’identité ukrainienne.', '24-oleh-ivanenko', 0, NULL),
 	(25, 'Svitlana', 'Drach', '1992-04-30', NULL, 'Poétesse, Performeuse', 'Originaire de Lviv, elle s’est fait connaître pour ses performances engagées lors des manifestations de l’Euromaidan en 2014.', '25-drach-svitlana', 0, NULL),
 	(26, 'Mazepa', 'Yuriy', '1978-09-07', '2022-03-15', 'Photographe', 'Ancien journaliste, il s’est spécialisé dans la photographie de conflit. Il a couvert la guerre du Donbass et a perdu la vie en documentant l’invasion de 2022.', '26-yuriy-mazepa', 0, NULL),
-	(27, 'Melnyk', 'Anastasiya', '1986-01-18', NULL, 'Céramiste', 'Après avoir fui le Donetsk en 2014, elle s’est installée à Kyiv, où elle a développé un art inspiré par la fragilité et la reconstruction.', '27-anastasiya-melnyk', 0, NULL),
 	(28, 'DeShawn', 'Carter', '1990-05-14', NULL, 'Graffeur', 'Né à Chicago, il a été confronté dès son enfance aux violences policières et aux inégalités raciales.', '28-carter-deshawn', 0, NULL),
 	(29, 'Johnson', 'Amara', '1982-02-27', NULL, 'Danseuse, Chorégraphe', 'Originaire de la Nouvelle-Orléans, elle a étudié la danse classique avant de se tourner vers une expression plus libre inspirée du hip-hop et de la danse africaine.', '29-amara-johnson', 0, NULL),
 	(30, 'Rivers', 'Malcom', '1974-08-02', NULL, 'Sculteur', 'Né à Atlanta, il a grandi dans une famille impliquée dans les mouvements pour les droits civiques. Très jeune, il a été sensibilisé aux luttes pour l’égalité et la reconnaissance des cultures afro-américaines.', '30-malcom-rivers', 0, NULL),
-	(31, 'Brooks', 'Nathaniel', '1892-03-29', '1892-10-07', 'Illustrateur, Peintre', 'Issu d’une famille de fermiers du Kentucky, il a d’abord été illustrateur de presse avant de se consacrer à la peinture après la guerre de Sécession.', '31-nathaniel-brooks', 0, NULL),
 	(32, 'Doyle', 'Kate', '1838-11-10', '1919-06-22', 'Photographe', 'Fille d’un imprimeur de Boston, elle a été l’une des rares femmes photographes à couvrir les conséquences de la guerre.', '32-kate-doyle', 0, NULL),
-	(33, 'Wainwright', 'Jebediah', '1829-09-05', '1888-01-14', 'Graveur, Caricaturiste', 'Ancien soldat confédéré ayant changé de camp après la bataille de Gettysburg, il est devenu célèbre pour ses gravures satiriques dénonçant l’absurdité de la guerre.', '33-jebediah-wainwright', 0, NULL),
-	(34, 'Monroe', 'Ezekiel', '1842-07-20', '1864-12-02', 'Musicien', 'Né dans une famille d’esclaves affranchis en Virginie, il a appris le violon en cachette avant de s’engager comme musicien dans l’armée de l’Union.', '34-ezekiel-monroe', 0, NULL),
+	(33, 'Wainwright', 'Jebediah', '1939-09-05', '1949-03-14', 'Graveur, Caricaturiste', 'Ancien combattant dans les rangs des milices israéliennes, ayant changé de camp après la bataille de Gettysburg, il est devenu célèbre pour ses gravures satiriques dénonçant l’absurdité de la guerre.', '33-jebediah-wainwright', 0, NULL),
+	(34, 'Monroe', 'Ezekiel', '1922-07-20', '2001-12-02', 'Musicien', 'Issu d’un quartier populaire de Gaza, il a d’abord travaillé comme illustrateur pour des journaux locaux et des publications de solidarité avant de se consacrer pleinement à la peinture après les intifadas.', '34-ezekiel-monroe', 0, NULL),
 	(38, 'Garrigue', 'Anna', '1931-03-14', '1966-01-06', 'Poétesse', 'Née en Algérie, elle était une militante et poétesse engagée dans la lutte pour l’indépendance de l’Algérie. Emprisonnée pendant la guerre, elle a écrit des poèmes marqués par la douleur de l\'exil et le combat pour la liberté.', '38-anna-garrigue', 0, '2025-04-26 00:00:00'),
-	(41, 'Dupignon', 'Robert', '2021-02-10', NULL, 'Sculteur', '', '41-robert-dupignon', 1, NULL);
+	(45, 'Melnyk', 'Anastasiya', '1986-01-18', NULL, 'Céramiste', 'Après avoir fui le Donetsk en 2014, elle s’est installée à Kyiv, où elle a développé un art inspiré par la fragilité et la reconstruction.', '45-anastasiya-melnyk', 0, NULL),
+	(46, 'Brooks', 'Nathaniel', '1945-03-29', '2012-10-07', 'Peintre, Illustrateur', 'Issu d’un quartier ouvrier de Baltimore, il a d’abord travaillé comme illustrateur pour un journal militant local avant de se consacrer pleinement à la peinture après les émeutes raciales des années 1960.', '46-nathaniel-brooks', 0, NULL);
 
 -- Listage de la structure de table regardsguerre. doctrine_migration_versions
 CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
@@ -114,9 +113,9 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_90651744E7F723D1` (`number_invoice`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.invoice : ~4 rows (environ)
+-- Listage des données de la table regardsguerre.invoice : ~8 rows (environ)
 REPLACE INTO `invoice` (`id`, `number_invoice`, `customer_name`, `customer_firstname`, `customer_email`, `order_total`, `date_invoice`, `invoice_details`, `slug`) VALUES
 	(78, '20250521-221', 'Malberg', 'Quentin', 'cramoisi@gmail.com', 1052.00, '2025-05-21', '[{"quantity": 66, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}, {"quantity": 49, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "Les camps d\'Algérie"}, {"quantity": 28, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "Les camps d\'Algérie"}]', '31-cramoisi'),
 	(79, '20250521-222', 'Malberg', 'Quentin', 'cramoisi@gmail.com', 1008.00, '2025-05-21', '[{"quantity": 68, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 41, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L\'incident de Kyujo"}, {"quantity": 41, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L\'incident de Kyujo"}]', '31-cramoisi'),
@@ -125,7 +124,9 @@ REPLACE INTO `invoice` (`id`, `number_invoice`, `customer_name`, `customer_first
 	(82, '20250521-225', 'Vautier', 'Julien', 'cramoisi@gmail.com', 56.00, '2025-05-21', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L’exode afro-américaine"}, {"quantity": 2, "ticketTitle": "Enfant", "standardPrice": "8.00", "exhibitionTitle": "L’exode afro-américaine"}, {"quantity": 2, "ticketTitle": "Enfant -6ans", "standardPrice": "0.00", "exhibitionTitle": "L’exode afro-américaine"}]', '31-cramoisi'),
 	(83, '20250521-226', 'Malberg', 'Quentin', 'cramoisi@gmail.com', 30.00, '2025-05-21', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '31-cramoisi'),
 	(84, '20250522-227', 'Malberg', 'Quentin', 'cramoisi@gmail.com', 20.00, '2025-05-22', '[{"quantity": 2, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "L\'Ukraine en résistance"}]', '31-cramoisi'),
-	(85, '20250524-228', 'Malberg', 'Quentin', 'cramoisi@gmail.com', 30.00, '2025-05-24', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}]', '31-cramoisi');
+	(85, '20250524-228', 'Malberg', 'Quentin', 'cramoisi@gmail.com', 30.00, '2025-05-24', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}]', '31-cramoisi'),
+	(89, '20250525-233', 'Renau', 'Laury', 'lily@gmail.com', 30.00, '2025-05-25', '[{"quantity": 3, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}]', '29-lily'),
+	(90, '20250525-234', 'Test', 'test', 'test@test.com', 40.00, '2025-05-25', '[{"quantity": 4, "ticketTitle": "Adulte", "standardPrice": "10.00", "exhibitionTitle": "Les camps d\'Algérie"}]', '51-test');
 
 -- Listage de la structure de table regardsguerre. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -159,9 +160,9 @@ CREATE TABLE IF NOT EXISTS `order` (
   UNIQUE KEY `UNIQ_F5299398E7F723D1` (`number_invoice`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
   CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.order : ~7 rows (environ)
+-- Listage des données de la table regardsguerre.order : ~8 rows (environ)
 REPLACE INTO `order` (`id`, `user_id`, `customer_name`, `customer_firstname`, `order_date_creation`, `order_status`, `customer_email`, `number_invoice`, `order_total`) VALUES
 	(221, 31, 'Malberg', 'Quentin', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-221', 1052.00),
 	(222, 31, 'Malberg', 'Quentin', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-222', 1008.00),
@@ -170,7 +171,9 @@ REPLACE INTO `order` (`id`, `user_id`, `customer_name`, `customer_firstname`, `o
 	(225, 31, 'Vautier', 'Julien', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-225', 56.00),
 	(226, 31, 'Malberg', 'Quentin', '2025-05-21', 'Envoyé', 'cramoisi@gmail.com', '20250521-226', 30.00),
 	(227, 31, 'Malberg', 'Quentin', '2025-05-22', 'Envoyé', 'cramoisi@gmail.com', '20250522-227', 20.00),
-	(228, 31, 'Vautier', 'Julien', '2025-05-24', 'Envoyé', 'cramoisi@gmail.com', '20250524-228', 30.00);
+	(228, 31, 'Vautier', 'Julien', '2025-05-24', 'Envoyé', 'cramoisi@gmail.com', '20250524-228', 30.00),
+	(233, 29, 'Renau', 'Laury', '2025-05-25', 'Envoyé', 'lily@gmail.com', '20250525-233', 30.00),
+	(234, 51, 'Test', 'test', '2025-05-25', 'Envoyé', 'test@test.com', '20250525-234', 40.00);
 
 -- Listage de la structure de table regardsguerre. order_detail
 CREATE TABLE IF NOT EXISTS `order_detail` (
@@ -187,9 +190,9 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   CONSTRAINT `FK_ED896F46251A8A50` FOREIGN KEY (`order__id`) REFERENCES `order` (`id`),
   CONSTRAINT `FK_ED896F462A7D4494` FOREIGN KEY (`exhibition_id`) REFERENCES `exhibition` (`id`),
   CONSTRAINT `FK_ED896F46700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=360 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=362 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.order_detail : ~14 rows (environ)
+-- Listage des données de la table regardsguerre.order_detail : ~17 rows (environ)
 REPLACE INTO `order_detail` (`id`, `order__id`, `exhibition_id`, `ticket_id`, `unit_price`, `quantity`) VALUES
 	(339, 221, 25, 1, 10.00, 66),
 	(340, 221, 25, 2, 8.00, 49),
@@ -207,7 +210,9 @@ REPLACE INTO `order_detail` (`id`, `order__id`, `exhibition_id`, `ticket_id`, `u
 	(352, 225, 23, 3, 0.00, 2),
 	(353, 226, 25, 1, 10.00, 3),
 	(354, 227, 25, 1, 10.00, 2),
-	(355, 228, 1, 1, 10.00, 3);
+	(355, 228, 1, 1, 10.00, 3),
+	(360, 233, 1, 1, 10.00, 3),
+	(361, 234, 1, 1, 10.00, 4);
 
 -- Listage de la structure de table regardsguerre. reset_password_request
 CREATE TABLE IF NOT EXISTS `reset_password_request` (
@@ -265,14 +270,24 @@ CREATE TABLE IF NOT EXISTS `show` (
   CONSTRAINT `FK_320ED9012A7D4494` FOREIGN KEY (`exhibition_id`) REFERENCES `exhibition` (`id`),
   CONSTRAINT `FK_320ED90154177093` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`),
   CONSTRAINT `FK_320ED901B7970CF8` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.show : ~4 rows (environ)
+-- Listage des données de la table regardsguerre.show : ~13 rows (environ)
 REPLACE INTO `show` (`id`, `room_id`, `exhibition_id`, `artist_id`, `artist_photo`, `artist_photo_alt`, `artist_text_art`) VALUES
 	(3, 2, 1, 6, '/images/events/20250509/Amine_Yasmina.webp', 'Affiche du court métrage "Les guerrières d\'Algérie"', 'Elle se concentre particulièrement sur les récits souvent oubliés des harkis, comme dans son documentaire "La fin des Harkis", qui donne une voix aux témoins de cette histoire silencieuse. Elle utilise le cinéma pour questionner la mémoire collective, le traumatisme de l\'exil et la réconciliation entre les différentes communautés liées au conflit.'),
 	(4, 4, 1, 4, '/images/events/20250509/Moribon_Jean.webp', 'Jeune femme prise en photo', 'Son travail se distingue par une approche profondément humaniste, où il capte les souffrances et les émotions des civils dans des situations de guerre, notamment pendant la guerre d\'Algérie. Ses photographies vont au-delà de l’image de la violence, en mettant l\'accent sur la dignité et la résilience des personnes confrontées à des conditions extrêmes, offrant ainsi un témoignage puissant de leur réalité.'),
 	(22, 5, 1, 5, '/images/events/20250509/Khaman_Mohammed.webp', 'Oeuvre peinturale abstraite', 'Influencé par le cubisme et le surréalisme, il abordait les souffrances de la guerre d\'Algérie et l\'impact de l\'exil, utilisant des formes géométriques et des couleurs puissantes pour symboliser la fracture et la reconstruction de l\'Algérie  tout en cherchant à réconcilier les mémoires et à reconstruire visuellement l’âme du pays.'),
-	(53, 1, 1, 38, '/images/events/20250509/Garrigue_Anna.webp', 'Image des poèmes de l\'artiste', 'Son travail poétique est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.');
+	(53, 1, 1, 38, '/images/events/20250509/Garrigue_Anna.webp', 'Image des poèmes de l\'artiste', 'Son travail poétique est profondément marqué par son engagement politique et son amour pour l’Algérie, qu’elle décrit à travers une écriture intense et émotive. Ses poèmes, souvent chargés de nostalgie et de résistance, abordent des thèmes de lutte, de mémoire et de réconciliation, avec une voix féminine forte et poignante.'),
+	(56, 4, 25, 24, '/images/events/20250603/Ivanenko_Oleh.webp', 'Photo de l\'artiste Ivanenko', 'Il revisite l’iconographie orthodoxe en la fusionnant avec des éléments de propagande soviétique détournés, dénonçant l’oppression et la résilience du peuple ukrainien.'),
+	(57, 2, 25, 25, '/images/events/20250603/Svitlana_Drach.webp', 'Photo de l\'artiste Drach Svitlana', 'Sa poésie, souvent scandée en public, joue sur les sonorités de la langue ukrainienne et explore le traumatisme de la guerre à travers un mélange de chants traditionnels et de slam moderne.'),
+	(58, 5, 25, 26, '/images/events/20250603/Mazepa_Yuriy.webp', 'Photographie de chars Russe envahissant l\'Ukraine', 'Ses clichés, bruts et sans mise en scène, capturent la dignité des civils pris au piège des combats. Son travail est aujourd’hui exposé dans plusieurs musées internationaux.'),
+	(59, 1, 25, 45, '/images/events/20250603/Anastasiya_Melnyk.webp', 'Image d\'une oeuvre d\'Anastasiya Melnyk : Tasse gravée', 'Elle travaille des céramiques brisées qu’elle réassemble selon une technique proche du kintsugi japonais, symbolisant la reconstruction et la mémoire collective.'),
+	(60, 1, 4, 20, '/images/events/20250812/Takeda_Hiroshi.webp', 'Hiroshi Takeda en train de faire une calligraphie', 'Il mêle tradition et modernité en intégrant des techniques numériques à ses peintures à l’encre. Son travail explore le contraste entre le vide et le plein, inspiré par la philosophie du wabi-sabi.'),
+	(61, 4, 4, 23, '/images/events/20250812/Shimizu_Miyako.webp', 'Aquarelle de la ville de Kyujo', 'Ses peintures, souvent inspirées par des témoignages de survivants, mélangent aquarelle et techniques de lavis, donnant une impression de mémoire qui s’efface et renaît.'),
+	(62, 5, 23, 30, '/images/events/20250913/Rivers_Malcom.webp', 'Sculture d\'une femme afro américaine', 'Ses sculptures en métal recyclé représentent des figures emblématiques de l’histoire afro-américaine, souvent construites à partir de matériaux industriels pour symboliser la résistance et la reconstruction.'),
+	(64, 2, 23, 46, '/images/events/20250913/Brooks_Nathaniel.webp', 'Illustration de 2 femmes afro américaine pendant la guerre civile', 'Il est connu pour ses illustrations poignantes représentant les luttes quotidiennes des communautés afro-américaines, cherchant à révéler l’humanité et la dignité des opprimés plutôt qu’à se focaliser sur la violence brute du conflit.'),
+	(65, 2, 3, 34, '/images/events/20251115/Monroe_Ezekiel.webp', 'Image d\'une partition brûlée en hommage à ceux qui font la guerre', 'Il compose des ballades mêlant les chants traditionnels palestiniens (zajal, mawwal) aux sonorités contemporaines et aux rythmes du deuil et de la résistance. Son style, à la croisée du chant engagé et de la musique expérimentale, incarne la mémoire des femmes confrontées à l’exil, à l’attente et à la perte.'),
+	(66, 5, 3, 33, '/images/events/20251115/Wainwright_Jebediah.webp', 'Image d\'une caricature d\'un chef d\'état palestinien', 'Ses caricatures, avec une plume acérée et un humour sombre, publiées dans la presse indépendante et diffusées sur les réseaux sociaux, dénoncent les figures de pouvoir locales et internationales, mettant en lumière les contradictions de la rhétorique politique face à la réalité vécue par les civils.');
 
 -- Listage de la structure de table regardsguerre. ticket
 CREATE TABLE IF NOT EXISTS `ticket` (
@@ -285,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   UNIQUE KEY `UNIQ_97A0ADA3989D9B62` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket : ~3 rows (environ)
+-- Listage des données de la table regardsguerre.ticket : ~0 rows (environ)
 REPLACE INTO `ticket` (`id`, `title_ticket`, `image_ticket`, `image_ticket_alt`, `slug`) VALUES
 	(1, 'Adulte', '/images/tickets/ticket_adult.webp', 'Image du ticket adulte', 'adulte'),
 	(2, 'Enfant', '/images/tickets/ticket_enfant.webp', 'Image du ticket enfant', 'enfant'),
@@ -304,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `ticket_pricing` (
   CONSTRAINT `FK_E93DF561700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.ticket_pricing : ~15 rows (environ)
+-- Listage des données de la table regardsguerre.ticket_pricing : ~0 rows (environ)
 REPLACE INTO `ticket_pricing` (`id`, `ticket_id`, `exhibition_id`, `standard_price`) VALUES
 	(1, 1, 1, 10.00),
 	(2, 2, 1, 8.00),
@@ -332,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `type` (
   CONSTRAINT `FK_8CDE5729700047D2` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table regardsguerre.type : ~3 rows (environ)
+-- Listage des données de la table regardsguerre.type : ~0 rows (environ)
 REPLACE INTO `type` (`id`, `ticket_id`, `title_type`) VALUES
 	(1, 2, 'Ticket'),
 	(2, 1, 'Ticket'),
@@ -346,11 +361,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_USER_EMAIL` (`user_email`),
   UNIQUE KEY `UNIQ_8D93D649989D9B62` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table regardsguerre.user : ~10 rows (environ)
 REPLACE INTO `user` (`id`, `user_email`, `user_name`, `user_firstname`, `password`, `roles`, `slug`) VALUES
@@ -363,7 +378,8 @@ REPLACE INTO `user` (`id`, `user_email`, `user_name`, `user_firstname`, `passwor
 	(31, 'cramoisi@gmail.com', NULL, NULL, '$2y$13$fcu18YDp6kYuhETi1H27i.6rVgfxNOVqmRo676vwxJxLu92Y3Rqaq', '["ROLE_USER"]', '31-cramoisi'),
 	(34, 'a.dupont@regardsguerre.fr', NULL, NULL, '$2y$13$nsmVPEUMPNESCxz5C1GdAOLGeRL5QJ.S0ago9qbls/VdThj.6CMrK', '["ROLE_ADMIN"]', '34-artus-dupont'),
 	(42, 'lisouu@gmail.com', NULL, NULL, '$2y$13$ivWfE9ZRUHDG8t.QVVq9ouMg6hDN0GIojMKd.xv2/rRJtNQkcvKNO', '["ROLE_USER"]', '42-lisouuu'),
-	(50, 'marouan@gmail.com', 'Lou', 'Foque', '$2y$13$v1Krtvy015VD9IR0BKJ1NuS/s/i5hof3EVXzbfLXQzecnZ1mMjTTK', '["ROLE_USER"]', '80-foque-lou');
+	(50, 'marouan@gmail.com', 'Lou', 'Foque', '$2y$13$v1Krtvy015VD9IR0BKJ1NuS/s/i5hof3EVXzbfLXQzecnZ1mMjTTK', '["ROLE_USER"]', '80-foque-lou'),
+	(51, 'utilisateur51@supprime.fr', NULL, NULL, '', '["ROLE_DELETE"]', 'utilisateur-51');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

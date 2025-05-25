@@ -203,7 +203,7 @@ final class ShowController extends AbstractController
                     unlink($originalFilePath);
 
                     // Mettre à jour le chemin de l'image dans l'entité
-                    $show->setArtistPhoto('images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName . '.webp');
+                    $show->setArtistPhoto('/images/events/' . $exhibition->getDateExhibit()->format('Ymd') . '/' . $fileName . '.webp');
                 }
 
                 // Persister et enregistrer les modifications dans la base de données

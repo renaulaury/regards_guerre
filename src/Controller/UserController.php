@@ -81,7 +81,7 @@ final class UserController extends AbstractController
     }
 
     /*********** Permet l'édition de l'email de l'utilisateur ************************/
-    #[Route('/user/userEditEmail/{slug}', name: 'userEditEmail')]
+    #[Route('/profile/userEditEmail/{slug}', name: 'userEditEmail')]
     public function userEditEmail(       
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
         Request $request, 
@@ -116,7 +116,7 @@ final class UserController extends AbstractController
     
 
 /*********** Permet l'édition du mdp l'utilisateur ************************/
-    #[Route('/userEditPassword/{slug}', name: 'userEditPassword')]
+    #[Route('/profile/userEditPassword/{slug}', name: 'userEditPassword')]
     public function userEditPassword(
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
         Request $request, 
@@ -159,7 +159,7 @@ final class UserController extends AbstractController
 
 /*********** Suppression profil de l'utilisateur ************************/
     //Envoi vers la confirm
-    #[Route('/userDeleteProfile/{slug}', name: 'userDeleteProfile')]
+    #[Route('/profile/userDeleteProfile/{slug}', name: 'userDeleteProfile')]
     public function userDeleteProfile(
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
     ): Response
@@ -176,7 +176,7 @@ final class UserController extends AbstractController
   
 
     //Confirm définitive
-    #[Route('/userDeleteConfirmProfile/{slug}', name: 'userDeleteConfirmProfile')]
+    #[Route('/profile/userDeleteConfirmProfile/{slug}', name: 'userDeleteConfirmProfile')]
     public function userDeleteConfirmProfile(
         #[MapEntity(mapping: ['slug' => 'slug'])] ?User $user = null,
         EntityManagerInterface $entityManager,
